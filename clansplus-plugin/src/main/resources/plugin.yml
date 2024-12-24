@@ -1,0 +1,22 @@
+name: ClansPlus
+author: Cortez_Romeo
+version: '${project.version}'
+main: com.cortezromeo.clansplus.ClansPlus
+api-version: 1.16
+commands:
+  clan:
+    aliases:
+      - banghoi
+      - clan+
+      - clansplus
+      - clans
+      - team
+      - teams
+      - guild
+      - guilds
+  clanadmin:
+    aliases:
+      - clansadmin
+      - clansplusadmin
+      - clans+admin
+      - banghoiad

@@ -4,16 +4,13 @@ import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.enums.IconType;
 import com.cortezromeo.clansplus.enums.Rank;
-import com.cortezromeo.clansplus.storage.BangHoiData;
+import com.cortezromeo.clansplus.storage.ClanData;
 import com.cortezromeo.clansplus.storage.PlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Create extends SubjectManager {
 
@@ -26,12 +23,12 @@ public class Create extends SubjectManager {
 
     @Override
     public void execute() {
-        if (super.isPlayerInClan()) {
+        if (isPlayerInClan()) {
             MessageUtil.devMessage(player, "You're already in a clan!");
             return;
         }
 
-        if (PluginDataManager.getBangHoiDatabase().containsKey(clanName)) {
+        if (PluginDataManager.getClanDatabase().containsKey(clanName)) {
             MessageUtil.devMessage(player, "This clan is already existed!");
             return;
         }
@@ -42,13 +39,26 @@ public class Create extends SubjectManager {
         members.add(playerName);
         List<String> allies = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
+        if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
+            skillLevel = Settings.CLAN_SETTING_SKILL_DEFAULT;
 
-        BangHoiData bangHoiData = new BangHoiData(clanName, null, player.getName()
-                , 0, 0, 0, Settings.BANG_HOI_OPTION_MAXIMUM_MEMBER_DEFAULT,
-                dateLong, IconType.MATERIAL, "DIRT", members, null, allies
-                , skillLevel);
+        ClanData clanData = new ClanData(
+                clanName,
+                null,
+                player.getName(),
+                0,
+                0,
+                0,
+                Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
+                dateLong,
+                IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
+                Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
+                members,
+                null,
+                allies,
+                skillLevel);
 
-        PluginDataManager.saveBangHoiDatabaseToStorage(clanName, bangHoiData);
+        PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
         PlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         playerData.setClan(clanName);

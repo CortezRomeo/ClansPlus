@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BangHoiData {
+public class ClanData {
 
     private String name;
     private String customName;
@@ -24,8 +24,8 @@ public class BangHoiData {
     private List<String> allies = new ArrayList<>();
     private HashMap<Integer, Integer> skillLevel = new HashMap<>();
 
-    public BangHoiData(String name, String customName, String owner, int score, int warPoint, int warning, int maxMember, long createdDate,
-                       IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel) {
+    public ClanData(String name, String customName, String owner, int score, int warPoint, int warning, int maxMember, long createdDate,
+                    IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;

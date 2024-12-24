@@ -11,28 +11,28 @@ import java.util.TreeMap;
 public class PluginDataManager {
 
     public static HashMap<String, PlayerData> playerDatabase = new HashMap<>();
-    public static TreeMap<String, BangHoiData> bangHoiDatabase = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public static TreeMap<String, ClanData> clanDatabase = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public static HashMap<String, PlayerData> getPlayerDatabase() {
         return playerDatabase;
     }
 
-    public static TreeMap<String, BangHoiData> getBangHoiDatabase() {
-        return bangHoiDatabase;
+    public static TreeMap<String, ClanData> getClanDatabase() {
+        return clanDatabase;
     }
 
-    public static BangHoiData getBangHoiDatabase(String bangHoiName) {
-        return bangHoiDatabase.get(bangHoiName);
+    public static ClanData getClanDatabase(String clanName) {
+        return clanDatabase.get(clanName);
     }
 
     public static PlayerData getPlayerDatabase(String playerName) {
         return playerDatabase.get(playerName);
     }
 
-    public static void loadBangHoiDatabase(String bangHoiName) {
-        if (getBangHoiDatabase().containsKey(bangHoiName))
+    public static void loadClanDatabase(String clanName) {
+        if (getClanDatabase().containsKey(clanName))
             return;
-        getBangHoiDatabase().put(bangHoiName, PluginDataStorage.getBangHoiData(bangHoiName));
+        getClanDatabase().put(clanName, PluginDataStorage.getClanData(clanName));
     }
 
     public static void loadPlayerDatabase(String playerName) {
@@ -41,22 +41,22 @@ public class PluginDataManager {
         getPlayerDatabase().put(playerName, PluginDataStorage.getPlayerData(playerName));
     }
 
-    public static void saveBangHoiDatabaseToHashMap(String bangHoiName, BangHoiData bangHoiData) {
-        getBangHoiDatabase().put(bangHoiName, bangHoiData);
+    public static void saveClanDatabaseToHashMap(String clanName, ClanData clanData) {
+        getClanDatabase().put(clanName, clanData);
     }
 
     public static void savePlayerDatabaseToHashMap(String playerName, PlayerData playerData) {
         getPlayerDatabase().put(playerName, playerData);
     }
 
-    public static void saveBangHoiDatabaseToStorage(String bangHoiName, BangHoiData bangHoiData) {
-        saveBangHoiDatabaseToHashMap(bangHoiName, bangHoiData);
-        PluginDataStorage.saveBangHoiData(bangHoiName, bangHoiData);
+    public static void saveClanDatabaseToStorage(String clanName, ClanData clanData) {
+        saveClanDatabaseToHashMap(clanName, clanData);
+        PluginDataStorage.saveClanData(clanName, clanData);
     }
 
-    public static void saveBangHoiDatabaseToStorage(String bangHoiName) {
-        if (getBangHoiDatabase().containsKey(bangHoiName))
-            PluginDataStorage.saveBangHoiData(bangHoiName, getBangHoiDatabase().get(bangHoiName));
+    public static void saveClanDatabaseToStorage(String clanName) {
+        if (getClanDatabase().containsKey(clanName))
+            PluginDataStorage.saveClanData(clanName, getClanDatabase().get(clanName));
     }
 
     public static void savePlayerDatabaseToStorage(String playerName, PlayerData playerData) {
@@ -80,17 +80,17 @@ public class PluginDataManager {
 
     public static void loadAllDatabase() {
         if (ClansPlus.databaseType == DatabaseType.YAML) {
-            File bangHoiFolder = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData");
-            File[] listOfFilesBangHoi = bangHoiFolder.listFiles();
+            File clanFolder = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData");
+            File[] listOfFilesClan = clanFolder.listFiles();
 
-            if (listOfFilesBangHoi == null)
+            if (listOfFilesClan == null)
                 return;
 
-            for (File file : listOfFilesBangHoi) {
+            for (File file : listOfFilesClan) {
                 try {
                     if (file.isFile()) {
-                        String bangHoiName = FileNameUtil.removeExtension(file.getName());
-                        loadBangHoiDatabase(bangHoiName);
+                        String clanName = FileNameUtil.removeExtension(file.getName());
+                        loadClanDatabase(clanName);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -116,30 +116,30 @@ public class PluginDataManager {
     }
 
     public static void fixIllegalDatabase() {
-        if (!getBangHoiDatabase().isEmpty())
-            for (String bangHoiName : getBangHoiDatabase().keySet()) {
+        if (!getClanDatabase().isEmpty())
+            for (String clanName : getClanDatabase().keySet()) {
                 boolean illegal = false;
-                BangHoiData bangHoiData = getBangHoiDatabase(bangHoiName);
+                ClanData clanData = getClanDatabase(clanName);
 
-                for (String memberName : bangHoiData.getMembers()) {
+                for (String memberName : clanData.getMembers()) {
                     PlayerData playerData = getPlayerDatabase(memberName);
-                    if (!playerData.getClan().equals(bangHoiName)) {
-                        bangHoiData.getMembers().remove(memberName);
+                    if (!playerData.getClan().equals(clanName)) {
+                        clanData.getMembers().remove(memberName);
 
-                        if (!getBangHoiDatabase().containsKey(playerData.getClan()))
+                        if (!getClanDatabase().containsKey(playerData.getClan()))
                             clearPlayerDatabase(memberName);
                         illegal = true;
                     }
                 }
                 if (illegal)
-                    saveBangHoiDatabaseToStorage(bangHoiName, bangHoiData);
+                    saveClanDatabaseToStorage(clanName, clanData);
             }
 
         if (!getPlayerDatabase().isEmpty())
             for (String playerName : getPlayerDatabase().keySet()) {
                 PlayerData playerData = getPlayerDatabase(playerName);
 
-                if (!getBangHoiDatabase().containsKey(playerData.getClan()))
+                if (!getClanDatabase().containsKey(playerData.getClan()))
                    clearPlayerDatabase(playerName);
             }
     }

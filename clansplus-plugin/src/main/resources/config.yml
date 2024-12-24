@@ -1,0 +1,106 @@
+#
+#      ______     ______     __   __     ______        __  __     ______     __
+#     /\  == \   /\  __ \   /\ "-.\ \   /\  ___\      /\ \_\ \   /\  __ \   /\ \
+#     \ \  __<   \ \  __ \  \ \ \-.  \  \ \ \__ \     \ \  __ \  \ \ \/\ \  \ \ \
+#      \ \_____\  \ \_\ \_\  \ \_\\"\_\  \ \_____\     \ \_\ \_\  \ \_____\  \ \_\
+#       \/_____/   \/_/\/_/   \/_/ \/_/   \/_____/      \/_/\/_/   \/_____/   \/_/
+# Plugin được làm bởi Cortez_Romeo
+# Mua plugin này tại https://dihoastore.net
+#
+# Liên hệ mình tại:
+# discord account: Cortez_Romeo
+# discord server: https://discord.gg/NWbTVddmBM
+#
+# Vui lòng vào server discord để góp ý, báo lỗi. Cảm on bạn đã mua plugin.
+
+# Đặt license key đã mua tại dihoastore.net tại đây (Hướng dẫn cài: https://bit.ly/3gJtsbp)
+license-key: "XXXX-XXXX-XXXX-XXXX"
+
+# Dành cho việc fix lỗi, không cần bật nếu không cần đến.
+debug:
+  enabled: false
+  prefix: '&e[CLAN+ DEBUG] '
+
+# Cơ sỡ dữ liệu nào nên được sử dụng để xử lý các dữ liệu.
+# Vui lòng restart lại máy chủ sau khi thay đổi các giá trị dưới đây.
+database:
+  # H2, YAML
+  # Khuyến khích sử dụng cơ sỡ dữ liệu H2.
+  type: YAML
+  settings:
+    h2:
+      file-name: 'h2Database'
+      table:
+        clan: 'clandata'
+        player: 'playerdata'
+
+# Tự động lưu dữ liệu.
+auto-save:
+  enabled: true
+  # Tự động lưu mỗi ... giây.
+  seconds: 900
+
+# Tùy chỉnh các thông số mặc định.
+clan-settings:
+  # Số tiền cần để tạo.
+  creating-clan-settings:
+    # Số tiền tệ cần để tạo bang hội
+    # PLAYERPOINTS
+    # VAULT
+    currency-requirement:
+      type: VAULT
+      value: 1000
+    # Số lượng thành viên tối đa mặc định
+    maximum-member-default: 5
+    # Icon bang hội mặc định khi vừa tạo bang
+    icon-default:
+      type: MATERIAL
+      value: DIRT
+    # ID Skill: Level mặc định
+    # Có thể thêm hoặc bớt
+    skill-level-default:
+      1: 0
+      2: 0
+      3: 0
+      4: 0
+
+  # Thiết lập về mời người chơi vào bang hội
+  invite-settings:
+    # Thời gian cần để chấp nhận.
+    time-to-accept: 30
+
+  # Thiết lập về tùy chỉnh tên bang hội
+  clan-name-settings:
+    # Cấm đặt các tên sau (Bao gồm tên bang hội và tên custom).
+    prohibited-name:
+    - admin
+    - staff
+    - helper
+    - moderator
+    - administrator
+    - staffs
+    - admins
+    - moderators
+    - administrators
+    - helpers
+    - owner
+    - owners
+    # Ký tự cấm (& vẫn xài được để đặt tên custom cho bang hội).
+    prohibited-character:
+    - '&'
+    # Số ký tự tối thiểu có thể đặt cho tên bang hội (Không tính mã màu).
+    minimum-length: 3
+    # Số ký tự tối đa có thể đặt cho tên tên bang hội (Không tính mã màu).
+    maximum-length: 20
+
+# Những plugin có thể dùng để hỗ trợ plugin BangHoi.
+# Bao gồm: PlaceholderAPI, DiscordSRV.
+soft-depends:
+  placeholderapi:
+    clanless: '&c<Không có bang  hội>'
+    clan-top: '&#d1d1d1#%number% &r%name% &e&l━ &#f25eff%value% Điểm'
+
+# Bstats dùng để thống kê số liệu mấy chủ và số người chơi sử dụng plugin.
+# Không ảnh hướng đến hiệu năng của máy chủ.
+bStats:
+  enabled: true

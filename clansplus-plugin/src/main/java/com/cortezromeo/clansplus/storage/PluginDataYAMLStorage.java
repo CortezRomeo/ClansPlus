@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.enums.IconType;
 import com.cortezromeo.clansplus.enums.Rank;
 import org.bukkit.Bukkit;
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class PluginDataYAMLStorage implements PluginStorage {
 
-    private static File getBangHoiFile(String bangHoiName) {
-        File file = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData/" + bangHoiName + ".yml");
+    private static File getClanFile(String clanName) {
+        File file = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData/" + clanName + ".yml");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -40,48 +41,48 @@ public class PluginDataYAMLStorage implements PluginStorage {
     }
 
     @Override
-    public BangHoiData getBangHoiData(String bangHoiName) {
-        File bangHoiFile = getBangHoiFile(bangHoiName);
-        YamlConfiguration storage = YamlConfiguration.loadConfiguration(bangHoiFile);
+    public ClanData getClanData(String clanName) {
+        File clanFile = getClanFile(clanName);
+        YamlConfiguration storage = YamlConfiguration.loadConfiguration(clanFile);
 
         List<String> members = new ArrayList<>();
         List<String> allies = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
 
-        BangHoiData bangHoiData = new BangHoiData(
-                bangHoiName,
+        ClanData clanData = new ClanData(
+                clanName,
                 null,
                 null,
                 0,
                 0,
                 0,
+                Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 0,
-                0,
-                IconType.MATERIAL,
-                "DIRT",
+                IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
+                Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
                 members,
                 null,
                 allies,
                 skillLevel);
 
         if (!storage.contains("data"))
-            return bangHoiData;
+            return clanData;
 
-        bangHoiData.setName(storage.getString("data.ten"));
-        bangHoiData.setCustomName(storage.getString("data.ten_custom"));
-        bangHoiData.setOwner(storage.getString("data.leader"));
-        bangHoiData.setScore(storage.getInt("data.diem"));
-        bangHoiData.setCreatedDate(storage.getLong("data.ngay_thanh_lap"));
-        bangHoiData.setMaxMember(storage.getInt("data.thanh_vien_toi_da"));
+        clanData.setName(storage.getString("data.ten"));
+        clanData.setCustomName(storage.getString("data.ten_custom"));
+        clanData.setOwner(storage.getString("data.leader"));
+        clanData.setScore(storage.getInt("data.diem"));
+        clanData.setCreatedDate(storage.getLong("data.ngay_thanh_lap"));
+        clanData.setMaxMember(storage.getInt("data.thanh_vien_toi_da"));
         for (String player : storage.getStringList("data.thanh_vien"))
-            bangHoiData.getMembers().add(player);
+            clanData.getMembers().add(player);
         // TODO <DATA FIX 3.3> All managers from the list will have rank MANAGER
 /*        if (storage.getString("data.managers") != null) {
             for (String key : storage.getStringList("data.managers"))
                 data.addManager(key);
         }*/
-        bangHoiData.setWarning(storage.getInt("data.warn"));
-        bangHoiData.setWarPoint(storage.getInt("data.warpoint"));
+        clanData.setWarning(storage.getInt("data.warn"));
+        clanData.setWarPoint(storage.getInt("data.warpoint"));
 
         // TODO <DATA FIX 3.3>
         if (storage.getString("data.banghoiicon") != null) {
@@ -90,8 +91,8 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
         String iconType = storage.getString("data.icon.type");
         if (iconType != null) {
-            bangHoiData.setIconType(IconType.valueOf(storage.getString("data.icon.type")));
-            bangHoiData.setIconValue("data.icon.value");
+            clanData.setIconType(IconType.valueOf(storage.getString("data.icon.type")));
+            clanData.setIconValue("data.icon.value");
         }
 /*        if (storage.getString("data.banghoiicon") != null)
             data.setBangHoiIcon(storage.getString("data.banghoiicon"));
@@ -101,47 +102,47 @@ public class PluginDataYAMLStorage implements PluginStorage {
         String spawnWorld = storage.getString("data.spawn.world");
         if (spawnWorld != null) {
             Location location = new Location(Bukkit.getWorld(spawnWorld), storage.getDouble("data.spawn.x"), storage.getDouble("data.spawn.y"), storage.getDouble("data.spawn.z"));
-            bangHoiData.setSpawnPoint(location);
+            clanData.setSpawnPoint(location);
         }
 
-        bangHoiData.getSkillLevel().put(1, storage.getInt("data.skill.1"));
-        bangHoiData.getSkillLevel().put(2, storage.getInt("data.skill.2"));
-        bangHoiData.getSkillLevel().put(3, storage.getInt("data.skill.3"));
-        bangHoiData.getSkillLevel().put(4, storage.getInt("data.skill.4"));
+        clanData.getSkillLevel().put(1, storage.getInt("data.skill.1"));
+        clanData.getSkillLevel().put(2, storage.getInt("data.skill.2"));
+        clanData.getSkillLevel().put(3, storage.getInt("data.skill.3"));
+        clanData.getSkillLevel().put(4, storage.getInt("data.skill.4"));
 
 /*        data.setSkillLevel(SkillType.critDamage, storage.getInt("data.skill.1"));
         data.setSkillLevel(SkillType.boostScore, storage.getInt("data.skill.2"));
         data.setSkillLevel(SkillType.dodge, storage.getInt("data.skill.3"));
         data.setSkillLevel(SkillType.vampire, storage.getInt("data.skill.4"));*/
 
-        return bangHoiData;
+        return clanData;
     }
 
     @Override
-    public void saveBangHoiData(String bangHoiName, BangHoiData bangHoiData) {
-        File file = getBangHoiFile(bangHoiName);
+    public void saveClanData(String clanName, ClanData clanData) {
+        File file = getClanFile(clanName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
 
-        storage.set("data.ten", bangHoiData.getName());
-        storage.set("data.ten_custom", bangHoiData.getCustomName());
-        storage.set("data.leader", bangHoiData.getOwner());
-        storage.set("data.diem", bangHoiData.getScore());
-        storage.set("data.ngay_thanh_lap", bangHoiData.getCreatedDate());
-        storage.set("data.thanh_vien_toi_da", bangHoiData.getMaxMember());
-        storage.set("data.thanh_vien", bangHoiData.getMembers());
-        storage.set("data.warn", bangHoiData.getWarning());
-        storage.set("data.warpoint", bangHoiData.getWarPoint());
-        storage.set("data.icon.type", bangHoiData.getIconType().toString().toUpperCase());
-        storage.set("data.icon.value", bangHoiData.getIconValue());
-        if (bangHoiData.getSpawnPoint() != null) {
-            storage.set("data.spawn.world", bangHoiData.getSpawnPoint().getWorld().getName());
-            storage.set("data.spawn.x", bangHoiData.getSpawnPoint().getX());
-            storage.set("data.spawn.y", bangHoiData.getSpawnPoint().getY());
-            storage.set("data.spawn.z", bangHoiData.getSpawnPoint().getZ());
+        storage.set("data.ten", clanData.getName());
+        storage.set("data.ten_custom", clanData.getCustomName());
+        storage.set("data.leader", clanData.getOwner());
+        storage.set("data.diem", clanData.getScore());
+        storage.set("data.ngay_thanh_lap", clanData.getCreatedDate());
+        storage.set("data.thanh_vien_toi_da", clanData.getMaxMember());
+        storage.set("data.thanh_vien", clanData.getMembers());
+        storage.set("data.warn", clanData.getWarning());
+        storage.set("data.warpoint", clanData.getWarPoint());
+        storage.set("data.icon.type", clanData.getIconType().toString().toUpperCase());
+        storage.set("data.icon.value", clanData.getIconValue());
+        if (clanData.getSpawnPoint() != null) {
+            storage.set("data.spawn.world", clanData.getSpawnPoint().getWorld().getName());
+            storage.set("data.spawn.x", clanData.getSpawnPoint().getX());
+            storage.set("data.spawn.y", clanData.getSpawnPoint().getY());
+            storage.set("data.spawn.z", clanData.getSpawnPoint().getZ());
         }
 
-        for (int skillID : bangHoiData.getSkillLevel().keySet())
-            storage.set("data.skill." + skillID, bangHoiData.getSkillLevel().get(skillID));
+        for (int skillID : clanData.getSkillLevel().keySet())
+            storage.set("data.skill." + skillID, clanData.getSkillLevel().get(skillID));
 
         try {
             storage.save(file);
@@ -152,8 +153,8 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
     @Override
     public PlayerData getPlayerData(String playerName) {
-        File bangHoiFile = getPlayerFile(playerName);
-        YamlConfiguration storage = YamlConfiguration.loadConfiguration(bangHoiFile);
+        File clanFile = getPlayerFile(playerName);
+        YamlConfiguration storage = YamlConfiguration.loadConfiguration(clanFile);
 
         PlayerData playerData = new PlayerData(null, null, 0, 0);
 

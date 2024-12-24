@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class BangHoiCommand implements CommandExecutor {
+public class ClanCommand implements CommandExecutor {
 
-    public BangHoiCommand() {
-        ClansPlus.plugin.getCommand("banghoi").setExecutor(this);
+    public ClanCommand() {
+        ClansPlus.plugin.getCommand("clan").setExecutor(this);
     }
 
     @Override

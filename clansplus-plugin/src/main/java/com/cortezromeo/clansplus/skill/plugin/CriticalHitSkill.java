@@ -36,12 +36,12 @@ public class CriticalHitSkill implements Listener {
         if (!DatabaseManager.playerDatabase.containsKey(victim.getName()))
             return;
 
-        String bangHoiName = DatabaseManager.getPlayerData(d.getName()).getBangHoi();
+        String clanName = DatabaseManager.getPlayerData(d.getName()).getBangHoi();
 
-        if (bangHoiName == null || DatabaseManager.getPlayerData(v.getName()).getBangHoi() == null)
+        if (clanName == null || DatabaseManager.getPlayerData(v.getName()).getBangHoi() == null)
             return;
 
-        if (DatabaseManager.getBangHoiData(bangHoiName).getSkillLevel(SkillType.critDamage) == 0)
+        if (DatabaseManager.getBangHoiData(clanName).getSkillLevel(SkillType.critDamage) == 0)
             return;
 
         Player damager = (Player) d;

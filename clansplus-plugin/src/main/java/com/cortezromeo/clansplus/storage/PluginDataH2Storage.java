@@ -3,12 +3,12 @@ package com.cortezromeo.clansplus.storage;
 public class PluginDataH2Storage implements PluginStorage {
 
     @Override
-    public BangHoiData getBangHoiData(String bangHoiName) {
+    public ClanData getClanData(String clanName) {
         return null;
     }
 
     @Override
-    public void saveBangHoiData(String bangHoiName, BangHoiData bangHoiData) {
+    public void saveClanData(String clanName, ClanData clanData) {
 
     }
 

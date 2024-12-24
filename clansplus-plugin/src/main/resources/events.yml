@@ -1,0 +1,83 @@
+#
+#      ______     ______     __   __     ______        __  __     ______     __
+#     /\  == \   /\  __ \   /\ "-.\ \   /\  ___\      /\ \_\ \   /\  __ \   /\ \
+#     \ \  __<   \ \  __ \  \ \ \-.  \  \ \ \__ \     \ \  __ \  \ \ \/\ \  \ \ \
+#      \ \_____\  \ \_\ \_\  \ \_\\"\_\  \ \_____\     \ \_\ \_\  \ \_____\  \ \_\
+#       \/_____/   \/_/\/_/   \/_/ \/_/   \/_____/      \/_/\/_/   \/_____/   \/_/
+
+events:
+  clan-war-event:
+    # Hiện thông báo bang hội war khi người chơi vào.
+    player-join-notification: true
+
+    # Số người chơi cần để bắt đầu sự kiện.
+    minimum-player-online: 25
+
+    # Người chơi cần có cần ở world được tùy chỉnh để có thể được cộng điểm hay không
+    world-requirement:
+      enabled: true
+      worlds:
+        - war
+
+    # Thời gian diễn ra sự kiện (Tính bằng giây).
+    event-time: 600
+
+    # Người chơi sẽ không thể sử dụng lệnh trong quá trình tham gia sự kiện
+    # Có thể tắt hoặc bật tính năng này
+    combat-command-cooldown:
+      enabled: true
+      seconds: 10
+
+    # Khung giờ trong ngày để bắt đầu sự kiện.
+    event-time-frame:
+      #- HH:mm:ss
+      - '10:30:00'
+      - '15:30:00'
+      - '21:30:00'
+      - '23:30:00'
+
+    # Thanh máu boss xuất hiện khi sự kiện đang diễn ra
+    event-boss-bar-settings:
+      enabled: true
+      title: '&c❖ &#e5fa02&lBANG HỘI WAR &c❖ &7- &r%timeformat%'
+      color: YELLOW
+      style: SOLID
+
+    # Thiết lập về âm thanh
+    sound-settings:
+      # Âm thanh khi sự kiện vừa bắt đầu
+      starting-sound:
+        name: EVENT_RAID_HORN
+        pitch: 1
+        volume: 50
+      # Âm thanh khi sự kiện kết thúc
+      ending-sound:
+        name: EVENT_RAID_HORN
+        pitch: 1
+        volume: 50
+
+    # Số điểm cộng khi giết
+    # Có thể thêm hoặc bớt
+    score-settings:
+      vanilla-mobs:
+        ZOMBIE: 1
+        SKELETON: 1
+        WITHER_SKELETON: 1
+      mythicmobs-mobs:
+        SkeletalKnight: 2
+      player: 3
+
+    # Thiết lập về lệnh sẽ được chạy khi sự kiện bắt đầu hoặc kết thúc
+    # ● player: chạy dưới quyền có sẵn của người chơi đó
+    # ● op: vẫn chạy dưới dạng người chơi nhưng có quyền của op
+    # ● console: chạy command trên console
+    # Sử dụng placeholder {player} để lấy tên người chơi
+    # Ví dụ:
+    # - 'console:tell {player} Bang hoi war bat dau roi kia!'
+    commands:
+      # Chạy lệnh dưới đây khi sự kiện bắt đầu
+      starting-commands:
+        - 'none'
+      # Chạy các lệnh dưới đây khi sự kiện kết thúc
+      ending-commands:
+        - 'none'

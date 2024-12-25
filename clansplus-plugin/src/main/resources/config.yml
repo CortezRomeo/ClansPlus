@@ -27,6 +27,11 @@ database:
   # H2, YAML
   # Khuyến khích sử dụng cơ sỡ dữ liệu H2.
   type: YAML
+  # Khi smart-loading được bật, các dữ liệu người chơi được load khi khởi động máy chủ sẽ chỉ load những người ở trong clan.
+  # Như đã nêu ở trên, việc không load các dữ liệu người chơi không ở trong clan sẽ giúp tiết kiệm rất nhiều thời gian.
+  smart-loading:
+    enabled: true
+  # Thiết lập cơ sỡ dữ liệu
   settings:
     h2:
       file-name: 'h2Database'

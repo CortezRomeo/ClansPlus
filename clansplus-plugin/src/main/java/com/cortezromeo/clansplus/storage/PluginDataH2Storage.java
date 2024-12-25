@@ -13,6 +13,7 @@ import org.h2.jdbc.JdbcConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,8 +106,8 @@ public class PluginDataH2Storage implements PluginStorage {
         if (!isClanDataExisted(clanName))
             return clanData;
 
-        String query = "select * from " + clanTable + " where NAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        String sql = "select * from " + clanTable + " where NAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, clanName);
             ResultSet resultSet = ps.executeQuery();
             Gson gson = new Gson();
@@ -135,9 +136,9 @@ public class PluginDataH2Storage implements PluginStorage {
 
     @Override
     public List<String> getAllClans() {
-        java.lang.String query = "select NAME from " + clanTable;
+        String sql = "select NAME from " + clanTable;
         List<String> clans = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 clans.add(resultSet.getString("NAME"));
@@ -150,9 +151,9 @@ public class PluginDataH2Storage implements PluginStorage {
 
     @Override
     public List<String> getAllPlayers() {
-        java.lang.String query = "select PLAYERNAME from " + playerTable;
+        String sql = "select PLAYERNAME from " + playerTable;
         List<String> players = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 players.add(resultSet.getString("PLAYERNAME"));
@@ -168,7 +169,7 @@ public class PluginDataH2Storage implements PluginStorage {
         if (!isClanDataExisted(clanName))
             initClanData(clanName);
 
-        String query = "UPDATE " + clanTable + " "
+        String sql = "UPDATE " + clanTable + " "
                 + "SET NAME = ?,"
                 + " CUSTOMNAME = ?,"
                 + " OWNER = ?,"
@@ -188,7 +189,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " SKILLLEVEL = ?"
                 + " WHERE NAME = ?";
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             Gson gson = new Gson();
             preparedStatement.setString(1, clanData.getName());
             preparedStatement.setString(2, clanData.getCustomName());
@@ -228,8 +229,8 @@ public class PluginDataH2Storage implements PluginStorage {
         if (!isPlayerDataExisted(playerName))
             return playerData;
 
-        String query = "select * from " + playerTable + " where PLAYERNAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
+        String sql = "select * from " + playerTable + " where PLAYERNAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, playerName);
             ResultSet resultSet = ps.executeQuery();
 
@@ -241,7 +242,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 } else
                     playerData.setUUID(resultSet.getString("UUID"));
                 playerData.setClan(resultSet.getString("CLAN"));
-                playerData.setRank(Rank.valueOf(resultSet.getString("RANK")));
+                if (resultSet.getString("RANK") != null)
+                    playerData.setRank(Rank.valueOf(resultSet.getString("RANK")));
                 playerData.setJoinDate(resultSet.getLong("JOINDATE"));
                 playerData.setScoreCollected(resultSet.getLong("SCORECOLLECTED"));
             }
@@ -256,7 +258,7 @@ public class PluginDataH2Storage implements PluginStorage {
         if (!isPlayerDataExisted(playerName))
             initPlayerData(playerName);
 
-        String query = "UPDATE " + playerTable + " "
+        String sql = "UPDATE " + playerTable + " "
                 + "SET PLAYERNAME = ?,"
                 + " UUID = ?,"
                 + " CLAN = ?,"
@@ -265,11 +267,14 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " SCORECOLLECTED = ?"
                 + " WHERE PLAYERNAME = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, playerName);
             preparedStatement.setString(2, playerData.getUUID());
             preparedStatement.setString(3, playerData.getClan());
-            preparedStatement.setString(4, playerData.getRank().toString().toUpperCase());
+            if (playerData.getRank() != null)
+                preparedStatement.setString(4, playerData.getRank().toString().toUpperCase());
+            else
+                preparedStatement.setString(4, null);
             preparedStatement.setLong(5, playerData.getJoinDate());
             preparedStatement.setLong(6, playerData.scoreCollected);
             preparedStatement.setString(7, playerName);
@@ -280,8 +285,8 @@ public class PluginDataH2Storage implements PluginStorage {
     }
 
     private static boolean isClanDataExisted(String clanName) {
-        String query = "select * from " + clanTable + " where NAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(query)){
+        String sql = "select * from " + clanTable + " where NAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, clanName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -295,8 +300,8 @@ public class PluginDataH2Storage implements PluginStorage {
     }
 
     private static boolean isPlayerDataExisted(String playerName) {
-        String query = "select * from " + playerTable + " where PLAYERNAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(query)){
+        String sql = "select * from " + playerTable + " where PLAYERNAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, playerName);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -310,63 +315,52 @@ public class PluginDataH2Storage implements PluginStorage {
     }
 
     private static void initClanData(String clanName) {
-        ArrayList<String> queries = new ArrayList<>();
-        queries.add("INSERT INTO " + clanTable + " (" +
-                "NAME," +
-                " CUSTOMNAME," +
-                " OWNER," +
-                " SCORE," +
-                " WARPOINT," +
-                " WARNING," +
-                " MAXMEMBER," +
-                " CREATEDDATE," +
-                " ICONTYPE," +
-                " ICONVALUE," +
-                " MEMBERS," +
-                " SPAWNPOINTWORLD," +
-                " SPAWNPOINTX," +
-                " SPAWNPOINTY," +
-                " SPAWNPOINTZ," +
-                " ALLIES," +
-                " SKILLLEVEL) values(" +
-                "'" + clanName + "'," +
-                " ''," +
-                " ''," +
-                " 0," +
-                " 0," +
-                " 0," +
-                " 0," +
-                " 0," +
-                " ''," +
-                " ''," +
-                " ''," +
-                " ''," +
-                " 0," +
-                " 0," +
-                " 0," +
-                " ''," +
-                " '')");
-        queries.forEach(cmd -> {
-            try (PreparedStatement ps = connection.prepareStatement(cmd)) {
-                ps.execute();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        String sql = "INSERT INTO " + clanTable + " (" +
+                "NAME, CUSTOMNAME, OWNER, SCORE, WARPOINT, WARNING, " +
+                "MAXMEMBER, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
+                "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, ALLIES, SKILLLEVEL) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, clanName);      // NAME
+            preparedStatement.setString(2, "");         // CUSTOMNAME
+            preparedStatement.setString(3, "");         // OWNER
+            preparedStatement.setInt(4, 0);             // SCORE
+            preparedStatement.setInt(5, 0);             // WARPOINT
+            preparedStatement.setInt(6, 0);             // WARNING
+            preparedStatement.setInt(7, 0);             // MAXMEMBER
+            preparedStatement.setInt(8, 0);             // CREATEDDATE
+            preparedStatement.setString(9, "");         // ICONTYPE
+            preparedStatement.setString(10, "");        // ICONVALUE
+            preparedStatement.setString(11, "");        // MEMBERS
+            preparedStatement.setString(12, "");        // SPAWNPOINTWORLD
+            preparedStatement.setInt(13, 0);            // SPAWNPOINTX
+            preparedStatement.setInt(14, 0);            // SPAWNPOINTY
+            preparedStatement.setInt(15, 0);            // SPAWNPOINTZ
+            preparedStatement.setString(16, "");        // ALLIES
+            preparedStatement.setString(17, "");        // SKILLLEVEL
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void initPlayerData(String playerName) {
-        ArrayList<String> queries = new ArrayList<>();
-        queries.add("INSERT INTO " + playerTable + " (PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED) values('" + playerName + "', '', '', '', 0, 0)");
-        queries.forEach(cmd -> {
-            try (PreparedStatement ps = connection.prepareStatement(cmd)) {
-                ps.execute();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        String sql = "INSERT INTO " + playerTable + " (" +
+                "PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, playerName);    // PLAYERNAME
+            preparedStatement.setString(2, "");         // UUID
+            preparedStatement.setString(3, "");         // CLAN
+            preparedStatement.setString(4, "");         // RANK
+            preparedStatement.setLong(5, 0);             // JOINDATE
+            preparedStatement.setLong(6, 0);             // SCORECOLLECTED
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

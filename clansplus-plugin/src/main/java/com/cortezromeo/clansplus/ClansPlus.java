@@ -68,7 +68,7 @@ public class ClansPlus extends JavaPlugin {
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
         try {
-            ConfigUpdater.update(this, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default");
+            ConfigUpdater.update(this, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default", "database");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,16 +78,18 @@ public class ClansPlus extends JavaPlugin {
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
-        EventsFile.setup();
-        EventsFile.saveDefault();
         if (!eventsFile.exists()) {
             try {
+                EventsFile.setup();
+                EventsFile.saveDefault();
                 ConfigUpdater.update(this, eventFileName, eventsFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
+                EventsFile.setup();
+                EventsFile.saveDefault();
                 ConfigUpdater.update(this, eventFileName, eventsFile,
                         "events.clan-war-event.score-settings");
             } catch (IOException e) {

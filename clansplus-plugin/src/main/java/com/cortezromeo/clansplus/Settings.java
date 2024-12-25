@@ -16,6 +16,7 @@ public class Settings {
     public static String DATABASE_SETTINGS_H2_FILE_NAME;
     public static String DATABASE_SETTINGS_H2_TABLE_CLAN;
     public static String DATABASE_SETTINGS_H2_TABLE_PLAYER;
+    public static boolean DATABASE_SETTING_SMART_LOADING_ENABLED;
     public static boolean AUTO_SAVE_ENABLED;
     public static int AUTO_SAVE_SECONDS;
     public static String CLAN_SETTING_CREATE_TYPE;
@@ -68,6 +69,7 @@ public class Settings {
         DATABASE_SETTINGS_H2_FILE_NAME = configuration.getString("database.settings.h2.file-name");
         DATABASE_SETTINGS_H2_TABLE_CLAN = configuration.getString("database.settings.h2.table.clan");
         DATABASE_SETTINGS_H2_TABLE_PLAYER = configuration.getString("database.settings.h2.table.player");
+        DATABASE_SETTING_SMART_LOADING_ENABLED = configuration.getBoolean("database.smart-loading.enabled");
         AUTO_SAVE_ENABLED = configuration.getBoolean("auto-save.enabled");
         AUTO_SAVE_SECONDS = configuration.getInt("auto-save.seconds");
         CLAN_SETTING_CREATE_TYPE = configuration.getString("clan-settings.creating-clan-settings.currency-requirement.type");

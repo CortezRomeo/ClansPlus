@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.command;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.enums.DatabaseType;
 import com.cortezromeo.clansplus.storage.ClanData;
 import com.cortezromeo.clansplus.storage.PlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -9,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.h2.engine.Database;
 import org.jetbrains.annotations.NotNull;
 
 public class PluginTestCommand implements CommandExecutor {
@@ -57,6 +59,19 @@ public class PluginTestCommand implements CommandExecutor {
                     }
                     MessageUtil.devMessage(player, "clan allies: &e" + clanData.getAllies());
                     MessageUtil.devMessage(player, "clan skill level: &e" + clanData.getSkillLevel());
+                }
+            }
+        }
+
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("transfer")) {
+                try {
+                    DatabaseType databaseType = DatabaseType.valueOf(args[1].toUpperCase());
+                    if (databaseType != ClansPlus.databaseType) {
+                        PluginDataManager.transferDatabase(sender, databaseType);
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             }
         }

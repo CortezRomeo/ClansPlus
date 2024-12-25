@@ -1,10 +1,5 @@
 package com.cortezromeo.clansplus.storage;
 
-import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.enums.DatabaseType;
-import com.cortezromeo.clansplus.util.FileNameUtil;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -79,39 +74,13 @@ public class PluginDataManager {
     }
 
     public static void loadAllDatabase() {
-        if (ClansPlus.databaseType == DatabaseType.YAML) {
-            File clanFolder = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData");
-            File[] listOfFilesClan = clanFolder.listFiles();
+        if (!PluginDataStorage.getAllClans().isEmpty())
+            for (String clanName : PluginDataStorage.getAllClans())
+                loadClanDatabase(clanName);
 
-            if (listOfFilesClan == null)
-                return;
-
-            for (File file : listOfFilesClan) {
-                try {
-                    if (file.isFile()) {
-                        String clanName = FileNameUtil.removeExtension(file.getName());
-                        loadClanDatabase(clanName);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            File playerFolder = new File(ClansPlus.plugin.getDataFolder() + "/playerData");
-            File[] listOfFilesPlayer = playerFolder.listFiles();
-            if (listOfFilesPlayer == null) return;
-
-            for (File file : listOfFilesPlayer) {
-                try {
-                    if (file.isFile()) {
-                        String playerName = FileNameUtil.removeExtension(file.getName());
-                        loadPlayerDatabase(playerName);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        if (!PluginDataStorage.getAllPlayers().isEmpty())
+            for (String playerName : PluginDataStorage.getAllPlayers())
+                loadPlayerDatabase(playerName);
         fixIllegalDatabase();
     }
 

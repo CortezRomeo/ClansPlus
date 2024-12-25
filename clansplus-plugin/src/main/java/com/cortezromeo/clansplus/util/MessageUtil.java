@@ -57,7 +57,7 @@ public class MessageUtil {
 
     public static void devMessage(Player player, String message) {
         if (player != null)
-            player.sendMessage("[DEV] " + message);
+            player.sendMessage(ClansPlus.nms.addColor("[DEV] " + message));
     }
 
 }

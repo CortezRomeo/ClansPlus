@@ -66,7 +66,7 @@ public class Settings {
         DEBUG_PREFIX = configuration.getString("debug.prefix");
         DATABASE_TYPE = configuration.getString("database.type");
         DATABASE_SETTINGS_H2_FILE_NAME = configuration.getString("database.settings.h2.file-name");
-        DATABASE_SETTINGS_H2_TABLE_CLAN = configuration.getString("database.settings.h2.table.banghoi");
+        DATABASE_SETTINGS_H2_TABLE_CLAN = configuration.getString("database.settings.h2.table.clan");
         DATABASE_SETTINGS_H2_TABLE_PLAYER = configuration.getString("database.settings.h2.table.player");
         AUTO_SAVE_ENABLED = configuration.getBoolean("auto-save.enabled");
         AUTO_SAVE_SECONDS = configuration.getInt("auto-save.seconds");

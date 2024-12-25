@@ -4,6 +4,7 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.enums.IconType;
 import com.cortezromeo.clansplus.enums.Rank;
+import com.cortezromeo.clansplus.util.FileNameUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -92,7 +93,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         String iconType = storage.getString("data.icon.type");
         if (iconType != null) {
             clanData.setIconType(IconType.valueOf(storage.getString("data.icon.type")));
-            clanData.setIconValue("data.icon.value");
+            clanData.setIconValue(storage.getString("data.icon.value"));
         }
 /*        if (storage.getString("data.banghoiicon") != null)
             data.setBangHoiIcon(storage.getString("data.banghoiicon"));
@@ -156,11 +157,17 @@ public class PluginDataYAMLStorage implements PluginStorage {
         File clanFile = getPlayerFile(playerName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(clanFile);
 
-        PlayerData playerData = new PlayerData(null, null, 0, 0);
+        PlayerData playerData = new PlayerData(playerName, (Bukkit.getPlayer(playerName) != null ? Bukkit.getPlayer(playerName).getUniqueId().toString() : null), null, null, 0, 0);
 
         if (!storage.contains("data"))
             return playerData;
 
+        playerData.setPlayerName(storage.getString("data.playerName"));
+        if (storage.getString("data.UUID") == null) {
+            if (Bukkit.getPlayer(playerName) != null)
+                playerData.setUUID(storage.getString(Bukkit.getPlayer(playerName).getUniqueId().toString()));
+        } else
+            playerData.setUUID(storage.getString("data.UUID"));
         playerData.setClan(storage.getString("data.bang_hoi"));
         try {
             playerData.setRank(Rank.valueOf(storage.getString("data.chuc_vu").toUpperCase()));
@@ -178,6 +185,8 @@ public class PluginDataYAMLStorage implements PluginStorage {
         File file = getPlayerFile(playerName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
 
+        storage.set("data.playerName", playerName);
+        storage.set("data.UUID", playerData.getUUID());
         storage.set("data.bang_hoi", playerData.getClan());
         storage.set("data.chuc_vu", String.valueOf(playerData.getRank()));
         storage.set("data.ngay_tham_gia", playerData.getJoinDate());
@@ -188,5 +197,53 @@ public class PluginDataYAMLStorage implements PluginStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<String> getAllClans() {
+        File clanFolder = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData");
+        File[] listOfFilesClan = clanFolder.listFiles();
+        List<String> clans = new ArrayList<>();
+
+        if (listOfFilesClan == null)
+            return clans;
+
+        for (File file : listOfFilesClan) {
+            try {
+                if (file.isFile()) {
+                    String clanName = FileNameUtil.removeExtension(file.getName());
+                    clans.add(clanName);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return clans;
+    }
+
+    @Override
+    public List<String> getAllPlayers() {
+        File playerFolder = new File(ClansPlus.plugin.getDataFolder() + "/playerData");
+        File[] listOfFilesPlayer = playerFolder.listFiles();
+        List<String> players = new ArrayList<>();
+
+        if (listOfFilesPlayer == null)
+            return players;
+
+        for (File file : listOfFilesPlayer) {
+            try {
+                if (file.isFile()) {
+                    String playerName = FileNameUtil.removeExtension(file.getName());
+                    players.add(playerName);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return players;
+    }
+
+    @Override
+    public void disableStorage() {
     }
 }

@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus;
 
 import com.cortezromeo.clansplus.api.server.VersionSupport;
 import com.cortezromeo.clansplus.command.ClanCommand;
+import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.enums.DatabaseType;
 import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.listener.PlayerJoinListener;
@@ -39,6 +40,12 @@ public class ClansPlus extends JavaPlugin {
         initCommands();
         initListener();
 
+        // Check license key when the plugin is activated from dihoastore.net
+/*        if (!DiHoaStore.doDiHoa()) {
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }*/
+
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             try {
                 PluginDataManager.loadPlayerDatabase(player.getName());
@@ -70,14 +77,22 @@ public class ClansPlus extends JavaPlugin {
 
         // events.yml
         String eventFileName = "events.yml";
+        File eventsFile = new File(getDataFolder() + "/events.yml");
         EventsFile.setup();
         EventsFile.saveDefault();
-        File eventsFile = new File(getDataFolder() + "/events.yml");
-        try {
-            ConfigUpdater.update(this, eventFileName, eventsFile,
-                    "events.clan-war-event.score-settings");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!eventsFile.exists()) {
+            try {
+                ConfigUpdater.update(this, eventFileName, eventsFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                ConfigUpdater.update(this, eventFileName, eventsFile,
+                        "events.clan-war-event.score-settings");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         EventsFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded events.yml.");
@@ -86,6 +101,7 @@ public class ClansPlus extends JavaPlugin {
 
     public void initCommands() {
         new ClanCommand();
+        new PluginTestCommand();
     }
 
     public void initListener() {
@@ -111,5 +127,10 @@ public class ClansPlus extends JavaPlugin {
 
     public static boolean isPapiSupport() {
         return papiSupport;
+    }
+
+    @Override
+    public void onDisable() {
+        PluginDataStorage.disableStorage();
     }
 }

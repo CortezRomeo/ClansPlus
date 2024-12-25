@@ -1,9 +1,11 @@
 package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.enums.DatabaseType;
 
 import java.io.File;
+import java.util.List;
 
 public class PluginDataStorage {
 
@@ -24,7 +26,7 @@ public class PluginDataStorage {
         }
 
         if (databaseType == DatabaseType.H2) {
-            STORAGE = new PluginDataH2Storage();
+            STORAGE = new PluginDataH2Storage(Settings.DATABASE_SETTINGS_H2_FILE_NAME, Settings.DATABASE_SETTINGS_H2_TABLE_CLAN, Settings.DATABASE_SETTINGS_H2_TABLE_PLAYER);
         }
     }
 
@@ -42,5 +44,17 @@ public class PluginDataStorage {
 
     public static void savePlayerData(String playerName, PlayerData playerData) {
         STORAGE.savePlayerData(playerName, playerData);
+    }
+
+    public static List<String> getAllClans() {
+        return STORAGE.getAllClans();
+    }
+
+    public static List<String> getAllPlayers() {
+        return STORAGE.getAllPlayers();
+    }
+
+    public static void disableStorage() {
+        STORAGE.disableStorage();
     }
 }

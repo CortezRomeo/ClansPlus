@@ -1,5 +1,7 @@
 package com.cortezromeo.clansplus;
 
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,6 +19,7 @@ public class Settings {
     public static String DATABASE_SETTINGS_H2_TABLE_CLAN;
     public static String DATABASE_SETTINGS_H2_TABLE_PLAYER;
     public static boolean DATABASE_SETTING_SMART_LOADING_ENABLED;
+    public static boolean DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED;
     public static boolean AUTO_SAVE_ENABLED;
     public static int AUTO_SAVE_SECONDS;
     public static String CLAN_SETTING_CREATE_TYPE;
@@ -31,6 +34,7 @@ public class Settings {
     public static List<String> CLAN_SETTING_PROHIBITED_CHARACTER = new ArrayList<>();
     public static int CLAN_SETTING_NAME_MINIMUM_LENGTH;
     public static int CLAN_SETTING_NAME_MAXIMUM_LENGTH;
+    public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
 
     public static boolean EVENT_CLAN_WAR_SETTING_JOIN_NOTIFICATION;
     public static int EVENT_CLAN_WAR_SETTING_MINIMUM_PLAYER_ONLINE;
@@ -70,6 +74,7 @@ public class Settings {
         DATABASE_SETTINGS_H2_TABLE_CLAN = configuration.getString("database.settings.h2.table.clan");
         DATABASE_SETTINGS_H2_TABLE_PLAYER = configuration.getString("database.settings.h2.table.player");
         DATABASE_SETTING_SMART_LOADING_ENABLED = configuration.getBoolean("database.smart-loading.enabled");
+        DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED = configuration.getBoolean("database.fix-bug-database.enabled");
         AUTO_SAVE_ENABLED = configuration.getBoolean("auto-save.enabled");
         AUTO_SAVE_SECONDS = configuration.getInt("auto-save.seconds");
         CLAN_SETTING_CREATE_TYPE = configuration.getString("clan-settings.creating-clan-settings.currency-requirement.type");
@@ -97,6 +102,10 @@ public class Settings {
         CLAN_SETTING_PROHIBITED_CHARACTER.addAll(configuration.getStringList("clan-settings.clan-name-settings.prohibited-character"));
         CLAN_SETTING_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length");
         CLAN_SETTING_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length");
+        if (!CLAN_SETTING_PERMISSION_DEFAULT.isEmpty())
+            CLAN_SETTING_PERMISSION_DEFAULT.clear();
+        for (String subject : configuration.getConfigurationSection("clan-settings.creating-clan-settings.permission-default").getKeys(false))
+            CLAN_SETTING_PERMISSION_DEFAULT.put(Subject.valueOf(subject.toUpperCase()), Rank.valueOf(configuration.getString("clan-settings.creating-clan-settings.permission-default." + subject).toUpperCase()));
 
         String clanWarEventPath = "events.clan-war-event.";
         FileConfiguration eventFileConfiguration = EventsFile.get();

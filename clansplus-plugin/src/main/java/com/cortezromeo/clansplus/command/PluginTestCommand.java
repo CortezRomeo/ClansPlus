@@ -1,16 +1,16 @@
 package com.cortezromeo.clansplus.command;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.enums.DatabaseType;
-import com.cortezromeo.clansplus.storage.ClanData;
-import com.cortezromeo.clansplus.storage.PlayerData;
+import com.cortezromeo.clansplus.api.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.enums.Subject;
+import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.h2.engine.Database;
 import org.jetbrains.annotations.NotNull;
 
 public class PluginTestCommand implements CommandExecutor {
@@ -30,7 +30,7 @@ public class PluginTestCommand implements CommandExecutor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info")) {
                 if (PluginDataManager.getPlayerDatabase(player.getName()).getClan() != null) {
-                    PlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
+                    IPlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
                     MessageUtil.devMessage(player, "name: &e" + playerData.getPlayerName());
                     MessageUtil.devMessage(player, "uuid: &e" + playerData.getUUID());
                     MessageUtil.devMessage(player, "clan: &e" + playerData.getClan());
@@ -39,7 +39,7 @@ public class PluginTestCommand implements CommandExecutor {
                     MessageUtil.devMessage(player, "score collected: &e" + playerData.getScoreCollected());
                     MessageUtil.devMessage(player, "clan: &e" + playerData.getClan());
                     MessageUtil.devMessage(player, "--------");
-                    ClanData clanData = PluginDataManager.getClanDatabase(playerData.getClan());
+                    IClanData clanData = PluginDataManager.getClanDatabase(playerData.getClan());
                     MessageUtil.devMessage(player, "clan name: &e" + clanData.getName());
                     MessageUtil.devMessage(player, "clan custom name: &e" + clanData.getCustomName());
                     MessageUtil.devMessage(player, "clan owner: &e" + clanData.getOwner());
@@ -56,6 +56,14 @@ public class PluginTestCommand implements CommandExecutor {
                         MessageUtil.devMessage(player, "clan spawn point x: &e" + clanData.getSpawnPoint().getX());
                         MessageUtil.devMessage(player, "clan spawn point y: &e" + clanData.getSpawnPoint().getY());
                         MessageUtil.devMessage(player, "clan spawn point z: &e" + clanData.getSpawnPoint().getZ());
+                    } else
+                        MessageUtil.devMessage(player, "clan spawn point is null!");
+                    if (clanData.getSubjectPermission() != null) {
+                        for (Subject subject : clanData.getSubjectPermission().keySet()) {
+                            MessageUtil.devMessage(player, subject + ": &e" + clanData.getSubjectPermission().get(subject));
+                        }
+                    } else {
+                        MessageUtil.devMessage(player, "clan subject permission is null!");
                     }
                     MessageUtil.devMessage(player, "clan allies: &e" + clanData.getAllies());
                     MessageUtil.devMessage(player, "clan skill level: &e" + clanData.getSkillLevel());

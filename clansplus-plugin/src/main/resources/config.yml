@@ -24,12 +24,16 @@ debug:
 # Cơ sỡ dữ liệu nào nên được sử dụng để xử lý các dữ liệu.
 # Vui lòng restart lại máy chủ sau khi thay đổi các giá trị dưới đây.
 database:
-  # H2, YAML
+  # Bao gồm: YAML, H2
   # Khuyến khích sử dụng cơ sỡ dữ liệu H2.
   type: YAML
   # Khi smart-loading được bật, các dữ liệu người chơi được load khi khởi động máy chủ sẽ chỉ load những người ở trong clan.
   # Như đã nêu ở trên, việc không load các dữ liệu người chơi không ở trong clan sẽ giúp tiết kiệm rất nhiều thời gian.
   smart-loading:
+    enabled: true
+  # Các phiên bản cũ có thể gây ra lỗi dữ liệu như có các bang hội mà chủ bang hội không ở trong bang thành ra bang hội đó chết.
+  # Nếu bật tính năng này thì khi đang load plugin, hệ thống sẽ tự động xóa các dữ liệu không hợp lệ.
+  fix-bug-database:
     enabled: true
   # Thiết lập cơ sỡ dữ liệu
   settings:
@@ -68,6 +72,26 @@ clan-settings:
       2: 0
       3: 0
       4: 0
+    # Các quyền mặc định sẽ được thiết lập cho clan khi vừa tạo.
+    # Clan sẽ có quyền tùy chỉnh cái quyền dưới đây.
+    # Các rank bao gồm: LEADER, MANAGER, MEMBER.
+    # Lưu ý: LEADER > MANAGER > MEMBER - Nếu quyền đó member xài được thì manager và leader xài được, nếu quyền đó manager xài được thì leader xài được.
+    permission-default:
+      INVITE: MANAGER
+      KICK: MANAGER
+      SETCUSTOMNAME: LEADER
+      SETICON: LEADER
+      SPAWN: MEMBER
+      SETSPAWN: LEADER
+      SETMESSAGE: LEADER
+      SETMANAGER: LEADER
+      REMOVEMANAGER: LEADER
+      DISBAND: LEADER
+      CHAT: MEMBER
+      UPGRADE: MEMBER
+
+  # Nếu tùy chọn này được bật,
+  use-default-permission: false
 
   # Thiết lập về mời người chơi vào bang hội
   invite-settings:
@@ -76,6 +100,7 @@ clan-settings:
 
   # Thiết lập về tùy chỉnh tên bang hội
   clan-name-settings:
+
     # Cấm đặt các tên sau (Bao gồm tên bang hội và tên custom).
     prohibited-name:
     - admin

@@ -2,8 +2,12 @@ package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.enums.IconType;
-import com.cortezromeo.clansplus.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.Subject;
+import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.util.FileNameUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -54,6 +58,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 clanName,
                 null,
                 null,
+                null,
                 0,
                 0,
                 0,
@@ -64,7 +69,8 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 members,
                 null,
                 allies,
-                skillLevel);
+                skillLevel,
+                Settings.CLAN_SETTING_PERMISSION_DEFAULT);
 
         if (!storage.contains("data"))
             return clanData;
@@ -72,21 +78,30 @@ public class PluginDataYAMLStorage implements PluginStorage {
         clanData.setName(storage.getString("data.ten"));
         clanData.setCustomName(storage.getString("data.ten_custom"));
         clanData.setOwner(storage.getString("data.leader"));
+        clanData.setMessage(storage.getString("data.message"));
         clanData.setScore(storage.getInt("data.diem"));
         clanData.setCreatedDate(storage.getLong("data.ngay_thanh_lap"));
         clanData.setMaxMember(storage.getInt("data.thanh_vien_toi_da"));
         for (String player : storage.getStringList("data.thanh_vien"))
             clanData.getMembers().add(player);
-        // TODO <DATA FIX 3.3> All managers from the list will have rank MANAGER
-/*        if (storage.getString("data.managers") != null) {
-            for (String key : storage.getStringList("data.managers"))
-                data.addManager(key);
-        }*/
+        // TODO <DATA FIX 3.4> All managers from the list will have rank MANAGER, delete managers list
+        if (storage.getString("data.managers") != null) {
+            for (String manager : storage.getStringList("data.managers"))
+                ClanManager.managersFromOldData.put(manager, clanName);
+            storage.set("data.managers", null);
+        }
         clanData.setWarning(storage.getInt("data.warn"));
         clanData.setWarPoint(storage.getInt("data.warpoint"));
 
-        // TODO <DATA FIX 3.3>
+        // TODO <DATA FIX 3.4> Old database does not have icon type
         if (storage.getString("data.banghoiicon") != null) {
+            try {
+                clanData.setIconType(IconType.MATERIAL);
+                clanData.setIconValue(storage.getString("data.banghoiicon"));
+            } catch (Exception exception) {
+                clanData.setIconType(IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE));
+                clanData.setIconValue(Settings.CLAN_SETTING_ICON_DEFAULT_VALUE);
+            }
             storage.set("data.banghoiicon", null);
         }
 
@@ -95,10 +110,6 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setIconType(IconType.valueOf(storage.getString("data.icon.type")));
             clanData.setIconValue(storage.getString("data.icon.value"));
         }
-/*        if (storage.getString("data.banghoiicon") != null)
-            data.setBangHoiIcon(storage.getString("data.banghoiicon"));
-        else
-            data.setBangHoiIcon(null);*/
 
         String spawnWorld = storage.getString("data.spawn.world");
         if (spawnWorld != null) {
@@ -116,17 +127,27 @@ public class PluginDataYAMLStorage implements PluginStorage {
         data.setSkillLevel(SkillType.dodge, storage.getInt("data.skill.3"));
         data.setSkillLevel(SkillType.vampire, storage.getInt("data.skill.4"));*/
 
+        if (storage.getConfigurationSection("data.permission") == null)
+            clanData.setSubjectPermission(Settings.CLAN_SETTING_PERMISSION_DEFAULT);
+        else
+            for (String subjectName : storage.getConfigurationSection("data.permission").getKeys(false)) {
+                Subject subject = Subject.valueOf(subjectName);
+                Rank rank = Rank.valueOf(storage.getString("data.permission." + subjectName));
+                clanData.getSubjectPermission().put(subject, rank);
+            }
+
         return clanData;
     }
 
     @Override
-    public void saveClanData(String clanName, ClanData clanData) {
+    public void saveClanData(String clanName, IClanData clanData) {
         File file = getClanFile(clanName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
 
         storage.set("data.ten", clanData.getName());
         storage.set("data.ten_custom", clanData.getCustomName());
         storage.set("data.leader", clanData.getOwner());
+        storage.set("data.message", clanData.getMessage());
         storage.set("data.diem", clanData.getScore());
         storage.set("data.ngay_thanh_lap", clanData.getCreatedDate());
         storage.set("data.thanh_vien_toi_da", clanData.getMaxMember());
@@ -141,15 +162,17 @@ public class PluginDataYAMLStorage implements PluginStorage {
             storage.set("data.spawn.y", clanData.getSpawnPoint().getY());
             storage.set("data.spawn.z", clanData.getSpawnPoint().getZ());
         }
-
         for (int skillID : clanData.getSkillLevel().keySet())
             storage.set("data.skill." + skillID, clanData.getSkillLevel().get(skillID));
-
+        for (Subject subject : clanData.getSubjectPermission().keySet()) {
+            storage.set("data.permission." + subject.toString(), clanData.getSubjectPermission().get(subject).toString().toUpperCase());
+        }
         try {
             storage.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -181,7 +204,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
     }
 
     @Override
-    public void savePlayerData(String playerName, PlayerData playerData) {
+    public void savePlayerData(String playerName, IPlayerData playerData) {
         File file = getPlayerFile(playerName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
 
@@ -196,6 +219,20 @@ public class PluginDataYAMLStorage implements PluginStorage {
             storage.save(file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean deleteClanData(String clanName) {
+        File clanFile = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData/" + clanName + ".yml");
+        if (!clanFile.exists())
+            return true;
+
+        try {
+            return clanFile.delete();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return false;
         }
     }
 

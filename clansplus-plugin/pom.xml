@@ -53,8 +53,8 @@
                                     <shadedPattern>com.cortezromeo.clansplus.lib.xseries</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>io.github.bananapuncher714.nbteditor</pattern>
-                                    <shadedPattern>com.cortezromeo.clansplus.lib.nbteditor</shadedPattern>
+                                    <pattern>de.tr7zw.changeme.nbtapi</pattern>
+                                    <shadedPattern>com.cortezromeo.clansplus.lib.nbtapi</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.tchristofferson.configupdater</pattern>
@@ -63,6 +63,10 @@
                                 <relocation>
                                     <pattern>org.h2</pattern>
                                     <shadedPattern>com.cortezromeo.clansplus.lib.h2</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.json</pattern>
+                                    <shadedPattern>com.cortezromeo.clansplus.lib.json</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

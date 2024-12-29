@@ -1,11 +1,11 @@
 package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.SubjectManager;
-import com.cortezromeo.clansplus.enums.IconType;
-import com.cortezromeo.clansplus.enums.Rank;
 import com.cortezromeo.clansplus.storage.ClanData;
-import com.cortezromeo.clansplus.storage.PlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -49,6 +49,7 @@ public class Create extends SubjectManager {
                 clanName,
                 null,
                 player.getName(),
+                null,
                 0,
                 0,
                 0,
@@ -59,11 +60,12 @@ public class Create extends SubjectManager {
                 members,
                 null,
                 allies,
-                skillLevel);
+                skillLevel,
+                Settings.CLAN_SETTING_PERMISSION_DEFAULT);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
-        PlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         playerData.setClan(clanName);
         playerData.setRank(Rank.LEADER);
         playerData.setJoinDate(dateLong);

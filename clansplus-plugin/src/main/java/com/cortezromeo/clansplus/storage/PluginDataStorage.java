@@ -2,7 +2,9 @@ package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +36,7 @@ public class PluginDataStorage {
         return STORAGE.getClanData(clanName);
     }
 
-    public static void saveClanData(String clanName, ClanData clanData) {
+    public static void saveClanData(String clanName, IClanData clanData) {
         STORAGE.saveClanData(clanName, clanData);
     }
 
@@ -42,8 +44,12 @@ public class PluginDataStorage {
         return STORAGE.getPlayerData(playerName);
     }
 
-    public static void savePlayerData(String playerName, PlayerData playerData) {
+    public static void savePlayerData(String playerName, IPlayerData playerData) {
         STORAGE.savePlayerData(playerName, playerData);
+    }
+
+    public static boolean deleteClanData(String clanName) {
+        return STORAGE.deleteClanData(clanName);
     }
 
     public static List<String> getAllClans() {

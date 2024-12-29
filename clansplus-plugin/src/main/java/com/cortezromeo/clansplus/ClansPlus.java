@@ -1,10 +1,12 @@
 package com.cortezromeo.clansplus;
 
+import com.cortezromeo.clansplus.api.enums.DatabaseType;
 import com.cortezromeo.clansplus.api.server.VersionSupport;
 import com.cortezromeo.clansplus.command.ClanCommand;
 import com.cortezromeo.clansplus.command.PluginTestCommand;
-import com.cortezromeo.clansplus.enums.DatabaseType;
 import com.cortezromeo.clansplus.file.EventsFile;
+import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
+import com.cortezromeo.clansplus.listener.InventoryClickListener;
 import com.cortezromeo.clansplus.listener.PlayerJoinListener;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
@@ -13,6 +15,7 @@ import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -23,12 +26,15 @@ public class ClansPlus extends JavaPlugin {
     public static ClansPlus plugin;
     public static VersionSupport nms;
     public static DatabaseType databaseType;
+    private static com.cortezromeo.clansplus.api.ClanPlus api;
     private static boolean papiSupport = false;
 
     @Override
     public void onLoad() {
         plugin = this;
         nms = new CrossVersionSupport(plugin);
+        api = new API();
+        Bukkit.getServicesManager().register(com.cortezromeo.clansplus.api.ClanPlus.class, api, this, ServicePriority.Highest);
     }
 
     @Override
@@ -75,6 +81,18 @@ public class ClansPlus extends JavaPlugin {
         reloadConfig();
         MessageUtil.debug("LOADING FILE", "Loaded config.yml.");
 
+        // inventories/clanlistinventory.yml
+        String clanListInventoryFileName = "clanlistinventory.yml";
+        ClanListInventoryFile.setup();
+        ClanListInventoryFile.saveDefault();
+        File clanListInventoryFile = new File(getDataFolder() + "/inventories/clanlistinventory.yml");
+        try {
+            ConfigUpdater.update(this, clanListInventoryFileName, clanListInventoryFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ClanListInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -108,6 +126,11 @@ public class ClansPlus extends JavaPlugin {
 
     public void initListener() {
         new PlayerJoinListener();
+        new InventoryClickListener();
+    }
+
+    public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {
+        return api;
     }
 
     public void initDatabase() {
@@ -133,6 +156,7 @@ public class ClansPlus extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        PluginDataManager.saveAllDatabase();
         PluginDataStorage.disableStorage();
     }
 }

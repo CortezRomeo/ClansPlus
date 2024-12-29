@@ -45,8 +45,8 @@ public class CrossVersionSupport extends VersionSupport {
     }
 
     @Override
-    public ItemStack createItemStack(String material, int amount, short data, int customModelData) {
-        return XMaterial.matchXMaterial(material + ":" + data)
+    public ItemStack createItemStack(String material, int amount, int customModelData) {
+        return XMaterial.matchXMaterial(material)
                 .map(XMaterial::parseItem)
                 .map(item -> {
                     item.setAmount(amount);
@@ -59,7 +59,7 @@ public class CrossVersionSupport extends VersionSupport {
                 })
                 .orElseGet(() -> {
                     getPlugin().getLogger().severe("----------------------------------------------------");
-                    getPlugin().getLogger().severe("MATERIAL NAME" + material + " DOES NOT EXIST!");
+                    getPlugin().getLogger().severe("MATERIAL NAME " + material + " DOES NOT EXIST!");
                     getPlugin().getLogger().severe("Maybe you type it wrong or it does not exist in this server version.");
                     getPlugin().getLogger().severe("Please take a look at those valid materials right here:");
                     getPlugin().getLogger().severe("https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");

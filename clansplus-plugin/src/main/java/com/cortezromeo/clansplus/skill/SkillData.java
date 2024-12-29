@@ -1,6 +1,6 @@
 package com.cortezromeo.clansplus.skill;
 
-import com.cortezromeo.clansplus.enums.SkillType;
+import com.cortezromeo.clansplus.api.enums.SkillType;
 
 public class SkillData {
 

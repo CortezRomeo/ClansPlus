@@ -1,7 +1,7 @@
 package com.cortezromeo.clansplus.skill.plugin;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.enums.SkillType;
+import com.cortezromeo.clansplus.api.enums.SkillType;
 import com.cortezromeo.clansplus.skill.SkillData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

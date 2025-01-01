@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.enums.IconType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.ClanData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -27,12 +28,12 @@ public class Create extends SubjectManager {
     @Override
     public void execute() {
         if (isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You're already in a clan!");
+            MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
             return;
         }
 
         if (PluginDataManager.getClanDatabase().containsKey(clanName)) {
-            MessageUtil.devMessage(player, "This clan is already existed!");
+            MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", clanName));
             return;
         }
 
@@ -72,6 +73,6 @@ public class Create extends SubjectManager {
 
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
 
-        MessageUtil.devMessage(player, "Successfully created bang hoi " + clanName);
+        MessageUtil.sendMessage(player, Messages.CREATE_CLAN_SUCCESS.replace("%clan%", clanName));
     }
 }

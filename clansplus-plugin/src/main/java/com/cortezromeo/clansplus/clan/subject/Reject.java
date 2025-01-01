@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class Reject extends SubjectManager {
     @Override
     public void execute() {
         if (!ClanManager.beingInvitedPlayers.containsKey(playerName)) {
-            MessageUtil.devMessage(player, "You are not being invited!");
+            MessageUtil.sendMessage(player, Messages.INVITATION_REJECTION);
             return;
         }
 
@@ -23,16 +24,16 @@ public class Reject extends SubjectManager {
         ClanManager.beingInvitedPlayers.remove(playerName);
 
         if (isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You are already in a clan!");
+            MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
             return;
         }
 
         if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
-            MessageUtil.devMessage(player, "Clan " + clanName + " is no longer exist!");
+            MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
             return;
         }
 
-        MessageUtil.devMessage(player, "Rejected invite to join clan " + clanName + " successfully.");
-        ClanManager.alertClan(clanName, playerName + " rejected to join clan!");
+        MessageUtil.sendMessage(player, Messages.REJECTED_CLAN_INVITE.replace("%clan%", clanName));
+        ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_PLAYER_REJECT_TO_JOIN.replace("%player%", playerName));
     }
 }

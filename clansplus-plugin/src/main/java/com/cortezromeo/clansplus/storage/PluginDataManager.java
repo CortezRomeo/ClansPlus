@@ -107,6 +107,7 @@ public class PluginDataManager {
             for (String memberName : clanData.getMembers())
                 clearPlayerDatabase(memberName);
 
+        PluginDataManager.getClanDatabase().remove(clanName);
         return PluginDataStorage.deleteClanData(clanName);
     }
 
@@ -139,7 +140,7 @@ public class PluginDataManager {
                     exception.printStackTrace();
                 }
                 try {
-                    ConfigUpdater.update(ClansPlus.plugin, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default", "database");
+                    ConfigUpdater.update(ClansPlus.plugin, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

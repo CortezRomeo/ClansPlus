@@ -6,6 +6,8 @@ import com.cortezromeo.clansplus.command.ClanCommand;
 import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.InventoryClickListener;
 import com.cortezromeo.clansplus.listener.PlayerJoinListener;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -41,6 +43,7 @@ public class ClansPlus extends JavaPlugin {
     public void onEnable() {
         initFiles();
         Settings.setupValue();
+        initLanguages();
         initDatabase();
         PluginDataManager.loadAllDatabase();
         initCommands();
@@ -74,7 +77,7 @@ public class ClansPlus extends JavaPlugin {
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
         try {
-            ConfigUpdater.update(this, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default", "database");
+            ConfigUpdater.update(this, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,6 +120,22 @@ public class ClansPlus extends JavaPlugin {
         EventsFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded events.yml.");
 
+    }
+
+    public void initLanguages() {
+        // language_vi.yml
+        String vietnameseFileName = "language_vi.yml";
+        Vietnamese.setup();
+        Vietnamese.saveDefault();
+        File vietnameseFile = new File(getDataFolder(), "/languages/language_vi.yml");
+        try {
+            ConfigUpdater.update(this, vietnameseFileName, vietnameseFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Vietnamese.reload();
+
+        Messages.setupValue(Settings.LANGUAGE);
     }
 
     public void initCommands() {

@@ -1,0 +1,141 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Lưu ý:
+#  * Bạn có thể chỉnh thành '' nếu muốn tắt dòng message đó
+#    đối với list thì chỉ cần một dòng (- '') là được
+#  * Có hỗ trợ hex color
+#  * Nhớ thêm dấu cách vào '' thành ' ' nếu bạn cho dòng đó
+#    không có gì nhưng ý của bạn là xuống dòng
+
+rank-display:
+  MEMBER: '&#34eb6bThành viên'
+  MANAGER: '&#1d98d1Quản lý'
+  LEADER: '&#e8e51eLãnh đạo'
+subject-description:
+  invite: 'Mời người khác vào bang hội'
+  kick: 'Đuổi một thành viên ra khỏi bang hội'
+  setcustomname: 'Thay đổi tên custom của bang hội (Mã màu)'
+  seticon: 'Thay đổi icon của bang hội'
+  spawn: 'Dịch chuyển về điểm spawn của bang hội'
+  setspawn: 'Thiết lập điểm spawn cho bang hội'
+  setmessage: 'Thiết lập thông báo của bang hội'
+  setmanager: 'Đưa một thành viên trong bang hội lên làm quản lý'
+  removemanager: 'Xóa quyền quản lý của một thành viên trong bang hội'
+  chat: 'Bật hoặc tắt trò chuyện bang hội'
+  upgrade: 'Nâng cấp bang hội'
+messages:
+  prefix: '&#3498eb&lBANG HỘI&r '
+  no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'
+  non-console-command: '%prefix%&#d12f1d&l| &fConsole không thể sử dụng lệnh này.'
+  command-confirmation: '%prefix%&#35d11d&l| &fVui lòng nhập lại lệnh một lần nữa để xác nhận.'
+  must-be-in-clan: '%prefix%&#d12f1d&l| &fBạn cần ở trong bang hội để có thể làm điều này.'
+  target-does-not-exist: '%prefix%&#d12f1d&l| &fDữ liệu của &e%player%&f không tồn tại.'
+  target-must-be-in-clan: '%prefix%&#d12f1d&l| &e%player%&f cần ở trong một bang hội để thực hiện điều này.'
+  target-clan-membership-error: '%prefix%&#d12f1d&l| &e%player%&f không có ở trong bang hội của bạn!'
+  required-rank: '%prefix%&#d12f1d&l| &fBạn cần là %requiredRank%&f để có thể làm điều này.'
+  invitation-rejection: '%prefix%&#d12f1d&l| &fHiện tại bang không có lời mời gia nhập bang hội.'
+  already-in-clan: '%prefix%&#d12f1d&l| &fBạn đang ở trong một bang hội.'
+  clan-no-longer-exist: '%prefix%&#d12f1d&l| &fBang hội &e%clan%&f không còn tồn tại.'
+  clan-is-full: '%prefix%&#d12f1d&l| &fBang hội &e%clan%&f đã đủ người.'
+  join-clan-success: '%prefix%&#35d11d&l| &fGia nhập bang hội &e%clan%&f thành công.'
+  clan-already-exist: '%prefix%&#d12f1d&l| &fBang hội với tên &e%clan%&f đã tồn tại.'
+  create-clan-success: '%prefix%&#35d11d&l| &fTạo bang hội &e%clan%&f thành công!'
+  disband-notification: '%prefix%&#d12f1d&l| &fBang hội của bạn (&e%clan%&f) đã bị giải tán!'
+  disband-success: '%prefix%&#35d11d&l| &fGiải tán bang hội &e%clan%&f thành công!'
+  disband-fail: '%prefix%&#d12f1d&l| &fGiải tán bang hội thất bại, vui lòng liên hệ admin.'
+  target-already-in-clan: '%prefix%&#d12f1d&l| &e%player%&f đã ở trong một bang hội.'
+  not-enough-member-slots: '%prefix%&#d12f1d&l| &fSố lượng thành viên tối đa trong bang hội của bạn đã đầy!'
+  target-invitation: '%prefix%&#d12f1d&l| &e%player%&f đang có lời mời gia nhập bang hội!'
+  invitation-success: '%prefix%&#35d11d&l| &fĐã gửi lời mời gia nhập bang hội cho &e%player%&f, họ có &e%seconds% giây&f để chấp nhận lời mời!'
+  incoming-clan-invite: |
+    %prefix%&#35d11d&l| &e%player%&f mời bạn gia nhập bang hội &e%clan%&f, bạn có &e%seconds% giây&f để quyết định trước khi lời mời hết hạn.
+    &a/clan accept&f để chấp nhận lời mời
+    &c/clan reject&f để từ chối lời mời
+  invite-expired: '%prefix%&#d12f1d&l| &fLời mời gia nhập bang hội &e%clan%&f đã hết hạn.'
+  inviter-invite-expired: '%prefix%&#d12f1d&l| &fLời mời gia nhập bang hội cho &e%player%&f đã hết hạn.'
+  self-kick-error: '%prefix%&#d12f1d&l| &fBạn không thể đuổi bản thân.'
+  kick-leader-error: '%prefix%&#d12f1d&l| &fBạn không thể đuổi lãnh đạo!'
+  target-removal-success: '%prefix%&#35d11d&l| &fĐuổi &e%player%&f ra khỏi bang hội thành công!'
+  kicked-from-clan: '%prefix%&#d12f1d&l| &fBạn đã bị đuổi ra khỏi bang hội &e%clan%&f bởi &e%player%&f.'
+  leader-cannot-leave: '%prefix%&#d12f1d&l| &fBạn không thể rời vì bạn là chủ bang hội. Bạn chỉ có thể chuyển quyền lãnh đạo cho một ai đó trong bang hội hoặc xóa bang hội.'
+  leave-clan-success: '%prefix%&#35d11d&l| &fRời bang hội &e%clan%&f thành công.'
+  rejected-clan-invite: '%prefix%&#35d11d&l| &fTừ chối lời mời gia nhập bang hội &e%clan%&f thành công.'
+  set-custom-name-success: '%prefix%&#35d11d&l| &fĐã chỉnh tên custom của bang hội &e%clan%&f thành &r%newCustomName%&f.'
+  set-message-success: '%prefix%&#35d11d&l| &fĐã chỉnh thông báo bang hội thành &e%newMessage%&f.'
+  self-targeted-error: '%prefix%&#d12f1d&l| &fBạn không thể làm điều này lên bản thân.'
+  promote-to-owner-success: '%prefix%&#35d11d&l| &fBạn đã chuyển quyền lãnh đạo bang hội &e%clan%&f cho &e%player%&f.'
+  promoted-to-owner: '%prefix%&#35d11d&l| &e%player%&f đã chuyển quyền lãnh đạo bang hội &e%clan%&f cho bạn!'
+  already-a-manager: '%prefix%&#d12f1d&l| &e%player%&f đã là quản lý của bang hội rồi.'
+  promote-to-manager-success: '%prefix%&#35d11d&l| &fBạn đã cho &e%player%&f lên làm quản lý bang hội.'
+  promoted-to-manager: '%prefix%&#35d11d&l| &fBạn đã trở thành quản lý của bang hội &e%clan%&f bởi &e%player%&f.'
+  not-a-manager: '%prefix%&#d12f1d&l| &e%player%&f không phải là quản lý của bang hội.'
+  remove-a-manager-success: '%prefix%&#35d11d&l| &fBạn đã tước quyền quản lý của &e%player%&f.'
+  manager-removed: '%prefix%&#d12f1d&l| &fBạn đã bị tước quyền quản lý bởi &e%player%&f.'
+  last-page: ''
+  clan-broadcast:
+    prefix: '&#3498eb&lBANG HỘI &f(%formatClanName%&r) '
+    invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã gửi lời mời gia nhập bang hội tới &e%target%&f.'
+    player-join-clan: '%prefix%&#35d11d&l| &e%player%&f vừa tham gia bang hội.'
+    player-removed-from-clan: '%prefix%&#d12f1d&l| &e%player%&f đã bị đuổi ra khỏi bang hội bởi &r%rank%&e %by%&f.'
+    player-leave-clan: '%prefix%&#d12f1d&l| &e%player%&f vừa rời bang hội.'
+    player-reject-to-join: '%prefix%&#d12f1d&l| &e%player%&f đã từ chối tham gia bang hội.'
+    set-custom-name: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã chỉnh tên custom bang hội thành &r%newCustomName%&f.'
+    set-message: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã chỉnh thông báo bang hội thành &e%newMessage%&f.'
+    member-promoted-to-owner: '%prefix%&#35d11d&l| &e%player%&f vừa chuyển quyền lãnh đạo bang hội cho &e%target%&f.'
+    member-promoted-to-manager: '%prefix%&#35d11d&l| &e%player%&f đã trở thành quản lý bang hội bởi &r%rank%&e %by%&f.'
+    manager-removed: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã tước quyền quản lý của &e%target%&f.'
+  commands:
+    clanplus:
+      messages:
+        non-clan-commands:
+          - ' '
+          - '&#3498ebBANG HỘI'
+          - '&7Phiên bản %version%'
+          - ' '
+          - '&#3498eb/banghoi create <tên bang hội> &fTạo bang hội mới'
+          - '&#3498eb/banghoi accept &fChấp nhận lời mời gia nhập bang hội'
+          - '&#3498eb/banghoi deny &fTừ chối lời mời gia nhập bang hội'
+          - '&#3498eb/banghoi info <Tên bang hội> &fXem thông tin bang hội cụ thể'
+          - '&#3498eb/banghoi event &fXem thông tin sự kiện'
+          - '&#3498eb/banghoi list &fXem danh sách bang hội'
+        in-clan-commands:
+          messages: |2
+          
+            &#3498ebBANG HỘI
+            &7Phiên bản %version%
+            %memberCommands%
+            %managerCommands%
+            %leaderCommands%
+          placeholder:
+            memberCommands:
+              messages: |
+                &r
+                &#34eb6bLệnh dành cho thành viên
+                &#3498eb/banghoi menu &fMở giao diện bang hội
+                &#3498eb/banghoi leave &fRời bang hội
+                &r%command%
+              placeholder:
+                command: '&#3498eb/banghoi %command% &f%description%'
+            managerCommands:
+              messages: |
+                &r
+                &#1d98d1Lệnh dành cho quản lý
+                &r%command%
+              placeholder:
+                command: '&#3498eb/banghoi %command% &f%description%'
+            leaderCommands:
+              messages: |
+                &r
+                &#e8e51eLệnh dành cho lãnh đạo (Bao gồm lệnh dành cho quản lý)
+                &#3498eb/banghoi setowner &fChuyển quyền lãnh đạo cho một thành viên trong bang hội
+                &#3498eb/banghoi disband &fXóa bang hội
+                &r%command%
+              placeholder:
+                command: '&#3498eb/banghoi %command% &f%description%'

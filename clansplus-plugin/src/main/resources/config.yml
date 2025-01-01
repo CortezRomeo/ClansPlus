@@ -1,17 +1,11 @@
 #
-#      ______     ______     __   __     ______        __  __     ______     __
-#     /\  == \   /\  __ \   /\ "-.\ \   /\  ___\      /\ \_\ \   /\  __ \   /\ \
-#     \ \  __<   \ \  __ \  \ \ \-.  \  \ \ \__ \     \ \  __ \  \ \ \/\ \  \ \ \
-#      \ \_____\  \ \_\ \_\  \ \_\\"\_\  \ \_____\     \ \_\ \_\  \ \_____\  \ \_\
-#       \/_____/   \/_/\/_/   \/_/ \/_/   \/_____/      \/_/\/_/   \/_____/   \/_/
-# Plugin được làm bởi Cortez_Romeo
-# Mua plugin này tại https://dihoastore.net
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
 #
-# Liên hệ mình tại:
-# discord account: Cortez_Romeo
-# discord server: https://discord.gg/NWbTVddmBM
-#
-# Vui lòng vào server discord để góp ý, báo lỗi. Cảm on bạn đã mua plugin.
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 
 # Đặt license key đã mua tại dihoastore.net tại đây (Hướng dẫn cài: https://bit.ly/3gJtsbp)
 license-key: "XXXX-XXXX-XXXX-XXXX"
@@ -20,6 +14,10 @@ license-key: "XXXX-XXXX-XXXX-XXXX"
 debug:
   enabled: false
   prefix: '&e[CLAN+ DEBUG] '
+
+# Ngôn ngữ nào sẽ được sử dụng để hiển thị thông báo
+# Bao gồm: vi (Tiếng Việt)
+language: vi
 
 # Cơ sỡ dữ liệu nào nên được sử dụng để xử lý các dữ liệu.
 # Vui lòng restart lại máy chủ sau khi thay đổi các giá trị dưới đây.
@@ -35,6 +33,11 @@ database:
   # Nếu bật tính năng này thì khi đang load plugin, hệ thống sẽ tự động xóa các dữ liệu không hợp lệ.
   fix-bug-database:
     enabled: true
+  # Tự động lưu dữ liệu.
+  auto-save:
+    enabled: true
+    # Tự động lưu mỗi ... giây.
+    seconds: 900
   # Thiết lập cơ sỡ dữ liệu
   settings:
     h2:
@@ -42,12 +45,6 @@ database:
       table:
         clan: 'clandata'
         player: 'playerdata'
-
-# Tự động lưu dữ liệu.
-auto-save:
-  enabled: true
-  # Tự động lưu mỗi ... giây.
-  seconds: 900
 
 # Tùy chỉnh các thông số mặc định.
 clan-settings:
@@ -86,7 +83,6 @@ clan-settings:
       SETMESSAGE: LEADER
       SETMANAGER: LEADER
       REMOVEMANAGER: LEADER
-      DISBAND: LEADER
       CHAT: MEMBER
       UPGRADE: MEMBER
 
@@ -100,7 +96,6 @@ clan-settings:
 
   # Thiết lập về tùy chỉnh tên bang hội
   clan-name-settings:
-
     # Cấm đặt các tên sau (Bao gồm tên bang hội và tên custom).
     prohibited-name:
     - admin
@@ -127,7 +122,7 @@ clan-settings:
 # Bao gồm: PlaceholderAPI, DiscordSRV.
 soft-depends:
   placeholderapi:
-    clanless: '&c<Không có bang  hội>'
+    clanless: '&c<Không có bang hội>'
     clan-top: '&#d1d1d1#%number% &r%name% &e&l━ &#f25eff%value% Điểm'
 
 # Bstats dùng để thống kê số liệu mấy chủ và số người chơi sử dụng plugin.

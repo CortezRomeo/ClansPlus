@@ -1,13 +1,17 @@
 package com.cortezromeo.clansplus.clan;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ClanManager {
 
@@ -27,7 +31,7 @@ public class ClanManager {
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
         for (String playerInClan : clanData.getMembers()) {
             Player player = Bukkit.getPlayer(playerInClan);
-            MessageUtil.devMessage(player, clanName + " [ALERT]: " + message);
+            MessageUtil.sendMessage(player, message.replace("%prefix%", Messages.CLAN_BROADCAST_PREFIX.replace("%formatClanName%", getFormatClanName(clanData))));
         }
     }
 
@@ -71,6 +75,19 @@ public class ClanManager {
         return clansScore;
     }
 
+    public static List<String> getClansCustomName() {
+        if (PluginDataManager.getClanDatabase().isEmpty())
+            return null;
+
+        List<String> clansCustomName = new ArrayList<>();
+        for (String clanName : PluginDataManager.getClanDatabase().keySet()) {
+            String clanCustomName = PluginDataManager.getClanDatabase(clanName).getCustomName();
+            if (clanCustomName != null)
+                clansCustomName.add(clanCustomName);
+        }
+        return clansCustomName;
+    }
+
     public static String getFormatClanName(IClanData clanData) {
         return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : clanData.getName();
     }
@@ -85,5 +102,13 @@ public class ClanManager {
         if (clanData.getCustomName() == null)
             return ClansPlus.nms.addColor("<Không có tên custom>");
         return ClansPlus.nms.addColor(clanData.getCustomName());
+    }
+
+    public static String getFormatRank(Rank rank) {
+        if (rank == Rank.MANAGER)
+            return Messages.RANK_DISPLAY_MANAGER;
+        if (rank == Rank.LEADER)
+            return Messages.RANK_DISPLAY_LEADER;
+        return Messages.RANK_DISPLAY_MEMBER;
     }
 }

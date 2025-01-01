@@ -4,6 +4,7 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -62,7 +63,10 @@ public class ClanListInventory extends PaginatedInventory {
 
     @Override
     public int getSlots() {
-        return 54;
+        int rows = ClanListInventoryFile.get().getInt("rows") * 9;
+        if (rows < 27 || rows > 54)
+            return 54;
+        return rows;
     }
 
     @Override
@@ -86,7 +90,7 @@ public class ClanListInventory extends PaginatedInventory {
                 page = page + 1;
                 open();
             } else {
-                MessageUtil.devMessage(getOwner(), "You're already on the last page.");
+                MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
             }
         }
         if (itemCustomData.equals("closeItem"))
@@ -107,7 +111,7 @@ public class ClanListInventory extends PaginatedInventory {
     @Override
     public void setMenuItems() {
         Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
-            addPaginatedMenuItems();
+            addPaginatedMenuItems(ClanListInventoryFile.get());
             FileConfiguration invFileConfig = ClanListInventoryFile.get();
 
             ItemStack clanListInfoItem = ClansPlus.nms.addCustomData(
@@ -122,7 +126,7 @@ public class ClanListInventory extends PaginatedInventory {
                 sessionInfoItemSlot = 0;
             if (sessionInfoItemSlot > 8)
                 sessionInfoItemSlot = 8;
-            sessionInfoItemSlot = 45 + sessionInfoItemSlot;
+            sessionInfoItemSlot = (getSlots() - 9) + sessionInfoItemSlot;
 
             inventory.setItem(sessionInfoItemSlot, clanListInfoItem);
 
@@ -136,7 +140,7 @@ public class ClanListInventory extends PaginatedInventory {
                 shortItemsItemSlot = 0;
             if (shortItemsItemSlot > 8)
                 shortItemsItemSlot = 8;
-            shortItemsItemSlot = 45 + shortItemsItemSlot;
+            shortItemsItemSlot = (getSlots() - 9) + shortItemsItemSlot;
             inventory.setItem(shortItemsItemSlot, shortItemsItem);
 
             if (PluginDataManager.getClanDatabase().isEmpty())
@@ -151,7 +155,6 @@ public class ClanListInventory extends PaginatedInventory {
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .forEach(entry -> clans.add(entry.getKey()));
             }
-
             if (shortItemsType == ShortItemsType.HIGHESTWARPOINT) {
                 HashMap<String, Integer> clansScoreHashMap = ClanManager.getClansWarpointHashMap();
                 clansScoreHashMap.entrySet()
@@ -159,7 +162,6 @@ public class ClanListInventory extends PaginatedInventory {
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .forEach(entry -> clans.add(entry.getKey()));
             }
-
             if (shortItemsType == ShortItemsType.HIGHESTPLAYERSIZE) {
                 HashMap<String, Integer> clansScoreHashMap = ClanManager.getClansPlayerSize();
                 clansScoreHashMap.entrySet()
@@ -167,7 +169,6 @@ public class ClanListInventory extends PaginatedInventory {
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .forEach(entry -> clans.add(entry.getKey()));
             }
-
             if (shortItemsType == ShortItemsType.OLDEST) {
                 HashMap<String, Long> clansScoreHashMap = ClanManager.getClansCreatedDate();
                 clansScoreHashMap.entrySet()
@@ -176,14 +177,15 @@ public class ClanListInventory extends PaginatedInventory {
                         .forEach(entry -> clans.add(entry.getKey()));
             }
 
-            for(int i = 0; i < getMaxItemsPerPage(); i++) {
+            for (int i = 0; i < getMaxItemsPerPage(); i++) {
                 index = getMaxItemsPerPage() * page + i;
-                if(index >= clans.size())
+                if (index >= clans.size())
                     break;
                 if (clans.get(index) != null) {
                     String clanName = clans.get(index);
                     IClanData clanData = PluginDataManager.getClanDatabase(clanName);
-                    ItemStack clanItem = ItemUtil.getItem(clanData.getIconType().toString(),
+                    ItemStack clanItem = ItemUtil.getItem(
+                            clanData.getIconType().toString(),
                             clanData.getIconValue(),
                             0,
                             invFileConfig.getString("items.clan.name"),

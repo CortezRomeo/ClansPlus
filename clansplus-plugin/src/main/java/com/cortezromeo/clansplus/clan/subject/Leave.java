@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -18,13 +19,13 @@ public class Leave extends SubjectManager {
     @Override
     public void execute() {
         if (!isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You need to be in a clan!");
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
             return;
         }
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         if (playerData.getRank() == Rank.LEADER) {
-            MessageUtil.devMessage(player, "You cannot leave because you are the leader of this clan!");
+            MessageUtil.sendMessage(player, Messages.LEADER_CANNOT_LEAVE);
             return;
         }
 
@@ -33,7 +34,7 @@ public class Leave extends SubjectManager {
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
         PluginDataManager.clearPlayerDatabase(playerName);
 
-        MessageUtil.devMessage(player, "Successfully leaved clan " + playerClanData.getName());
-        ClanManager.alertClan(playerClanData.getName(), playerName + " just leaved clan!");
+        MessageUtil.sendMessage(player, Messages.LEAVE_CLAN_SUCCESS.replace("%clan%", playerClanData.getName()));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_PLAYER_LEAVE_CLAN.replace("%player%", playerName));
     }
 }

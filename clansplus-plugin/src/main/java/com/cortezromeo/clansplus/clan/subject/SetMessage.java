@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -21,14 +22,14 @@ public class SetMessage extends SubjectManager {
     @Override
     public void execute() {
         if (!isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You need to be in a clan!");
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
             return;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETMESSAGE));
 
         if (!isPlayerRankSatisfied()) {
-            MessageUtil.devMessage(player, "Your rank need to be " + super.getRequiredRank() + " to set clan message!");
+            MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return;
         }
 
@@ -36,7 +37,7 @@ public class SetMessage extends SubjectManager {
         playerClanData.setMessage(clanMessage);
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
 
-        MessageUtil.devMessage(player, "Successfully set clan's message to " + clanMessage);
-        ClanManager.alertClan(playerClanData.getName(), playerName + " set clan's message to " + clanMessage);
+        MessageUtil.sendMessage(player, Messages.SET_MESSAGE_SUCCESS.replace("%newMessage%", clanMessage));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_MESSAGE.replace("%player%", playerName).replace("%newMessage%", clanMessage).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
     }
 }

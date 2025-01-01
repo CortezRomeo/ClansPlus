@@ -6,6 +6,7 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -22,27 +23,35 @@ public class SetCustomName extends SubjectManager {
     @Override
     public void execute() {
         if (!isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You need to be in a clan!");
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
             return;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
 
         if (!isPlayerRankSatisfied()) {
-            MessageUtil.devMessage(player, "Your rank need to be " + super.getRequiredRank() + " to set custom name!");
+            MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return;
         }
 
-        if (PluginDataManager.getClanDatabase().containsKey(ClansPlus. nms.stripColor(customName))) {
-            MessageUtil.devMessage(player, "You cannot use this custom name because there is a clan with the same name.");
+        if (PluginDataManager.getClanDatabase().containsKey(ClansPlus.nms.stripColor(customName))) {
+            MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
             return;
         }
+
+        if (ClanManager.getClansCustomName() != null)
+            if (!ClanManager.getClansCustomName().isEmpty())
+                for (String clanCustomName : ClanManager.getClansCustomName())
+                    if (clanCustomName.equalsIgnoreCase(customName)) {
+                        MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
+                        return;
+                    }
 
         IClanData playerClanData = getPlayerClanData();
         playerClanData.setCustomName(customName);
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
 
-        MessageUtil.devMessage(player, "Successfully set clan's custom name to " + customName);
-        ClanManager.alertClan(playerClanData.getName(), playerName + " set clan's custom name to " + customName);
+        MessageUtil.sendMessage(player, Messages.SET_CUSTOM_NAME_SUCCESS.replaceAll("%clan%", playerClanData.getName()).replaceAll("%newCustomName%", customName));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_CUSTOM_NAME.replace("%player%", playerName).replace("%newCustomName%", customName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
     }
 }

@@ -86,6 +86,13 @@ public abstract class SubjectManager {
         return playerName;
     }
 
+    public boolean isTargetAndPlayerInTheSameClan() {
+        if (!isTargetInClan() || !isPlayerInClan())
+            return false;
+
+        return getPlayerClanData().getName().equals(getTargetClanData().getName());
+    }
+
     public IClanData getPlayerClanData() {
         if (isPlayerInClan())
             return PluginDataManager.getClanDatabase(PluginDataManager.getPlayerDatabase(playerName).getClan());

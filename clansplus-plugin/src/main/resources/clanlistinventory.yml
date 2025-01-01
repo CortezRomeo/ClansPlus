@@ -1,5 +1,11 @@
-#  Author: Cortez_Romeo
-#  Download plugin này miễn phí tại: https://minecraftvn.net
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
 #  Lưu ý:
 #  * Có hỗ trợ hex color
@@ -17,8 +23,10 @@
 #                  dán nó vào phần "value:" của item bạn cần
 
 title: '&0Danh sách bang hội &#3498eb(%totalClans% Bang)'
+rows: 6
 items:
   border:
+    enabled: true
     type: material
     value: BLACK_STAINED_GLASS_PANE
     customModelData: 0

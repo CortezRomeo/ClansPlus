@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
@@ -20,26 +21,26 @@ public class Accept extends SubjectManager {
     @Override
     public void execute() {
         if (!ClanManager.beingInvitedPlayers.containsKey(playerName)) {
-            MessageUtil.devMessage(player, "You are not being invited!");
+            MessageUtil.sendMessage(player, Messages.INVITATION_REJECTION);
             return;
         }
 
         if (isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You are already in a clan!");
+            MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
             ClanManager.beingInvitedPlayers.remove(playerName);
             return;
         }
 
         String clanName = ClanManager.beingInvitedPlayers.get(playerName);
         if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
-            MessageUtil.devMessage(player, "Clan " + clanName + " is no longer exist!");
+            MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
             ClanManager.beingInvitedPlayers.remove(playerName);
             return;
         }
 
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
         if (clanData.getMembers().size() == clanData.getMaxMember()) {
-            MessageUtil.devMessage(player, "Clan " + clanName + " is full!");
+            MessageUtil.sendMessage(player, Messages.CLAN_IS_FULL.replace("%clan%", clanName));
             ClanManager.beingInvitedPlayers.remove(playerName);
             return;
         }
@@ -52,8 +53,8 @@ public class Accept extends SubjectManager {
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
-        MessageUtil.devMessage(player, "Successfully joined clan " + clanName);
-        ClanManager.alertClan(clanName, playerName + " just joined clan!");
+        MessageUtil.sendMessage(player, Messages.JOIN_CLAN_SUCCESS.replace("%clan%", clanName));
+        ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_PLAYER_JOIN_CLAN.replace("%player%", playerName));
         ClanManager.beingInvitedPlayers.remove(playerName);
     }
 }

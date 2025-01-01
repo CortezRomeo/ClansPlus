@@ -9,9 +9,11 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.util.FileNameUtil;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,9 +97,16 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
         // TODO <DATA FIX 3.4> Old database does not have icon type
         if (storage.getString("data.banghoiicon") != null) {
+            String oldIconValue = storage.getString("data.banghoiicon").toUpperCase();
             try {
-                clanData.setIconType(IconType.MATERIAL);
-                clanData.setIconValue(storage.getString("data.banghoiicon"));
+                XMaterial xMaterial = XMaterial.valueOf(oldIconValue);
+                if (xMaterial.get() != null) {
+                    clanData.setIconType(IconType.MATERIAL);
+                    clanData.setIconValue(oldIconValue);
+                } else {
+                    clanData.setIconType(IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE));
+                    clanData.setIconValue(Settings.CLAN_SETTING_ICON_DEFAULT_VALUE);
+                }
             } catch (Exception exception) {
                 clanData.setIconType(IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE));
                 clanData.setIconValue(Settings.CLAN_SETTING_ICON_DEFAULT_VALUE);

@@ -2,16 +2,21 @@ package com.cortezromeo.clansplus.command;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class PluginTestCommand implements CommandExecutor {
 
@@ -68,6 +73,9 @@ public class PluginTestCommand implements CommandExecutor {
                     MessageUtil.devMessage(player, "clan allies: &e" + clanData.getAllies());
                     MessageUtil.devMessage(player, "clan skill level: &e" + clanData.getSkillLevel());
                 }
+            }
+            if (args[0].equalsIgnoreCase("bemanager")) {
+                PluginDataManager.getPlayerDatabase(player.getName()).setRank(Rank.MANAGER);
             }
         }
 

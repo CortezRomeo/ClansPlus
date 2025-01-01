@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.util;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.language.Messages;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -34,7 +35,9 @@ public class MessageUtil {
     }
 
     public static void sendMessage(CommandSender sender, String message) {
-        message = message.replace("%prefix%" , "[prefix] ");
+        if (message.equals(""))
+            return;
+        message = message.replace("%prefix%" , Messages.PREFIX);
         sender.sendMessage(ClansPlus.nms.addColor(message));
     }
 
@@ -42,7 +45,7 @@ public class MessageUtil {
         if (player == null | message.equals(""))
             return;
 
-        message = message.replace("%prefix%" , "[prefix] ");
+        message = message.replace("%prefix%" , Messages.PREFIX);
 
         if (!ClansPlus.isPapiSupport())
             player.sendMessage(ClansPlus.nms.addColor(message));

@@ -3,7 +3,9 @@ package com.cortezromeo.clansplus.clan.subject;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
@@ -18,25 +20,23 @@ public class Disband extends SubjectManager {
     @Override
     public void execute() {
         if (!isPlayerInClan()) {
-            MessageUtil.devMessage(player, "You need to be in a clan!");
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
             return;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.DISBAND));
-
         if (!isPlayerRankSatisfied()) {
-            MessageUtil.devMessage(player, "Your rank need to be " + getRequiredRank());
+            MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return;
         }
 
         IClanData clanData = getPlayerClanData();
         for (String memberName : clanData.getMembers())
             if (!memberName.equals(playerName))
-                MessageUtil.devMessage(Bukkit.getPlayer(memberName), "Your clan has been disbanded.");
+                MessageUtil.sendMessage(Bukkit.getPlayer(memberName), Messages.DISBAND_NOTIFICATION.replace("%clan%", clanData.getName()));
 
         if (PluginDataManager.deleteClanData(clanData.getName())) {
-            MessageUtil.devMessage(player, "Clan " + clanData.getName() + " has been disbanded!");
+            MessageUtil.sendMessage(player, Messages.DISBAND_SUCCESS.replace("%clan%", clanData.getName()));
         } else
-            MessageUtil.devMessage(player, "An error occurred when trying to delete this clan! Please contact the admins.");
+            MessageUtil.sendMessage(player, Messages.DISBAND_FAIL);
     }
 }

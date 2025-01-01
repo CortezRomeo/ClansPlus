@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class PaginatedInventory extends ClanPlusInventoryBase {
 
     protected int page = 0;
-    protected int maxItemsPerPage = 28;
+    protected boolean isUsingBorder;
     protected int index = 0;
 
     public PaginatedInventory(Player owner) {
@@ -22,72 +22,83 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
     }
 
     //Set the border and menu buttons for the menu
-    public void addPaginatedMenuItems() {
-        FileConfiguration invFileConfig = ClanListInventoryFile.get();
-
-        ItemStack borderItem = ItemUtil.getItem(invFileConfig.getString("items.border.type"),
-                invFileConfig.getString("items.border.value"),
-                invFileConfig.getInt("items.border.customModelData"),
-                invFileConfig.getString("items.border.name"),
-                invFileConfig.getStringList("items.border.lore"));
-
-        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(invFileConfig.getString("items.close.type"),
-                invFileConfig.getString("items.close.value"),
-                invFileConfig.getInt("items.close.customModelData"),
-                invFileConfig.getString("items.close.name"),
-                invFileConfig.getStringList("items.close.lore")), "closeItem");
-        int closeItemSlot = invFileConfig.getInt("items.close.slot");
+    public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
+        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+                fileConfiguration.getString("items.close.value"),
+                fileConfiguration.getInt("items.close.customModelData"),
+                fileConfiguration.getString("items.close.name"),
+                fileConfiguration.getStringList("items.close.lore")), "closeItem");
+        int closeItemSlot = fileConfiguration.getInt("items.close.slot");
         if (closeItemSlot < 0)
             closeItemSlot = 0;
         if (closeItemSlot > 8)
             closeItemSlot = 8;
-        closeItemSlot = 45 + closeItemSlot;
+        closeItemSlot = (getSlots() - 9) + closeItemSlot;
 
-        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(invFileConfig.getString("items.prevPage.type"),
-                invFileConfig.getString("items.prevPage.value"),
-                invFileConfig.getInt("items.prevPage.customModelData"),
-                invFileConfig.getString("items.prevPage.name"),
-                invFileConfig.getStringList("items.prevPage.lore")), "prevPage");
-        int prevPageItemSlot = invFileConfig.getInt("items.prevPage.slot");
+        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.prevPage.type"),
+                fileConfiguration.getString("items.prevPage.value"),
+                fileConfiguration.getInt("items.prevPage.customModelData"),
+                fileConfiguration.getString("items.prevPage.name"),
+                fileConfiguration.getStringList("items.prevPage.lore")), "prevPage");
+        int prevPageItemSlot = fileConfiguration.getInt("items.prevPage.slot");
         if (prevPageItemSlot < 0)
             prevPageItemSlot = 0;
         if (prevPageItemSlot > 8)
             prevPageItemSlot = 8;
-        prevPageItemSlot = 45 + prevPageItemSlot;
+        prevPageItemSlot = (getSlots() - 9) + prevPageItemSlot;
 
-        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(invFileConfig.getString("items.nextPage.type"),
-                invFileConfig.getString("items.nextPage.value"),
-                invFileConfig.getInt("items.nextPage.customModelData"),
-                invFileConfig.getString("items.nextPage.name"),
-                invFileConfig.getStringList("items.nextPage.lore")), "nextPage");
-        int nextPageItemSlot = invFileConfig.getInt("items.nextPage.slot");
+        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.nextPage.type"),
+                fileConfiguration.getString("items.nextPage.value"),
+                fileConfiguration.getInt("items.nextPage.customModelData"),
+                fileConfiguration.getString("items.nextPage.name"),
+                fileConfiguration.getStringList("items.nextPage.lore")), "nextPage");
+        int nextPageItemSlot = fileConfiguration.getInt("items.nextPage.slot");
         if (nextPageItemSlot < 0)
             nextPageItemSlot = 0;
         if (nextPageItemSlot > 8)
             nextPageItemSlot = 8;
-        nextPageItemSlot = 45 + nextPageItemSlot;
+        nextPageItemSlot = (getSlots() - 9) + nextPageItemSlot;
 
         if (page > 0)
             inventory.setItem(prevPageItemSlot, getPageItemStack(prevItem));
         inventory.setItem(closeItemSlot, closeItem);
         inventory.setItem(nextPageItemSlot, getPageItemStack(nextItem));
 
-        for (int i = 0; i < 10; i++) {
-            if (inventory.getItem(i) == null) {
-                inventory.setItem(i, borderItem);
+        setBorderEnabled(fileConfiguration);
+        if (isUsingBorder) {
+            ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                    fileConfiguration.getString("items.border.value"),
+                    fileConfiguration.getInt("items.border.customModelData"),
+                    fileConfiguration.getString("items.border.name"),
+                    fileConfiguration.getStringList("items.border.lore"));
+            if (getSlots() > 18)
+                for (int i = 0; i < 10; i++) {
+                    if (inventory.getItem(i) == null) {
+                        inventory.setItem(i, borderItem);
+                    }
+                }
+            if (getSlots() > 27) {
+                inventory.setItem(17, borderItem);
+                inventory.setItem(18, borderItem);
+            }
+            if (getSlots() > 36) {
+                inventory.setItem(26, borderItem);
+                inventory.setItem(27, borderItem);
+            }
+            if (getSlots() > 45) {
+                inventory.setItem(35, borderItem);
+                inventory.setItem(36, borderItem);
+            }
+            for (int i = getSlots() - 10; i < getSlots(); i++) {
+                if (inventory.getItem(i) == null) {
+                    inventory.setItem(i, borderItem);
+                }
             }
         }
-        inventory.setItem(17, borderItem);
-        inventory.setItem(18, borderItem);
-        inventory.setItem(26, borderItem);
-        inventory.setItem(27, borderItem);
-        inventory.setItem(35, borderItem);
-        inventory.setItem(36, borderItem);
-        for (int i = 44; i < 54; i++) {
-            if (inventory.getItem(i) == null) {
-                inventory.setItem(i, borderItem);
-            }
-        }
+    }
+
+    private void setBorderEnabled(FileConfiguration fileConfiguration) {
+        isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
     }
 
     private @NotNull ItemStack getPageItemStack(ItemStack itemStack) {
@@ -104,6 +115,15 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
     }
 
     public int getMaxItemsPerPage() {
-        return maxItemsPerPage;
+        if (getSlots() == 54)
+            return 28 + (isUsingBorder ? 0 : 17);
+        else if (getSlots() == 45)
+            return  21 + (isUsingBorder ? 0 : 15);
+        else if (getSlots() == 36)
+            return  14 + (isUsingBorder ? 0 : 13);
+        else if (getSlots() == 27)
+            return 7 + (isUsingBorder ? 0 : 11);
+        else
+            return 28 + (isUsingBorder ? 0 : 17);
     }
 }

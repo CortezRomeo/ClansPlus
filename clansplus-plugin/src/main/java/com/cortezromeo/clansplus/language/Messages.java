@@ -67,6 +67,7 @@ public class Messages {
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS_PLACEHOLDER_COMMAND;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MANAGERCOMMANDS_PLACEHOLDER_COMMAND;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS_PLACEHOLDER_COMMAND;
+    public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String CLAN_BROADCAST_PREFIX;
     public static String CLAN_BROADCAST_INVITE_NOTIFICATION;
     public static String CLAN_BROADCAST_PLAYER_JOIN_CLAN;
@@ -155,6 +156,7 @@ public class Messages {
         COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration.getString("messages.commands.clanplus.messages.in-clan-commands.placeholder.memberCommands.placeholder.command");
         COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MANAGERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration.getString("messages.commands.clanplus.messages.in-clan-commands.placeholder.managerCommands.placeholder.command");
         COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration.getString("messages.commands.clanplus.messages.in-clan-commands.placeholder.leaderCommands.placeholder.command");
+        USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         CLAN_BROADCAST_PREFIX = fileConfiguration.getString("messages.clan-broadcast.prefix");
         CLAN_BROADCAST_INVITE_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.invite-notification");
         CLAN_BROADCAST_PLAYER_JOIN_CLAN = fileConfiguration.getString("messages.clan-broadcast.player-join-clan");

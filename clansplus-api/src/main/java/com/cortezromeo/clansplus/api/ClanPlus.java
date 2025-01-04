@@ -19,6 +19,8 @@ public interface ClanPlus {
 
         IClanData getClanDatabase(String clanName);
 
+        IClanData getClanDatabaseByPlayerName(String playerName);
+
         IPlayerData getPlayerDatabase(String playerName);
 
         void loadClanDatabase(String clanName);

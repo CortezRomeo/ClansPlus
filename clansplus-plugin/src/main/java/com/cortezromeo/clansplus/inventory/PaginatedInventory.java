@@ -1,7 +1,6 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -64,7 +63,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         inventory.setItem(closeItemSlot, closeItem);
         inventory.setItem(nextPageItemSlot, getPageItemStack(nextItem));
 
-        setBorderEnabled(fileConfiguration);
+        isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
         if (isUsingBorder) {
             ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
                     fileConfiguration.getString("items.border.value"),
@@ -97,10 +96,6 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         }
     }
 
-    private void setBorderEnabled(FileConfiguration fileConfiguration) {
-        isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
-    }
-
     private @NotNull ItemStack getPageItemStack(ItemStack itemStack) {
         ItemStack modItem = new ItemStack(itemStack);
         ItemMeta itemMeta = modItem.getItemMeta();
@@ -118,9 +113,9 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         if (getSlots() == 54)
             return 28 + (isUsingBorder ? 0 : 17);
         else if (getSlots() == 45)
-            return  21 + (isUsingBorder ? 0 : 15);
+            return 21 + (isUsingBorder ? 0 : 15);
         else if (getSlots() == 36)
-            return  14 + (isUsingBorder ? 0 : 13);
+            return 14 + (isUsingBorder ? 0 : 13);
         else if (getSlots() == 27)
             return 7 + (isUsingBorder ? 0 : 11);
         else

@@ -92,13 +92,18 @@ public class CrossVersionSupport extends VersionSupport {
     }
 
     public ItemStack getHeadItemFromPlayerName(String playerName) {
-        if (Bukkit.getPlayer(playerName) != null)
-            playerName = Bukkit.getPlayer(playerName).getUniqueId().toString();
-        else if (!Bukkit.getServer().getOnlineMode()) {
-            String offlinePlayerString = "OfflinePlayer:" + playerName;
-            playerName = UUID.nameUUIDFromBytes(offlinePlayerString.getBytes(StandardCharsets.UTF_8)).toString();
+        try {
+            if (Bukkit.getPlayer(playerName) != null)
+                playerName = Bukkit.getPlayer(playerName).getUniqueId().toString();
+            else if (!Bukkit.getServer().getOnlineMode()) {
+                String offlinePlayerString = "OfflinePlayer:" + playerName;
+                playerName = UUID.nameUUIDFromBytes(offlinePlayerString.getBytes(StandardCharsets.UTF_8)).toString();
+            }
+            return XSkull.createItem().profile(Profileable.of(UUID.fromString(playerName))).apply();
+            // normally, if this account is not a part of microsoft account, it will occur error
+        } catch (Exception exception) {
+            return XMaterial.PLAYER_HEAD.parseItem();
         }
-        return XSkull.createItem().profile(Profileable.of(UUID.fromString(playerName))).apply();
     }
 
     @Override

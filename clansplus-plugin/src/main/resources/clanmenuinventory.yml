@@ -1,0 +1,126 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Lưu ý:
+#  * Có hỗ trợ hex color
+#  * Có 3 type chính, đó là:
+#    + material: value chỉnh thành MATERIAL của block
+#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
+#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
+#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
+#    + customhead: Đọc phần ở dưới
+#      + Cách sử dụng custom-head:
+#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
+#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
+#                  dán nó vào phần "value:" của item bạn cần
+
+title: '&0Bang hội &e%formatClanName%'
+rows: 6
+items:
+  border:
+    enabled: true
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    name: ''
+    lore:
+      - ''
+  close:
+    name: '&cĐóng'
+    slot: 49
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    lore:
+      - '&eNhấn vào đây để đóng'
+  members:
+    name: '&eThành viên'
+    slot: 10
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmU2M2UzYmMwZDBhMGY1ZDk3NGMwYTlhMGUyYTBkYjUxYWMzOTFhZmZhMmJmYmY3OGQxNmQyOWM4NDA1Y2ZjYSJ9fX0=
+    customModelData: 0
+    lore:
+      - ''
+      - '&fThành viên là những người chơi có cùng trong'
+      - '&fmột bang hội với bạn.'
+      - ''
+      - '&fTổng số thành viên: &e%totalMembers%'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  allies:
+    name: '&eĐồng minh'
+    slot: 12
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
+    customModelData: 0
+    lore:
+      - ''
+      - '&fĐồng minh là những bang hội cùng phe với'
+      - '&fbạn. Bạn không thể gây sát thương lên những'
+      - '&fngười trong bang hội đồng minh.'
+      - ''
+      - '&fTổng số đồng minh: &e%totalAllies%'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  clanList:
+    name: '&#3498ebDanh sách bang hội'
+    slot: 14
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJlYmJkYjE4ZDc0NzI4MWI1NDYyZjg1N2VlOTg0Njc1YTM5ZDVhMDI3NDQ0NmEyMmY2NjI2NGE1M2QyYjAzNCJ9fX0=
+    customModelData: 0
+    lore:
+      - ''
+      - '&fHiển thị tất cả thông tin bang hội có trong máy chủ.'
+      - ''
+      - '&fTổng số bang hội: &e%totalClans%'
+      - ''
+      - '&eNhấn vào đây để xem'
+  upgrade:
+    name: '&eNâng cấp'
+    slot: 16
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ2MjhhY2U3YzNhZmM2MWE0NzZkYzE0NDg5M2FhYTY0MmJhOTc2ZDk1MmI1MWVjZTI2YWJhZmI4OTZiOCJ9fX0=
+    customModelData: 0
+    lore:
+      - ''
+      - '&fNâng cấp các chỉ số cơ bản của bang hội.'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  events:
+    name: '&eSự kiện'
+    slot: 29
+    type: material
+    value: IRON_SWORD
+    customModelData: 0
+    lore:
+      - ''
+      - '&fSự kiện xảy ra vào khung giờ cụ thể để các'
+      - '&fbang hội có thể tham gia nhầm kiếm điểm.'
+      - ''
+      - '&eNhấn vào đây để xem'
+  settings:
+    name: '&eCài đặt'
+    slot: 31
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTg5ZjFlODc2NGJlZWQ1ZTMzYTY4YjYxOTBhMDM0ODZiMWI0YjExYTNhNTkwNjg4Yzc1YTg5N2I5ZDEwZDk1In19fQ==
+    customModelData: 0
+    lore:
+      - ''
+      - '&fCài đặt các thông số cơ bản của bang hội.'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  leave:
+    name: '&cRời bang hội'
+    slot: 33
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=
+    customModelData: 0
+    lore:
+      - '&eNhấn vào đây xác minh'

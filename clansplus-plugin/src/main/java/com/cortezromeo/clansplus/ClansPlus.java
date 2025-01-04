@@ -5,10 +5,11 @@ import com.cortezromeo.clansplus.api.server.VersionSupport;
 import com.cortezromeo.clansplus.command.ClanCommand;
 import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.file.EventsFile;
-import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
+import com.cortezromeo.clansplus.file.inventory.*;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.InventoryClickListener;
+import com.cortezromeo.clansplus.listener.PlayerChatListener;
 import com.cortezromeo.clansplus.listener.PlayerJoinListener;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
@@ -96,6 +97,66 @@ public class ClansPlus extends JavaPlugin {
         }
         ClanListInventoryFile.reload();
 
+        // inventories/noclaninventory.yml
+        String noClanFileName = "noclaninventory.yml";
+        NoClanInventoryFile.setup();
+        NoClanInventoryFile.saveDefault();
+        File noClanFile = new File(getDataFolder() + "/inventories/noclaninventory.yml");
+        try {
+            ConfigUpdater.update(this, noClanFileName, noClanFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        NoClanInventoryFile.reload();
+
+        // inventories/clanmenuinventory.yml
+        String clanMenuFileName = "clanmenuinventory.yml";
+        ClanMenuInventoryFile.setup();
+        ClanMenuInventoryFile.saveDefault();
+        File clanMenuFile = new File(getDataFolder() + "/inventories/clanmenuinventory.yml");
+        try {
+            ConfigUpdater.update(this, clanMenuFileName, clanMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ClanMenuInventoryFile.reload();
+
+        // inventories/membersmenuinventory.yml
+        String membersMenuFileName = "membersmenuinventory.yml";
+        MembersMenuInventoryFile.setup();
+        MembersMenuInventoryFile.saveDefault();
+        File membersMenuFile = new File(getDataFolder() + "/inventories/membersmenuinventory.yml");
+        try {
+            ConfigUpdater.update(this, membersMenuFileName, membersMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MembersMenuInventoryFile.reload();
+
+        // inventories/addmemberlistinventory.yml
+        String addMemberListFileName = "addmemberlistinventory.yml";
+        AddMemberListInventoryFile.setup();
+        AddMemberListInventoryFile.saveDefault();
+        File addMemberListFile = new File(getDataFolder() + "/inventories/addmemberlistinventory.yml");
+        try {
+            ConfigUpdater.update(this, addMemberListFileName, addMemberListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AddMemberListInventoryFile.reload();
+
+        // inventories/memberlistinventory.yml
+        String MemberListFileName = "memberlistinventory.yml";
+        MemberListInventoryFile.setup();
+        MemberListInventoryFile.saveDefault();
+        File MemberListFile = new File(getDataFolder() + "/inventories/memberlistinventory.yml");
+        try {
+            ConfigUpdater.update(this, MemberListFileName, MemberListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MemberListInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -146,6 +207,7 @@ public class ClansPlus extends JavaPlugin {
     public void initListener() {
         new PlayerJoinListener();
         new InventoryClickListener();
+        new PlayerChatListener();
     }
 
     public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {

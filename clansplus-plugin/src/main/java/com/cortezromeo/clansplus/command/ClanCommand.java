@@ -6,10 +6,12 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.*;
 import com.cortezromeo.clansplus.inventory.ClanListInventory;
+import com.cortezromeo.clansplus.inventory.ClanMenuInventory;
+import com.cortezromeo.clansplus.inventory.NoClanInventory;
 import com.cortezromeo.clansplus.language.Messages;
-import com.cortezromeo.clansplus.storage.PlayerData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
@@ -35,6 +37,16 @@ public class ClanCommand implements CommandExecutor {
 
         if (!(sender instanceof Player player))
             return false;
+
+        if (args.length == 0) {
+            if (PluginDataManager.getPlayerDatabase(player.getName()).getClan() == null) {
+                new NoClanInventory(player).open();
+                return false;
+            } else {
+                new ClanMenuInventory(player).open();
+                return false;
+            }
+        }
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("accept")) {
@@ -122,7 +134,7 @@ public class ClanCommand implements CommandExecutor {
         }
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
-        if (playerData.getClan() == null) {
+        if (!ClanManager.isPlayerInClan(player)) {
             for (String nonClanMessage : Messages.COMMAND_CLANPLUS_MESSAGES_NON_CLAN) {
                 nonClanMessage = nonClanMessage.replace("%version%", ClansPlus.plugin.getDescription().getVersion());
                 player.sendMessage(ClansPlus.nms.addColor(nonClanMessage));

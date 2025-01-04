@@ -28,6 +28,11 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
         }
 
         @Override
+        public IClanData getClanDatabaseByPlayerName(String playerName) {
+            return PluginDataManager.getClanDatabaseByPlayerName(playerName);
+        }
+
+        @Override
         public IPlayerData getPlayerDatabase(String playerName) {
             return PluginDataManager.getPlayerDatabase(playerName);
         }

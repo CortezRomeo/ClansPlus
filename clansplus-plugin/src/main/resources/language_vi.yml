@@ -79,6 +79,8 @@ messages:
   remove-a-manager-success: '%prefix%&#35d11d&l| &fBạn đã tước quyền quản lý của &e%player%&f.'
   manager-removed: '%prefix%&#d12f1d&l| &fBạn đã bị tước quyền quản lý bởi &e%player%&f.'
   last-page: ''
+  using-chat-box:
+    create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
   clan-broadcast:
     prefix: '&#3498eb&lBANG HỘI &f(%formatClanName%&r) '
     invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã gửi lời mời gia nhập bang hội tới &e%target%&f.'

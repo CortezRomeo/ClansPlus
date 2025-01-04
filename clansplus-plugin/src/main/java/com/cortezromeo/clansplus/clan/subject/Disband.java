@@ -1,7 +1,6 @@
 package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.api.enums.Rank;
-import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;

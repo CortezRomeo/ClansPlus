@@ -36,6 +36,18 @@ public class PluginDataManager {
         return clanDatabase.get(clanName);
     }
 
+    public static IClanData getClanDatabaseByPlayerName(String playerName) {
+        if (!getPlayerDatabase().containsKey(playerName)) {
+            return null;
+        }
+
+        String playerClanName = getPlayerDatabase(playerName).getClan();
+        if (playerClanName == null || !getClanDatabase().containsKey(playerClanName))
+            return null;
+
+        return getClanDatabase(playerClanName);
+    }
+
     public static IPlayerData getPlayerDatabase(String playerName) {
         return playerDatabase.get(playerName);
     }
@@ -52,7 +64,7 @@ public class PluginDataManager {
         getPlayerDatabase().put(playerName, PluginDataStorage.getPlayerData(playerName));
         if (ClanManager.managersFromOldData.containsKey(playerName)) {
             IPlayerData playerData = getPlayerDatabase(playerName);
-            if (playerData.getClan() != null)
+            if (ClanManager.isPlayerInClan(playerName))
                 if (ClanManager.managersFromOldData.get(playerName).equals(playerData.getClan()))
                     playerData.setRank(Rank.MANAGER);
             ClanManager.managersFromOldData.remove(playerName);
@@ -93,7 +105,6 @@ public class PluginDataManager {
         getPlayerDatabase(playerName).setClan(null);
         getPlayerDatabase(playerName).setRank(null);
         getPlayerDatabase(playerName).setJoinDate(0);
-        getPlayerDatabase(playerName).setScoreCollected(0);
         savePlayerDatabaseToStorage(playerName);
     }
 

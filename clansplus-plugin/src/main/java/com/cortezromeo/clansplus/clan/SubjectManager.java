@@ -64,10 +64,12 @@ public abstract class SubjectManager {
         if (playerData.getRank() == null)
             return false;
 
-        if (playerData.getRank().equals(Rank.LEADER) && getRequiredRank() == Rank.MANAGER)
+        if (playerData.getRank() == Rank.LEADER)
             return true;
-        else
-            return playerData.getRank() == requiredRank;
+
+        if (playerData.getRank().equals(Rank.MANAGER) && getRequiredRank() == Rank.MEMBER)
+            return true;
+        else return playerData.getRank() == getRequiredRank();
     }
 
     public Rank getRequiredRank() {
@@ -95,7 +97,7 @@ public abstract class SubjectManager {
 
     public IClanData getPlayerClanData() {
         if (isPlayerInClan())
-            return PluginDataManager.getClanDatabase(PluginDataManager.getPlayerDatabase(playerName).getClan());
+            return PluginDataManager.getClanDatabaseByPlayerName(playerName);
         return null;
     }
 
@@ -109,7 +111,7 @@ public abstract class SubjectManager {
 
     public IClanData getTargetClanData() {
         if (isTargetInClan())
-            return PluginDataManager.getClanDatabase(PluginDataManager.getPlayerDatabase(targetName).getClan());
+            return PluginDataManager.getClanDatabaseByPlayerName(targetName);
         return null;
     }
 }

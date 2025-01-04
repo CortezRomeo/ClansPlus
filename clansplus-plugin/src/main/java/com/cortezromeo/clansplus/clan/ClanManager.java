@@ -24,6 +24,20 @@ public class ClanManager {
         return PluginDataManager.getClanDatabase().containsKey(clanName);
     }
 
+    public static boolean isPlayerInClan(String playerName) {
+        if (!PluginDataManager.getPlayerDatabase().containsKey(playerName))
+            return false;
+        return PluginDataManager.getPlayerDatabase(playerName).getClan() != null;
+    }
+
+    public static boolean isPlayerInClan(Player player) {
+        if (player == null)
+            return false;
+        if (!PluginDataManager.getPlayerDatabase().containsKey(player.getName()))
+            return false;
+        return PluginDataManager.getPlayerDatabase(player.getName()).getClan() != null;
+    }
+
     public static void alertClan(String clanName, String message) {
         if (!isClanExisted(clanName) || message == null)
             return;

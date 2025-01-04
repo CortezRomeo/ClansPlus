@@ -22,7 +22,7 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Bang hội &e%formatClanName%'
+title: '&0Bang hội &#7526ad%formatClanName%'
 rows: 6
 items:
   border:
@@ -41,7 +41,7 @@ items:
     lore:
       - '&eNhấn vào đây để đóng'
   members:
-    name: '&eThành viên'
+    name: '&#31e012Thành viên'
     slot: 10
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmU2M2UzYmMwZDBhMGY1ZDk3NGMwYTlhMGUyYTBkYjUxYWMzOTFhZmZhMmJmYmY3OGQxNmQyOWM4NDA1Y2ZjYSJ9fX0=
@@ -51,11 +51,11 @@ items:
       - '&fThành viên là những người chơi có cùng trong'
       - '&fmột bang hội với bạn.'
       - ''
-      - '&fTổng số thành viên: &e%totalMembers%'
+      - '&fTổng số thành viên: &#31e012%totalMembers%'
       - ''
       - '&eNhấn vào đây để tùy chỉnh'
   allies:
-    name: '&eĐồng minh'
+    name: '&#28c9d1Đồng minh'
     slot: 12
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
@@ -66,7 +66,7 @@ items:
       - '&fbạn. Bạn không thể gây sát thương lên những'
       - '&fngười trong bang hội đồng minh.'
       - ''
-      - '&fTổng số đồng minh: &e%totalAllies%'
+      - '&fTổng số đồng minh: &#28c9d1%totalAllies%'
       - ''
       - '&eNhấn vào đây để tùy chỉnh'
   clanList:

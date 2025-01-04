@@ -14,6 +14,8 @@ public class Messages {
     public static String RANK_DISPLAY_MEMBER;
     public static String RANK_DISPLAY_MANAGER;
     public static String RANK_DISPLAY_LEADER;
+    public static String ONLINE_STATUS_OFFLINE;
+    public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
     public static String NO_PERMISSION;
     public static String NON_CONSOLE_COMMAND;
@@ -99,6 +101,8 @@ public class Messages {
         RANK_DISPLAY_MEMBER = fileConfiguration.getString("rank-display.MEMBER");
         RANK_DISPLAY_MANAGER = fileConfiguration.getString("rank-display.MANAGER");
         RANK_DISPLAY_LEADER = fileConfiguration.getString("rank-display.LEADER");
+        ONLINE_STATUS_OFFLINE = fileConfiguration.getString("online-status.offline");
+        ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");

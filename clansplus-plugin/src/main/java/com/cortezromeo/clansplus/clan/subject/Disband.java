@@ -17,15 +17,15 @@ public class Disband extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         IClanData clanData = getPlayerClanData();
@@ -37,5 +37,7 @@ public class Disband extends SubjectManager {
             MessageUtil.sendMessage(player, Messages.DISBAND_SUCCESS.replace("%clan%", clanData.getName()));
         } else
             MessageUtil.sendMessage(player, Messages.DISBAND_FAIL);
+
+        return true;
     }
 }

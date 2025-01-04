@@ -6,21 +6,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Date;
 
-public class PlayerJoinListener implements Listener {
+public class PlayerQuitListener implements Listener {
 
-    public PlayerJoinListener() {
+    public PlayerQuitListener() {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
-            PluginDataManager.loadPlayerDatabase(event.getPlayer().getName());
-            PluginDataManager.getPlayerDatabase(event.getPlayer().getName()).setLastActivated(new Date().getTime());
-        });
+    public void onQuit(PlayerQuitEvent event) {
+        PluginDataManager.getPlayerDatabase(event.getPlayer().getName()).setLastActivated(new Date().getTime());
     }
 
 }

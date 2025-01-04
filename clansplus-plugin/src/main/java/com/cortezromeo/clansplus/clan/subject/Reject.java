@@ -14,10 +14,10 @@ public class Reject extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!ClanManager.beingInvitedPlayers.containsKey(playerName)) {
             MessageUtil.sendMessage(player, Messages.INVITATION_REJECTION);
-            return;
+            return false;
         }
 
         String clanName = ClanManager.beingInvitedPlayers.get(playerName);
@@ -25,15 +25,17 @@ public class Reject extends SubjectManager {
 
         if (isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
-            return;
+            return false;
         }
 
         if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
             MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
-            return;
+            return false;
         }
 
         MessageUtil.sendMessage(player, Messages.REJECTED_CLAN_INVITE.replace("%clan%", clanName));
         ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_PLAYER_REJECT_TO_JOIN.replace("%player%", playerName));
+
+        return true;
     }
 }

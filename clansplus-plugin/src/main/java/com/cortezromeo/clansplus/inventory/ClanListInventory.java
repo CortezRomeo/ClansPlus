@@ -213,7 +213,7 @@ public class ClanListInventory extends PaginatedInventory {
                 .replace("%clanCustomName%", ClanManager.getFormatCustomName(clanData)))
                 .replace("%owner%", String.valueOf(clanData.getOwner()))
                 .replace("%memberSize%", String.valueOf(clanData.getMembers().size()))
-                .replace("%maxMember%", String.valueOf(clanData.getMaxMember()))
+                .replace("%maxMembers%", String.valueOf(clanData.getMaxMembers()))
                 .replace("%allySize%", String.valueOf(clanData.getAllies().size()))
                 .replace("%message%", ClanManager.getFormatMessage(clanData))
                 .replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()))

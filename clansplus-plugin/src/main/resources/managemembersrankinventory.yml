@@ -22,8 +22,8 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Quản lý thành viên'
-rows: 5
+title: '&0Cài đặt chức vụ &#7526ad%playerName%'
+rows: 4
 items:
   border:
     enabled: true
@@ -33,78 +33,63 @@ items:
     name: ''
     lore:
       - ''
-  nextPage:
-    name: '&aTrang sau'
-    slot: 8
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
-    customModelData: 0
-    lore:
-      - '&7Sang trang %nextPage%'
-  prevPage:
-    name: '&aTrang trước'
-    slot: 0
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
-    customModelData: 0
-    lore:
-      - '&7Về trang %prevPage%'
   close:
     name: '&cĐóng'
-    slot: 4
+    slot: 31
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     lore:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 3
+    slot: 30
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     lore:
       - '&eNhấn vào đây để trở về'
-  player:
-    name: '&6%playerName%'
+  setOwner:
+    name: '&eChuyển quyền lãnh đạo'
+    slot: 11
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM2MmFjNmQ5ZmY4YmZiYzliYWRhYzM1ZjYyN2NiZTkxN2FjMjVhZjhlNmU5ZDM4MmNlM2RkMzE3YWMwMzk4In19fQ==
     lore:
       - ''
-      - '&fTrạng thái: %onlineStatus%'
-      - '&fLần cuối hoạt động: &e%lastActivated%'
+      - '&fChuyển quyền lãnh đạo bang hội cho người chơi này.'
       - ''
-      - '&fTham gia ngày: &e%joinDate%'
-      - '&fChức vụ: %rank%'
-      - '&fSố điểm kiếm được: &b%scoreCollected%'
-      - ''
-      - '&eNhấn để tương tác'
-  shortItems:
-    name: '&bSắp xếp'
-    slot: 5
-    type: material
-    value: OAK_SIGN
-    lore:
-      PERMISSION:
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để thực hiện'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  setManager:
+    slot: 15
+    isAManager:
+      name: '&cXóa quyền quản lý'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY3ODM2ZjA0N2Q3NDFhYzRmNzM4NWY3YzNkYzQ4YmE4ZGY0MzczMmU1YWVlYzMzMjY4MjlhNzI4NDczNyJ9fX0=
+      customModelData: 0
+      lore:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&e%playerName%&f hiện đang là quản lý của bang'
+        - '&fhội, bấm vào nút này sẽ xóa đi quyền quản'
+        - '&flý bang hội của ngươời chơi này.'
         - ''
-        - '&b⇨ Quyền hạn'
-        - '&7Số điểm kiếm được'
-        - '&7Kỳ cựu nhất'
+        - '%checkPermission%'
+      placeholders:
+        checkPermission:
+          true: '&eNhấn vào đây để thực hiện'
+          false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+    isAMember:
+      name: '&aCho làm quản lý'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQ4YjcxNzNkODQxZjI1NjNlYzEwODg4OGIwZjc5NzkxN2VmYzE4YmUyNzg2MWYwYTY3NjFhYTNlZDkxY2UifX19
+      customModelData: 0
+      lore:
         - ''
-        - '&eNhấn vào đây để thay đổi'
-      SCORECOLLECTED:
+        - '&fCho &e%playerName%&f lên làm quản lý bang hội.'
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&7Quyền hạn'
-        - '&b⇨ Số điểm kiếm được'
-        - '&7Kỳ cựu nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
-      JOINDATE:
-        - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&7Quyền hạn'
-        - '&7Số điểm kiếm được'
-        - '&b⇨ Kỳ cựu nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '%checkPermission%'
+      placeholders:
+        checkPermission:
+          true: '&eNhấn vào đây để thực hiện'
+          false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'

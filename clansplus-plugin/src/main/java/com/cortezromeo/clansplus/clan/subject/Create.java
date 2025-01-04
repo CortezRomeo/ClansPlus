@@ -26,15 +26,15 @@ public class Create extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
-            return;
+            return false;
         }
 
         if (PluginDataManager.getClanDatabase().containsKey(clanName)) {
             MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", clanName));
-            return;
+            return false;
         }
 
         Date date = new Date();
@@ -42,6 +42,7 @@ public class Create extends SubjectManager {
         List<String> members = new ArrayList<>();
         members.add(playerName);
         List<String> allies = new ArrayList<>();
+        List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
             skillLevel = Settings.CLAN_SETTING_SKILL_DEFAULT;
@@ -62,7 +63,10 @@ public class Create extends SubjectManager {
                 null,
                 allies,
                 skillLevel,
-                Settings.CLAN_SETTING_PERMISSION_DEFAULT);
+                Settings.CLAN_SETTING_PERMISSION_DEFAULT,
+                allyInvitation,
+                0,
+                null);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
@@ -74,5 +78,7 @@ public class Create extends SubjectManager {
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
 
         MessageUtil.sendMessage(player, Messages.CREATE_CLAN_SUCCESS.replace("%clan%", clanName));
+
+        return true;
     }
 }

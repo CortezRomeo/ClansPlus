@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.clan;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -100,6 +101,23 @@ public class ClanManager {
                 clansCustomName.add(clanCustomName);
         }
         return clansCustomName;
+    }
+
+    public static boolean isPlayerRankSatisfied(String playerName, Rank requiredRank) {
+        if (!isPlayerInClan(playerName))
+            return false;
+
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
+
+        if (playerData.getRank() == null)
+            return false;
+
+        if (playerData.getRank() == Rank.LEADER)
+            return true;
+
+        if (playerData.getRank().equals(Rank.MANAGER) && requiredRank == Rank.MEMBER)
+            return true;
+        else return playerData.getRank() == requiredRank;
     }
 
     public static String getFormatClanName(IClanData clanData) {

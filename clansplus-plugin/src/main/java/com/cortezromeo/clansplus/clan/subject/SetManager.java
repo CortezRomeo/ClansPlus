@@ -18,27 +18,27 @@ public class SetManager extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETMANAGER));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         if (playerName.equals(targetName)) {
             MessageUtil.sendMessage(player, Messages.SELF_TARGETED_ERROR);
-            return;
+            return false;
         }
 
         if (!isTargetInClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_MUST_BE_IN_CLAN.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         IPlayerData targetData =  PluginDataManager.getPlayerDatabase(targetName);
@@ -46,12 +46,12 @@ public class SetManager extends SubjectManager {
 
         if (!isTargetAndPlayerInTheSameClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         if (targetData.getRank() == Rank.MANAGER) {
             MessageUtil.sendMessage(player, Messages.ALREADY_A_MANAGER.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         targetData.setRank(Rank.MANAGER);
@@ -61,5 +61,7 @@ public class SetManager extends SubjectManager {
         MessageUtil.sendMessage(player, Messages.PROMOTE_TO_MANAGER_SUCCESS.replace("%clan%", getPlayerClanData().getName()).replace("%player%", targetName));
         MessageUtil.sendMessage(target, Messages.PROMOTED_TO_OWNER.replace("%clan%", getPlayerClanData().getName()).replace("%player%", playerName));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_MEMBER_PROMOTED_TO_OWNER.replace("%player%", playerName).replace("%target%", targetName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+
+        return true;
     }
 }

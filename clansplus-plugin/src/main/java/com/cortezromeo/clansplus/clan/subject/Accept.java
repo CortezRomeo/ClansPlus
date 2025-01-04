@@ -19,30 +19,30 @@ public class Accept extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!ClanManager.beingInvitedPlayers.containsKey(playerName)) {
             MessageUtil.sendMessage(player, Messages.INVITATION_REJECTION);
-            return;
+            return false;
         }
 
         if (isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.ALREADY_IN_CLAN);
             ClanManager.beingInvitedPlayers.remove(playerName);
-            return;
+            return false;
         }
 
         String clanName = ClanManager.beingInvitedPlayers.get(playerName);
         if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
             MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
             ClanManager.beingInvitedPlayers.remove(playerName);
-            return;
+            return false;
         }
 
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
-        if (clanData.getMembers().size() == clanData.getMaxMember()) {
+        if (clanData.getMembers().size() == clanData.getMaxMembers()) {
             MessageUtil.sendMessage(player, Messages.CLAN_IS_FULL.replace("%clan%", clanName));
             ClanManager.beingInvitedPlayers.remove(playerName);
-            return;
+            return false;
         }
 
         clanData.getMembers().add(playerName);
@@ -56,5 +56,7 @@ public class Accept extends SubjectManager {
         MessageUtil.sendMessage(player, Messages.JOIN_CLAN_SUCCESS.replace("%clan%", clanName));
         ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_PLAYER_JOIN_CLAN.replace("%player%", playerName));
         ClanManager.beingInvitedPlayers.remove(playerName);
+
+        return true;
     }
 }

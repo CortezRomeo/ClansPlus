@@ -47,7 +47,7 @@ public class PluginTestCommand implements CommandExecutor {
                     MessageUtil.devMessage(player, "clan score: &e" + clanData.getScore());
                     MessageUtil.devMessage(player, "clan warpoint: &e" + clanData.getWarPoint());
                     MessageUtil.devMessage(player, "clan warning: &e" + clanData.getWarning());
-                    MessageUtil.devMessage(player, "clan max member: &e" + clanData.getMaxMember());
+                    MessageUtil.devMessage(player, "clan max member: &e" + clanData.getMaxMembers());
                     MessageUtil.devMessage(player, "clan created date: &e" + clanData.getCreatedDate());
                     MessageUtil.devMessage(player, "clan icon type: &e" + clanData.getIconType());
                     MessageUtil.devMessage(player, "clan icon value: &e" + clanData.getIconValue());

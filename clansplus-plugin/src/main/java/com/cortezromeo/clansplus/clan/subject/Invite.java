@@ -23,38 +23,38 @@ public class Invite extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.INVITE));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         if (!PluginDataManager.getPlayerDatabase().containsKey(targetName)) {
             MessageUtil.sendMessage(player, Messages.TARGET_DOES_NOT_EXIST.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         if (isTargetInClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_ALREADY_IN_CLAN.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         IClanData playerClanData = getPlayerClanData();
-        if (playerClanData.getMembers().size() >= playerClanData.getMaxMember()) {
+        if (playerClanData.getMembers().size() >= playerClanData.getMaxMembers()) {
             MessageUtil.sendMessage(player, Messages.NOT_ENOUGH_MEMBER_SLOTS);
-            return;
+            return false;
         }
 
         if (ClanManager.beingInvitedPlayers.containsKey(targetName)) {
             MessageUtil.sendMessage(player, Messages.TARGET_INVITATION.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         ClanManager.beingInvitedPlayers.put(targetName, playerClanData.getName());
@@ -69,5 +69,7 @@ public class Invite extends SubjectManager {
                 ClanManager.beingInvitedPlayers.remove(targetName);
             }
         }, 20L * estimatedTime);
+
+        return true;
     }
 }

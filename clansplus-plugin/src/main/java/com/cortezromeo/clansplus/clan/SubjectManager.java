@@ -22,7 +22,7 @@ public abstract class SubjectManager {
         this.targetName = targetName;
     }
 
-    public abstract void execute();
+    public abstract boolean execute();
 
     public boolean isPlayerInClan() {
         if (!PluginDataManager.getPlayerDatabase().containsKey(playerName))

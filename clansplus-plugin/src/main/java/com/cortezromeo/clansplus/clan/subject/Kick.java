@@ -17,39 +17,39 @@ public class Kick extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.KICK));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         if (playerName.equals(targetName)) {
             MessageUtil.sendMessage(player, Messages.SELF_KICK_ERROR);
-            return;
+            return false;
         }
 
         if (!isTargetInClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_MUST_BE_IN_CLAN.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         IClanData playerClanData = getPlayerClanData();
 
         if (!isTargetAndPlayerInTheSameClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         if (PluginDataManager.getPlayerDatabase(targetName).getRank() == Rank.LEADER) {
             MessageUtil.sendMessage(player, Messages.KICK_LEADER_ERROR);
-            return;
+            return false;
         }
 
         PluginDataManager.clearPlayerDatabase(targetName);
@@ -59,5 +59,7 @@ public class Kick extends SubjectManager {
         MessageUtil.sendMessage(player, Messages.TARGET_REMOVAL_SUCCESS.replace("%player%", targetName));
         MessageUtil.sendMessage(target, Messages.KICKED_FROM_CLAN.replace("%clan%", playerClanData.getName()).replace("%player%", playerName));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_PLAYER_REMOVED_FROM_CLAN.replace("%player%", targetName).replace("%by%", playerName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+
+        return true;
     }
 }

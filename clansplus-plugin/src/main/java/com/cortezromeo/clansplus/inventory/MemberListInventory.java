@@ -108,8 +108,7 @@ public class MemberListInventory extends PaginatedInventory {
             }
             if (playerClanData.getName().equals(clanData.getName())) {
                 itemCustomData = itemCustomData.replace("player=", "");
-                // TODO manage member itemCustomData
-                super.open();
+                new ManageMembersInventory(getOwner(), itemCustomData).open();
             } else
                 MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
 
@@ -207,9 +206,12 @@ public class MemberListInventory extends PaginatedInventory {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         List<String> itemLore = itemMeta.getLore();
         itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%playerName%", playerName)
-                .replace("%rank%", ClanManager.getFormatRank(playerData.getRank())))
-                .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
-                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected())));
+                        .replace("%playerUUID%", playerData.getUUID())
+                        .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
+                        .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
+                        .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
+                        .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
+                        .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

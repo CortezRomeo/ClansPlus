@@ -17,16 +17,16 @@ public class Leave extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         if (playerData.getRank() == Rank.LEADER) {
             MessageUtil.sendMessage(player, Messages.LEADER_CANNOT_LEAVE);
-            return;
+            return false;
         }
 
         IClanData playerClanData = getPlayerClanData();
@@ -36,5 +36,7 @@ public class Leave extends SubjectManager {
 
         MessageUtil.sendMessage(player, Messages.LEAVE_CLAN_SUCCESS.replace("%clan%", playerClanData.getName()));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_PLAYER_LEAVE_CLAN.replace("%player%", playerName));
+
+        return true;
     }
 }

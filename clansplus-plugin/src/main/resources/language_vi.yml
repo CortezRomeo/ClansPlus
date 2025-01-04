@@ -30,6 +30,9 @@ subject-description:
   removemanager: 'Xóa quyền quản lý của một thành viên trong bang hội'
   chat: 'Bật hoặc tắt trò chuyện bang hội'
   upgrade: 'Nâng cấp bang hội'
+online-status:
+  offline: '&cOFFLINE'
+  online: '&aONLINE'
 messages:
   prefix: '&#3498eb&lBANG HỘI&r '
   no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'

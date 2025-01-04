@@ -64,7 +64,7 @@ items:
     lore:
       - '&eNhấn vào đây để trở về'
   player:
-    name: '&e%playerName%'
+    name: '&6%playerName%'
     lore:
       - ''
       - '&fNgười chơi này chưa có bang hội và chưa có lời mời.'

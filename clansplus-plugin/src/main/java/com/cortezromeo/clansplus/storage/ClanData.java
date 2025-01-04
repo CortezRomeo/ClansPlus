@@ -6,7 +6,6 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,18 +18,22 @@ public class ClanData implements IClanData {
     private int score;
     private int warPoint;
     private int warning;
-    private int maxMember;
+    private int maxMembers;
     private long createdDate;
     private IconType iconType;
     private String iconValue;
     private List<String> members;
     private Location spawnPoint;
-    private List<String> allies = new ArrayList<>();
-    private HashMap<Integer, Integer> skillLevel = new HashMap<>();
-    private HashMap<Subject, Rank> subjectPermission = new HashMap<>();
+    private List<String> allies;
+    private HashMap<Integer, Integer> skillLevel;
+    private HashMap<Subject, Rank> subjectPermission;
+    private List<String> allyInvitation;
+    private long discordChannelID;
+    private String discordJoinLink;
 
-    public ClanData(String name, String customName, String owner, String message, int score, int warPoint, int warning, int maxMember, long createdDate,
-                    IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission) {
+    public ClanData(String name, String customName, String owner, String message, int score, int warPoint, int warning, int maxMembers, long createdDate,
+                    IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
+                    List<String> allyInvitation, long discordChannelID, String discordJoinLink) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;
@@ -38,7 +41,7 @@ public class ClanData implements IClanData {
         this.score = score;
         this.warPoint = warPoint;
         this.warning = warning;
-        this.maxMember = maxMember;
+        this.maxMembers = maxMembers;
         this.createdDate = createdDate;
         this.iconType = iconType;
         this.iconValue = iconValue;
@@ -47,6 +50,9 @@ public class ClanData implements IClanData {
         this.allies = allies;
         this.skillLevel = skillLevel;
         this.subjectPermission = subjectPermission;
+        this.allyInvitation = allyInvitation;
+        this.discordChannelID = discordChannelID;
+        this.discordJoinLink = discordJoinLink;
     }
 
     @Override
@@ -130,13 +136,13 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public int getMaxMember() {
-        return maxMember;
+    public int getMaxMembers() {
+        return maxMembers;
     }
 
     @Override
-    public void setMaxMember(int maxMember) {
-        this.maxMember = maxMember;
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
     }
 
     @Override
@@ -209,4 +215,33 @@ public class ClanData implements IClanData {
         this.subjectPermission = subjectPermission;
     }
 
+    @Override
+    public List<String> getAllyInvitation() {
+        return allyInvitation;
+    }
+
+    @Override
+    public void setAllyInvitation(List<String> allyInvitation) {
+        this.allyInvitation = allyInvitation;
+    }
+
+    @Override
+    public long getDiscordChannelID() {
+        return discordChannelID;
+    }
+
+    @Override
+    public void setDiscordChannelID(long discordChannelID) {
+        this.discordChannelID = discordChannelID;
+    }
+
+    @Override
+    public String getDiscordJoinLink() {
+        return discordJoinLink;
+    }
+
+    @Override
+    public void setDiscordJoinLink(String discordJoinLink) {
+        this.discordJoinLink = discordJoinLink;
+    }
 }

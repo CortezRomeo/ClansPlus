@@ -17,25 +17,25 @@ public class SetOwner extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         if (playerName.equals(targetName)) {
             MessageUtil.sendMessage(player, Messages.SELF_TARGETED_ERROR);
-            return;
+            return false;
         }
 
         if (!isTargetInClan()) {
             MessageUtil.sendMessage(player, Messages.TARGET_MUST_BE_IN_CLAN.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
@@ -45,7 +45,7 @@ public class SetOwner extends SubjectManager {
 
         if (!playerClanData.getName().equals(targetClanData.getName())) {
             MessageUtil.sendMessage(player, Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", targetName));
-            return;
+            return false;
         }
 
         targetData.setRank(Rank.LEADER);
@@ -58,5 +58,7 @@ public class SetOwner extends SubjectManager {
         MessageUtil.sendMessage(player, Messages.PROMOTE_TO_OWNER_SUCCESS.replace("%clan%", playerData.getClan()).replace("%player%", targetName));
         MessageUtil.sendMessage(target, Messages.PROMOTED_TO_OWNER.replace("%clan%", playerData.getClan()).replace("%player%", playerName));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_MEMBER_PROMOTED_TO_OWNER.replace("%player%", playerName).replace("%target%", targetName));
+
+        return true;
     }
 }

@@ -21,22 +21,22 @@ public class SetCustomName extends SubjectManager {
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (!isPlayerInClan()) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
+            return false;
         }
 
         setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
-            return;
+            return false;
         }
 
         if (PluginDataManager.getClanDatabase().containsKey(ClansPlus.nms.stripColor(customName))) {
             MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
-            return;
+            return false;
         }
 
         if (ClanManager.getClansCustomName() != null)
@@ -44,7 +44,7 @@ public class SetCustomName extends SubjectManager {
                 for (String clanCustomName : ClanManager.getClansCustomName())
                     if (clanCustomName.equalsIgnoreCase(customName)) {
                         MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
-                        return;
+                        return false;
                     }
 
         IClanData playerClanData = getPlayerClanData();
@@ -53,5 +53,7 @@ public class SetCustomName extends SubjectManager {
 
         MessageUtil.sendMessage(player, Messages.SET_CUSTOM_NAME_SUCCESS.replaceAll("%clan%", playerClanData.getName()).replaceAll("%newCustomName%", customName));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_CUSTOM_NAME.replace("%player%", playerName).replace("%newCustomName%", customName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+
+        return true;
     }
 }

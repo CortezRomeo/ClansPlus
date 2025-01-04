@@ -28,4 +28,8 @@ public interface IPlayerData {
 
     void setScoreCollected(long scoreCollected);
 
+    long getLastActivated();
+
+    void setLastActivated(long lastActivated);
+
 }

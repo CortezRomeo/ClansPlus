@@ -18,10 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class PluginDataH2Storage implements PluginStorage {
     private static JdbcConnection connection;
@@ -30,7 +27,7 @@ public class PluginDataH2Storage implements PluginStorage {
 
 
     public PluginDataH2Storage(String fileName, String clanTableName, String playerTableName) {
-        clanTable= clanTableName;
+        clanTable = clanTableName;
         playerTable = playerTableName;
         try {
             if (connection != null)
@@ -45,33 +42,37 @@ public class PluginDataH2Storage implements PluginStorage {
         try {
             Statement statement = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS " + clanTable + " " +
-                    "(NAME VARCHAR(500) not NULL, " +
-                    " CUSTOMNAME VARCHAR(500), " +
-                    " OWNER VARCHAR(500), " +
+                    "(NAME TEXT not NULL, " +
+                    " CUSTOMNAME TEXT, " +
+                    " OWNER TEXT, " +
                     " MESSAGE TEXT, " +
                     " SCORE INT, " +
                     " WARPOINT INT, " +
                     " WARNING INT, " +
-                    " MAXMEMBER INT, " +
+                    " MAXMEMBERS INT, " +
                     " CREATEDDATE LONG, " +
-                    " ICONTYPE VARCHAR(10), " +
-                    " ICONVALUE VARCHAR(100), " +
+                    " ICONTYPE TEXT, " +
+                    " ICONVALUE TEXT, " +
                     " MEMBERS TEXT, " +
-                    " SPAWNPOINTWORLD VARCHAR(500), " +
+                    " SPAWNPOINTWORLD TEXT, " +
                     " SPAWNPOINTX DOUBLE, " +
                     " SPAWNPOINTY DOUBLE, " +
                     " SPAWNPOINTZ DOUBLE, " +
                     " ALLIES TEXT, " +
                     " SKILLLEVEL TEXT, " +
-                    " SUBJECTPERMISSION VARCHAR(500), " +
+                    " SUBJECTPERMISSION TEXT, " +
+                    " ALLYINVITATION TEXT, " +
+                    " DISCORDCHANNELID LONG, " +
+                    " DISCORDJOINLINK TEXT, " +
                     " PRIMARY KEY (NAME))";
             String sql2 = "CREATE TABLE IF NOT EXISTS " + playerTable + " " +
-                    "(PLAYERNAME VARCHAR(500) not NULL, " +
+                    "(PLAYERNAME TEXT not NULL, " +
                     " UUID VARCHAR(50), " +
-                    " CLAN VARCHAR(500), " +
+                    " CLAN TEXT, " +
                     " RANK VARCHAR(10), " +
                     " JOINDATE LONG, " +
                     " SCORECOLLECTED LONG, " +
+                    " LASTACTIVATED LONG, " +
                     " PRIMARY KEY (PLAYERNAME))";
             statement.executeUpdate(sql);
             MessageUtil.debug("LOADING DATABASE (H2)", "Connected to clan table: " + clanTable);
@@ -90,6 +91,7 @@ public class PluginDataH2Storage implements PluginStorage {
     public ClanData getClanData(String clanName) {
         List<String> members = new ArrayList<>();
         List<String> allies = new ArrayList<>();
+        List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
 
         ClanData clanData = new ClanData(
@@ -101,14 +103,17 @@ public class PluginDataH2Storage implements PluginStorage {
                 0,
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
-                0,
+                new Date().getTime(),
                 IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
                 members,
                 null,
                 allies,
                 skillLevel,
-                Settings.CLAN_SETTING_PERMISSION_DEFAULT);
+                Settings.CLAN_SETTING_PERMISSION_DEFAULT,
+                allyInvitation,
+                0,
+                null);
 
         if (!isClanDataExisted(clanName))
             return clanData;
@@ -126,7 +131,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setScore(resultSet.getInt("SCORE"));
                 clanData.setWarPoint(resultSet.getInt("WARPOINT"));
                 clanData.setWarning(resultSet.getInt("WARNING"));
-                clanData.setMaxMember(resultSet.getInt("MAXMEMBER"));
+                clanData.setMaxMembers(resultSet.getInt("MAXMEMBERS"));
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
                 clanData.setIconType(IconType.valueOf(resultSet.getString("ICONTYPE")));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
@@ -136,6 +141,9 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setAllies(gson.fromJson(resultSet.getString("ALLIES"), new TypeToken<List<String>>(){}.getType()));
                 clanData.setSkillLevel(gson.fromJson(resultSet.getString("SKILLLEVEL"), new TypeToken<HashMap<Integer, Integer>>(){}.getType()));
                 clanData.setSubjectPermission(gson.fromJson(resultSet.getString("SUBJECTPERMISSION"), new TypeToken<HashMap<Subject, Rank>>(){}.getType()));
+                clanData.setAllyInvitation(gson.fromJson(resultSet.getString("ALLYINVITATION"), new TypeToken<List<String>>(){}.getType()));
+                clanData.setDiscordChannelID(resultSet.getLong("DISCORDCHANNELID"));
+                clanData.setDiscordJoinLink(resultSet.getString("DISCORDJOINLINK"));
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -186,7 +194,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " SCORE = ?,"
                 + " WARPOINT = ?,"
                 + " WARNING = ?,"
-                + " MAXMEMBER = ?,"
+                + " MAXMEMBERS = ?,"
                 + " CREATEDDATE = ?,"
                 + " ICONTYPE = ?,"
                 + " ICONVALUE = ?,"
@@ -197,7 +205,10 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " SPAWNPOINTZ = ?,"
                 + " ALLIES = ?,"
                 + " SKILLLEVEL = ?,"
-                + " SUBJECTPERMISSION = ?"
+                + " SUBJECTPERMISSION = ?,"
+                + " ALLYINVITATION = ?,"
+                + " DISCORDCHANNELID = ?,"
+                + " DISCORDJOINLINK = ?"
                 + " WHERE NAME = ?";
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
@@ -209,7 +220,7 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setInt(5, clanData.getScore());
             preparedStatement.setInt(6, clanData.getWarPoint());
             preparedStatement.setInt(7, clanData.getWarning());
-            preparedStatement.setInt(8, clanData.getMaxMember());
+            preparedStatement.setInt(8, clanData.getMaxMembers());
             preparedStatement.setLong(9, clanData.getCreatedDate());
             preparedStatement.setString(10, clanData.getIconType().toString().toUpperCase());
             preparedStatement.setString(11, clanData.getIconValue());
@@ -228,7 +239,10 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(17, gson.toJson(clanData.getAllies()));
             preparedStatement.setString(18, gson.toJson(clanData.getSkillLevel()));
             preparedStatement.setString(19, gson.toJson(clanData.getSubjectPermission()));
-            preparedStatement.setString(20, clanData.getName());
+            preparedStatement.setString(20, gson.toJson(clanData.getAllyInvitation()));
+            preparedStatement.setLong(21, clanData.getDiscordChannelID());
+            preparedStatement.setString(22, clanData.getDiscordJoinLink());
+            preparedStatement.setString(23, clanData.getName());
             preparedStatement.executeUpdate();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -254,7 +268,14 @@ public class PluginDataH2Storage implements PluginStorage {
 
     @Override
     public PlayerData getPlayerData(String playerName) {
-        PlayerData playerData = new PlayerData(playerName, (Bukkit.getPlayer(playerName) != null ? Bukkit.getPlayer(playerName).getUniqueId().toString() : null), null, null, 0, 0);
+        PlayerData playerData = new PlayerData(
+                playerName,
+                (Bukkit.getPlayer(playerName) != null ? Bukkit.getPlayer(playerName).getUniqueId().toString() : null),
+                null,
+                null,
+                0,
+                0,
+                new Date().getTime());
 
         if (!isPlayerDataExisted(playerName))
             return playerData;
@@ -276,6 +297,7 @@ public class PluginDataH2Storage implements PluginStorage {
                     playerData.setRank(Rank.valueOf(resultSet.getString("RANK")));
                 playerData.setJoinDate(resultSet.getLong("JOINDATE"));
                 playerData.setScoreCollected(resultSet.getLong("SCORECOLLECTED"));
+                playerData.setLastActivated(resultSet.getLong("LASTACTIVATED"));
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -294,7 +316,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " CLAN = ?,"
                 + " RANK = ?,"
                 + " JOINDATE = ?,"
-                + " SCORECOLLECTED = ?"
+                + " SCORECOLLECTED = ?,"
+                + " LASTACTIVATED = ?"
                 + " WHERE PLAYERNAME = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -307,7 +330,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 preparedStatement.setString(4, null);
             preparedStatement.setLong(5, playerData.getJoinDate());
             preparedStatement.setLong(6, playerData.getScoreCollected());
-            preparedStatement.setString(7, playerName);
+            preparedStatement.setLong(7, playerData.getLastActivated());
+            preparedStatement.setString(8, playerName);
             preparedStatement.execute();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -347,9 +371,11 @@ public class PluginDataH2Storage implements PluginStorage {
     private static void initClanData(String clanName) {
         String sql = "INSERT INTO " + clanTable + " (" +
                 "NAME, CUSTOMNAME, OWNER, MESSAGE, SCORE, WARPOINT, WARNING, " +
-                "MAXMEMBER, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
-                "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, ALLIES, SKILLLEVEL, SUBJECTPERMISSION) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "MAXMEMBERS, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
+                "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, " +
+                "ALLIES, SKILLLEVEL, SUBJECTPERMISSION, ALLYINVITATION, " +
+                "DISCORDCHANNELID, DISCORDJOINLINK) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, clanName);      // NAME
             preparedStatement.setString(2, "");         // CUSTOMNAME
@@ -358,7 +384,7 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setInt(5, 0);             // SCORE
             preparedStatement.setInt(6, 0);             // WARPOINT
             preparedStatement.setInt(7, 0);             // WARNING
-            preparedStatement.setInt(8, 0);             // MAXMEMBER
+            preparedStatement.setInt(8, 0);             // MAXMEMBERS
             preparedStatement.setInt(9, 0);             // CREATEDDATE
             preparedStatement.setString(10, "");         // ICONTYPE
             preparedStatement.setString(11, "");        // ICONVALUE
@@ -371,6 +397,9 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(18, "");        // SKILLLEVEL
             preparedStatement.setString(18, "");        // SKILLLEVEL
             preparedStatement.setString(19, "");        // SUBJECTPERMISSION
+            preparedStatement.setString(20, "");        // ALLYINVITATION
+            preparedStatement.setLong(21, 0L);        // DISCORDCHANNELID
+            preparedStatement.setString(22, "");        // DISCORDJOINLINK
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -379,8 +408,8 @@ public class PluginDataH2Storage implements PluginStorage {
 
     private static void initPlayerData(String playerName) {
         String sql = "INSERT INTO " + playerTable + " (" +
-                "PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED, LASTACTIVATED) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, playerName);    // PLAYERNAME
             preparedStatement.setString(2, "");         // UUID
@@ -388,6 +417,7 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(4, "");         // RANK
             preparedStatement.setLong(5, 0);            // JOINDATE
             preparedStatement.setLong(6, 0);            // SCORECOLLECTED
+            preparedStatement.setLong(7, 0);            // LASTACTIVATED
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

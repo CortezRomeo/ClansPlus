@@ -42,9 +42,9 @@ public interface IClanData {
 
     void setMembers(List<String> members);
 
-    int getMaxMember();
+    int getMaxMembers();
 
-    void setMaxMember(int maxMember);
+    void setMaxMembers(int maxMembers);
 
     long getCreatedDate();
 
@@ -73,5 +73,17 @@ public interface IClanData {
     HashMap<Subject, Rank> getSubjectPermission();
 
     void setSubjectPermission(HashMap<Subject, Rank> subjectPermission);
+
+    List<String> getAllyInvitation();
+
+    void setAllyInvitation(List<String> allyInvitation);
+
+    long getDiscordChannelID();
+
+    void setDiscordChannelID(long discordChannelID);
+
+    String getDiscordJoinLink();
+
+    void setDiscordJoinLink(String discordJoinLink);
 
 }

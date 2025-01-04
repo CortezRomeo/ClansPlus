@@ -21,6 +21,8 @@ import java.util.TreeMap;
 
 public class PluginDataManager {
 
+    public static boolean fixClansOldData;
+    public static boolean fixMembersOldData;
     public static HashMap<String, IPlayerData> playerDatabase = new HashMap<>();
     public static TreeMap<String, IClanData> clanDatabase = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
@@ -180,6 +182,9 @@ public class PluginDataManager {
                     loadPlayerDatabase(playerName);
         if (Settings.DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED)
             fixIllegalDatabase();
+
+        if (fixClansOldData || fixMembersOldData)
+            saveAllDatabase();
     }
 
     public static void saveAllDatabase() {

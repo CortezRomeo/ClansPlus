@@ -11,6 +11,7 @@ import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.InventoryClickListener;
 import com.cortezromeo.clansplus.listener.PlayerChatListener;
 import com.cortezromeo.clansplus.listener.PlayerJoinListener;
+import com.cortezromeo.clansplus.listener.PlayerQuitListener;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
@@ -157,6 +158,30 @@ public class ClansPlus extends JavaPlugin {
         }
         MemberListInventoryFile.reload();
 
+        // inventories/managemembersinventory.yml
+        String ManageMembersFileName = "managemembersinventory.yml";
+        ManageMembersInventoryFile.setup();
+        ManageMembersInventoryFile.saveDefault();
+        File ManageMembersFile = new File(getDataFolder() + "/inventories/managemembersinventory.yml");
+        try {
+            ConfigUpdater.update(this, ManageMembersFileName, ManageMembersFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ManageMembersInventoryFile.reload();
+
+        // inventories/managemembersrankinventory.yml
+        String ManageMembersRankFileName = "managemembersrankinventory.yml";
+        ManageMembersRankInventoryFile.setup();
+        ManageMembersRankInventoryFile.saveDefault();
+        File ManageMembersRankFile = new File(getDataFolder() + "/inventories/managemembersrankinventory.yml");
+        try {
+            ConfigUpdater.update(this, ManageMembersRankFileName, ManageMembersRankFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ManageMembersRankInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -208,6 +233,7 @@ public class ClansPlus extends JavaPlugin {
         new PlayerJoinListener();
         new InventoryClickListener();
         new PlayerChatListener();
+        new PlayerQuitListener();
     }
 
     public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {

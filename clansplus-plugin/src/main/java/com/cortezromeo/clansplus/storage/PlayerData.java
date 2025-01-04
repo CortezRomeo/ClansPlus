@@ -11,14 +11,16 @@ public class PlayerData implements IPlayerData {
     Rank rank;
     long joinDate;
     long scoreCollected;
+    long lastActivated;
 
-    public PlayerData(String playerName, String UUID, String clan, Rank rank, long joinDate, long scoreCollected) {
+    public PlayerData(String playerName, String UUID, String clan, Rank rank, long joinDate, long scoreCollected, long lastActivated) {
         this.playerName = playerName;
         this.UUID = UUID;
         this.clan = clan;
         this.rank = rank;
         this.joinDate = joinDate;
         this.scoreCollected = scoreCollected;
+        this.lastActivated = lastActivated;
     }
 
     @Override
@@ -79,5 +81,15 @@ public class PlayerData implements IPlayerData {
     @Override
     public void setScoreCollected(long scoreCollected) {
         this.scoreCollected = scoreCollected;
+    }
+
+    @Override
+    public long getLastActivated() {
+        return lastActivated;
+    }
+
+    @Override
+    public void setLastActivated(long lastActivated) {
+        this.lastActivated = lastActivated;
     }
 }

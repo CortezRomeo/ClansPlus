@@ -17,13 +17,16 @@ public class Messages {
     public static String ONLINE_STATUS_OFFLINE;
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
+    public static String UNKNOWN;
     public static String NO_PERMISSION;
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
     public static String MUST_BE_IN_CLAN;
+    public static String CLAN_CANNOT_BE_THE_SAME;
     public static String TARGET_DOES_NOT_EXIST;
     public static String TARGET_MUST_BE_IN_CLAN;
     public static String TARGET_CLAN_MEMBERSHIP_ERROR;
+    public static String TARGET_CLAN_ALLY_MEMBERSHIP_ERROR;
     public static String REQUIRED_RANK;
     public static String INVITATION_REJECTION;
     public static String ALREADY_IN_CLAN;
@@ -60,6 +63,12 @@ public class Messages {
     public static String NOT_A_MANAGER;
     public static String REMOVE_A_MANAGER_SUCCESS;
     public static String MANAGER_REMOVED;
+    public static String ALREADY_AN_ALLY;
+    public static String ALREADY_SENT_ALLY_INVITE;
+    public static String SEND_ALLY_INVITE_SUCCESS;
+    public static String ACCEPT_ALLY_INVITE_SUCCESS;
+    public static String REJECT_ALLY_INVITE_SUCCESS;
+    public static String REMOVE_ALLY_SUCCESS;
     public static String LAST_PAGE;
     public static List<String> COMMAND_CLANPLUS_MESSAGES_NON_CLAN;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN;
@@ -81,7 +90,10 @@ public class Messages {
     public static String CLAN_BROADCAST_MEMBER_PROMOTED_TO_OWNER;
     public static String CLAN_BROADCAST_MEMBER_PROMOTED_TO_MANAGER;
     public static String CLAN_BROADCAST_MANAGER_REMOVED;
-
+    public static String CLAN_BROADCAST_RECEIVE_ALLY_INVITE;
+    public static String CLAN_BROADCAST_NEW_ALLY_NOTIFICATION;
+    public static String CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION;
+    public static String CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION;
     public static void setupValue(String locale) {
         locale = locale.toLowerCase();
         File messageFile = new File(ClansPlus.plugin.getDataFolder() + "/languages/language_" + locale + ".yml");
@@ -104,13 +116,16 @@ public class Messages {
         ONLINE_STATUS_OFFLINE = fileConfiguration.getString("online-status.offline");
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
+        UNKNOWN = fileConfiguration.getString("unknown");
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");
         MUST_BE_IN_CLAN = fileConfiguration.getString("messages.must-be-in-clan");
+        CLAN_CANNOT_BE_THE_SAME = fileConfiguration.getString("messages.clan-cannot-be-the-same");
         TARGET_DOES_NOT_EXIST = fileConfiguration.getString("messages.target-does-not-exist");
         TARGET_MUST_BE_IN_CLAN = fileConfiguration.getString("messages.target-must-be-in-clan");
         TARGET_CLAN_MEMBERSHIP_ERROR = fileConfiguration.getString("messages.target-clan-membership-error");
+        TARGET_CLAN_ALLY_MEMBERSHIP_ERROR = fileConfiguration.getString("messages.target-clan-ally-membership-error");
         REQUIRED_RANK = fileConfiguration.getString("messages.required-rank");
         INVITATION_REJECTION = fileConfiguration.getString("messages.invitation-rejection");
         ALREADY_IN_CLAN = fileConfiguration.getString("messages.already-in-clan");
@@ -147,6 +162,12 @@ public class Messages {
         NOT_A_MANAGER = fileConfiguration.getString("messages.not-a-manager");
         REMOVE_A_MANAGER_SUCCESS = fileConfiguration.getString("messages.remove-a-manager-success");
         MANAGER_REMOVED = fileConfiguration.getString("messages.manager-removed");
+        ALREADY_AN_ALLY = fileConfiguration.getString("messages.already-an-ally");
+        ALREADY_SENT_ALLY_INVITE = fileConfiguration.getString("messages.already-sent-ally-invite");
+        SEND_ALLY_INVITE_SUCCESS = fileConfiguration.getString("messages.send-ally-invite-success");
+        ACCEPT_ALLY_INVITE_SUCCESS = fileConfiguration.getString("messages.accept-ally-invite-success");
+        REJECT_ALLY_INVITE_SUCCESS = fileConfiguration.getString("messages.reject-ally-invite-success");
+        REMOVE_ALLY_SUCCESS = fileConfiguration.getString("messages.remove-ally-success");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         for (Subject subject : Subject.values())
             for (String subjectDescription : fileConfiguration.getConfigurationSection("subject-description").getKeys(false))
@@ -172,6 +193,10 @@ public class Messages {
         CLAN_BROADCAST_MEMBER_PROMOTED_TO_OWNER = fileConfiguration.getString("messages.clan-broadcast.member-promoted-to-owner");
         CLAN_BROADCAST_MEMBER_PROMOTED_TO_MANAGER = fileConfiguration.getString("messages.clan-broadcast.member-promoted-to-manager");
         CLAN_BROADCAST_MANAGER_REMOVED = fileConfiguration.getString("messages.clan-broadcast.manager-removed");
+        CLAN_BROADCAST_RECEIVE_ALLY_INVITE = fileConfiguration.getString("messages.clan-broadcast.receive-ally-invite");
+        CLAN_BROADCAST_NEW_ALLY_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.new-ally-notification");
+        CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.remove-ally-notification");
+        CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.ally-removed-notification");
 
         MessageUtil.debug("LOADING MESSAGES", "Loaded message file name: " + locale + ".");
     }

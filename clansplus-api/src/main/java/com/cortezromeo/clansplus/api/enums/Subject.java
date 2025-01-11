@@ -11,7 +11,8 @@ public enum Subject {
     SETMANAGER("Promote member to a manager"),
     REMOVEMANAGER("Remove a manager from clan"),
     CHAT("Clan chat"),
-    UPGRADE("Upgrade clan");
+    UPGRADE("Upgrade clan"),
+    MANAGEALLY("Send ally invite and manage clan's allies");
 
     private String description;
 

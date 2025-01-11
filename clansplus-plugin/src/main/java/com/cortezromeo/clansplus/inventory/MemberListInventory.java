@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -28,14 +27,13 @@ import java.util.List;
 public class MemberListInventory extends PaginatedInventory {
 
     FileConfiguration fileConfiguration = MemberListInventoryFile.get();
-    private ShortItemsType shortItemsType;
+    private SortItemType sortItemType;
     private List<String> players = new ArrayList<>();
     private IClanData clanData;
-    private BukkitTask bukkitRunnable;
 
     public MemberListInventory(Player owner, IClanData clanData) {
         super(owner);
-        shortItemsType = ShortItemsType.PERMISSION;
+        sortItemType = SortItemType.PERMISSION;
         this.clanData = clanData;
     }
 
@@ -83,35 +81,39 @@ public class MemberListInventory extends PaginatedInventory {
                 MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
             }
         }
-        if (itemCustomData.equals("closeItem"))
+        if (itemCustomData.equals("close"))
             getOwner().closeInventory();
+
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
+
         if (itemCustomData.equals("back")) {
-            if (ClanManager.isPlayerInClan(getOwner().getName()))
-                new MembersMenuInventory(getOwner()).open();
-            else
-                new ClanListInventory(getOwner()).open();
+            if (playerData.getClan() != null) {
+                if (playerData.getClan().equals(clanData.getName())) {
+                    new MembersMenuInventory(getOwner()).open();
+                    return;
+                }
+            }
+            new ViewClanInventory(getOwner(), clanData.getName()).open();
         }
-        if (itemCustomData.equals("shortItemsItem")) {
-            if (shortItemsType == ShortItemsType.PERMISSION)
-                shortItemsType = ShortItemsType.SCORECOLLECTED;
-            else if (shortItemsType == ShortItemsType.SCORECOLLECTED)
-                shortItemsType = ShortItemsType.JOINDATE;
-            else if (shortItemsType == ShortItemsType.JOINDATE)
-                shortItemsType = ShortItemsType.PERMISSION;
+        if (itemCustomData.equals("sortItem")) {
+            if (sortItemType == SortItemType.PERMISSION)
+                sortItemType = SortItemType.SCORECOLLECTED;
+            else if (sortItemType == SortItemType.SCORECOLLECTED)
+                sortItemType = SortItemType.JOINDATE;
+            else if (sortItemType == SortItemType.JOINDATE)
+                sortItemType = SortItemType.PERMISSION;
+            page = 0;
             super.open();
         }
         if (itemCustomData.contains("player=")) {
-            IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
-            if (playerClanData == null) {
-                MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
-                return;
+            if (playerData.getClan() != null) {
+                if (playerData.getClan().equals(clanData.getName())) {
+                    itemCustomData = itemCustomData.replace("player=", "");
+                    new ManageMemberInventory(getOwner(), itemCustomData).open();
+                    return;
+                }
             }
-            if (playerClanData.getName().equals(clanData.getName())) {
-                itemCustomData = itemCustomData.replace("player=", "");
-                new ManageMembersInventory(getOwner(), itemCustomData).open();
-            } else
-                MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
-
+            MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
         }
     }
 
@@ -123,7 +125,7 @@ public class MemberListInventory extends PaginatedInventory {
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore")), "back");
+                    fileConfiguration.getStringList("items.back.lore"), false), "back");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             if (backItemSlot < 0)
                 backItemSlot = 0;
@@ -132,25 +134,25 @@ public class MemberListInventory extends PaginatedInventory {
             backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack shortItemsItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.shortItems.type"),
-                    fileConfiguration.getString("items.shortItems.value"),
-                    fileConfiguration.getInt("items.shortItems.customModelData"),
-                    fileConfiguration.getString("items.shortItems.name"),
-                    fileConfiguration.getStringList("items.shortItems.lore." + shortItemsType.toString())), "shortItemsItem");
-            int shortItemsItemSlot = fileConfiguration.getInt("items.shortItems.slot");
-            if (shortItemsItemSlot < 0)
-                shortItemsItemSlot = 0;
-            if (shortItemsItemSlot > 8)
-                shortItemsItemSlot = 8;
-            shortItemsItemSlot = (getSlots() - 9) + shortItemsItemSlot;
-            inventory.setItem(shortItemsItemSlot, shortItemsItem);
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sortItem.type"),
+                    fileConfiguration.getString("items.sortItem.value"),
+                    fileConfiguration.getInt("items.sortItem.customModelData"),
+                    fileConfiguration.getString("items.sortItem.name"),
+                    fileConfiguration.getStringList("items.sortItem.lore." + sortItemType.toString()), false), "sortItem");
+            int sortItemSlot = fileConfiguration.getInt("items.sortItem.slot");
+            if (sortItemSlot < 0)
+                sortItemSlot = 0;
+            if (sortItemSlot > 8)
+                sortItemSlot = 8;
+            sortItemSlot = (getSlots() - 9) + sortItemSlot;
+            inventory.setItem(sortItemSlot, sortItem);
 
             if (PluginDataManager.getClanDatabase().isEmpty())
                 return;
 
             players.clear();
 
-            if (shortItemsType == ShortItemsType.PERMISSION) {
+            if (sortItemType == SortItemType.PERMISSION) {
                 for (String member : clanData.getMembers()) {
                     IPlayerData memberData = PluginDataManager.getPlayerDatabase(member);
                     List<IPlayerData> playerDataList = new ArrayList<>();
@@ -160,19 +162,19 @@ public class MemberListInventory extends PaginatedInventory {
                         players.add(playerData.getPlayerName());
                 }
             }
-            if (shortItemsType == ShortItemsType.SCORECOLLECTED) {
+            if (sortItemType == SortItemType.SCORECOLLECTED) {
                 HashMap<String, Long> playersScore = new HashMap<>();
                 for (String member : clanData.getMembers()) {
                     playersScore.put(member, PluginDataManager.getPlayerDatabase(member).getScoreCollected());
                 }
-                players = HashMapUtil.shortFromGreatestToLowestL(playersScore);
+                players = HashMapUtil.sortFromGreatestToLowestL(playersScore);
             }
-            if (shortItemsType == ShortItemsType.JOINDATE) {
+            if (sortItemType == SortItemType.JOINDATE) {
                 HashMap<String, Long> playersJoinDate = new HashMap<>();
                 for (String member : clanData.getMembers()) {
                     playersJoinDate.put(member, PluginDataManager.getPlayerDatabase(member).getJoinDate());
                 }
-                players = HashMapUtil.shortFromLowestToGreatestL(playersJoinDate);
+                players = HashMapUtil.sortFromLowestToGreatestL(playersJoinDate);
             }
 
 
@@ -187,7 +189,7 @@ public class MemberListInventory extends PaginatedInventory {
                             playerName,
                             0,
                             fileConfiguration.getString("items.player.name"),
-                            fileConfiguration.getStringList("items.player.lore"));
+                            fileConfiguration.getStringList("items.player.lore"), false);
                     ItemStack itemStack = ClansPlus.nms.addCustomData(getPlayerItemStack(playerItem, playerName), "player=" + playerName);
                     inventory.addItem(itemStack);
                 }
@@ -217,7 +219,7 @@ public class MemberListInventory extends PaginatedInventory {
         return modItem;
     }
 
-    public enum ShortItemsType {
+    public enum SortItemType {
         PERMISSION, SCORECOLLECTED, JOINDATE
     }
 

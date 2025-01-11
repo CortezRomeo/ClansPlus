@@ -5,35 +5,29 @@ import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
-import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.RemoveManager;
 import com.cortezromeo.clansplus.clan.subject.SetManager;
 import com.cortezromeo.clansplus.clan.subject.SetOwner;
-import com.cortezromeo.clansplus.file.inventory.ManageMembersRankInventoryFile;
-import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.file.inventory.ManageMemberRankInventoryFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
-import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ManageMembersRankInventory extends ClanPlusInventoryBase {
+public class ManageMemberRankInventory extends ClanPlusInventoryBase {
 
-    FileConfiguration fileConfiguration = ManageMembersRankInventoryFile.get();
+    FileConfiguration fileConfiguration = ManageMemberRankInventoryFile.get();
     private String playerName;
 
-    public ManageMembersRankInventory(Player owner, String playerName) {
+    public ManageMemberRankInventory(Player owner, String playerName) {
         super(owner);
         this.playerName = playerName;
     }
@@ -74,10 +68,10 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        if (itemCustomData.equals("closeItem"))
+        if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new ManageMembersInventory(getOwner(), playerName).open();
+            new ManageMemberInventory(getOwner(), playerName).open();
         if (itemCustomData.contains("setOwner=")) {
             itemCustomData = itemCustomData.replace("setOwner=", "");
             new SetOwner(Rank.LEADER, getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute();
@@ -103,7 +97,7 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"));
+                        fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
                     inventory.setItem(itemSlot, borderItem);
             }
@@ -112,7 +106,7 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore")), "closeItem");
+                    fileConfiguration.getStringList("items.close.lore"), false), "close");
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
@@ -120,7 +114,7 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore")), "back");
+                    fileConfiguration.getStringList("items.back.lore"), false), "back");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
@@ -135,7 +129,7 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.setOwner.value"),
                     fileConfiguration.getInt("items.setOwner.customModelData"),
                     fileConfiguration.getString("items.setOwner.name"),
-                    setOwnerItemLore), "setOwner=" + playerName);
+                    setOwnerItemLore, false), "setOwner=" + playerName);
             int setOwnerItemSlot = fileConfiguration.getInt("items.setOwner.slot");
             inventory.setItem(setOwnerItemSlot, setOwnerItem);
 
@@ -154,7 +148,7 @@ public class ManageMembersRankInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".value"),
                     fileConfiguration.getInt("items.setManager." + getPlayerRankPath + ".customModelData"),
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".name"),
-                    setOwnerItemLore), (isPlayerAManager ? "removeManager=" : "setManager=") + playerName);
+                    setOwnerItemLore, false), (isPlayerAManager ? "removeManager=" : "setManager=") + playerName);
             int setManagerItemSlot = fileConfiguration.getInt("items.setManager.slot");
             inventory.setItem(setManagerItemSlot, setManagerItem);
 

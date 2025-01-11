@@ -22,8 +22,8 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Thành viên'
-rows: 4
+title: '&0Quản lý đồng minh'
+rows: 5
 items:
   border:
     enabled: true
@@ -33,40 +33,48 @@ items:
     name: ''
     lore:
       - ''
+  nextPage:
+    name: '&aTrang sau'
+    slot: 8
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
+    customModelData: 0
+    lore:
+      - '&7Sang trang %nextPage%'
+  prevPage:
+    name: '&aTrang trước'
+    slot: 0
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
+    customModelData: 0
+    lore:
+      - '&7Về trang %prevPage%'
   close:
     name: '&cĐóng'
-    slot: 31
+    slot: 4
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     lore:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 30
+    slot: 3
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     lore:
       - '&eNhấn vào đây để trở về'
-  addMember:
-    name: '&aThêm thành viên'
-    slot: 11
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZmMzE0MzFkNjQ1ODdmZjZlZjk4YzA2NzU4MTA2ODFmOGMxM2JmOTZmNTFkOWNiMDdlZDc4NTJiMmZmZDEifX19
-    customModelData: 0
+  clan:
+    name: '&#3498eb%formatClanName%'
     lore:
+      - '&#565757%clanName%'
+      - '&#565757%createdDate%'
       - ''
-      - '&fGửi lời mời gia nhập bang hội đến với'
-      - '&fngười chơi đang trực tuyến.'
+      - '&f%message%'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
-  memberList:
-    name: '&bQuản lý thành viên'
-    slot: 15
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQ1MDIwOGNjNmI0NThjNWZiZDkzOTQxMTQ5ZmQwODYyNDdjYzU1YjFlMWJhMmRmNzQ0MmY4N2Q0OTdjYjBiMCJ9fX0=
-    customModelData: 0
-    lore:
+      - '&fĐiểm: &#d612e0%score%'
+      - '&fWar Point: &#e0122a%warPoint%'
+      - '&fLãnh đạo: &#e0cf12%owner%'
+      - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
+      - '&fSố lượng đồng minh: &#28c9d1%allySize%'
       - ''
-      - '&fQuản lý thành viên có trong bang hội'
-      - ''
-      - '&eNhấn vào đây để tùy chỉnh'
+      - '&eNhấn để tương tác'

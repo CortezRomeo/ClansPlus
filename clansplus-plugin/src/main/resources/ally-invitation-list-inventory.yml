@@ -22,8 +22,8 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Danh sách bang hội &#3498eb(%totalClans% Bang)'
-rows: 6
+rows: 5
+title: '&0Danh sách yêu cầu làm đồng minh'
 items:
   border:
     enabled: true
@@ -58,24 +58,11 @@ items:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 2
+    slot: 3
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     lore:
       - '&eNhấn vào đây để trở về'
-  clanListInfo:
-    name: '&#3498ebDữ liệu bang hội'
-    slot: 5
-    type: material
-    value: BOOK
-    lore:
-      - ''
-      - '&fTổng số bang hội: &e%totalClans%'
-      - ''
-      - '       &e&lXẾP HẠNG'
-      - '&fNhiều điểm nhất: &e%bestScoreClan% &f(&#d612e0%bestScoreClanValue%&f)'
-      - '&fNhiều War Point nhất: &e%bestWarPointClan% &f(&#e0122a%bestWarPointClanValue%&f)'
-      - '&fLâu đời nhất: &e%oldestClan% &f(&#565757%oldestClanValue%&f)'
   clan:
     name: '&#3498eb%formatClanName%'
     lore:
@@ -90,50 +77,8 @@ items:
       - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
       - '&fSố lượng đồng minh: &#28c9d1%allySize%'
       - ''
-      - '&eNhấn để tương tác'
-  shortItems:
-    name: '&bSắp xếp'
-    slot: 3
-    type: material
-    value: OAK_SIGN
-    lore:
-      HIGHESTSCORE:
-        - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&b⇨ Nhiều điểm nhất'
-        - '&7Nhiều War Point nhất'
-        - '&7Nhiều thành viên nhất'
-        - '&7Lâu đời nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
-      HIGHESTWARPOINT:
-        - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&7Nhiều điểm nhất'
-        - '&b⇨ Nhiều War Point nhất'
-        - '&7Nhiều thành viên nhất'
-        - '&7Lâu đời nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
-      HIGHESTPLAYERSIZE:
-        - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&7Nhiều điểm nhất'
-        - '&7Nhiều War Point nhất'
-        - '&b⇨ Nhiều thành viên nhất'
-        - '&7Lâu đời nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
-      OLDEST:
-        - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
-        - ''
-        - '&7Nhiều điểm nhất'
-        - '&7Nhiều War Point nhất'
-        - '&7Nhiều thành viên nhất'
-        - '&b⇨ Lâu đời nhất'
-        - ''
-        - '&eNhấn vào đây để thay đổi'
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để quyết định'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'

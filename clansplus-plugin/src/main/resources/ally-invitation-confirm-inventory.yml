@@ -1,0 +1,85 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Lưu ý:
+#  * Có hỗ trợ hex color
+#  * Có 3 type chính, đó là:
+#    + material: value chỉnh thành MATERIAL của block
+#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
+#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
+#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
+#    + customhead: Đọc phần ở dưới
+#      + Cách sử dụng custom-head:
+#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
+#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
+#                  dán nó vào phần "value:" của item bạn cần
+
+title: '&0Quyết định lời yêu cầu'
+rows: 4
+items:
+  border:
+    enabled: true
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    name: ''
+    lore:
+      - ''
+  close:
+    name: '&cĐóng'
+    slot: 31
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    lore:
+      - '&eNhấn vào đây để đóng'
+  back:
+    name: '&eTrở về'
+    slot: 30
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    lore:
+      - '&eNhấn vào đây để trở về'
+  accept:
+    name: '&aChấp nhận'
+    slot: 11
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTc5YTVjOTVlZTE3YWJmZWY0NWM4ZGMyMjQxODk5NjQ5NDRkNTYwZjE5YTQ0ZjE5ZjhhNDZhZWYzZmVlNDc1NiJ9fX0=
+    lore:
+      - ''
+      - '&fBang hội đồng minh sẽ có khả năng chat'
+      - '&fliên bang hội với bang hội của bạn và'
+      - '&fngười chơi trong bang hội của bạn sẽ không'
+      - '&fthể gây sát thương lên bang hội đồng minh'
+      - '&ftrừ khi bật PvP bang hội.'
+      - ''
+      - '&eNhấn vào đây để chấp nhận'
+  reject:
+    name: '&cTừ chối'
+    slot: 15
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0=
+    lore:
+      - '&eNhấn vào đây để từ chối'
+  clan:
+    name: '&#3498eb%formatClanName%'
+    slot: 13
+    customModelData: 0
+    lore:
+      - '&#565757%clanName%'
+      - '&#565757%createdDate%'
+      - ''
+      - '&f%message%'
+      - ''
+      - '&fĐiểm: &#d612e0%score%'
+      - '&fWar Point: &#e0122a%warPoint%'
+      - '&fLãnh đạo: &#e0cf12%owner%'
+      - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
+      - '&fSố lượng đồng minh: &#28c9d1%allySize%'

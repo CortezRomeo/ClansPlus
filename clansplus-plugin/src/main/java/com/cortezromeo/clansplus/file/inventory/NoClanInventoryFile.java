@@ -12,7 +12,7 @@ public class NoClanInventoryFile {
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/noclaninventory.yml");
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/no-clan-inventory.yml");
 
         if (!file.exists()) {
             try {
@@ -31,7 +31,7 @@ public class NoClanInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("noclaninventory.yml", false);
+                ClansPlus.plugin.saveResource("no-clan-inventory.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

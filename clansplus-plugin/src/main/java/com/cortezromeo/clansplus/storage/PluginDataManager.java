@@ -39,9 +39,8 @@ public class PluginDataManager {
     }
 
     public static IClanData getClanDatabaseByPlayerName(String playerName) {
-        if (!getPlayerDatabase().containsKey(playerName)) {
+        if (!getPlayerDatabase().containsKey(playerName))
             return null;
-        }
 
         String playerClanName = getPlayerDatabase(playerName).getClan();
         if (playerClanName == null || !getClanDatabase().containsKey(playerClanName))

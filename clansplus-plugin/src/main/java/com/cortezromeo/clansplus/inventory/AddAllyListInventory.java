@@ -2,11 +2,12 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
-import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
-import com.cortezromeo.clansplus.clan.subject.Invite;
-import com.cortezromeo.clansplus.file.inventory.AddMemberListInventoryFile;
+import com.cortezromeo.clansplus.clan.subject.RequestAlly;
+import com.cortezromeo.clansplus.file.inventory.AddAllyListInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
@@ -17,20 +18,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddMemberListInventory extends PaginatedInventory {
+public class AddAllyListInventory extends PaginatedInventory {
 
-    FileConfiguration fileConfiguration = AddMemberListInventoryFile.get();
+    FileConfiguration fileConfiguration = AddAllyListInventoryFile.get();
     private SortItemType sortItemType;
-    private List<String> players = new ArrayList<>();
+    private List<String> clans = new ArrayList<>();
 
-    public AddMemberListInventory(Player owner) {
+    public AddAllyListInventory(Player owner) {
         super(owner);
-        sortItemType = SortItemType.NOCLAN;
+        sortItemType = SortItemType.ALL;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AddMemberListInventory extends PaginatedInventory {
             }
         }
         if (itemCustomData.equals("nextPage")) {
-            if (!((index + 1) >= players.size())) {
+            if (!((index + 1) >= clans.size())) {
                 page = page + 1;
                 open();
             } else {
@@ -84,19 +84,19 @@ public class AddMemberListInventory extends PaginatedInventory {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new MembersMenuInventory(getOwner()).open();
+            new AlliesMenuInventory(getOwner()).open();
         if (itemCustomData.equals("sortItem")) {
-            if (sortItemType == SortItemType.NOCLAN)
-                sortItemType = SortItemType.BEINGINVITED;
-            else if (sortItemType == SortItemType.BEINGINVITED)
-                sortItemType = SortItemType.NOCLAN;
+            if (sortItemType == SortItemType.ALL)
+                sortItemType = SortItemType.REQUESTING;
+            else if (sortItemType == SortItemType.REQUESTING)
+                sortItemType = SortItemType.ALL;
             page = 0;
             super.open();
         }
-        if (itemCustomData.contains("player=")) {
-            itemCustomData = itemCustomData.replace("player=", "");
-            new Invite(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.INVITE), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData, Settings.CLAN_SETTING_TIME_TO_ACCEPT).execute();
-            super.open();
+        if (itemCustomData.contains("request=")) {
+            itemCustomData = itemCustomData.replace("request=", "");
+            if (new RequestAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), getOwner(), getOwner().getName(), itemCustomData).execute())
+                super.open();
         }
     }
 
@@ -133,56 +133,61 @@ public class AddMemberListInventory extends PaginatedInventory {
             if (PluginDataManager.getClanDatabase().isEmpty())
                 return;
 
-            players.clear();
+            clans.clear();
 
-            if (sortItemType == SortItemType.NOCLAN)
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (!ClanManager.isPlayerInClan(player) && !ClanManager.beingInvitedPlayers.containsKey(player.getName()))
-                        players.add(player.getName());
-                }
-            if (sortItemType == SortItemType.BEINGINVITED)
-                if (!ClanManager.beingInvitedPlayers.isEmpty())
-                    players.addAll(ClanManager.beingInvitedPlayers.keySet());
+            if (sortItemType == SortItemType.ALL) {
+                if (!PluginDataManager.getClanDatabase().isEmpty())
+                    clans.addAll(PluginDataManager.getClanDatabase().keySet());
+            }
+            if (sortItemType == SortItemType.REQUESTING) {
+                if (!PluginDataManager.getClanDatabase().isEmpty())
+                    for (String clan : PluginDataManager.getClanDatabase().keySet()) {
+                        IClanData clanData = PluginDataManager.getClanDatabase(clan);
+                        if (clanData.getAllyInvitation().contains(PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName())) {
+                            clans.add(clan);
+                        }
+                    }
+            }
 
-
+            IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
+            Rank requiredRank = playerClanData.getSubjectPermission().get(Subject.MANAGEALLY);
             for (int i = 0; i < getMaxItemsPerPage(); i++) {
                 index = getMaxItemsPerPage() * page + i;
-                if (index >= players.size())
+                if (index >= clans.size())
                     break;
-                if (players.get(index) != null) {
-                    String playerName = players.get(index);
-                    ItemStack playerItem = ItemUtil.getItem(
-                            "playerhead",
-                            playerName,
+                if (clans.get(index) != null) {
+                    String clanName = clans.get(index);
+                    if (clanName.equals(playerClanData.getName()))
+                        continue;
+                    IClanData clanData = PluginDataManager.getClanDatabase(clanName);
+                    ArrayList<String> clanItemLore = new ArrayList<>();
+                    ItemStack clanItem = ItemUtil.getItem(
+                            clanData.getIconType().toString(),
+                            clanData.getIconValue(),
                             0,
-                            fileConfiguration.getString("items.player.name"),
-                            fileConfiguration.getStringList("items.player.lore"), false);
-                    ItemStack itemStack = ClansPlus.nms.addCustomData(getPlayerItemStack(playerItem, playerName), "player=" + playerName);
+                            fileConfiguration.getString("items.clan.name"),
+                            fileConfiguration.getStringList("items.clan.lore"), false);
+                    ItemMeta clanItemItemMeta = clanItem.getItemMeta();
+                    for (String lore : clanItemItemMeta.getLore()) {
+                        if (clanData.getAllyInvitation().contains(playerClanData.getName()))
+                            lore = lore.replace("%checkRelation%", fileConfiguration.getString("items.clan.placeholders.checkRelation.requesting"));
+                        else
+                            lore = lore.replace("%checkRelation%", playerClanData.getAllies().contains(clanName) ? fileConfiguration.getString("items.clan.placeholders.checkRelation.true") : fileConfiguration.getString("items.clan.placeholders.checkRelation.false"));
+                        lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), requiredRank) ? fileConfiguration.getString("items.clan.placeholders.checkPermission.true")
+                                : fileConfiguration.getString("items.clan.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(requiredRank)));
+                        clanItemLore.add(lore);
+                    }
+                    clanItemItemMeta.setLore(clanItemLore);
+                    clanItem.setItemMeta(clanItemItemMeta);
+                    ItemStack itemStack = ClansPlus.nms.addCustomData(ItemUtil.getClanItemStack(clanItem, clanData), "request=" + clanName);
                     inventory.addItem(itemStack);
                 }
             }
         });
     }
 
-    private @NotNull ItemStack getPlayerItemStack(ItemStack itemStack, String playerName) {
-        ItemStack modItem = new ItemStack(itemStack);
-        ItemMeta itemMeta = modItem.getItemMeta();
-
-        String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%playerName%", playerName);
-        itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
-
-        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
-        List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%playerName%", playerName)
-                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
-        itemMeta.setLore(itemLore);
-        modItem.setItemMeta(itemMeta);
-        return modItem;
-    }
-
     public enum SortItemType {
-        NOCLAN, BEINGINVITED
+        ALL, REQUESTING
     }
 
 }

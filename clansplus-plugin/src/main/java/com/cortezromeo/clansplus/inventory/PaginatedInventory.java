@@ -20,13 +20,12 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         super(owner);
     }
 
-    //Set the border and menu buttons for the menu
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
                 fileConfiguration.getString("items.close.value"),
                 fileConfiguration.getInt("items.close.customModelData"),
                 fileConfiguration.getString("items.close.name"),
-                fileConfiguration.getStringList("items.close.lore")), "closeItem");
+                fileConfiguration.getStringList("items.close.lore"), false), "close");
         int closeItemSlot = fileConfiguration.getInt("items.close.slot");
         if (closeItemSlot < 0)
             closeItemSlot = 0;
@@ -38,7 +37,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
                 fileConfiguration.getString("items.prevPage.value"),
                 fileConfiguration.getInt("items.prevPage.customModelData"),
                 fileConfiguration.getString("items.prevPage.name"),
-                fileConfiguration.getStringList("items.prevPage.lore")), "prevPage");
+                fileConfiguration.getStringList("items.prevPage.lore"), false), "prevPage");
         int prevPageItemSlot = fileConfiguration.getInt("items.prevPage.slot");
         if (prevPageItemSlot < 0)
             prevPageItemSlot = 0;
@@ -50,7 +49,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
                 fileConfiguration.getString("items.nextPage.value"),
                 fileConfiguration.getInt("items.nextPage.customModelData"),
                 fileConfiguration.getString("items.nextPage.name"),
-                fileConfiguration.getStringList("items.nextPage.lore")), "nextPage");
+                fileConfiguration.getStringList("items.nextPage.lore"), false), "nextPage");
         int nextPageItemSlot = fileConfiguration.getInt("items.nextPage.slot");
         if (nextPageItemSlot < 0)
             nextPageItemSlot = 0;
@@ -69,7 +68,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.border.value"),
                     fileConfiguration.getInt("items.border.customModelData"),
                     fileConfiguration.getString("items.border.name"),
-                    fileConfiguration.getStringList("items.border.lore"));
+                    fileConfiguration.getStringList("items.border.lore"), false);
             if (getSlots() > 18)
                 for (int i = 0; i < 10; i++) {
                     if (inventory.getItem(i) == null) {

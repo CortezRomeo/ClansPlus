@@ -22,7 +22,7 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Thêm thành viên'
+title: '&0Thêm đồng minh'
 rows: 5
 items:
   border:
@@ -63,34 +63,49 @@ items:
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     lore:
       - '&eNhấn vào đây để trở về'
-  player:
-    name: '&6%playerName%'
+  clan:
+    name: '&#3498eb%formatClanName%'
     lore:
+      - '&#565757%clanName%'
+      - '&#565757%createdDate%'
       - ''
-      - '&fNgười chơi này chưa có bang hội và chưa có lời mời.'
+      - '&f%message%'
       - ''
-      - '&fSố điểm từng kiếm được: &b%scoreCollected%'
+      - '&fĐiểm: &#d612e0%score%'
+      - '&fWar Point: &#e0122a%warPoint%'
+      - '&fLãnh đạo: &#e0cf12%owner%'
+      - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
+      - '&fSố lượng đồng minh: &#28c9d1%allySize%'
       - ''
-      - '&eNhấn để gửi lời mời'
-  shortItems:
+      - '%checkRelation%'
+      - '%checkPermission%'
+    placeholders:
+      checkRelation:
+        true: '&aBang hội này đã là đồng minh'
+        false: '&eBang hội này chưa là đồng minh'
+        requesting: '&bĐã gửi lời mời làm đồng minh'
+      checkPermission:
+        true: '&eNhấn vào đây để thực hiện'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  sortItem:
     name: '&bSắp xếp'
     slot: 5
     type: material
     value: OAK_SIGN
     lore:
-      NOCLAN:
+      ALL:
         - ''
         - '&fSắp xếp theo từng giá trị riêng biệt.'
         - ''
-        - '&b⇨ Người chơi chưa có bang hội'
-        - '&7Người chơi đang có lời mời'
+        - '&b⇨ Tất cả bang hội'
+        - '&7Đã gửi lời mời'
         - ''
         - '&eNhấn vào đây để thay đổi'
-      BEINGINVITED:
+      REQUESTING:
         - ''
         - '&fSắp xếp theo từng giá trị riêng biệt.'
         - ''
-        - '&7Người chơi chưa có bang hội'
-        - '&b⇨ Người chơi đang có lời mời'
+        - '&7Tất cả bang hội'
+        - '&b⇨ Đã gửi lời mời'
         - ''
         - '&eNhấn vào đây để thay đổi'

@@ -12,7 +12,7 @@ public class MembersMenuInventoryFile {
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/membersmenuinventory.yml");
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/members-menu-inventory.yml");
 
         if (!file.exists()) {
             try {
@@ -31,7 +31,7 @@ public class MembersMenuInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("membersmenuinventory.yml", false);
+                ClansPlus.plugin.saveResource("members-menu-inventory.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

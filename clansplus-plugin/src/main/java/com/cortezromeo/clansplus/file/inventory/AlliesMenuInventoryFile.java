@@ -7,12 +7,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class ManageMembersInventoryFile {
+public class AlliesMenuInventoryFile {
     private static File file;
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/managemembersinventory.yml");
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/allies-menu-inventory.yml");
 
         if (!file.exists()) {
             try {
@@ -31,7 +31,7 @@ public class ManageMembersInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("managemembersinventory.yml", false);
+                ClansPlus.plugin.saveResource("allies-menu-inventory.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

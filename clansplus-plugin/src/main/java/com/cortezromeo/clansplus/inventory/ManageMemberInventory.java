@@ -7,8 +7,7 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.Kick;
-import com.cortezromeo.clansplus.file.inventory.ManageMembersInventoryFile;
-import com.cortezromeo.clansplus.file.inventory.MembersMenuInventoryFile;
+import com.cortezromeo.clansplus.file.inventory.ManageMemberInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
@@ -24,12 +23,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageMembersInventory extends ClanPlusInventoryBase {
+public class ManageMemberInventory extends ClanPlusInventoryBase {
 
-    FileConfiguration fileConfiguration = ManageMembersInventoryFile.get();
+    FileConfiguration fileConfiguration = ManageMemberInventoryFile.get();
     private String playerName;
 
-    public ManageMembersInventory(Player owner, String playerName) {
+    public ManageMemberInventory(Player owner, String playerName) {
         super(owner);
         this.playerName = playerName;
     }
@@ -70,13 +69,13 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        if (itemCustomData.equals("closeItem"))
+        if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
         if (itemCustomData.contains("manageMembersRank=")) {
             itemCustomData = itemCustomData.replace("manageMembersRank=", "");
-            new ManageMembersRankInventory(getOwner(), itemCustomData).open();
+            new ManageMemberRankInventory(getOwner(), itemCustomData).open();
         }
         if (itemCustomData.contains("kick=")) {
             itemCustomData = itemCustomData.replace("kick=", "");
@@ -94,7 +93,7 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"));
+                        fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
                     inventory.setItem(itemSlot, borderItem);
             }
@@ -103,7 +102,7 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore")), "closeItem");
+                    fileConfiguration.getStringList("items.close.lore"), false), "close");
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
@@ -111,7 +110,7 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore")), "back");
+                    fileConfiguration.getStringList("items.back.lore"), false), "back");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
@@ -119,7 +118,7 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
                     playerName,
                     fileConfiguration.getInt("items.member.customModelData"),
                     fileConfiguration.getString("items.member.name"),
-                    fileConfiguration.getStringList("items.member.lore")), playerName);
+                    fileConfiguration.getStringList("items.member.lore"), false), playerName);
             int memberItemSlot = fileConfiguration.getInt("items.member.slot");
             inventory.setItem(memberItemSlot, memberItem);
 
@@ -127,23 +126,23 @@ public class ManageMembersInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.manageMembersRank.value"),
                     fileConfiguration.getInt("items.manageMembersRank.customModelData"),
                     fileConfiguration.getString("items.manageMembersRank.name"),
-                    fileConfiguration.getStringList("items.manageMembersRank.lore")), "manageMembersRank=" + playerName);
+                    fileConfiguration.getStringList("items.manageMembersRank.lore"), false), "manageMembersRank=" + playerName);
             int manageMembersRankItemSlot = fileConfiguration.getInt("items.manageMembersRank.slot");
             inventory.setItem(manageMembersRankItemSlot, manageMembersRankItem);
 
-            List<String> kicmMemberItemLore = new ArrayList<>();
+            List<String> kicKmMemberItemLore = new ArrayList<>();
             Rank kickMemberRequiredRank = PluginDataManager.getClanDatabaseByPlayerName(playerName).getSubjectPermission().get(Subject.KICK);
             for (String lore : fileConfiguration.getStringList("items.kickMember.lore")) {
                 lore = lore.replace("%playerName%", playerName);
                 lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), kickMemberRequiredRank) ? fileConfiguration.getString("items.kickMember.placeholders.checkPermission.true")
                         : fileConfiguration.getString("items.kickMember.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(kickMemberRequiredRank)));
-                kicmMemberItemLore.add(lore);
+                kicKmMemberItemLore.add(lore);
             }
             ItemStack kickMemberItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.kickMember.type"),
                     fileConfiguration.getString("items.kickMember.value"),
                     fileConfiguration.getInt("items.kickMember.customModelData"),
                     fileConfiguration.getString("items.kickMember.name"),
-                    kicmMemberItemLore), "kick=" + playerName);
+                    kicKmMemberItemLore, false), "kick=" + playerName);
             int kickMemberItemSlot = fileConfiguration.getInt("items.kickMember.slot");
             inventory.setItem(kickMemberItemSlot, kickMemberItem);
 

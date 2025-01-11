@@ -1,6 +1,8 @@
 package com.cortezromeo.clansplus.support.version;
 
 import com.cortezromeo.clansplus.api.server.VersionSupport;
+import com.cryptomorin.xseries.XEnchantment;
+import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.profiles.builder.XSkull;
@@ -45,14 +47,19 @@ public class CrossVersionSupport extends VersionSupport {
     }
 
     @Override
-    public ItemStack createItemStack(String material, int amount, int customModelData) {
+    public ItemStack createItemStack(String material, int amount, int customModelData, boolean glow) {
         return XMaterial.matchXMaterial(material)
                 .map(XMaterial::parseItem)
                 .map(item -> {
                     item.setAmount(amount);
+                    ItemMeta itemMeta = item.getItemMeta();
                     if (customModelData != 0) {
-                        ItemMeta itemMeta = item.getItemMeta();
                         itemMeta.setCustomModelData(customModelData);
+                        item.setItemMeta(itemMeta);
+                    }
+                    if (glow) {
+                        itemMeta.addEnchant(XEnchantment.UNBREAKING.getEnchant(), 1, false);
+                        XItemFlag.HIDE_ENCHANTS.set(itemMeta);
                         item.setItemMeta(itemMeta);
                     }
                     return item;

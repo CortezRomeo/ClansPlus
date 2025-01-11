@@ -18,7 +18,7 @@ public abstract class VersionSupport {
 
     public abstract ItemStack getItemStack(ItemStack itemStack);
 
-    public abstract ItemStack createItemStack(String material, int amount, int customModelData);
+    public abstract ItemStack createItemStack(String material, int amount, int customModelData, boolean glow);
 
     public abstract Sound createSound(String soundName);
 

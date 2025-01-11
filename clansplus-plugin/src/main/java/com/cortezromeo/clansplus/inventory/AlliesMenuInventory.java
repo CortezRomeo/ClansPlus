@@ -1,7 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.file.inventory.MembersMenuInventoryFile;
+import com.cortezromeo.clansplus.file.inventory.AlliesMenuInventoryFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import org.bukkit.Bukkit;
@@ -10,11 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class MembersMenuInventory extends ClanPlusInventoryBase {
+import java.util.ArrayList;
+import java.util.List;
 
-    FileConfiguration fileConfiguration = MembersMenuInventoryFile.get();
+public class AlliesMenuInventory extends ClanPlusInventoryBase {
 
-    public MembersMenuInventory(Player owner) {
+    FileConfiguration fileConfiguration = AlliesMenuInventoryFile.get();
+
+    public AlliesMenuInventory(Player owner) {
         super(owner);
     }
 
@@ -57,10 +60,13 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new ClanMenuInventory(getOwner()).open();
-        if (itemCustomData.equals("addMember"))
-            new AddMemberListInventory(getOwner()).open();
-        if (itemCustomData.equals("memberList"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+        if (itemCustomData.equals("addAlly"))
+            new AddAllyListInventory(getOwner()).open();
+        if (itemCustomData.equals("allyInvitation"))
+            new AllyInvitationListInventory(getOwner()).open();
+        if (itemCustomData.equals("allyList"))
+            new AllyListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+            //new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
     }
 
     @Override
@@ -93,21 +99,35 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack addMemberItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.addMember.type"),
-                    fileConfiguration.getString("items.addMember.value"),
-                    fileConfiguration.getInt("items.addMember.customModelData"),
-                    fileConfiguration.getString("items.addMember.name"),
-                    fileConfiguration.getStringList("items.addMember.lore"), false), "addMember");
-            int addMemberItemSlot = fileConfiguration.getInt("items.addMember.slot");
-            inventory.setItem(addMemberItemSlot, addMemberItem);
+            ItemStack addAllyItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.addAlly.type"),
+                    fileConfiguration.getString("items.addAlly.value"),
+                    fileConfiguration.getInt("items.addAlly.customModelData"),
+                    fileConfiguration.getString("items.addAlly.name"),
+                    fileConfiguration.getStringList("items.addAlly.lore"), false), "addAlly");
+            int addAllyItemSlot = fileConfiguration.getInt("items.addAlly.slot");
+            inventory.setItem(addAllyItemSlot, addAllyItem);
 
-            ItemStack memberListItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.memberList.type"),
-                    fileConfiguration.getString("items.memberList.value"),
-                    fileConfiguration.getInt("items.memberList.customModelData"),
-                    fileConfiguration.getString("items.memberList.name"),
-                    fileConfiguration.getStringList("items.memberList.lore"), false), "memberList");
-            int memberListItemSlot = fileConfiguration.getInt("items.memberList.slot");
-            inventory.setItem(memberListItemSlot, memberListItem);
+            List<String> allyInvitationLore = new ArrayList<>();
+            int totalAllyInvitations = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getAllyInvitation().size();
+            for (String lore : fileConfiguration.getStringList("items.allyInvitation.lore")) {
+                lore = lore.replace("%totalAllyInvitations%", String.valueOf(totalAllyInvitations));
+                allyInvitationLore.add(lore);
+            }
+            ItemStack allyInvitationItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyInvitation.type"),
+                    fileConfiguration.getString("items.allyInvitation.value"),
+                    fileConfiguration.getInt("items.allyInvitation.customModelData"),
+                    fileConfiguration.getString("items.allyInvitation.name"),
+                    allyInvitationLore, totalAllyInvitations > 0), "allyInvitation");
+            int allyInvitationItemSlot = fileConfiguration.getInt("items.allyInvitation.slot");
+            inventory.setItem(allyInvitationItemSlot, allyInvitationItem);
+
+            ItemStack allyListItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyList.type"),
+                    fileConfiguration.getString("items.allyList.value"),
+                    fileConfiguration.getInt("items.allyList.customModelData"),
+                    fileConfiguration.getString("items.allyList.name"),
+                    fileConfiguration.getStringList("items.allyList.lore"), false), "allyList");
+            int allyListItemSlot = fileConfiguration.getInt("items.allyList.slot");
+            inventory.setItem(allyListItemSlot, allyListItem);
         });
     }
 

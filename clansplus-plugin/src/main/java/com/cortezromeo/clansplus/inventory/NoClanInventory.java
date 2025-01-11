@@ -53,7 +53,7 @@ public class NoClanInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        if (itemCustomData.equals("closeItem"))
+        if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("createNewClan")) {
             getOwner().closeInventory();
@@ -74,7 +74,7 @@ public class NoClanInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"));
+                        fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
                     inventory.setItem(itemSlot, borderItem);
             }
@@ -83,7 +83,7 @@ public class NoClanInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore")), "closeItem");
+                    fileConfiguration.getStringList("items.close.lore"), false), "close");
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
@@ -91,20 +91,20 @@ public class NoClanInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.createNewClan.value"),
                     fileConfiguration.getInt("items.createNewClan.customModelData"),
                     fileConfiguration.getString("items.createNewClan.name"),
-                    fileConfiguration.getStringList("items.createNewClan.lore")), "createNewClan");
+                    fileConfiguration.getStringList("items.createNewClan.lore"), false), "createNewClan");
             int createNewClanItemSlot = fileConfiguration.getInt("items.createNewClan.slot");
             inventory.setItem(createNewClanItemSlot, createNewClanItem);
 
-            List<String> listClanItemLores = new ArrayList<>();
+            List<String> listClanItemLore = new ArrayList<>();
             for (String lore : fileConfiguration.getStringList("items.clanList.lore")) {
                 lore = lore.replace("%totalClans%", String.valueOf(PluginDataManager.getClanDatabase().size()));
-                listClanItemLores.add(lore);
+                listClanItemLore.add(lore);
             }
             ItemStack listClanItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.clanList.type"),
                     fileConfiguration.getString("items.clanList.value"),
                     fileConfiguration.getInt("items.clanList.customModelData"),
                     fileConfiguration.getString("items.clanList.name"),
-                    listClanItemLores), "clanList");
+                    listClanItemLore, false), "clanList");
             int listClanItemSlot = fileConfiguration.getInt("items.clanList.slot");
             inventory.setItem(listClanItemSlot, listClanItem);
         });

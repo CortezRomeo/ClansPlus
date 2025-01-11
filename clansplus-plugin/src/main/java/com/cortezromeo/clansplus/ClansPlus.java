@@ -86,11 +86,11 @@ public class ClansPlus extends JavaPlugin {
         reloadConfig();
         MessageUtil.debug("LOADING FILE", "Loaded config.yml.");
 
-        // inventories/clanlistinventory.yml
-        String clanListInventoryFileName = "clanlistinventory.yml";
+        // inventories/clan-list-inventory.yml
+        String clanListInventoryFileName = "clan-list-inventory.yml";
         ClanListInventoryFile.setup();
         ClanListInventoryFile.saveDefault();
-        File clanListInventoryFile = new File(getDataFolder() + "/inventories/clanlistinventory.yml");
+        File clanListInventoryFile = new File(getDataFolder() + "/inventories/clan-list-inventory.yml");
         try {
             ConfigUpdater.update(this, clanListInventoryFileName, clanListInventoryFile);
         } catch (IOException e) {
@@ -98,11 +98,11 @@ public class ClansPlus extends JavaPlugin {
         }
         ClanListInventoryFile.reload();
 
-        // inventories/noclaninventory.yml
-        String noClanFileName = "noclaninventory.yml";
+        // inventories/no-clan-inventory.yml
+        String noClanFileName = "no-clan-inventory.yml";
         NoClanInventoryFile.setup();
         NoClanInventoryFile.saveDefault();
-        File noClanFile = new File(getDataFolder() + "/inventories/noclaninventory.yml");
+        File noClanFile = new File(getDataFolder() + "/inventories/no-clan-inventory.yml");
         try {
             ConfigUpdater.update(this, noClanFileName, noClanFile);
         } catch (IOException e) {
@@ -110,11 +110,11 @@ public class ClansPlus extends JavaPlugin {
         }
         NoClanInventoryFile.reload();
 
-        // inventories/clanmenuinventory.yml
-        String clanMenuFileName = "clanmenuinventory.yml";
+        // inventories/clan-menu-inventory.yml
+        String clanMenuFileName = "clan-menu-inventory.yml";
         ClanMenuInventoryFile.setup();
         ClanMenuInventoryFile.saveDefault();
-        File clanMenuFile = new File(getDataFolder() + "/inventories/clanmenuinventory.yml");
+        File clanMenuFile = new File(getDataFolder() + "/inventories/clan-menu-inventory.yml");
         try {
             ConfigUpdater.update(this, clanMenuFileName, clanMenuFile);
         } catch (IOException e) {
@@ -122,11 +122,11 @@ public class ClansPlus extends JavaPlugin {
         }
         ClanMenuInventoryFile.reload();
 
-        // inventories/membersmenuinventory.yml
-        String membersMenuFileName = "membersmenuinventory.yml";
+        // inventories/members-menu-inventory.yml
+        String membersMenuFileName = "members-menu-inventory.yml";
         MembersMenuInventoryFile.setup();
         MembersMenuInventoryFile.saveDefault();
-        File membersMenuFile = new File(getDataFolder() + "/inventories/membersmenuinventory.yml");
+        File membersMenuFile = new File(getDataFolder() + "/inventories/members-menu-inventory.yml");
         try {
             ConfigUpdater.update(this, membersMenuFileName, membersMenuFile);
         } catch (IOException e) {
@@ -134,11 +134,11 @@ public class ClansPlus extends JavaPlugin {
         }
         MembersMenuInventoryFile.reload();
 
-        // inventories/addmemberlistinventory.yml
-        String addMemberListFileName = "addmemberlistinventory.yml";
+        // inventories/add-member-list-inventory.yml
+        String addMemberListFileName = "add-member-list-inventory.yml";
         AddMemberListInventoryFile.setup();
         AddMemberListInventoryFile.saveDefault();
-        File addMemberListFile = new File(getDataFolder() + "/inventories/addmemberlistinventory.yml");
+        File addMemberListFile = new File(getDataFolder() + "/inventories/add-member-list-inventory.yml");
         try {
             ConfigUpdater.update(this, addMemberListFileName, addMemberListFile);
         } catch (IOException e) {
@@ -146,11 +146,11 @@ public class ClansPlus extends JavaPlugin {
         }
         AddMemberListInventoryFile.reload();
 
-        // inventories/memberlistinventory.yml
-        String MemberListFileName = "memberlistinventory.yml";
+        // inventories/member-list-inventory.yml
+        String MemberListFileName = "member-list-inventory.yml";
         MemberListInventoryFile.setup();
         MemberListInventoryFile.saveDefault();
-        File MemberListFile = new File(getDataFolder() + "/inventories/memberlistinventory.yml");
+        File MemberListFile = new File(getDataFolder() + "/inventories/member-list-inventory.yml");
         try {
             ConfigUpdater.update(this, MemberListFileName, MemberListFile);
         } catch (IOException e) {
@@ -158,29 +158,113 @@ public class ClansPlus extends JavaPlugin {
         }
         MemberListInventoryFile.reload();
 
-        // inventories/managemembersinventory.yml
-        String ManageMembersFileName = "managemembersinventory.yml";
-        ManageMembersInventoryFile.setup();
-        ManageMembersInventoryFile.saveDefault();
-        File ManageMembersFile = new File(getDataFolder() + "/inventories/managemembersinventory.yml");
+        // inventories/manage-member-inventory.yml
+        String ManageMembersFileName = "manage-member-inventory.yml";
+        ManageMemberInventoryFile.setup();
+        ManageMemberInventoryFile.saveDefault();
+        File ManageMembersFile = new File(getDataFolder() + "/inventories/manage-member-inventory.yml");
         try {
             ConfigUpdater.update(this, ManageMembersFileName, ManageMembersFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ManageMembersInventoryFile.reload();
+        ManageMemberInventoryFile.reload();
 
-        // inventories/managemembersrankinventory.yml
-        String ManageMembersRankFileName = "managemembersrankinventory.yml";
-        ManageMembersRankInventoryFile.setup();
-        ManageMembersRankInventoryFile.saveDefault();
-        File ManageMembersRankFile = new File(getDataFolder() + "/inventories/managemembersrankinventory.yml");
+        // inventories/manage-member-rank-inventory.yml
+        String ManageMemberRankFileName = "manage-member-rank-inventory.yml";
+        ManageMemberRankInventoryFile.setup();
+        ManageMemberRankInventoryFile.saveDefault();
+        File ManageMemberRankFile = new File(getDataFolder() + "/inventories/manage-member-rank-inventory.yml");
         try {
-            ConfigUpdater.update(this, ManageMembersRankFileName, ManageMembersRankFile);
+            ConfigUpdater.update(this, ManageMemberRankFileName, ManageMemberRankFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ManageMembersRankInventoryFile.reload();
+        ManageMemberRankInventoryFile.reload();
+
+        // inventories/allies-menu-inventory.yml
+        String alliesMenuFileName = "allies-menu-inventory.yml";
+        AlliesMenuInventoryFile.setup();
+        AlliesMenuInventoryFile.saveDefault();
+        File alliesMenuFile = new File(getDataFolder() + "/inventories/allies-menu-inventory.yml");
+        try {
+            ConfigUpdater.update(this, alliesMenuFileName, alliesMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AlliesMenuInventoryFile.reload();
+
+        // inventories/add-ally-list-inventory.yml
+        String addAllyListFileName = "add-ally-list-inventory.yml";
+        AddAllyListInventoryFile.setup();
+        AddAllyListInventoryFile.saveDefault();
+        File addAllyListFile = new File(getDataFolder() + "/inventories/add-ally-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, addAllyListFileName, addAllyListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AddAllyListInventoryFile.reload();
+
+        // inventories/ally-invitation-list-inventory.yml
+        String allyInvitationListFileName = "ally-invitation-list-inventory.yml";
+        AllyInvitationInventoryFile.setup();
+        AllyInvitationInventoryFile.saveDefault();
+        File allyInvitationListFile = new File(getDataFolder() + "/inventories/ally-invitation-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, allyInvitationListFileName, allyInvitationListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AllyInvitationInventoryFile.reload();
+
+        // inventories/ally-invitation-confirm-inventory.yml
+        String allyInvitationConfirmFileName = "ally-invitation-confirm-inventory.yml";
+        AllyInivtationConfirmInventoryFile.setup();
+        AllyInivtationConfirmInventoryFile.saveDefault();
+        File allyInvitationConfirmFile = new File(getDataFolder() + "/inventories/ally-invitation-confirm-inventory.yml");
+        try {
+            ConfigUpdater.update(this, allyInvitationConfirmFileName, allyInvitationConfirmFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AllyInivtationConfirmInventoryFile.reload();
+
+        // inventories/ally-list-inventory.yml
+        String allyListFileName = "ally-list-inventory.yml";
+        AllyListInventoryFile.setup();
+        AllyListInventoryFile.saveDefault();
+        File allyListFile = new File(getDataFolder() + "/inventories/ally-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, allyListFileName, allyListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AllyListInventoryFile.reload();
+
+        // inventories/manage-ally-inventory.yml
+        String manageAllyFileName = "manage-ally-inventory.yml";
+        ManageAllyInventoryFile.setup();
+        ManageAllyInventoryFile.saveDefault();
+        File manageAllyFile = new File(getDataFolder() + "/inventories/manage-ally-inventory.yml");
+        try {
+            ConfigUpdater.update(this, manageAllyFileName, manageAllyFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ManageAllyInventoryFile.reload();
+
+        // inventories/view-clan-inventory.yml
+        String viewClanFileName = "view-clan-inventory.yml";
+        ViewClanInventoryFile.setup();
+        ViewClanInventoryFile.saveDefault();
+        File viewClanFile = new File(getDataFolder() + "/inventories/view-clan-inventory.yml");
+        try {
+            ConfigUpdater.update(this, viewClanFileName, viewClanFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ViewClanInventoryFile.reload();
 
         // events.yml
         String eventFileName = "events.yml";

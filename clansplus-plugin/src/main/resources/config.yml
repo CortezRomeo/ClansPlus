@@ -85,6 +85,7 @@ clan-settings:
       REMOVEMANAGER: LEADER
       CHAT: MEMBER
       UPGRADE: MEMBER
+      MANAGEALLY: MANAGER
 
   # Nếu tùy chọn này được bật,
   use-default-permission: false

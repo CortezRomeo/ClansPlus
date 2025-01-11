@@ -4,7 +4,7 @@ import java.util.*;
 
 public class HashMapUtil {
 
-    public static List<String> shortFromGreatestToLowestI(HashMap<String, Integer> hashMap) {
+    public static List<String> sortFromGreatestToLowestI(HashMap<String, Integer> hashMap) {
         List<String> list = new ArrayList<>();
         hashMap.entrySet()
                 .stream()
@@ -13,7 +13,7 @@ public class HashMapUtil {
         return list;
     }
 
-    public static List<String> shortFromGreatestToLowestL(HashMap<String, Long> hashMap) {
+    public static List<String> sortFromGreatestToLowestL(HashMap<String, Long> hashMap) {
         List<String> list = new ArrayList<>();
         hashMap.entrySet()
                 .stream()
@@ -22,7 +22,7 @@ public class HashMapUtil {
         return list;
     }
 
-    public static List<String> shortFromLowestToGreatestI(HashMap<String, Integer> hashMap) {
+    public static List<String> sortFromLowestToGreatestI(HashMap<String, Integer> hashMap) {
         List<String> list = new ArrayList<>();
         hashMap.entrySet()
                 .stream()
@@ -31,7 +31,7 @@ public class HashMapUtil {
         return list;
     }
 
-    public static List<String> shortFromLowestToGreatestL(HashMap<String, Long> hashMap) {
+    public static List<String> sortFromLowestToGreatestL(HashMap<String, Long> hashMap) {
         List<String> list = new ArrayList<>();
         hashMap.entrySet()
                 .stream()

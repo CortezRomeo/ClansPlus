@@ -108,6 +108,10 @@ public class ClanCommand implements CommandExecutor {
                 new RemoveManager(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.REMOVEMANAGER), player, player.getName(), Bukkit.getPlayer(args[1]), args[1]).execute();
                 return false;
             }
+            if (args[0].equalsIgnoreCase("requestally")) {
+                new RequestAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), player, player.getName(), args[1]).execute();
+                return false;
+            }
         }
 
         if (args.length >= 2) {

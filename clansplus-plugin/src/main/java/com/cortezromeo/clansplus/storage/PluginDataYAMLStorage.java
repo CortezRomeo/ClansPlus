@@ -9,7 +9,6 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.util.FileNameUtil;
-import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -136,9 +135,10 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setWarning(storage.getInt("data.warning"));
             clanData.setCreatedDate(storage.getLong("data.created-date"));
             clanData.setMaxMembers(storage.getInt("data.max-members"));
-            for (String player : storage.getStringList("data.members"))
-                clanData.getMembers().add(player);
+            clanData.setMembers(storage.getStringList("data.members"));
         }
+
+        clanData.setAllies(storage.getStringList("data.allies"));
 
         // TODO <DATA FIX 3.4> All managers from the list will have rank MANAGER, delete managers list
         if (storage.getString("data.managers") != null) {
@@ -202,6 +202,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.created-date", clanData.getCreatedDate());
         storage.set("data.max-members", clanData.getMaxMembers());
         storage.set("data.members", clanData.getMembers());
+        storage.set("data.allies", clanData.getAllies());
         storage.set("data.warn", clanData.getWarning());
         storage.set("data.warpoint", clanData.getWarPoint());
         storage.set("data.icon.type", clanData.getIconType().toString().toUpperCase());
@@ -217,15 +218,14 @@ public class PluginDataYAMLStorage implements PluginStorage {
         for (Subject subject : clanData.getSubjectPermission().keySet()) {
             storage.set("data.permission." + subject.toString(), clanData.getSubjectPermission().get(subject).toString().toUpperCase());
         }
+        storage.set("data.ally-invitation", clanData.getAllyInvitation());
+        storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
+        storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
         try {
             storage.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        storage.set("data.ally-invitation", clanData.getAllyInvitation());
-        storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
-        storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
-
     }
 
     @Override

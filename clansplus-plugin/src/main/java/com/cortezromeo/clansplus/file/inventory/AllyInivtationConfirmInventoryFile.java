@@ -7,12 +7,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class ManageMembersRankInventoryFile {
+public class AllyInivtationConfirmInventoryFile {
     private static File file;
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/managemembersrankinventory.yml");
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/ally-invitation-confirm-inventory.yml");
 
         if (!file.exists()) {
             try {
@@ -31,7 +31,7 @@ public class ManageMembersRankInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("managemembersrankinventory.yml", false);
+                ClansPlus.plugin.saveResource("ally-invitation-confirm-inventory.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

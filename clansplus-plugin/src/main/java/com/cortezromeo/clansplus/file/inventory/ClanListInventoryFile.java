@@ -12,7 +12,7 @@ public class ClanListInventoryFile {
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/clanlistinventory.yml");
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/clan-list-inventory.yml");
 
         if (!file.exists()) {
             try {
@@ -31,7 +31,7 @@ public class ClanListInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("clanlistinventory.yml", false);
+                ClansPlus.plugin.saveResource("clan-list-inventory.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,190 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Lưu ý:
+#  * Có hỗ trợ hex color
+#  * Có 3 type chính, đó là:
+#    + material: value chỉnh thành MATERIAL của block
+#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
+#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
+#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
+#    + customhead: Đọc phần ở dưới
+#      + Cách sử dụng custom-head:
+#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
+#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
+#                  dán nó vào phần "value:" của item bạn cần
+
+title: '&0Nâng cấp kỹ năng %skillName%'
+skills:
+  critical_hit:
+    unlocked:
+      name: '&#fc4103Chí mạng &e[Level: %level%]'
+      type: material
+      value: GREEN_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fSát thương: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&aĐã mở khóa'
+    locked:
+      name: '&#fc4103Chí mạng &e[Level: %level%]'
+      type: material
+      value: RED_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fSát thương: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&fYêu cầu: %currencySymbol%%price% &e%currencyName%'
+        - ''
+        - '&eNhấn vào đây để mở khóa'
+  dodge:
+    unlocked:
+      name: '&#03fcfcNé đòn &e[Level: %level%]'
+      type: material
+      value: GREEN_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&aĐã mở khóa'
+      customLore:
+        enabled: true
+        level:
+          2:
+          - ''
+          - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+          - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
+          - '  &fcho đối phương.'
+          - ''
+          - '&aĐã mở khóa'
+    locked:
+      name: '&#03fcfcNé đòn &e[Level: %level%]'
+      type: material
+      value: RED_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - ''
+        - '&eNhấn vào đây để mở khóa'
+      customLore:
+        enabled: true
+        level:
+          2:
+            - ''
+            - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+            - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
+            - '  &fcho đối phương.'
+            - ''
+            - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+            - ''
+            - '&eNhấn vào đây để mở khóa'
+  life_steal:
+    unlocked:
+      name: '&#fc9403Hút máu &e[Level: %level%]'
+      type: material
+      value: GREEN_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fHút máu: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&aĐã mở khóa'
+    locked:
+      name: '&#fc9403Hút máu &e[Level: %level%]'
+      type: material
+      value: RED_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fHút máu: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
+        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - ''
+        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - ''
+        - '&eNhấn vào đây để mở khóa'
+  boost_score:
+    unlocked:
+      name: '&#fc03c6Tăng điểm &e[Level: %level%]'
+      type: material
+      value: GREEN_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fCộng thêm: &7%oldBoostScore% ĐIỂM &e⇨ &6%newBoostScore% ĐIỂM'
+        - ''
+        - '&aĐã mở khóa'
+    locked:
+      name: '&#fc03c6Tăng điểm &e[Level: %level%]'
+      type: material
+      value: RED_STAINED_GLASS_PANE
+      customModelData: 0
+      lore:
+        - ''
+        - '&8- &fCộng thêm: &7%oldBoostScore% ĐIỂM &e⇨ &6%newBoostScore% ĐIỂM'
+        - ''
+        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - ''
+        - '&eNhấn vào đây để mở khóa'
+items:
+  border:
+    enabled: true
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    name: ''
+    lore:
+      - ''
+  invalidSkillLevel:
+    type: material
+    value: LIGHT_GRAY_STAINED_GLASS_PANE
+    customModelData: 0
+    name: '&7Kỹ năng này chưa được cài đặt'
+    lore:
+      - '&cKhông thể nâng cấp'
+  nextPage:
+    name: '&aTrang sau'
+    slot: 5
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
+    customModelData: 0
+    lore:
+      - '&7Sang trang %nextPage%'
+  prevPage:
+    name: '&aTrang trước'
+    slot: 2
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
+    customModelData: 0
+    lore:
+      - '&7Về trang %prevPage%'
+  close:
+    name: '&cĐóng'
+    slot: 4
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    lore:
+      - '&eNhấn vào đây để đóng'
+  back:
+    name: '&eTrở về'
+    slot: 3
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    lore:
+      - '&eNhấn vào đây để trở về'

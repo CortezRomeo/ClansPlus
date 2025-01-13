@@ -6,6 +6,8 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.skill.PluginSkill;
+import com.cortezromeo.clansplus.inventory.UpgradePluginSkillInventory;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.command.Command;
@@ -86,6 +88,8 @@ public class PluginTestCommand implements CommandExecutor {
                     exception.printStackTrace();
                 }
             }
+            if (args[0].equalsIgnoreCase("upgrade"))
+                new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()), PluginSkill.valueOf(args[1].toUpperCase())).open();
         }
 
         return false;

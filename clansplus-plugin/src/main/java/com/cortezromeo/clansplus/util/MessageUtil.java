@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class MessageUtil {
 
     public static void throwErrorMessage(String message) {
-        Bukkit.getLogger().severe(message);
+        Bukkit.getLogger().severe(ClansPlus.nms.addColor(message));
         log("&4&l[BANG HOI ERROR] &c&lIf this error affect player's experience, please contact me through discord: Cortez_Romeo");
     }
 

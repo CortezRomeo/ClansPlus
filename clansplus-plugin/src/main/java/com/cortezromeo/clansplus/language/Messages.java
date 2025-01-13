@@ -14,6 +14,12 @@ public class Messages {
     public static String RANK_DISPLAY_MEMBER;
     public static String RANK_DISPLAY_MANAGER;
     public static String RANK_DISPLAY_LEADER;
+    public static String CURRENCY_DISPLAY_VAULT_SYMBOL;
+    public static String CURRENCY_DISPLAY_VAULT_NAME;
+    public static String CURRENCY_DISPLAY_PLAYERPOINTS_SYMBOL;
+    public static String CURRENCY_DISPLAY_PLAYERPOINTS_NAME;
+    public static String CURRENCY_DISPLAY_WARPOINT_SYMBOL;
+    public static String CURRENCY_DISPLAY_WARPOINT_NAME;
     public static String ONLINE_STATUS_OFFLINE;
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
@@ -113,6 +119,12 @@ public class Messages {
         RANK_DISPLAY_MEMBER = fileConfiguration.getString("rank-display.MEMBER");
         RANK_DISPLAY_MANAGER = fileConfiguration.getString("rank-display.MANAGER");
         RANK_DISPLAY_LEADER = fileConfiguration.getString("rank-display.LEADER");
+        CURRENCY_DISPLAY_VAULT_SYMBOL = fileConfiguration.getString("currency-display.VAULT.symbol");
+        CURRENCY_DISPLAY_VAULT_NAME = fileConfiguration.getString("currency-display.VAULT.name");
+        CURRENCY_DISPLAY_PLAYERPOINTS_SYMBOL = fileConfiguration.getString("currency-display.PLAYERPOINTS.symbol");
+        CURRENCY_DISPLAY_PLAYERPOINTS_NAME = fileConfiguration.getString("currency-display.PLAYERPOINTS.name");
+        CURRENCY_DISPLAY_WARPOINT_SYMBOL = fileConfiguration.getString("currency-display.WARPOINT.symbol");
+        CURRENCY_DISPLAY_WARPOINT_NAME = fileConfiguration.getString("currency-display.WARPOINT.name");
         ONLINE_STATUS_OFFLINE = fileConfiguration.getString("online-status.offline");
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");

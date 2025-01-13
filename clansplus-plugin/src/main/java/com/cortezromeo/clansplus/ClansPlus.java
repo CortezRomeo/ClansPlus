@@ -2,16 +2,19 @@ package com.cortezromeo.clansplus;
 
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
 import com.cortezromeo.clansplus.api.server.VersionSupport;
+import com.cortezromeo.clansplus.clan.skill.plugin.BoostScoreSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.CriticalHitSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.DodgeSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.LifeStealSkill;
 import com.cortezromeo.clansplus.command.ClanCommand;
 import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.file.EventsFile;
+import com.cortezromeo.clansplus.file.SkillsFile;
+import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
-import com.cortezromeo.clansplus.listener.InventoryClickListener;
-import com.cortezromeo.clansplus.listener.PlayerChatListener;
-import com.cortezromeo.clansplus.listener.PlayerJoinListener;
-import com.cortezromeo.clansplus.listener.PlayerQuitListener;
+import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
@@ -50,6 +53,7 @@ public class ClansPlus extends JavaPlugin {
         PluginDataManager.loadAllDatabase();
         initCommands();
         initListener();
+        initSkills();
 
         // Check license key when the plugin is activated from dihoastore.net
 /*        if (!DiHoaStore.doDiHoa()) {
@@ -266,6 +270,18 @@ public class ClansPlus extends JavaPlugin {
         }
         ViewClanInventoryFile.reload();
 
+        // inventories/upgrade-skill-list-inventory.yml
+        String upgradePluginSkillFileName = "upgrade-skill-list-inventory.yml";
+        UpgradePluginSkillListInventoryFile.setup();
+        UpgradePluginSkillListInventoryFile.saveDefault();
+        File upgradePluginSkillFile = new File(getDataFolder() + "/inventories/upgrade-skill-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, upgradePluginSkillFileName, upgradePluginSkillFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        UpgradePluginSkillListInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -290,6 +306,52 @@ public class ClansPlus extends JavaPlugin {
         EventsFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded events.yml.");
 
+        // skills.yml
+        String skillsFileName = "skills.yml";
+        File skillsFile = new File(getDataFolder() + "/skills.yml");
+        if (!skillsFile.exists()) {
+            try {
+                SkillsFile.setup();
+                SkillsFile.saveDefault();
+                ConfigUpdater.update(this, skillsFileName, skillsFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                SkillsFile.setup();
+                SkillsFile.saveDefault();
+                ConfigUpdater.update(this, skillsFileName, skillsFile,
+                        "plugin-skills");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        SkillsFile.reload();
+        MessageUtil.debug("LOADING FILE", "Loaded skills.yml.");
+
+        // upgrade.yml
+        String upgradeFileName = "upgrade.yml";
+        File upgradeFile = new File(getDataFolder() + "/upgrade.yml");
+        if (!upgradeFile.exists()) {
+            try {
+                UpgradeFile.setup();
+                UpgradeFile.saveDefault();
+                ConfigUpdater.update(this, upgradeFileName, upgradeFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                UpgradeFile.setup();
+                UpgradeFile.saveDefault();
+                ConfigUpdater.update(this, upgradeFileName, upgradeFile, "upgrade.plugin-skills");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        UpgradeFile.reload();
+        MessageUtil.debug("LOADING FILE", "Loaded upgrade.yml.");
     }
 
     public void initLanguages() {
@@ -316,8 +378,17 @@ public class ClansPlus extends JavaPlugin {
     public void initListener() {
         new PlayerJoinListener();
         new InventoryClickListener();
+        new EntityDamageListener();
         new PlayerChatListener();
         new PlayerQuitListener();
+        new PlayerDeathListener();
+    }
+
+    public void initSkills() {
+        CriticalHitSkill.registerSkill();
+        DodgeSkill.registerSkill();
+        LifeStealSkill.registerSkill();
+        BoostScoreSkill.registerSkill();
     }
 
     public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {

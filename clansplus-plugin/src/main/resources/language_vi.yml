@@ -18,6 +18,16 @@ rank-display:
   MEMBER: '&#34eb6bThành viên'
   MANAGER: '&#1d98d1Quản lý'
   LEADER: '&#e8e51eLãnh đạo'
+currency-display:
+  VAULT:
+    symbol: '&6$'
+    name: '&6tiền'
+  PLAYERPOINTS:
+    symbol: '&b۞'
+    name: '&bXu'
+  WARPOINT:
+    symbol: '&c✬'
+    name: '&cWar point'
 subject-description:
   invite: 'Mời người khác vào bang hội'
   kick: 'Đuổi một thành viên ra khỏi bang hội'

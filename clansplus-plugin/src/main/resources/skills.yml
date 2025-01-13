@@ -1,0 +1,187 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+
+plugin-skills:
+  critical_hit:
+    enabled: true
+    name: '&#fc4103Chí mạng'
+    description: '&fGây sát thương chí mạng.'
+    ID: 1
+    on-hit-damage:
+      level:
+        1: "%damage% * 1.05"
+        2: "%damage% * 1.08"
+        3: "%damage% * 1.11"
+        4: "%damage% * 1.14"
+        5: "%damage% * 1.17"
+        6: "%damage% * 1.20"
+        7: "%damage% * 1.23"
+        8: "%damage% * 1.26"
+        9: "%damage% * 1.29"
+        10: "%damage% * 1.32"
+        11: "%damage% * 1.35"
+        12: "%damage% * 1.38"
+        13: "%damage% * 1.41"
+        14: "%damage% * 1.44"
+        15: "%damage% * 1.47"
+        16: "%damage% * 1.50"
+        17: "%damage% * 1.53"
+        18: "%damage% * 1.56"
+        19: "%damage% * 1.59"
+        20: "%damage% * 1.62"
+        21: "%damage% * 1.65"
+        22: "%damage% * 1.68"
+        23: "%damage% * 1.71"
+        24: "%damage% * 1.74"
+        25: "%damage% * 1.77"
+    activate-sound:
+      name: ENTITY_BLAZE_HURT
+      pitch: 1
+      volume: 2
+    rate-to-activate:
+      level:
+        1: 10
+        2: 12
+        3: 14
+        4: 16
+        5: 18
+        6: 20
+        7: 22
+        8: 24
+        9: 26
+        10: 28
+        11: 30
+        12: 32
+        13: 34
+        14: 36
+        15: 38
+        16: 40
+        17: 42
+        18: 44
+        19: 46
+        20: 48
+        21: 50
+        22: 52
+        23: 54
+        24: 56
+        25: 58
+  dodge:
+    enabled: true
+    name: '&#03fcfcNé đòn'
+    description: '&fChặn hoàn toàn đòn đánh của đối phương'
+    ID: 2
+    # Dội lại sát thương
+    damage-reflection:
+      # Cấp độ cần để kích hoạt
+      level-to-activate: 2
+      # Tính toán sát thương dội lại
+      damage-reflection: '%damage%'
+    activate-sound:
+      name: ITEM_SHIELD_BLOCK
+      pitch: 1
+      volume: 2
+    rate-to-activate:
+      level:
+        1: 10
+        2: 12
+        3: 14
+        4: 16
+        5: 18
+        6: 20
+        7: 22
+        8: 24
+        9: 26
+        10: 28
+        11: 30
+        12: 32
+        13: 34
+        14: 36
+        15: 38
+        16: 40
+        17: 42
+        18: 44
+        19: 46
+        20: 48
+        21: 50
+        22: 52
+        23: 54
+        24: 56
+        25: 58
+  life_steal:
+    enabled: true
+    name: '&#fc9403Hút máu'
+    description: '&fHút máu đối phương khi gây sát thương'
+    ID: 3
+    activate-sound:
+      name: ENTITY_WITHER_SHOOT
+      pitch: 2
+      volume: 1
+    heal:
+      level:
+        1: "%playerMaxHealth% / 9"
+        2: "%playerMaxHealth% / 8.8"
+        3: "%playerMaxHealth% / 8.6"
+        4: "%playerMaxHealth% / 8.4"
+        5: "%playerMaxHealth% / 8.2"
+        6: "%playerMaxHealth% / 8"
+        7: "%playerMaxHealth% / 7.8"
+        8: "%playerMaxHealth% / 7.6"
+        9: "%playerMaxHealth% / 7.4"
+        10: "%playerMaxHealth% / 7.2"
+        11: "%playerMaxHealth% / 7.0"
+        12: "%playerMaxHealth% / 6.8"
+        13: "%playerMaxHealth% / 6.6"
+        14: "%playerMaxHealth% / 6.4"
+        15: "%playerMaxHealth% / 6.2"
+        16: "%playerMaxHealth% / 6"
+        17: "%playerMaxHealth% / 5.8"
+        18: "%playerMaxHealth% / 5.6"
+        19: "%playerMaxHealth% / 5.4"
+        20: "%playerMaxHealth% / 5.2"
+        21: "%playerMaxHealth% / 5"
+        22: "%playerMaxHealth% / 4.8"
+        23: "%playerMaxHealth% / 4.6"
+        24: "%playerMaxHealth% / 4.4"
+        25: "%playerMaxHealth% / 4.2"
+    rate-to-activate:
+      level:
+        1: 10
+        2: 12
+        3: 14
+        4: 16
+        5: 18
+        6: 20
+        7: 22
+        8: 24
+        9: 26
+        10: 28
+        11: 30
+        12: 32
+        13: 34
+        14: 36
+        15: 38
+        16: 40
+        17: 42
+        18: 44
+        19: 46
+        20: 48
+        21: 50
+        22: 52
+        23: 54
+        24: 56
+        25: 58
+  boost_score:
+    enabled: true
+    name: '&#fc03c6Tăng điểm'
+    description: '&fCộng thêm điểm phụ khi bang hội được cộng điểm'
+    ID: 4
+    boost:
+      level:
+        1: 1
+        2: 2

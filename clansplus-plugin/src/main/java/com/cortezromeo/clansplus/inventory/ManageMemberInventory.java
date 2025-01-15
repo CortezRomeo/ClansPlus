@@ -11,6 +11,7 @@ import com.cortezromeo.clansplus.file.inventory.ManageMemberInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,8 +36,12 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
 
     @Override
     public void open() {
-        if (PluginDataManager.getClanDatabaseByPlayerName(playerName) != null)
-            super.open();
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        super.open();
     }
 
     @Override
@@ -60,8 +65,8 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
             return;
         }
 
-        // how can they get here?
-        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null || PluginDataManager.getClanDatabaseByPlayerName(playerName) == null) {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
             return;
         }
@@ -72,7 +77,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
         if (itemCustomData.contains("manageMembersRank=")) {
             itemCustomData = itemCustomData.replace("manageMembersRank=", "");
             new ManageMemberRankInventory(getOwner(), itemCustomData).open();
@@ -80,7 +85,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         if (itemCustomData.contains("kick=")) {
             itemCustomData = itemCustomData.replace("kick=", "");
             if (new Kick(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.KICK), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute())
-                new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+                new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
         }
     }
 

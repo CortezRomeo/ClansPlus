@@ -8,8 +8,10 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.RemoveAlly;
 import com.cortezromeo.clansplus.file.inventory.ManageAllyInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,8 +33,12 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
 
     @Override
     public void open() {
-        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) != null)
-            super.open();
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        super.open();
     }
 
     @Override
@@ -72,11 +78,11 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new AllyListInventory(getOwner(), playerClanData).open();
+            new AllyListInventory(getOwner(), playerClanData.getName()).open();
         if (itemCustomData.contains("remove=")) {
             itemCustomData = itemCustomData.replace("remove=", "");
             if (new RemoveAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), getOwner(), getOwner().getName(), itemCustomData).execute())
-                new AllyListInventory(getOwner(), playerClanData).open();
+                new AllyListInventory(getOwner(), playerClanData.getName()).open();
         }
     }
 

@@ -47,7 +47,7 @@ public class PluginDataH2Storage implements PluginStorage {
                     " OWNER TEXT, " +
                     " MESSAGE TEXT, " +
                     " SCORE INT, " +
-                    " WARPOINT INT, " +
+                    " WARPOINT LONG, " +
                     " WARNING INT, " +
                     " MAXMEMBERS INT, " +
                     " CREATEDDATE LONG, " +
@@ -129,7 +129,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setOwner(resultSet.getString("OWNER"));
                 clanData.setMessage(resultSet.getString("MESSAGE"));
                 clanData.setScore(resultSet.getInt("SCORE"));
-                clanData.setWarPoint(resultSet.getInt("WARPOINT"));
+                clanData.setWarPoint(resultSet.getLong("WARPOINT"));
                 clanData.setWarning(resultSet.getInt("WARNING"));
                 clanData.setMaxMembers(resultSet.getInt("MAXMEMBERS"));
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
@@ -218,7 +218,7 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(3, clanData.getOwner());
             preparedStatement.setString(4, clanData.getMessage());
             preparedStatement.setInt(5, clanData.getScore());
-            preparedStatement.setInt(6, clanData.getWarPoint());
+            preparedStatement.setLong(6, clanData.getWarPoint());
             preparedStatement.setInt(7, clanData.getWarning());
             preparedStatement.setInt(8, clanData.getMaxMembers());
             preparedStatement.setLong(9, clanData.getCreatedDate());
@@ -382,7 +382,7 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(3, "");         // OWNER
             preparedStatement.setString(4, "");         // MESSAGE
             preparedStatement.setInt(5, 0);             // SCORE
-            preparedStatement.setInt(6, 0);             // WARPOINT
+            preparedStatement.setLong(6, 0);             // WARPOINT
             preparedStatement.setInt(7, 0);             // WARNING
             preparedStatement.setInt(8, 0);             // MAXMEMBERS
             preparedStatement.setInt(9, 0);             // CREATEDDATE

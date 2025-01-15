@@ -46,6 +46,13 @@ database:
         clan: 'clandata'
         player: 'playerdata'
 
+# Thanh tiến trình
+progress-bar:
+  total-bars: 15
+  symbol:
+    completed: '&2&m━'
+    not-completed: '&f&m━'
+
 # Tùy chỉnh các thông số mặc định.
 clan-settings:
   # Số tiền cần để tạo.

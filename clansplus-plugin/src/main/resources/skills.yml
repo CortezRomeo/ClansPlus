@@ -13,6 +13,9 @@ plugin-skills:
     name: '&#fc4103Chí mạng'
     description: '&fGây sát thương chí mạng.'
     ID: 1
+    display:
+      type: MATERIAL
+      value: IRON_SWORD
     on-hit-damage:
       level:
         1: "%damage% * 1.05"
@@ -76,6 +79,9 @@ plugin-skills:
     name: '&#03fcfcNé đòn'
     description: '&fChặn hoàn toàn đòn đánh của đối phương'
     ID: 2
+    display:
+      type: MATERIAL
+      value: SHIELD
     # Dội lại sát thương
     damage-reflection:
       # Cấp độ cần để kích hoạt
@@ -122,6 +128,9 @@ plugin-skills:
       name: ENTITY_WITHER_SHOOT
       pitch: 2
       volume: 1
+    display:
+      type: MATERIAL
+      value: RED_DYE
     heal:
       level:
         1: "%playerMaxHealth% / 9"
@@ -181,6 +190,9 @@ plugin-skills:
     name: '&#fc03c6Tăng điểm'
     description: '&fCộng thêm điểm phụ khi bang hội được cộng điểm'
     ID: 4
+    display:
+      type: MATERIAL
+      value: EXPERIENCE_BOTTLE
     boost:
       level:
         1: 1

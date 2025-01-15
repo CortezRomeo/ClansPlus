@@ -22,8 +22,8 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Bang hội &#7526ad%formatClanName%'
-rows: 6
+title: '&0Quản lý kỹ năng'
+rows: 4
 items:
   border:
     enabled: true
@@ -35,63 +35,63 @@ items:
       - ''
   close:
     name: '&cĐóng'
-    slot: 49
+    slot: 31
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     lore:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 48
+    slot: 30
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     lore:
       - '&eNhấn vào đây để trở về'
-  clan:
-    name: '&#3498eb%formatClanName%'
+  critical_hit:
+    name: '%skillName%'
+    slot: 11
+    lore:
+      - '%status%'
+      - ''
+      - '%skillDescription%'
+      - ''
+      - '&fTiến trình:'
+      - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  dodge:
+    name: '%skillName%'
+    slot: 12
+    lore:
+      - '%status%'
+      - ''
+      - '%skillDescription%'
+      - ''
+      - '&fTiến trình:'
+      - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  life_steal:
+    name: '%skillName%'
     slot: 13
-    customModelData: 0
     lore:
-      - '&#565757%clanName%'
-      - '&#565757%createdDate%'
+      - '%status%'
       - ''
-      - '&f%message%'
+      - '%skillDescription%'
       - ''
-      - '&fĐiểm: &#d612e0%score%'
-      - '&fWar Point: &#e0122a%warPoint%'
-      - '&fLãnh đạo: &#e0cf12%owner%'
-      - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
-      - '&fSố lượng đồng minh: &#28c9d1%allySize%'
-  members:
-    name: '&#31e012Thành viên'
-    slot: 28
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmU2M2UzYmMwZDBhMGY1ZDk3NGMwYTlhMGUyYTBkYjUxYWMzOTFhZmZhMmJmYmY3OGQxNmQyOWM4NDA1Y2ZjYSJ9fX0=
-    customModelData: 0
-    lore:
-      - ''
-      - '&fTổng số thành viên: &#31e012%totalMembers%'
+      - '&fTiến trình:'
+      - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
       - ''
       - '&eNhấn vào đây để tùy chỉnh'
-  allies:
-    name: '&#28c9d1Đồng minh'
-    slot: 31
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
-    customModelData: 0
+  boost_score:
+    name: '%skillName%'
+    slot: 14
     lore:
+      - '%status%'
       - ''
-      - '&fTổng số đồng minh: &#28c9d1%totalAllies%'
+      - '%skillDescription%'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
-  skillsMenu:
-    name: '&dKỹ năng'
-    slot: 34
-    type: material
-    value: SHIELD
-    customModelData: 0
-    lore:
-      - ''
-      - '&fXem tiến trình kỹ năng của bang hội này.'
+      - '&fTiến trình:'
+      - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
       - ''
       - '&eNhấn vào đây để tùy chỉnh'

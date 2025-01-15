@@ -2,8 +2,10 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.file.inventory.MembersMenuInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -20,6 +22,11 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
         super.open();
     }
 
@@ -44,8 +51,8 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
             return;
         }
 
-        // how can they get here?
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
             return;
         }
@@ -60,7 +67,7 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("addMember"))
             new AddMemberListInventory(getOwner()).open();
         if (itemCustomData.equals("memberList"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
     }
 
     @Override

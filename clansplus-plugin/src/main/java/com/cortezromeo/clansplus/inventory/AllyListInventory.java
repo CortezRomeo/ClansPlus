@@ -21,15 +21,19 @@ public class AllyListInventory extends PaginatedInventory {
 
     FileConfiguration fileConfiguration = AllyListInventoryFile.get();
     private List<String> allies = new ArrayList<>();
-    private IClanData clanData;
+    private String clanName;
 
-    public AllyListInventory(Player owner, IClanData clanData) {
+    public AllyListInventory(Player owner, String clanName) {
         super(owner);
-        this.clanData = clanData;
+        this.clanName = clanName;
     }
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            return;
+        }
         super.open();
     }
 
@@ -52,6 +56,12 @@ public class AllyListInventory extends PaginatedInventory {
     public void handleMenu(InventoryClickEvent event) {
         event.setCancelled(true);
         if (event.getCurrentItem() == null) {
+            return;
+        }
+
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            getOwner().closeInventory();
             return;
         }
 
@@ -79,16 +89,23 @@ public class AllyListInventory extends PaginatedInventory {
 
         if (itemCustomData.equals("back")) {
             if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
+                if (playerData.getClan().equals(clanName)) {
                     new AlliesMenuInventory(getOwner()).open();
                     return;
                 }
             }
-            new ViewClanInventory(getOwner(), clanData.getName()).open();
+            new ViewClanInventory(getOwner(), clanName).open();
         }
+
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
+            return;
+
+        if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
+            return;
+
         if (itemCustomData.contains("ally=")) {
             if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
+                if (playerData.getClan().equals(clanName)) {
                     itemCustomData = itemCustomData.replace("ally=", "");
                     new ManageAllyInventory(getOwner(), itemCustomData).open();
                     return;
@@ -119,8 +136,8 @@ public class AllyListInventory extends PaginatedInventory {
                 return;
 
             allies.clear();
-            if (!clanData.getAllies().isEmpty()) {
-                allies.addAll(clanData.getAllies());
+            if (!PluginDataManager.getClanDatabase(clanName).getAllies().isEmpty()) {
+                allies.addAll(PluginDataManager.getClanDatabase(clanName).getAllies());
             }
 
             for (int i = 0; i < getMaxItemsPerPage(); i++) {

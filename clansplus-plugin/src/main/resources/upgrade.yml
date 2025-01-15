@@ -12,7 +12,7 @@
 # Dòng else trong khối price dùng để trả về giá trị đó nếu giá trị tiếp theo nằm ngoài các số trong danh sách.
 
 upgrade:
-  max-member:
+  max-members:
     # WARPOINT, VAULT, PLAYERPOINTS
     currency-type: WARPOINT
     # max member: cost

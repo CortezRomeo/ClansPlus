@@ -61,9 +61,11 @@ public class ViewClanInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("back"))
             new ClanListInventory(getOwner()).open();
         if (itemCustomData.equals("members"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabase(clanName)).open();
+            new MemberListInventory(getOwner(), clanName).open();
         if (itemCustomData.equals("allies"))
-            new AllyListInventory(getOwner(), PluginDataManager.getClanDatabase(clanName)).open();
+            new AllyListInventory(getOwner(), clanName).open();
+        if (itemCustomData.equals("skillsMenu"))
+            new SkillsMenuInventory(getOwner(), clanName).open();
     }
 
     @Override
@@ -132,6 +134,14 @@ public class ViewClanInventory extends ClanPlusInventoryBase {
                     alliesItemLore, false), "allies");
             int alliesItemSlot = fileConfiguration.getInt("items.allies.slot");
             inventory.setItem(alliesItemSlot, alliesClanItem);
+
+            ItemStack skillsMenuItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.skillsMenu.type"),
+                    fileConfiguration.getString("items.skillsMenu.value"),
+                    fileConfiguration.getInt("items.skillsMenu.customModelData"),
+                    fileConfiguration.getString("items.skillsMenu.name"),
+                    fileConfiguration.getStringList("items.skillsMenu.lore"), false), "skillsMenu");
+            int skillsMenuItemSlot = fileConfiguration.getInt("items.skillsMenu.slot");
+            inventory.setItem(skillsMenuItemSlot, skillsMenuItem);
         });
     }
 

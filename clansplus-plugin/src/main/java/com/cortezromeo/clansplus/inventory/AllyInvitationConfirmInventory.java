@@ -3,7 +3,6 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
-import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.AllyInivtationConfirmInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
@@ -19,17 +18,30 @@ import org.bukkit.inventory.ItemStack;
 public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
 
     FileConfiguration fileConfiguration = AllyInivtationConfirmInventoryFile.get();
-    private IClanData clanData;
+    private String clanName;
     private String targetClan;
 
-    public AllyInvitationConfirmInventory(Player owner, IClanData clanData, String targetClan) {
+    public AllyInvitationConfirmInventory(Player owner, String clanName, String targetClan) {
         super(owner);
-        this.clanData = clanData;
+        this.clanName = clanName;
         this.targetClan = targetClan;
     }
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            return;
+        }
+        if (PluginDataManager.getClanDatabase(targetClan) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", targetClan));
+            return;
+        }
         super.open();
     }
 
@@ -54,15 +66,24 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
             return;
         }
 
-        // how can they get here?
-        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null | !clanData.getAllyInvitation().contains(targetClan)) {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
+            return;
+        }
+
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            return;
+        }
+        if (PluginDataManager.getClanDatabase(targetClan) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", targetClan));
             return;
         }
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
-        Rank requiredRank = clanData.getSubjectPermission().get(Subject.MANAGEALLY);
+        Rank requiredRank = PluginDataManager.getClanDatabase(clanName).getSubjectPermission().get(Subject.MANAGEALLY);
 
         if (itemCustomData.equals("close")) {
             getOwner().closeInventory();
@@ -77,19 +98,19 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
             getOwner().closeInventory();
         } else {
             if (itemCustomData.equals("accept")) {
-                clanData.getAllyInvitation().remove(targetClan);
-                clanData.getAllies().add(targetClan);
-                PluginDataManager.getClanDatabase(targetClan).getAllies().add(clanData.getName());
-                PluginDataManager.saveClanDatabaseToStorage(clanData.getName(), clanData);
+                PluginDataManager.getClanDatabase(clanName).getAllyInvitation().remove(targetClan);
+                PluginDataManager.getClanDatabase(clanName).getAllies().add(targetClan);
+                PluginDataManager.getClanDatabase(targetClan).getAllies().add(clanName);
+                PluginDataManager.saveClanDatabaseToStorage(clanName);
                 PluginDataManager.saveClanDatabaseToStorage(targetClan);
                 MessageUtil.sendMessage(getOwner(), Messages.ACCEPT_ALLY_INVITE_SUCCESS.replace("%clan%", targetClan));
-                ClanManager.alertClan(clanData.getName(), Messages.CLAN_BROADCAST_NEW_ALLY_NOTIFICATION.replace("%clan%", targetClan));
-                ClanManager.alertClan(targetClan, Messages.CLAN_BROADCAST_NEW_ALLY_NOTIFICATION.replace("%clan%", clanData.getName()));
+                ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_NEW_ALLY_NOTIFICATION.replace("%clan%", targetClan));
+                ClanManager.alertClan(targetClan, Messages.CLAN_BROADCAST_NEW_ALLY_NOTIFICATION.replace("%clan%", clanName));
                 new AllyInvitationListInventory(getOwner()).open();
             }
             if (itemCustomData.equals("reject")) {
-                clanData.getAllyInvitation().remove(targetClan);
-                PluginDataManager.saveClanDatabaseToStorage(clanData.getName(), clanData);
+                PluginDataManager.getClanDatabase(clanName).getAllyInvitation().remove(targetClan);
+                PluginDataManager.saveClanDatabaseToStorage(clanName);
                 MessageUtil.sendMessage(getOwner(), Messages.REJECT_ALLY_INVITE_SUCCESS.replace("%clan%", targetClan));
                 new AllyInvitationListInventory(getOwner()).open();
             }
@@ -143,8 +164,8 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
             inventory.setItem(rejectItemSlot, rejectItem);
 
             ItemStack clanItem = ItemUtil.getClanItemStack(ItemUtil.getItem(
-                    clanData.getIconType().toString(),
-                    clanData.getIconValue(),
+                    PluginDataManager.getClanDatabase(clanName).getIconType().toString(),
+                    PluginDataManager.getClanDatabase(clanName).getIconValue(),
                     0,
                     fileConfiguration.getString("items.clan.name"),
                     fileConfiguration.getStringList("items.clan.lore"), false), PluginDataManager.getClanDatabase(targetClan));

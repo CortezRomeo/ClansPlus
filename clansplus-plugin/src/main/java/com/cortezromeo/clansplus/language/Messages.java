@@ -20,6 +20,8 @@ public class Messages {
     public static String CURRENCY_DISPLAY_PLAYERPOINTS_NAME;
     public static String CURRENCY_DISPLAY_WARPOINT_SYMBOL;
     public static String CURRENCY_DISPLAY_WARPOINT_NAME;
+    public static String STATUS_ENABLE;
+    public static String STATUS_DISABLE;
     public static String ONLINE_STATUS_OFFLINE;
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
@@ -27,6 +29,7 @@ public class Messages {
     public static String NO_PERMISSION;
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
+    public static String NOT_ENOUGH_CURRENCY;
     public static String MUST_BE_IN_CLAN;
     public static String CLAN_CANNOT_BE_THE_SAME;
     public static String TARGET_DOES_NOT_EXIST;
@@ -75,6 +78,7 @@ public class Messages {
     public static String ACCEPT_ALLY_INVITE_SUCCESS;
     public static String REJECT_ALLY_INVITE_SUCCESS;
     public static String REMOVE_ALLY_SUCCESS;
+    public static String ILLEGALLY_UPGRADE_SKILL;
     public static String LAST_PAGE;
     public static List<String> COMMAND_CLANPLUS_MESSAGES_NON_CLAN;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN;
@@ -100,6 +104,8 @@ public class Messages {
     public static String CLAN_BROADCAST_NEW_ALLY_NOTIFICATION;
     public static String CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION;
     public static String CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION;
+    public static String CLAN_BROADCAST_UPGRADE_MAX_MEMBERS;
+    public static String CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL;
     public static void setupValue(String locale) {
         locale = locale.toLowerCase();
         File messageFile = new File(ClansPlus.plugin.getDataFolder() + "/languages/language_" + locale + ".yml");
@@ -125,6 +131,8 @@ public class Messages {
         CURRENCY_DISPLAY_PLAYERPOINTS_NAME = fileConfiguration.getString("currency-display.PLAYERPOINTS.name");
         CURRENCY_DISPLAY_WARPOINT_SYMBOL = fileConfiguration.getString("currency-display.WARPOINT.symbol");
         CURRENCY_DISPLAY_WARPOINT_NAME = fileConfiguration.getString("currency-display.WARPOINT.name");
+        STATUS_ENABLE = fileConfiguration.getString("status.ENABLE");
+        STATUS_DISABLE = fileConfiguration.getString("status.DISABLE");
         ONLINE_STATUS_OFFLINE = fileConfiguration.getString("online-status.offline");
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
@@ -132,6 +140,7 @@ public class Messages {
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");
+        NOT_ENOUGH_CURRENCY = fileConfiguration.getString("messages.not-enough-currency");
         MUST_BE_IN_CLAN = fileConfiguration.getString("messages.must-be-in-clan");
         CLAN_CANNOT_BE_THE_SAME = fileConfiguration.getString("messages.clan-cannot-be-the-same");
         TARGET_DOES_NOT_EXIST = fileConfiguration.getString("messages.target-does-not-exist");
@@ -180,6 +189,7 @@ public class Messages {
         ACCEPT_ALLY_INVITE_SUCCESS = fileConfiguration.getString("messages.accept-ally-invite-success");
         REJECT_ALLY_INVITE_SUCCESS = fileConfiguration.getString("messages.reject-ally-invite-success");
         REMOVE_ALLY_SUCCESS = fileConfiguration.getString("messages.remove-ally-success");
+        ILLEGALLY_UPGRADE_SKILL = fileConfiguration.getString("messages.illegally-upgrade-skill");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         for (Subject subject : Subject.values())
             for (String subjectDescription : fileConfiguration.getConfigurationSection("subject-description").getKeys(false))
@@ -209,6 +219,8 @@ public class Messages {
         CLAN_BROADCAST_NEW_ALLY_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.new-ally-notification");
         CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.remove-ally-notification");
         CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.ally-removed-notification");
+        CLAN_BROADCAST_UPGRADE_MAX_MEMBERS = fileConfiguration.getString("messages.clan-broadcast.upgrade-max-members");
+        CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL = fileConfiguration.getString("messages.clan-broadcast.upgrade-plugin-skill");
 
         MessageUtil.debug("LOADING MESSAGES", "Loaded message file name: " + locale + ".");
     }

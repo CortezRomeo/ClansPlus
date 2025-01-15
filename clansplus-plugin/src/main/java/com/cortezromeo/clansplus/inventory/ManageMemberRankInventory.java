@@ -10,8 +10,10 @@ import com.cortezromeo.clansplus.clan.subject.RemoveManager;
 import com.cortezromeo.clansplus.clan.subject.SetManager;
 import com.cortezromeo.clansplus.clan.subject.SetOwner;
 import com.cortezromeo.clansplus.file.inventory.ManageMemberRankInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -34,8 +36,12 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
 
     @Override
     public void open() {
-        if (PluginDataManager.getClanDatabaseByPlayerName(playerName) != null)
-            super.open();
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        super.open();
     }
 
     @Override
@@ -59,7 +65,6 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
             return;
         }
 
-        // how can they get here?
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null || PluginDataManager.getClanDatabaseByPlayerName(playerName) == null) {
             getOwner().closeInventory();
             return;

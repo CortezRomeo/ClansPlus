@@ -155,7 +155,7 @@ public class ClanListInventory extends PaginatedInventory {
             if (sortItemType == SortItemType.HIGHESTSCORE)
                 clans = HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap());
             if (sortItemType == SortItemType.HIGHESTWARPOINT)
-                clans = HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansWarpointHashMap());
+                clans = HashMapUtil.sortFromGreatestToLowestL(ClanManager.getClansWarpointHashMap());
             if (sortItemType == SortItemType.HIGHESTPLAYERSIZE)
                 clans = HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansPlayerSize());
             if (sortItemType == SortItemType.OLDEST)
@@ -191,12 +191,12 @@ public class ClanListInventory extends PaginatedInventory {
         String bestScoreClanName;
         int bestScoreClanValue;
         String bestWarPointClanName;
-        int bestWarPointClanValue;
+        long bestWarPointClanValue;
         String oldestClanName;
         String oldestClanValue;
         if (!PluginDataManager.getClanDatabase().isEmpty()) {
             IClanData bestScoreClan = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap()).get(0));
-            IClanData bestWarPointClan = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansWarpointHashMap()).get(0));
+            IClanData bestWarPointClan = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestL(ClanManager.getClansWarpointHashMap()).get(0));
             IClanData oldestClan = PluginDataManager.getClanDatabase(HashMapUtil.sortFromLowestToGreatestL(ClanManager.getClansCreatedDate()).get(0));
             bestScoreClanName = ClanManager.getFormatClanName(bestScoreClan);
             bestWarPointClanName = ClanManager.getFormatClanName(bestWarPointClan);

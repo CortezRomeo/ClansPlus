@@ -35,6 +35,11 @@ public class AddMemberListInventory extends PaginatedInventory {
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
         super.open();
     }
 
@@ -60,6 +65,7 @@ public class AddMemberListInventory extends PaginatedInventory {
         }
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
             return;
         }

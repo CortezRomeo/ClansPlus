@@ -19,6 +19,8 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
         super(owner);
     }
 
+    public abstract int[] getSkillTrack();
+
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         if (fileConfiguration.getBoolean("items.border.enabled")) {
             ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
@@ -30,22 +32,12 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                 inventory.setItem(itemSlot, borderItem);
         }
 
-        int[] values = {
-                0, 9, 18,
-                27, 28, 29, 20,
-                11, 2, 3, 4,
-                13, 22, 31, 32,
-                33, 24, 15, 6,
-                7, 8, 17, 26,
-                35, 44, 53,
-        };
-
         ItemStack invalidSkillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.invalidSkillLevel.type"),
                 fileConfiguration.getString("items.invalidSkillLevel.value"),
                 fileConfiguration.getInt("items.invalidSkillLevel.customModelData"),
                 fileConfiguration.getString("items.invalidSkillLevel.name"),
                 fileConfiguration.getStringList("items.invalidSkillLevel.lore"), false), "invalidSkillLevel");
-        for (int invalidSkillItemLevelSlot : values)
+        for (int invalidSkillItemLevelSlot : getSkillTrack())
             inventory.setItem(invalidSkillItemLevelSlot, invalidSkillLevelItem);
 
         ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
@@ -54,11 +46,6 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                 fileConfiguration.getString("items.close.name"),
                 fileConfiguration.getStringList("items.close.lore"), false), "close");
         int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-        if (closeItemSlot < 0)
-            closeItemSlot = 1;
-        if (closeItemSlot > 8)
-            closeItemSlot = 7;
-        closeItemSlot = (getSlots() - 9) + closeItemSlot;
 
         ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.prevPage.type"),
                 fileConfiguration.getString("items.prevPage.value"),
@@ -66,11 +53,6 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                 fileConfiguration.getString("items.prevPage.name"),
                 fileConfiguration.getStringList("items.prevPage.lore"), false), "prevPage");
         int prevPageItemSlot = fileConfiguration.getInt("items.prevPage.slot");
-        if (prevPageItemSlot < 0)
-            prevPageItemSlot = 1;
-        if (prevPageItemSlot > 8)
-            prevPageItemSlot = 7;
-        prevPageItemSlot = (getSlots() - 9) + prevPageItemSlot;
 
         ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.nextPage.type"),
                 fileConfiguration.getString("items.nextPage.value"),
@@ -78,11 +60,6 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                 fileConfiguration.getString("items.nextPage.name"),
                 fileConfiguration.getStringList("items.nextPage.lore"), false), "nextPage");
         int nextPageItemSlot = fileConfiguration.getInt("items.nextPage.slot");
-        if (nextPageItemSlot < 0)
-            nextPageItemSlot = 1;
-        if (nextPageItemSlot > 8)
-            nextPageItemSlot = 7;
-        nextPageItemSlot = (getSlots() - 9) + nextPageItemSlot;
 
         if (page > 0)
             inventory.setItem(prevPageItemSlot, getPageItemStack(prevItem));
@@ -104,6 +81,6 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
     }
 
     public int getMaxItemsPerPage() {
-        return 26;
+        return getSkillTrack().length;
     }
 }

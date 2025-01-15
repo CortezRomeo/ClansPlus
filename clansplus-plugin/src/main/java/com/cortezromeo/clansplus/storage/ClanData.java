@@ -16,7 +16,7 @@ public class ClanData implements IClanData {
     private String owner;
     private String message;
     private int score;
-    private int warPoint;
+    private long warPoint;
     private int warning;
     private int maxMembers;
     private long createdDate;
@@ -31,7 +31,7 @@ public class ClanData implements IClanData {
     private long discordChannelID;
     private String discordJoinLink;
 
-    public ClanData(String name, String customName, String owner, String message, int score, int warPoint, int warning, int maxMembers, long createdDate,
+    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate,
                     IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
                     List<String> allyInvitation, long discordChannelID, String discordJoinLink) {
         this.name = name;
@@ -106,12 +106,12 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public int getWarPoint() {
+    public long getWarPoint() {
         return warPoint;
     }
 
     @Override
-    public void setWarPoint(int warPoint) {
+    public void setWarPoint(long warPoint) {
         this.warPoint = warPoint;
     }
 

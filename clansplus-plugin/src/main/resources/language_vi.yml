@@ -28,6 +28,9 @@ currency-display:
   WARPOINT:
     symbol: '&c✬'
     name: '&cWar point'
+status:
+  ENABLE: '&aĐang hoạt động'
+  DISABLE: '&cĐã bị ngừng hoạt động'
 subject-description:
   invite: 'Mời người khác vào bang hội'
   kick: 'Đuổi một thành viên ra khỏi bang hội'
@@ -50,6 +53,7 @@ messages:
   no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'
   non-console-command: '%prefix%&#d12f1d&l| &fConsole không thể sử dụng lệnh này.'
   command-confirmation: '%prefix%&#35d11d&l| &fVui lòng nhập lại lệnh một lần nữa để xác nhận.'
+  not-enough-currency: '%prefix%&#d12f1d&l| &fKhông có đủ %currencySymbol%%price% %currencyName%&f.'
   must-be-in-clan: '%prefix%&#d12f1d&l| &fBạn cần ở trong bang hội để có thể làm điều này.'
   clan-cannot-be-the-same: '%prefix%&#d12f1d&l| &fBạn không thể làm điều này với bang hôi của chính bạn.'
   target-does-not-exist: '%prefix%&#d12f1d&l| &fDữ liệu của &e%player%&f không tồn tại.'
@@ -101,6 +105,7 @@ messages:
   accept-ally-invite-success: '%prefix%&#35d11d&l| &fBạn đã chấp nhận lời mời làm đồng minh của bang hội &e%clan%'
   reject-ally-invite-success: '%prefix%&#35d11d&l| &fBạn đã từ chối lời mời làm đồng minh của bang hội &e%clan%'
   remove-ally-success: '%prefix%&#35d11d&l| &fBạn đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh!'
+  illegally-upgrade-skill: '%prefix%&#d12f1d&l| &fBạn cần phải nâng cấp trước cấp độ &e%skillLevel%&f.'
   last-page: ''
   using-chat-box:
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
@@ -120,6 +125,8 @@ messages:
     new-ally-notification: '%prefix%&#35d11d&l| &fBang hội &e%clan%&f đã trở thành đồng minh!'
     remove-ally-notification: '%prefix%&#35d11d&l| &e%player%&f đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh.'
     ally-removed-notification: '%prefix%&#d12f1d&l| &fBang hội này đã bị xóa khỏi danh sách đồng minh của bang hội &e%clan%&f bởi &e%player%&f.'
+    upgrade-max-members: '%prefix%&#35d11d&l| &e%player%&f đã nâng cấp số lượng thành viên tối đa lên &2%newMaxMembers%&f.'
+    upgrade-plugin-skill: '%prefix%&#35d11d&l| &e%player%&f đã nâng cấp %skillName%&f lên cấp độ &e%newLevel%&f.'
   commands:
     clanplus:
       messages:

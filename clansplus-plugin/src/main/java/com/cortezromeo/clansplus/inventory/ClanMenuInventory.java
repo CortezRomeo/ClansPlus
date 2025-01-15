@@ -4,8 +4,10 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.ClanMenuInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +27,11 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
         super.open();
     }
 
@@ -54,13 +61,14 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             return;
         }
 
-        ItemStack itemStack = event.getCurrentItem();
-        String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
-
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
             return;
         }
+
+        ItemStack itemStack = event.getCurrentItem();
+        String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
@@ -70,6 +78,8 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new ClanListInventory(getOwner()).open();
         if (itemCustomData.equals("allies"))
             new AlliesMenuInventory(getOwner()).open();
+        if (itemCustomData.equals("upgrade"))
+            new UpgradeMenuInventory(getOwner()).open();
     }
 
     @Override

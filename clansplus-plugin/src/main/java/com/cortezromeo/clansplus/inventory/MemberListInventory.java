@@ -1,7 +1,6 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.MemberListInventoryFile;
@@ -29,16 +28,20 @@ public class MemberListInventory extends PaginatedInventory {
     FileConfiguration fileConfiguration = MemberListInventoryFile.get();
     private SortItemType sortItemType;
     private List<String> players = new ArrayList<>();
-    private IClanData clanData;
+    private String clanName;
 
-    public MemberListInventory(Player owner, IClanData clanData) {
+    public MemberListInventory(Player owner, String clanName) {
         super(owner);
         sortItemType = SortItemType.PERMISSION;
-        this.clanData = clanData;
+        this.clanName = clanName;
     }
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            return;
+        }
         super.open();
     }
 
@@ -61,6 +64,12 @@ public class MemberListInventory extends PaginatedInventory {
     public void handleMenu(InventoryClickEvent event) {
         event.setCancelled(true);
         if (event.getCurrentItem() == null) {
+            return;
+        }
+
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            getOwner().closeInventory();
             return;
         }
 
@@ -88,13 +97,20 @@ public class MemberListInventory extends PaginatedInventory {
 
         if (itemCustomData.equals("back")) {
             if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
+                if (playerData.getClan().equals(clanName)) {
                     new MembersMenuInventory(getOwner()).open();
                     return;
                 }
             }
-            new ViewClanInventory(getOwner(), clanData.getName()).open();
+            new ViewClanInventory(getOwner(), clanName).open();
         }
+
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
+            return;
+
+        if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
+            return;
+
         if (itemCustomData.equals("sortItem")) {
             if (sortItemType == SortItemType.PERMISSION)
                 sortItemType = SortItemType.SCORECOLLECTED;
@@ -107,7 +123,7 @@ public class MemberListInventory extends PaginatedInventory {
         }
         if (itemCustomData.contains("player=")) {
             if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
+                if (playerData.getClan().equals(clanName)) {
                     itemCustomData = itemCustomData.replace("player=", "");
                     new ManageMemberInventory(getOwner(), itemCustomData).open();
                     return;
@@ -153,7 +169,7 @@ public class MemberListInventory extends PaginatedInventory {
             players.clear();
 
             if (sortItemType == SortItemType.PERMISSION) {
-                for (String member : clanData.getMembers()) {
+                for (String member : PluginDataManager.getClanDatabase(clanName).getMembers()) {
                     IPlayerData memberData = PluginDataManager.getPlayerDatabase(member);
                     List<IPlayerData> playerDataList = new ArrayList<>();
                     playerDataList.add(memberData);
@@ -164,14 +180,14 @@ public class MemberListInventory extends PaginatedInventory {
             }
             if (sortItemType == SortItemType.SCORECOLLECTED) {
                 HashMap<String, Long> playersScore = new HashMap<>();
-                for (String member : clanData.getMembers()) {
+                for (String member : PluginDataManager.getClanDatabase(clanName).getMembers()) {
                     playersScore.put(member, PluginDataManager.getPlayerDatabase(member).getScoreCollected());
                 }
                 players = HashMapUtil.sortFromGreatestToLowestL(playersScore);
             }
             if (sortItemType == SortItemType.JOINDATE) {
                 HashMap<String, Long> playersJoinDate = new HashMap<>();
-                for (String member : clanData.getMembers()) {
+                for (String member : PluginDataManager.getClanDatabase(clanName).getMembers()) {
                     playersJoinDate.put(member, PluginDataManager.getPlayerDatabase(member).getJoinDate());
                 }
                 players = HashMapUtil.sortFromLowestToGreatestL(playersJoinDate);

@@ -31,6 +31,11 @@ public class AllyInvitationListInventory extends PaginatedInventory {
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
         super.open();
     }
 
@@ -56,6 +61,7 @@ public class AllyInvitationListInventory extends PaginatedInventory {
         }
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
             return;
         }
@@ -85,7 +91,7 @@ public class AllyInvitationListInventory extends PaginatedInventory {
             IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
             if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), playerClanData.getSubjectPermission().get(Subject.MANAGEALLY))) {
                 itemCustomData = itemCustomData.replace("manage=", "");
-                new AllyInvitationConfirmInventory(getOwner(), playerClanData, itemCustomData).open();
+                new AllyInvitationConfirmInventory(getOwner(), playerClanData.getName(), itemCustomData).open();
             }
         }
     }

@@ -64,30 +64,30 @@ public class ClanManager {
         if (PluginDataManager.getClanDatabase().isEmpty())
             return null;
 
-        HashMap<String, Integer> clansScore = new HashMap<>();
+        HashMap<String, Integer> clansPlayerSize = new HashMap<>();
         for (String clanName : PluginDataManager.getClanDatabase().keySet())
-            clansScore.put(clanName, PluginDataManager.getClanDatabase(clanName).getMembers().size());
-        return clansScore;
+            clansPlayerSize.put(clanName, PluginDataManager.getClanDatabase(clanName).getMembers().size());
+        return clansPlayerSize;
     }
 
-    public static HashMap<String, Integer> getClansWarpointHashMap() {
+    public static HashMap<String, Long> getClansWarpointHashMap() {
         if (PluginDataManager.getClanDatabase().isEmpty())
             return null;
 
-        HashMap<String, Integer> clansScore = new HashMap<>();
+        HashMap<String, Long> clansWarPoint = new HashMap<>();
         for (String clanName : PluginDataManager.getClanDatabase().keySet())
-            clansScore.put(clanName, PluginDataManager.getClanDatabase(clanName).getWarPoint());
-        return clansScore;
+            clansWarPoint.put(clanName, PluginDataManager.getClanDatabase(clanName).getWarPoint());
+        return clansWarPoint;
     }
 
     public static HashMap<String, Long> getClansCreatedDate() {
         if (PluginDataManager.getClanDatabase().isEmpty())
             return null;
 
-        HashMap<String, Long> clansScore = new HashMap<>();
+        HashMap<String, Long> clansCreatedDate = new HashMap<>();
         for (String clanName : PluginDataManager.getClanDatabase().keySet())
-            clansScore.put(clanName, PluginDataManager.getClanDatabase(clanName).getCreatedDate());
-        return clansScore;
+            clansCreatedDate.put(clanName, PluginDataManager.getClanDatabase(clanName).getCreatedDate());
+        return clansCreatedDate;
     }
 
     public static List<String> getClansCustomName() {

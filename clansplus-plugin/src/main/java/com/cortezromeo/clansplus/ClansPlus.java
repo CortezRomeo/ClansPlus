@@ -12,16 +12,22 @@ import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
+import com.cortezromeo.clansplus.inventory.ClanPlusInventoryBase;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
+import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
+import net.milkbowl.vault.economy.Economy;
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +41,8 @@ public class ClansPlus extends JavaPlugin {
     public static DatabaseType databaseType;
     private static com.cortezromeo.clansplus.api.ClanPlus api;
     private static boolean papiSupport = false;
+    public static Economy vaultEconomy;
+    private static PlayerPointsAPI playerPointsAPI;
 
     @Override
     public void onLoad() {
@@ -54,6 +62,7 @@ public class ClansPlus extends JavaPlugin {
         initCommands();
         initListener();
         initSkills();
+        initSupports();
 
         // Check license key when the plugin is activated from dihoastore.net
 /*        if (!DiHoaStore.doDiHoa()) {
@@ -67,6 +76,18 @@ public class ClansPlus extends JavaPlugin {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void initSupports() {
+        // vault
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            VaultSupport.setup();
+        }
+
+        // playerpoints
+        if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
+            playerPointsAPI = PlayerPoints.getInstance().getAPI();
         }
     }
 
@@ -282,6 +303,30 @@ public class ClansPlus extends JavaPlugin {
         }
         UpgradePluginSkillListInventoryFile.reload();
 
+        // inventories/upgrade-menu-inventory.yml
+        String upgradeMenuFileName = "upgrade-menu-inventory.yml";
+        UpgradeMenuInventoryFile.setup();
+        UpgradeMenuInventoryFile.saveDefault();
+        File upgradeMenuFile = new File(getDataFolder() + "/inventories/upgrade-menu-inventory.yml");
+        try {
+            ConfigUpdater.update(this, upgradeMenuFileName, upgradeMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        UpgradeMenuInventoryFile.reload();
+
+        // inventories/skills-menu-inventory.yml
+        String skillsMenuFileName = "skills-menu-inventory.yml";
+        SkillsMenuInventoryFile.setup();
+        SkillsMenuInventoryFile.saveDefault();
+        File skillsMenuFile = new File(getDataFolder() + "/inventories/skills-menu-inventory.yml");
+        try {
+            ConfigUpdater.update(this, skillsMenuFileName, skillsMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SkillsMenuInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -416,9 +461,20 @@ public class ClansPlus extends JavaPlugin {
         return papiSupport;
     }
 
+    public static PlayerPointsAPI getPlayerPointsAPI() {
+        return playerPointsAPI;
+    }
+
     @Override
     public void onDisable() {
         PluginDataManager.saveAllDatabase();
         PluginDataStorage.disableStorage();
+
+        if (!Bukkit.getOnlinePlayers().isEmpty())
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
+                if (holder instanceof ClanPlusInventoryBase)
+                    player.closeInventory();
+            }
     }
 }

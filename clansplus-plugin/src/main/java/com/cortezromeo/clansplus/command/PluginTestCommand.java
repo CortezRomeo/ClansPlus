@@ -89,7 +89,7 @@ public class PluginTestCommand implements CommandExecutor {
                 }
             }
             if (args[0].equalsIgnoreCase("upgrade"))
-                new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()), PluginSkill.valueOf(args[1].toUpperCase())).open();
+                new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName(), PluginSkill.valueOf(args[1].toUpperCase())).open();
         }
 
         return false;

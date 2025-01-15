@@ -30,9 +30,9 @@ public interface IClanData {
 
     void setScore(int score);
 
-    int getWarPoint();
+    long getWarPoint();
 
-    void setWarPoint(int warPoint);
+    void setWarPoint(long warPoint);
 
     int getWarning();
 

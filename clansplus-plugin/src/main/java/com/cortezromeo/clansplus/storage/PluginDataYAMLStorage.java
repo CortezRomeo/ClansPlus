@@ -148,7 +148,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         }
 
         clanData.setMessage(storage.getString("data.message"));
-        clanData.setWarPoint(storage.getInt("data.warpoint"));
+        clanData.setWarPoint(storage.getLong("data.warpoint"));
 
         String iconType = storage.getString("data.icon.type");
         if (iconType != null) {

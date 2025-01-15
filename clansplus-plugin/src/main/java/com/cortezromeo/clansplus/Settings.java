@@ -21,6 +21,9 @@ public class Settings {
     public static String DATABASE_SETTINGS_H2_TABLE_PLAYER;
     public static boolean DATABASE_SETTING_SMART_LOADING_ENABLED;
     public static boolean DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED;
+    public static int PROGRESS_BAR_TOTAL_BARS;
+    public static String PROGRESS_BAR_SYMBOL_COMPLETED;
+    public static String PROGRESS_BAR_SYMBOL_NOTCOMPLETED;
     public static boolean AUTO_SAVE_ENABLED;
     public static int AUTO_SAVE_SECONDS;
     public static String CLAN_SETTING_CREATE_TYPE;
@@ -77,6 +80,9 @@ public class Settings {
         DATABASE_SETTINGS_H2_TABLE_PLAYER = configuration.getString("database.settings.h2.table.player");
         DATABASE_SETTING_SMART_LOADING_ENABLED = configuration.getBoolean("database.smart-loading.enabled");
         DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED = configuration.getBoolean("database.fix-bug-database.enabled");
+        PROGRESS_BAR_TOTAL_BARS = configuration.getInt("progress-bar.total-bars");
+        PROGRESS_BAR_SYMBOL_COMPLETED = configuration.getString("progress-bar.symbol.completed");
+        PROGRESS_BAR_SYMBOL_NOTCOMPLETED = configuration.getString("progress-bar.symbol.not-completed");
         AUTO_SAVE_ENABLED = configuration.getBoolean("database.auto-save.enabled");
         AUTO_SAVE_SECONDS = configuration.getInt("database.auto-save.seconds");
         CLAN_SETTING_CREATE_TYPE = configuration.getString("clan-settings.creating-clan-settings.currency-requirement.type");

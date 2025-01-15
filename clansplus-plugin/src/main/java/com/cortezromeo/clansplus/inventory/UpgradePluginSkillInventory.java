@@ -2,10 +2,11 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
-import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.clan.skill.SkillManager;
+import com.cortezromeo.clansplus.clan.upgrade.UpgradeManager;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.UpgradePluginSkillListInventoryFile;
@@ -14,6 +15,7 @@ import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
+import com.google.common.primitives.Ints;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -28,18 +30,21 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
     FileConfiguration fileConfiguration = UpgradePluginSkillListInventoryFile.get();
     private List<String> skillLevels = new ArrayList<>();
-    private IClanData clanData;
+    private String clanName;
     private PluginSkill pluginSkill;
-    private List<Integer> slotsUsed;
 
-    public UpgradePluginSkillInventory(Player owner, IClanData clanData, PluginSkill pluginSkill) {
+    public UpgradePluginSkillInventory(Player owner, String clanName, PluginSkill pluginSkill) {
         super(owner);
-        this.clanData = clanData;
+        this.clanName = clanName;
         this.pluginSkill = pluginSkill;
     }
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            return;
+        }
         super.open();
     }
 
@@ -51,7 +56,10 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
     @Override
     public int getSlots() {
-        return 6 * 9;
+        int rows = fileConfiguration.getInt("rows") * 9;
+        if (rows < 27 || rows > 54)
+            return 54;
+        return rows;
     }
 
     @Override
@@ -61,7 +69,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
             return;
         }
 
-        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+        if (PluginDataManager.getClanDatabase(clanName) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
             return;
         }
@@ -83,25 +92,43 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                 MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
             }
         }
+
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
 
-        IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
+        if (itemCustomData.equals("back"))
+            new SkillsMenuInventory(getOwner(), clanName).open();
 
-        if (itemCustomData.equals("back")) {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
+            return;
+
+        if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
+            return;
+
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
+        if (itemCustomData.contains("upgrade=")) {
             if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
-                    new MembersMenuInventory(getOwner()).open();
-                    return;
-                }
-            }
-            new ViewClanInventory(getOwner(), clanData.getName()).open();
-        }
-        if (itemCustomData.contains("player=")) {
-            if (playerData.getClan() != null) {
-                if (playerData.getClan().equals(clanData.getName())) {
-                    itemCustomData = itemCustomData.replace("player=", "");
-                    new ManageMemberInventory(getOwner(), itemCustomData).open();
+                if (playerData.getClan().equals(clanName)) {
+                    int levelChosen = Integer.parseInt(itemCustomData.replace("upgrade=", ""));
+
+                    int skillID =  SkillManager.getSkillID(pluginSkill);
+                    int clanDataSkillLevel = PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(skillID);
+                    int newSkillLevel = clanDataSkillLevel + 1;
+
+                    if (levelChosen > newSkillLevel) {
+                        MessageUtil.sendMessage(getOwner(), Messages.ILLEGALLY_UPGRADE_SKILL.replace("%skillLevel%", String.valueOf(newSkillLevel)));
+                        return;
+                    }
+
+                    if (clanDataSkillLevel >= levelChosen)
+                        return;
+
+                    long value = UpgradeFile.get().getLong("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".price." + newSkillLevel);
+                    if (UpgradeManager.checkPlayerCurrency(getOwner(), CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".currency-type").toUpperCase()), value, true)) {
+                        PluginDataManager.getClanDatabase(clanName).getSkillLevel().put(skillID, newSkillLevel);
+                        ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL.replace("%player%", getOwner().getName()).replace("%skillName%", SkillsFile.get().getString("plugin-skills." + pluginSkill.toString().toLowerCase() + ".name")).replace("%newLevel%", String.valueOf(newSkillLevel)));
+                        super.open();
+                    }
                     return;
                 }
             }
@@ -119,27 +146,43 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                     fileConfiguration.getString("items.back.name"),
                     fileConfiguration.getStringList("items.back.lore"), false), "back");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            if (backItemSlot < 0)
-                backItemSlot = 1;
-            if (backItemSlot > 8)
-                backItemSlot = 7;
-            backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
             if (PluginDataManager.getClanDatabase().isEmpty())
                 return;
 
-            skillLevels.clear();
+            String skillName = pluginSkill.toString().toLowerCase();
             FileConfiguration upgradeFile = UpgradeFile.get();
+            FileConfiguration skillFile = SkillsFile.get();
+            List<String> skillReviewItemLore = new ArrayList<>();
+            int clanSkillCurrentLevel = PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(SkillManager.getSkillID(pluginSkill));
+            int skillMaxLevel = upgradeFile.getConfigurationSection("upgrade.plugin-skills." + skillName + ".price").getKeys(false).size();
+            for (String lore : fileConfiguration.getStringList("items.skillReview.lore")) {
+                lore = lore.replace("%status%", StringUtil.getStatus(skillFile.getBoolean("plugin-skills." + skillName + ".enabled")));
+                lore = lore.replace("%skillDescription%", skillFile.getString("plugin-skills." + skillName + ".description"));
+                lore = lore.replace("%progressBar%", StringUtil.getProgressBar(clanSkillCurrentLevel, skillMaxLevel));
+                lore = lore.replace("%currentLevel%", String.valueOf(clanSkillCurrentLevel));
+                lore = lore.replace("%maxLevel%", String.valueOf(skillMaxLevel));
+                skillReviewItemLore.add(lore);
+            }
+            ItemStack skillReviewItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(skillFile.getString("plugin-skills." + skillName + ".display.type"),
+                    skillFile.getString("plugin-skills." + skillName + ".display.value"),
+                    fileConfiguration.getInt("items.skillReview.customModelData"),
+                    fileConfiguration.getString("items.skillReview.name").replace("%skillName%", skillFile.getString("plugin-skills." + skillName + ".name")),
+                    skillReviewItemLore, false), "skillReview");
+            int skillReviewItemSlot = fileConfiguration.getInt("items.skillReview.slot");
+            inventory.setItem(skillReviewItemSlot, skillReviewItem);
+
+            skillLevels.clear();
             HashMap<Integer, Integer> levelCost = new HashMap<>();
-            String pricePath = "upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".price";
+            String pricePath = "upgrade.plugin-skills." + skillName + ".price";
             for (String levelAvailable : upgradeFile.getConfigurationSection(pricePath).getKeys(false)) {
                 levelCost.put(Integer.parseInt(levelAvailable), upgradeFile.getInt(pricePath + "." + levelAvailable));
                 skillLevels.add(levelAvailable);
             }
 
             int skillID = SkillManager.getSkillID(pluginSkill);
-            CurrencyType skillCurrencyType = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".currency-type").toUpperCase());
+            CurrencyType skillCurrencyType = UpgradeManager.getSkillCurrencyType(pluginSkill);
             for (int i = 0; i < getMaxItemsPerPage(); i++) {
                 index = getMaxItemsPerPage() * page + i;
                 if (index >= skillLevels.size())
@@ -147,8 +190,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                 if (skillLevels.get(index) != null) {
                     int skillLevel = Integer.parseInt(skillLevels.get(index));
                     try {
-                        String skillConfigPath = "skills." + pluginSkill.toString().toLowerCase() + "." + (clanData.getSkillLevel().get(skillID) >= skillLevel ? "unlocked." : "locked.");
-                        List<String> skillLLevelItemLore = new ArrayList<>();
+                        String skillConfigPath = "skills." + skillName + "." + (PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(skillID) >= skillLevel ? "unlocked." : "locked.");                        List<String> skillLLevelItemLore = new ArrayList<>();
                         if (fileConfiguration.getBoolean(skillConfigPath + "customLore.enabled") && fileConfiguration.getString(skillConfigPath + "customLore.level." + skillLevel) != null) {
                             for (String lore : fileConfiguration.getStringList(skillConfigPath + "customLore.level." + skillLevel))
                                 skillLLevelItemLore.add(addSkillLevelItemPlaceholders(skillLevel, skillID, skillCurrencyType, lore));
@@ -172,19 +214,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     }
 
     public int transferSlot(int number) {
-        int[] values = {
-                0, 9, 18,
-                27, 28, 29, 20,
-                11, 2, 3, 4,
-                13, 22, 31, 32,
-                33, 24, 15, 6,
-                7, 8, 17, 26,
-                35, 44, 53
-        };
-
-        int index = number % values.length;
-
-        return values[index];
+        int index = number % getSkillTrack().length;
+        return getSkillTrack()[index];
     }
 
     public String addSkillLevelItemPlaceholders(int skillLevel, int skillID, CurrencyType skillCurrencyType, String lore) {
@@ -195,7 +226,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         }
         lore = lore.replace("%currencySymbol%", StringUtil.getCurrencySymbolFormat(skillCurrencyType));
         lore = lore.replace("%currencyName%", StringUtil.getCurrencyNameFormat(skillCurrencyType));
-        lore = lore.replace("%price%", String.valueOf(UpgradeFile.get().getInt("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".price." + skillLevel)));
+        lore = lore.replace("%price%", String.valueOf(UpgradeManager.getSkillCost(pluginSkill, skillLevel)));
         if (pluginSkill == PluginSkill.CRITICAL_HIT) {
             lore = lore.replace("%oldOnHitDamage%", skillLevel - 1 < 1 ? "0" : skillConfig.getString("plugin-skills.critical_hit.on-hit-damage.level." + (skillLevel - 1)).replace("%damage%", "<DMG>"));
             lore = lore.replace("%newOnHitDamage%", skillConfig.getString("plugin-skills.critical_hit.on-hit-damage.level." + (skillLevel)).replace("%damage%", "<DMG>"));
@@ -212,5 +243,11 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         }
 
         return lore;
+    }
+
+    @Override
+    public int[] getSkillTrack() {
+        List<Integer> skillTrackList = fileConfiguration.getIntegerList("skill-track");
+        return Ints.toArray(skillTrackList);
     }
 }

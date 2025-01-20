@@ -4,7 +4,7 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
-import com.cortezromeo.clansplus.clan.upgrade.UpgradeManager;
+import com.cortezromeo.clansplus.clan.UpgradeManager;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.UpgradeMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
@@ -88,7 +88,7 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
             }
         }
         if (itemCustomData.equals("skillsMenu"))
-            new SkillsMenuInventory(getOwner(), playerClanData.getName()).open();
+            new SkillsMenuInventory(getOwner(), playerClanData.getName(), false).open();
     }
 
     @Override

@@ -175,12 +175,12 @@ public class AddMemberListInventory extends PaginatedInventory {
         ItemMeta itemMeta = modItem.getItemMeta();
 
         String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%playerName%", playerName);
+        itemName = itemName.replace("%player%", playerName);
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%playerName%", playerName)
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
                 .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);

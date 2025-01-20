@@ -4,9 +4,9 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.SkillManager;
+import com.cortezromeo.clansplus.clan.UpgradeManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
-import com.cortezromeo.clansplus.clan.skill.SkillManager;
-import com.cortezromeo.clansplus.clan.upgrade.UpgradeManager;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.UpgradePluginSkillListInventoryFile;
@@ -32,11 +32,13 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     private List<String> skillLevels = new ArrayList<>();
     private String clanName;
     private PluginSkill pluginSkill;
+    private boolean fromViewClan;
 
-    public UpgradePluginSkillInventory(Player owner, String clanName, PluginSkill pluginSkill) {
+    public UpgradePluginSkillInventory(Player owner, String clanName, PluginSkill pluginSkill, boolean fromViewClan) {
         super(owner);
         this.clanName = clanName;
         this.pluginSkill = pluginSkill;
+        this.fromViewClan = fromViewClan;
     }
 
     @Override
@@ -97,7 +99,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
             getOwner().closeInventory();
 
         if (itemCustomData.equals("back"))
-            new SkillsMenuInventory(getOwner(), clanName).open();
+            new SkillsMenuInventory(getOwner(), clanName, fromViewClan).open();
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
             return;

@@ -9,8 +9,59 @@
 
 events:
   clan-war-event:
+    enabled: true
+
+    # Các thông báo
+    messages:
+      prefix: '&#fc7703&lBANG HỘI WAR&r '
+      event-not-starting: |
+        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━
+                  &eSự kiện chưa bắt đầu
+        &r
+        &fCác khung giờ để bắt đầu sự kiện:
+        %eventTimeFrame%
+        &fKhung giờ gần nhất: &a%closestTimeFrame% &f(&2%closestTimeFrameTimeLeft%&f)
+        &fSố người chơi tối thiểu: &b%minimumPlayerOnline%
+        &fThế giới cần vào để tính điểm:
+        %requiredWorlds%
+        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      event-not-starting-placeholders:
+        eventTimeFrame: '&7- &e%eventTimeFrame%'
+        requiredWorlds: '&7- &e%requiredWord%'
+      event-starting: |
+        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━
+                  &aSự kiện đang bắt đầu
+        &r
+        &fThời gian còn lại: &a%eventTimeLeft%
+        &fThế giới cần vào để tính điểm:
+        %requiredWorlds%
+        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      event-starting-placeholders:
+        requiredWorlds: '&7- &e%requiredWord%'
+      event-ending: |
+        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━
+                  &dSự kiện đã kết thúc
+        &r
+                &eTOP 3 BANG HỘI KIẾM ĐƯỢC NHIỀU ĐIỂM NHẤT
+                  &#fcd303Hạng nhất. &f%topScoreClaimed_1_name% &#85a832+%topScoreClaimed_1_score% điểm &#e0122a(60 Warpoint)
+                  &#ccccccHạng nhì. &f%topScoreClaimed_2_name% &#85a832+%topScoreClaimed_2_score% điểm &#e0122a(50 Warpoint)
+                  &#754200Hạng ba. &f%topScoreClaimed_3_name% &#85a832+%topScoreClaimed_3_score% điểm &#e0122a(40 Warpoint)
+        &r
+                &eTOP 3 NGƯỜI CHƠI GÂY SÁT THƯƠNG NHIỀU NHẤT
+                  &#fcd303Hạng nhất. &f%topDamage_1_name% &#eb4034%topDamage_1_score% dmg &#e0122a(60 Warpoint)
+                  &#ccccccHạng nhì. &f%topDamage_2_name% &#eb4034%topDamage_2_score% dmg &#e0122a(50 Warpoint)
+                  &#754200Hạng ba. &f%topDamage_3_name% &#eb4034+%topDamage_3_score% dmg &#e0122a(40 Warpoint)
+        &r
+                &eTOP 3 NGƯỜI CHƠI CHỊU SÁT THƯƠNG NHIỀU NHẤT
+                  &#fcd303Hạng nhất. &f%topTank_1_name% &#eb4034%topTank_1_score% dmg
+                  &#ccccccHạng nhì. &f%topTank_2_name% &#eb4034%topTank_2_score% dmg
+                  &#754200Hạng ba. &f%topTank_3_name% &#eb4034+%topTank_3_score% dmg
+        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      not-enough-player: '%prefix%&#fc3903&l| &fKhông đủ người chơi để bắt đầu sự kiện. Sự kiện sẽ được dời sang mốc giờ sau.'
+
     # Hiện thông báo bang hội war khi người chơi vào.
-    player-join-notification: true
+    player-join-notification:
+      enabled: true
 
     # Số người chơi cần để bắt đầu sự kiện.
     minimum-player-online: 25
@@ -32,7 +83,7 @@ events:
 
     # Khung giờ trong ngày để bắt đầu sự kiện.
     event-time-frame:
-      #- HH:mm:ss
+      #- HH:mm
       - '10:30:00'
       - '15:30:00'
       - '21:30:00'
@@ -68,6 +119,39 @@ events:
       mythicmobs-mobs:
         SkeletalKnight: 2
       player: 3
+
+    # Thưởng khi sự kiện kết thúc
+    # Có thể thêm hoặc bớt các top
+    # Sử dụng %clan% để lấy tên clan trong mục "top-score-clans"
+    # Sử dụng %player% để lấy tên người chơi trong mục "most-damage-caused-players"
+    ending-rewards:
+      enabled: true
+      top-score-clans:
+        1:
+          warpoint: 60
+          commands:
+            - ''
+        2:
+          warpoint: 50
+          commands:
+            - ''
+        3:
+          warpoint: 40
+          commands:
+            - ''
+      most-damage-caused-players:
+        1:
+          warpoint: 60
+          commands:
+            - ''
+        2:
+          warpoint: 50
+          commands:
+            - ''
+        3:
+          warpoint: 40
+          commands:
+            - ''
 
     # Thiết lập về lệnh sẽ được chạy khi sự kiện bắt đầu hoặc kết thúc
     # ● player: chạy dưới quyền có sẵn của người chơi đó

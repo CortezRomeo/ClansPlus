@@ -51,4 +51,14 @@ public class StringUtil {
             return Messages.STATUS_DISABLE;
     }
 
+    public static String getTimeFormat(long seconds) {
+        if (seconds >= 60) {
+            String mmssString = Messages.TIME_FORMAT_MMSS;
+            mmssString = mmssString.replace("%minutes%", String.valueOf((seconds % 3600) / 60));
+            mmssString = mmssString.replace("%seconds%", String.valueOf(seconds % 60));
+            return ClansPlus.nms.addColor(mmssString);
+        } else
+            return ClansPlus.nms.addColor(Messages.TIME_FORMAT_MMSS.replace("%seconds%", String.valueOf(seconds)));
+    }
+
 }

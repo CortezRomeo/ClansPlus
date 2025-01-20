@@ -29,11 +29,13 @@ public class MemberListInventory extends PaginatedInventory {
     private SortItemType sortItemType;
     private List<String> players = new ArrayList<>();
     private String clanName;
+    private boolean fromViewClan;
 
-    public MemberListInventory(Player owner, String clanName) {
+    public MemberListInventory(Player owner, String clanName, boolean fromViewClan) {
         super(owner);
         sortItemType = SortItemType.PERMISSION;
         this.clanName = clanName;
+        this.fromViewClan = fromViewClan;
     }
 
     @Override
@@ -96,6 +98,10 @@ public class MemberListInventory extends PaginatedInventory {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
 
         if (itemCustomData.equals("back")) {
+            if (fromViewClan) {
+                new ViewClanInventory(getOwner(), clanName).open();
+                return;
+            }
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
                     new MembersMenuInventory(getOwner()).open();
@@ -104,12 +110,6 @@ public class MemberListInventory extends PaginatedInventory {
             }
             new ViewClanInventory(getOwner(), clanName).open();
         }
-
-        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
-            return;
-
-        if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
-            return;
 
         if (itemCustomData.equals("sortItem")) {
             if (sortItemType == SortItemType.PERMISSION)
@@ -121,6 +121,13 @@ public class MemberListInventory extends PaginatedInventory {
             page = 0;
             super.open();
         }
+
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
+            return;
+
+        if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
+            return;
+
         if (itemCustomData.contains("player=")) {
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
@@ -218,13 +225,13 @@ public class MemberListInventory extends PaginatedInventory {
         ItemMeta itemMeta = modItem.getItemMeta();
 
         String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%playerName%", playerName);
+        itemName = itemName.replace("%player%", playerName);
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%playerName%", playerName)
-                        .replace("%playerUUID%", playerData.getUUID())
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
+                        .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
                         .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
                         .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
                         .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))

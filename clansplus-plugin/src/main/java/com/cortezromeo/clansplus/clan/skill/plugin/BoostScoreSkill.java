@@ -2,8 +2,8 @@ package com.cortezromeo.clansplus.clan.skill.plugin;
 
 import com.cortezromeo.clansplus.api.enums.SkillType;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.SkillData;
-import com.cortezromeo.clansplus.clan.skill.SkillManager;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import org.bukkit.configuration.file.FileConfiguration;

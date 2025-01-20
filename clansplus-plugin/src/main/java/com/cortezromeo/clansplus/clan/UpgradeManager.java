@@ -1,4 +1,4 @@
-package com.cortezromeo.clansplus.clan.upgrade;
+package com.cortezromeo.clansplus.clan;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;

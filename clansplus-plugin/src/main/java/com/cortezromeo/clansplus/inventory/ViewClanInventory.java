@@ -61,11 +61,11 @@ public class ViewClanInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("back"))
             new ClanListInventory(getOwner()).open();
         if (itemCustomData.equals("members"))
-            new MemberListInventory(getOwner(), clanName).open();
+            new MemberListInventory(getOwner(), clanName, true).open();
         if (itemCustomData.equals("allies"))
-            new AllyListInventory(getOwner(), clanName).open();
+            new AllyListInventory(getOwner(), clanName, true).open();
         if (itemCustomData.equals("skillsMenu"))
-            new SkillsMenuInventory(getOwner(), clanName).open();
+            new SkillsMenuInventory(getOwner(), clanName, true).open();
     }
 
     @Override

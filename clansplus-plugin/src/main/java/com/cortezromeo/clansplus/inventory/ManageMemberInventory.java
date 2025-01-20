@@ -46,7 +46,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
 
     @Override
     public String getMenuName() {
-        String title = fileConfiguration.getString("title").replace("%playerName%", playerName);
+        String title = fileConfiguration.getString("title").replace("%player%", playerName);
         return ClansPlus.nms.addColor(title);
     }
 
@@ -77,7 +77,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
+            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
         if (itemCustomData.contains("manageMembersRank=")) {
             itemCustomData = itemCustomData.replace("manageMembersRank=", "");
             new ManageMemberRankInventory(getOwner(), itemCustomData).open();
@@ -85,7 +85,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         if (itemCustomData.contains("kick=")) {
             itemCustomData = itemCustomData.replace("kick=", "");
             if (new Kick(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.KICK), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute())
-                new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
+                new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
         }
     }
 
@@ -138,7 +138,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
             List<String> kicKmMemberItemLore = new ArrayList<>();
             Rank kickMemberRequiredRank = PluginDataManager.getClanDatabaseByPlayerName(playerName).getSubjectPermission().get(Subject.KICK);
             for (String lore : fileConfiguration.getStringList("items.kickMember.lore")) {
-                lore = lore.replace("%playerName%", playerName);
+                lore = lore.replace("%player%", playerName);
                 lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), kickMemberRequiredRank) ? fileConfiguration.getString("items.kickMember.placeholders.checkPermission.true")
                         : fileConfiguration.getString("items.kickMember.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(kickMemberRequiredRank)));
                 kicKmMemberItemLore.add(lore);
@@ -159,13 +159,13 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         ItemMeta itemMeta = modItem.getItemMeta();
 
         String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%playerName%", playerName);
+        itemName = itemName.replace("%player%", playerName);
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%playerName%", playerName)
-                        .replace("%playerUUID%", playerData.getUUID())
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
+                        .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
                         .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
                         .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
                         .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))

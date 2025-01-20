@@ -78,11 +78,11 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new AllyListInventory(getOwner(), playerClanData.getName()).open();
+            new AllyListInventory(getOwner(), playerClanData.getName(), false).open();
         if (itemCustomData.contains("remove=")) {
             itemCustomData = itemCustomData.replace("remove=", "");
             if (new RemoveAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), getOwner(), getOwner().getName(), itemCustomData).execute())
-                new AllyListInventory(getOwner(), playerClanData.getName()).open();
+                new AllyListInventory(getOwner(), playerClanData.getName(), false).open();
         }
     }
 

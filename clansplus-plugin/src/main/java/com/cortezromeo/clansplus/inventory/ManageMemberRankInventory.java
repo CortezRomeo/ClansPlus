@@ -46,7 +46,7 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
 
     @Override
     public String getMenuName() {
-        String title = fileConfiguration.getString("title").replace("%playerName%", playerName);
+        String title = fileConfiguration.getString("title").replace("%player%", playerName);
         return ClansPlus.nms.addColor(title);
     }
 
@@ -125,7 +125,7 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
 
             List<String> setOwnerItemLore = new ArrayList<>();
             for (String lore : fileConfiguration.getStringList("items.setOwner.lore")) {
-                lore = lore.replace("%playerName%", playerName);
+                lore = lore.replace("%player%", playerName);
                 lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), Rank.LEADER) ? fileConfiguration.getString("items.setOwner.placeholders.checkPermission.true")
                         : fileConfiguration.getString("items.setOwner.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
                 setOwnerItemLore.add(lore);
@@ -144,7 +144,7 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
             HashMap<Subject, Rank> clanSubjectPermission = playerClanData.getSubjectPermission();
             List<String> setManagerItemLore = new ArrayList<>();
             for (String lore : fileConfiguration.getStringList("items.setManager.lore")) {
-                lore = lore.replace("%playerName%", playerName);
+                lore = lore.replace("%player%", playerName);
                 lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), (isPlayerAManager) ? clanSubjectPermission.get(Subject.REMOVEMANAGER) : playerClanData.getSubjectPermission().get(Subject.SETMANAGER)) ? fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".placeholders.checkPermission.true")
                         : fileConfiguration.getString("items.setManager" + getPlayerRankPath + "placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(clanSubjectPermission.get(isPlayerAManager ? Subject.REMOVEMANAGER : Subject.SETMANAGER))));
                 setManagerItemLore.add(lore);

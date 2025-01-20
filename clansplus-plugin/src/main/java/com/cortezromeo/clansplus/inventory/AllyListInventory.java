@@ -22,10 +22,12 @@ public class AllyListInventory extends PaginatedInventory {
     FileConfiguration fileConfiguration = AllyListInventoryFile.get();
     private List<String> allies = new ArrayList<>();
     private String clanName;
+    private boolean fromViewClan;
 
-    public AllyListInventory(Player owner, String clanName) {
+    public AllyListInventory(Player owner, String clanName, boolean fromViewClan) {
         super(owner);
         this.clanName = clanName;
+        this.fromViewClan = fromViewClan;
     }
 
     @Override
@@ -88,6 +90,10 @@ public class AllyListInventory extends PaginatedInventory {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
 
         if (itemCustomData.equals("back")) {
+            if (fromViewClan) {
+                new ViewClanInventory(getOwner(), clanName).open();
+                return;
+            }
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
                     new AlliesMenuInventory(getOwner()).open();

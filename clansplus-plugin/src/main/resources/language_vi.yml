@@ -48,6 +48,9 @@ online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
 unknown: '&cKhông rõ'
+time-format:
+  mm-ss: '%minutes% phút %seconds% giây'
+  ss: '%seconds% giây'
 messages:
   prefix: '&#3498eb&lBANG HỘI&r '
   no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'
@@ -142,7 +145,7 @@ messages:
           - '&#3498eb/banghoi event &fXem thông tin sự kiện'
           - '&#3498eb/banghoi list &fXem danh sách bang hội'
         in-clan-commands:
-          messages: |2
+          messages: |
           
             &#3498ebBANG HỘI
             &7Phiên bản %version%

@@ -1,5 +1,7 @@
-package com.cortezromeo.clansplus.clan.skill;
+package com.cortezromeo.clansplus.clan;
 
+import com.cortezromeo.clansplus.clan.skill.PluginSkill;
+import com.cortezromeo.clansplus.clan.skill.SkillData;
 import com.cortezromeo.clansplus.file.SkillsFile;
 
 import java.util.HashMap;

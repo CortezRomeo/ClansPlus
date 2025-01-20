@@ -170,7 +170,8 @@ public class ClanCommand implements CommandExecutor {
                 String commandMessage = Messages.COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS_PLACEHOLDER_COMMAND;
                 commandMessage = commandMessage.replace("%command%", subject.toString().toLowerCase());
                 commandMessage = commandMessage.replace("%description%", subject.getDescription());
-                leaderCommands.append(commandMessage).append("\n");                }
+                leaderCommands.append(commandMessage).append("\n");
+            }
         }
 
         inClanMessage = inClanMessage.replace("%memberCommands%", Messages.COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS.replace("%command%", memberCommands.toString()));

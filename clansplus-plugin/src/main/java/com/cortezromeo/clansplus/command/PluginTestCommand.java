@@ -6,6 +6,7 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.inventory.UpgradePluginSkillInventory;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -75,6 +76,12 @@ public class PluginTestCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("bemanager")) {
                 PluginDataManager.getPlayerDatabase(player.getName()).setRank(Rank.MANAGER);
             }
+            if (args[0].equalsIgnoreCase("war")) {
+                EventManager.getWarEvent().runEvent(true);
+            }
+            if (args[0].equalsIgnoreCase("war2")) {
+                EventManager.getWarEvent().runEvent(false);
+            }
         }
 
         if (args.length == 2) {
@@ -89,7 +96,7 @@ public class PluginTestCommand implements CommandExecutor {
                 }
             }
             if (args[0].equalsIgnoreCase("upgrade"))
-                new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName(), PluginSkill.valueOf(args[1].toUpperCase())).open();
+                new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName(), PluginSkill.valueOf(args[1].toUpperCase()), true).open();
         }
 
         return false;

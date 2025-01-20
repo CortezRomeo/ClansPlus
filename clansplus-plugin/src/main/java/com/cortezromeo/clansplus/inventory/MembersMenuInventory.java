@@ -67,7 +67,7 @@ public class MembersMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("addMember"))
             new AddMemberListInventory(getOwner()).open();
         if (itemCustomData.equals("memberList"))
-            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
+            new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
     }
 
     @Override

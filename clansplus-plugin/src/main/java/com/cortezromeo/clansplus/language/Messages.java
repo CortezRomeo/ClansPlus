@@ -26,6 +26,8 @@ public class Messages {
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
     public static String UNKNOWN;
+    public static String TIME_FORMAT_MMSS;
+    public static String TIME_FORMAT_SS;
     public static String NO_PERMISSION;
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
@@ -106,6 +108,7 @@ public class Messages {
     public static String CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION;
     public static String CLAN_BROADCAST_UPGRADE_MAX_MEMBERS;
     public static String CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL;
+
     public static void setupValue(String locale) {
         locale = locale.toLowerCase();
         File messageFile = new File(ClansPlus.plugin.getDataFolder() + "/languages/language_" + locale + ".yml");
@@ -137,6 +140,8 @@ public class Messages {
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
         UNKNOWN = fileConfiguration.getString("unknown");
+        TIME_FORMAT_MMSS = fileConfiguration.getString("time-format.mm-ss");
+        TIME_FORMAT_SS = fileConfiguration.getString("time-format.ss");
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");

@@ -22,7 +22,7 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Thành viên &#7526ad%playerName%'
+title: '&0Thành viên &#7526ad%player%'
 rows: 4
 items:
   border:
@@ -52,8 +52,8 @@ items:
     slot: 13
     lore:
       - ''
-      - '&fTên: &6%playerName%'
-      - '&fUUID: &7%playerUUID%'
+      - '&fTên: &6%player%'
+      - '&fUUID: &7%uuid%'
       - ''
       - '&fTrạng thái: %onlineStatus%'
       - '&fLần cuối hoạt động: &e%lastActivated%'

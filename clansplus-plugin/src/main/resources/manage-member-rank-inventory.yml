@@ -22,7 +22,7 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Cài đặt chức vụ &#7526ad%playerName%'
+title: '&0Cài đặt chức vụ &#7526ad%player%'
 rows: 4
 items:
   border:
@@ -70,7 +70,7 @@ items:
       customModelData: 0
       lore:
         - ''
-        - '&e%playerName%&f hiện đang là quản lý của bang'
+        - '&e%player%&f hiện đang là quản lý của bang'
         - '&fhội, bấm vào nút này sẽ xóa đi quyền quản'
         - '&flý bang hội của ngươời chơi này.'
         - ''
@@ -86,7 +86,7 @@ items:
       customModelData: 0
       lore:
         - ''
-        - '&fCho &e%playerName%&f lên làm quản lý bang hội.'
+        - '&fCho &e%player%&f lên làm quản lý bang hội.'
         - ''
         - '%checkPermission%'
       placeholders:

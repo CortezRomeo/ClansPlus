@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,8 @@ public class PlayerJoinListener implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
             PluginDataManager.loadPlayerDatabase(event.getPlayer().getName());
             PluginDataManager.getPlayerDatabase(event.getPlayer().getName()).setLastActivated(new Date().getTime());
+
+            Bukkit.getScheduler().runTaskLaterAsynchronously(ClansPlus.plugin, () -> EventManager.getWarEvent().onJoin(event), 30);
         });
     }
 

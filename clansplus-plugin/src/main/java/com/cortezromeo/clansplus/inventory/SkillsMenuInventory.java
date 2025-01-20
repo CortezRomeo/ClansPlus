@@ -2,8 +2,8 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
-import com.cortezromeo.clansplus.clan.skill.SkillManager;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.SkillsMenuInventoryFile;
@@ -25,10 +25,12 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
 
     FileConfiguration fileConfiguration = SkillsMenuInventoryFile.get();
     private String clanName;
+    private boolean fromViewClan;
 
-    public SkillsMenuInventory(Player owner, String clanName) {
+    public SkillsMenuInventory(Player owner, String clanName, boolean fromViewClan) {
         super(owner);
         this.clanName = clanName;
+        this.fromViewClan = fromViewClan;
     }
 
     @Override
@@ -68,6 +70,10 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back")) {
+            if (fromViewClan) {
+                new ViewClanInventory(getOwner(), clanName).open();
+                return;
+            }
             IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
@@ -79,7 +85,7 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
         }
         if (itemCustomData.contains("pluginskill=")) {
             itemCustomData = itemCustomData.replace("pluginskill=", "");
-            new UpgradePluginSkillInventory(getOwner(), clanName, PluginSkill.valueOf(itemCustomData.toUpperCase())).open();
+            new UpgradePluginSkillInventory(getOwner(), clanName, PluginSkill.valueOf(itemCustomData.toUpperCase()), fromViewClan).open();
         }
     }
 

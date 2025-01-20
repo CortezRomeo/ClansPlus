@@ -72,7 +72,7 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("allyInvitation"))
             new AllyInvitationListInventory(getOwner()).open();
         if (itemCustomData.equals("allyList"))
-            new AllyListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName()).open();
+            new AllyListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
             //new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
     }
 

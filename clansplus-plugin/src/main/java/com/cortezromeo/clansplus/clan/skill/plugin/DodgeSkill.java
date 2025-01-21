@@ -35,25 +35,27 @@ public class DodgeSkill {
                 rateToActivate.put(Integer.parseInt(level), skillFileConfig.getDouble(pluginSkillPath + "rate-to-activate.level." + level));
         SkillData skillData = new SkillData(ID, SkillType.PLUGIN, enabled, name, description, soundName, soundPitch, soundVolume, rateToActivate) {
             @Override
-            public void onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
-                onDamageEvent(skillData, event);
+            public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
+                return onDamageEvent(skillData, event);
             }
             @Override
-            public void onDeath(SkillData skillData, PlayerDeathEvent event) {}
+            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
+                return false;
+            }
         };
         SkillManager.registerPluginSkill(ID, skillData);
     }
 
-    public static void onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
+    public static boolean onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
         if (!skillData.isEnabled())
-            return;
+            return false;
 
         Player damager = (Player) event.getDamager();
         Player victim = (Player) event.getEntity();
         IClanData victimClanData = PluginDataManager.getClanDatabaseByPlayerName(victim.getName());
 
         if (victimClanData == null)
-            return;
+            return false;
 
         int skillLevel = victimClanData.getSkillLevel().get(skillData.getId());
 
@@ -70,12 +72,14 @@ public class DodgeSkill {
 
                     Location victimLocation = event.getEntity().getLocation();
                     if (!skillData.getSoundName().equals(""))
-                        victimLocation.getWorld().playSound(victimLocation, ClansPlus.nms.createSound(skillData.getSoundName()), skillData.getSoundPitch(), skillData.getSoundVolume());
+                        victimLocation.getWorld().playSound(victimLocation, ClansPlus.nms.createSound(skillData.getSoundName()), skillData.getSoundVolume(), skillData.getSoundPitch());
+                    return true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }
+        return false;
     }
 
 }

@@ -22,32 +22,37 @@ public class BoostScoreSkill {
         int ID = skillFileConfig.getInt(pluginSkillPath + "ID");
         SkillData skillData = new SkillData(ID, SkillType.PLUGIN, enabled, name, description, null, 0, 0, null) {
             @Override
-            public void onDamage(SkillData skillData, EntityDamageByEntityEvent event) {}
+            public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
+                return false;
+            }
 
             @Override
-            public void onDeath(SkillData skillData, PlayerDeathEvent event) {
-                onDie(skillData, event);
+            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
+                return onDieEvent(skillData, event);
             }
         };
         SkillManager.registerPluginSkill(ID, skillData);
     }
 
-    public static void onDie(SkillData skillData, PlayerDeathEvent event) {
+    public static boolean onDieEvent(SkillData skillData, PlayerDeathEvent event) {
         if (!skillData.isEnabled())
-            return;
+            return false;
 
         Player killer = event.getEntity().getKiller();
         IClanData killerClanData = PluginDataManager.getClanDatabaseByPlayerName(killer.getName());
 
         if (killerClanData == null)
-            return;
+            return false;
 
         int skillLevel = killerClanData.getSkillLevel().get(skillData.getId());
 
         // player clan's has this skill
         if (skillLevel > 0) {
             // TODO add more score
+            return true;
         }
+
+        return false;
     }
 
 }

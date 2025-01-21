@@ -30,9 +30,9 @@ public abstract class SkillData {
         this.rateToActivate = chanceToActivate;
     }
 
-    public abstract void onDamage(SkillData skillData, EntityDamageByEntityEvent event);
+    public abstract boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event);
 
-    public abstract void onDeath(SkillData skillData, PlayerDeathEvent event);
+    public abstract boolean onDie(SkillData skillData, PlayerDeathEvent event);
 
     public int getId() {
         return id;

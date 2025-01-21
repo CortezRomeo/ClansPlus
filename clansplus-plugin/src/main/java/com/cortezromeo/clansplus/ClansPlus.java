@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus;
 
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
 import com.cortezromeo.clansplus.api.server.VersionSupport;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.clan.skill.plugin.BoostScoreSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.CriticalHitSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.DodgeSkill;
@@ -63,6 +64,7 @@ public class ClansPlus extends JavaPlugin {
         initListener();
         initSkills();
         initSupports();
+        EventManager.getWarEvent();
 
         // Check license key when the plugin is activated from dihoastore.net
 /*        if (!DiHoaStore.doDiHoa()) {
@@ -472,9 +474,12 @@ public class ClansPlus extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty())
             for (Player player : Bukkit.getOnlinePlayers()) {
-                InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
-                if (holder instanceof ClanPlusInventoryBase)
-                    player.closeInventory();
+                try {
+                    EventManager.getWarEvent().removeBossBar(player);
+                    InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
+                    if (holder instanceof ClanPlusInventoryBase)
+                        player.closeInventory();
+                } catch (Exception exception) {}
             }
     }
 }

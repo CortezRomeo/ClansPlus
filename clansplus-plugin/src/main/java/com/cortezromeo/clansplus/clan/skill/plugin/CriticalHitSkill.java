@@ -36,25 +36,27 @@ public class CriticalHitSkill {
                 rateToActivate.put(Integer.parseInt(level), skillFileConfig.getDouble(pluginSkillPath + "rate-to-activate.level." + level));
         SkillData skillData = new SkillData(ID, SkillType.PLUGIN, enabled, name, description, soundName, soundPitch, soundVolume, rateToActivate) {
             @Override
-            public void onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
-                onDamageEvent(skillData, event);
+            public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
+                return onDamageEvent(skillData, event);
             }
 
             @Override
-            public void onDeath(SkillData skillData, PlayerDeathEvent event) {}
+            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
+                return false;
+            }
         };
         SkillManager.registerPluginSkill(ID, skillData);
     }
 
-    public static void onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
+    public static boolean onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
         if (!skillData.isEnabled())
-            return;
+            return false;
 
         Player damager = (Player) event.getDamager();
         IClanData damagerClanData = PluginDataManager.getClanDatabaseByPlayerName(damager.getName());
 
         if (damagerClanData == null)
-            return;
+            return false;
 
         int skillLevel = damagerClanData.getSkillLevel().get(skillData.getId());
 
@@ -72,10 +74,12 @@ public class CriticalHitSkill {
                     if (!skillData.getSoundName().equals(""))
                         victimLocation.getWorld().playSound(victimLocation, ClansPlus.nms.createSound(skillData.getSoundName()), skillData.getSoundPitch(), skillData.getSoundVolume());
 
+                    return true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }
+        return false;
     }
 }

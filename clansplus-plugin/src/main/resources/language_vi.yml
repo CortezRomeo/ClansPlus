@@ -47,7 +47,7 @@ subject-description:
 online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
-unknown: '&cKhông rõ'
+unknown: 'N/A'
 time-format:
   mm-ss: '%minutes% phút %seconds% giây'
   ss: '%seconds% giây'

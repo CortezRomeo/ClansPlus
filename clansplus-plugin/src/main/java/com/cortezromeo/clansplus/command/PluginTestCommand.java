@@ -77,10 +77,10 @@ public class PluginTestCommand implements CommandExecutor {
                 PluginDataManager.getPlayerDatabase(player.getName()).setRank(Rank.MANAGER);
             }
             if (args[0].equalsIgnoreCase("war")) {
-                EventManager.getWarEvent().runEvent(true);
-            }
-            if (args[0].equalsIgnoreCase("war2")) {
                 EventManager.getWarEvent().runEvent(false);
+            }
+            if (args[0].equalsIgnoreCase("endwar")) {
+                EventManager.getWarEvent().endEvent();
             }
         }
 

@@ -2,12 +2,15 @@ package com.cortezromeo.clansplus.clan.event;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.clan.skill.SkillData;
+import com.cortezromeo.clansplus.clan.skill.plugin.BoostScoreSkill;
 import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
+import com.cortezromeo.clansplus.util.CommandUtil;
 import com.cortezromeo.clansplus.util.HashMapUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
@@ -50,6 +53,10 @@ public class WarEvent {
     public int MESSAGES_EVENT_MAX_TOP;
     public String MESSAGES_EVENT_ENDING;
     public String MESSAGES_NOT_ENOUGH_PLAYER;
+    public String MESSAGES_CLAN_BROADCAST_PREFIX;
+    public String MESSAGES_CLAN_BROADCAST_GAIN_SCORE_PLAYER;
+    public String MESSAGES_CLAN_BROADCAST_GAIN_SCORE_MOB;
+    public String MESSAGES_CLAN_BROADCAST_PLACEHOLDER_CHECKBOOSTSCORE;
     public int MINIMUM_PLAYER_ONLINE;
     public boolean WORLD_REQUIREMENT_ENABLED;
     public List<String> WORLD_REQUIREMENT_WORLDS;
@@ -71,6 +78,7 @@ public class WarEvent {
     public HashMap<String, Integer> SCORE_MYTHICMOBS_MOBS = new HashMap<>();
     public int SCORE_PLAYER;
     public List<String> STARTING_COMMANDS;
+    public boolean ENDING_REWARD_ENABLED;
     public List<String> ENDING_COMMANDS;
 
     public WarEvent() {
@@ -88,6 +96,10 @@ public class WarEvent {
         MESSAGES_EVENT_MAX_TOP = eventFileConfig.getInt(eventPath + "messages.event-ending.max-top");
         MESSAGES_EVENT_ENDING = eventFileConfig.getString(eventPath + "messages.event-ending.messages");
         MESSAGES_NOT_ENOUGH_PLAYER = eventFileConfig.getString(eventPath + "messages.not-enough-player");
+        MESSAGES_CLAN_BROADCAST_PREFIX = eventFileConfig.getString(eventPath + "messages.clan-broadcast.prefix");
+        MESSAGES_CLAN_BROADCAST_GAIN_SCORE_PLAYER = eventFileConfig.getString(eventPath + "messages.clan-broadcast.gain-score-player");
+        MESSAGES_CLAN_BROADCAST_GAIN_SCORE_MOB = eventFileConfig.getString(eventPath + "messages.clan-broadcast.gain-score-mob");
+        MESSAGES_CLAN_BROADCAST_PLACEHOLDER_CHECKBOOSTSCORE = eventFileConfig.getString(eventPath + "messages.clan-broadcast-placeholders.checkBoostScore");
         MINIMUM_PLAYER_ONLINE = eventFileConfig.getInt(eventPath + "minimum-player-online");
         WORLD_REQUIREMENT_ENABLED = eventFileConfig.getBoolean(eventPath + "world-requirement.enabled");
         WORLD_REQUIREMENT_WORLDS = eventFileConfig.getStringList(eventPath + "world-requirement.worlds");
@@ -111,9 +123,10 @@ public class WarEvent {
         }
         for (String mythicMob : eventFileConfig.getConfigurationSection(eventPath + "score-settings.mythicmobs-mobs").getKeys(false))
             SCORE_MYTHICMOBS_MOBS.put(mythicMob, eventFileConfig.getInt(eventPath + "score-settings.mythicmobs-mobs." + mythicMob));
-        SCORE_PLAYER = eventFileConfig.getInt("score-settings.player");
-        STARTING_COMMANDS = eventFileConfig.getStringList("commands.starting-commands");
-        ENDING_COMMANDS = eventFileConfig.getStringList("commands.ending-commands");
+        SCORE_PLAYER = eventFileConfig.getInt(eventPath + "score-settings.player");
+        STARTING_COMMANDS = eventFileConfig.getStringList(eventPath + "commands.starting-commands");
+        ENDING_REWARD_ENABLED = eventFileConfig.getBoolean(eventPath + "ending-rewards.enabled");
+        ENDING_COMMANDS = eventFileConfig.getStringList(eventPath + "commands.ending-commands");
     }
 
     public void runEvent(boolean checkPlayerSize) {
@@ -149,14 +162,14 @@ public class WarEvent {
                 }
                 // ending event
                 if (TIMELEFT <= 0 || !isStarting()) {
-                    endEvent();
+                    endEvent(true, true, true);
                 }
             }
         }.runTaskTimer(ClansPlus.plugin, 0, 20);
 
     }
 
-    public void endEvent() {
+    public void endEvent(boolean sendMessage, boolean playSound, boolean reward) {
         if (!isStarting())
             return;
 
@@ -173,43 +186,94 @@ public class WarEvent {
 
         // send message
         String eventEndingMessage = MESSAGES_EVENT_ENDING;
-        for (int i = 0; i <= MESSAGES_EVENT_MAX_TOP; i++) {
-            // start with 1
-            int top = i + 1;
+        if (sendMessage) {
+            for (int i = 0; i <= MESSAGES_EVENT_MAX_TOP; i++) {
+                // start with 1
+                int top = i + 1;
 
-            try {
-                String clanScoreCollected = topClanScoreCollected.get(i);
-                eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_name%",  clanScoreCollected);
-                eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_score%", String.valueOf(getClanScoreCollected(clanScoreCollected)));
-            } catch (Exception exception) {
-                eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_name%", Messages.UNKNOWN);
-                eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_score%", "0");
-            }
+                try {
+                    String clanScoreCollected = topClanScoreCollected.get(i);
+                    eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_name%", clanScoreCollected);
+                    eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_score%", String.valueOf(getClanScoreCollected(clanScoreCollected)));
+                } catch (Exception exception) {
+                    eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_name%", Messages.UNKNOWN);
+                    eventEndingMessage = eventEndingMessage.replace("%topScoreClaimed_" + top + "_score%", "0");
+                }
 
-            try {
-                String playerDamagesCaused = topPlayerDamagesCaused.get(i);
-                eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_name%", playerDamagesCaused);
-                eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_score%", String.valueOf(getPlayerDamagesCaused(playerDamagesCaused)));
-            } catch (Exception exception) {
-                eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_name%", Messages.UNKNOWN);
-                eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_score%", "0");
-            }
+                try {
+                    String playerDamagesCaused = topPlayerDamagesCaused.get(i);
+                    eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_name%", playerDamagesCaused);
+                    eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_score%", String.valueOf(getPlayerDamagesCaused(playerDamagesCaused)));
+                } catch (Exception exception) {
+                    eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_name%", Messages.UNKNOWN);
+                    eventEndingMessage = eventEndingMessage.replace("%topDamage_" + top + "_score%", "0");
+                }
 
-            try {
-                String playerDamagesCollected = topPlayerDamagesCollected.get(i);
-                eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_name%", playerDamagesCollected);
-                eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_score%", String.valueOf(getPlayerDamagesCollected(playerDamagesCollected)));
-            } catch (Exception exception) {
-                eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_name%", Messages.UNKNOWN);
-                eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_score%", "0");
+                try {
+                    String playerDamagesCollected = topPlayerDamagesCollected.get(i);
+                    eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_name%", playerDamagesCollected);
+                    eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_score%", String.valueOf(getPlayerDamagesCollected(playerDamagesCollected)));
+                } catch (Exception exception) {
+                    eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_name%", Messages.UNKNOWN);
+                    eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_score%", "0");
+                }
             }
         }
-        MessageUtil.sendBroadCast(eventEndingMessage);
+
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), ClansPlus.nms.createSound(ENDING_SOUND_NAME), ENDING_SOUND_VOLUME, ENDING_SOUND_PITCH);
+            if (sendMessage)
+                sendMessage(player, eventEndingMessage);
+            if (playSound)
+                player.playSound(player.getLocation(), ClansPlus.nms.createSound(ENDING_SOUND_NAME), ENDING_SOUND_VOLUME, ENDING_SOUND_PITCH);
             removeBossBar(player);
         }
 
+        if (ENDING_REWARD_ENABLED && reward) {
+            FileConfiguration eventConfigFile = EventsFile.get();
+            if (!getClanScoreCollected().isEmpty())
+                for (int i = 0; i <= topClanScoreCollected.size() - 1; i++) {
+                    int top = i + 1;
+                    String clanName = topClanScoreCollected.get(i);
+
+                    String configPath = "events.clan-war-event.ending-rewards.top-score-clans";
+
+                    if (eventConfigFile.getConfigurationSection(configPath).getKeys(false).contains(String.valueOf(top))) {
+                        if (!PluginDataManager.getClanDatabase().containsKey(clanName))
+                            continue;
+
+                        long warPointRewarded = eventConfigFile.getLong(configPath + "." + top + ".warpoint");
+                        PluginDataManager.getClanDatabase(clanName).setWarPoint(PluginDataManager.getClanDatabase(clanName).getWarPoint() + warPointRewarded);
+                        PluginDataManager.saveClanDatabaseToStorage(clanName);
+
+                        for (String commandsRewarded : eventConfigFile.getStringList(configPath + "." + top + ".commands"))
+                            CommandUtil.dispatchCommand(null, commandsRewarded.replace("%clan%", clanName));
+                    }
+                }
+            if (!getPlayerDamagesCaused().isEmpty())
+                for (int i = 0; i <= topPlayerDamagesCaused.size() - 1; i++) {
+                    int top = i + 1;
+                    String playerName = topPlayerDamagesCaused.get(i);
+
+                    String configPath = "events.clan-war-event.ending-rewards.most-damage-caused-players";
+
+                    if (eventConfigFile.getConfigurationSection(configPath).getKeys(false).contains(String.valueOf(top))) {
+                        if (!PluginDataManager.getPlayerDatabase().containsKey(playerName))
+                            continue;
+
+                        long warPointRewarded = eventConfigFile.getLong(configPath + "." + top + ".warpoint");
+                        String playerClanName = PluginDataManager.getPlayerDatabase(playerName).getClan();
+
+                        if (playerClanName == null)
+                            continue;
+
+                        PluginDataManager.getClanDatabase(playerClanName).setWarPoint(PluginDataManager.getClanDatabase(playerClanName).getWarPoint() + warPointRewarded);
+                        PluginDataManager.saveClanDatabaseToStorage(playerClanName);
+
+                        for (String commandsRewarded : eventConfigFile.getStringList(configPath + "." + top + ".commands"))
+                            CommandUtil.dispatchCommand(Bukkit.getPlayer(playerName), commandsRewarded.replace("%clan%", playerClanName).replace("%player%", playerName));
+                    }
+            }
+        }
         STARTING = false;
     }
 
@@ -288,14 +352,20 @@ public class WarEvent {
         killerClanData.setScore(killerClanData.getScore() + SCORE_PLAYER);
         // save to hash map because the database will update a lot during war event
         PluginDataManager.saveClanDatabaseToHashMap(killerClanData.getName(), killerClanData);
-        clanScoreCollected.put(killerClanData.getName(), getClanScoreCollected(killerClanData.getName() + SCORE_PLAYER));
+        clanScoreCollected.put(killerClanData.getName(), getClanScoreCollected(killerClanData.getName()) + SCORE_PLAYER);
 
         SkillData boostScoreSkillData = SkillManager.getSkillData().get(SkillManager.getSkillID(PluginSkill.BOOST_SCORE));
-        if (boostScoreSkillData != null)
+        String checkBoostScore = "";
+        if (boostScoreSkillData != null) {
             boostScoreSkillData.onDie(boostScoreSkillData, event);
+            int clanBoostScoreSkillLevel = killerClanData.getSkillLevel().get(boostScoreSkillData.getId());
+            if (clanBoostScoreSkillLevel > 0)
+                checkBoostScore = MESSAGES_CLAN_BROADCAST_PLACEHOLDER_CHECKBOOSTSCORE.replace("%bonusScore%", String.valueOf(BoostScoreSkill.boostScoreLevel.get(clanBoostScoreSkillLevel)));
+        }
+        alertClan(killerClanData.getName(), MESSAGES_CLAN_BROADCAST_GAIN_SCORE_PLAYER.replace("%player%", killer.getName()).replace("%target%", entityVictim.getName()).replace("%score%", String.valueOf(SCORE_PLAYER)).replace("%checkBoostScore%", checkBoostScore));
     }
 
-    public void sendEventStatusMessage(Player player, boolean playingSound) {
+    public void sendEventStatusMessage(Player player, boolean playSound) {
         if (!isStarting()) {
             StringBuilder eventTimeFrame = new StringBuilder();
             StringBuilder eventRequiredWorlds = new StringBuilder();
@@ -304,7 +374,7 @@ public class WarEvent {
             }
             for (String requiredWorld : WORLD_REQUIREMENT_WORLDS)
                 eventRequiredWorlds.append(MESSAGES_EVENT_NOT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWord%", requiredWorld)).append("\n");
-            MessageUtil.sendMessage(player, MESSAGES_EVENT_NOT_STARTING
+            sendMessage(player, MESSAGES_EVENT_NOT_STARTING
                     .replace("%eventTimeFrame%", eventTimeFrame.toString())
                     .replace("%requiredWorlds%", eventRequiredWorlds.toString())
                     .replace("%closestTimeFrame%", new SimpleDateFormat("HH:mm:ss").format(new Date(getClosestTimeFrameMillis())))
@@ -314,9 +384,9 @@ public class WarEvent {
             StringBuilder eventRequiredWorlds = new StringBuilder();
             for (String requiredWorld : WORLD_REQUIREMENT_WORLDS)
                 eventRequiredWorlds.append(MESSAGES_EVENT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWord%", requiredWorld)).append("\n");
-            if (playingSound)
+            if (playSound)
                 player.playSound(player.getLocation(), ClansPlus.nms.createSound(STARTING_SOUND_NAME), STARTING_SOUND_VOLUME, STARTING_SOUND_PITCH);
-            MessageUtil.sendMessage(player, MESSAGES_EVENT_STARTING
+            sendMessage(player, MESSAGES_EVENT_STARTING
                     .replace("%eventTimeLeft%", StringUtil.getTimeFormat(TIMELEFT))
                     .replace("%requiredWorlds%", eventRequiredWorlds.toString()));
         }
@@ -326,7 +396,7 @@ public class WarEvent {
         List<Long> timeFrameMillisList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String currentTimeDateFormat = dateFormat.format(new Date());
-        long closestTimeFrameMillis = 0;
+        Collections.sort(timeFrameMillisList);
         for (String timeFrame : EVENT_TIME_FRAME) {
             try {
                 timeFrameMillisList.add(dateFormat.parse(timeFrame).getTime());
@@ -338,21 +408,32 @@ public class WarEvent {
         for (long timeFrameMillis : timeFrameMillisList) {
             try {
                 long currentTimeMillis = dateFormat.parse(currentTimeDateFormat).getTime();
-                if (timeFrameMillis > currentTimeMillis) {
-                    closestTimeFrameMillis = timeFrameMillis;
-                    break;
-                }
+                if (timeFrameMillis > currentTimeMillis)
+                    return timeFrameMillis;
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
-        return closestTimeFrameMillis;
+        return timeFrameMillisList.get(0);
     }
 
     public long getClosestTimeFrameTimeLeft() {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         try {
-            return (getClosestTimeFrameMillis() - dateFormat.parse(dateFormat.format(new Date())).getTime()) / 1000;
+            Date currentTimeDateFormat = dateFormat.parse(dateFormat.format(new Date()));
+            long closestTimeFrameTimeLeft = (getClosestTimeFrameMillis() - currentTimeDateFormat.getTime()) / 1000;
+            if (closestTimeFrameTimeLeft > 0)
+                return closestTimeFrameTimeLeft;
+            else {
+                Date closestTimeFrameOnTheNextDay = new Date(getClosestTimeFrameMillis());
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(closestTimeFrameOnTheNextDay);
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                closestTimeFrameOnTheNextDay = calendar.getTime();
+
+                return (closestTimeFrameOnTheNextDay.getTime() - currentTimeDateFormat.getTime()) / 1000;
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
             return 0;
@@ -438,5 +519,16 @@ public class WarEvent {
             return;
 
         player.sendMessage(ClansPlus.nms.addColor(message.replace("%prefix%", MESSAGES_PREFIX)));
+    }
+
+    public void alertClan(String clanName, String message) {
+        if (!ClanManager.isClanExisted(clanName) || message == null)
+            return;
+
+        IClanData clanData = PluginDataManager.getClanDatabase(clanName);
+        for (String playerInClan : clanData.getMembers()) {
+            Player player = Bukkit.getPlayer(playerInClan);
+            MessageUtil.sendMessage(player, StringUtil.setClanNamePlaceholder(message.replace("%prefix%", MESSAGES_CLAN_BROADCAST_PREFIX), clanName));
+        }
     }
 }

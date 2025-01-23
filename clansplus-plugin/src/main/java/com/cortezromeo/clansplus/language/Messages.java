@@ -26,6 +26,7 @@ public class Messages {
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
     public static String UNKNOWN;
+    public static String TIME_FORMAT_HHMMSS;
     public static String TIME_FORMAT_MMSS;
     public static String TIME_FORMAT_SS;
     public static String NO_PERMISSION;
@@ -140,6 +141,7 @@ public class Messages {
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
         UNKNOWN = fileConfiguration.getString("unknown");
+        TIME_FORMAT_HHMMSS = fileConfiguration.getString("time-format.hh-mm-ss");
         TIME_FORMAT_MMSS = fileConfiguration.getString("time-format.mm-ss");
         TIME_FORMAT_SS = fileConfiguration.getString("time-format.ss");
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");

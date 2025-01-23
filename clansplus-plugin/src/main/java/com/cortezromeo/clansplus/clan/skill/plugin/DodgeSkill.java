@@ -19,6 +19,9 @@ import java.util.Random;
 
 public class DodgeSkill {
 
+    private static int levelDamageReflection;
+    private static String levelDamageEvaluation;
+
     public static void registerSkill() {
         FileConfiguration skillFileConfig = SkillsFile.get();
         String pluginSkillPath = "plugin-skills.dodge.";
@@ -33,6 +36,8 @@ public class DodgeSkill {
         if (skillFileConfig.get(pluginSkillPath + "rate-to-activate") != null)
             for (String level : skillFileConfig.getConfigurationSection(pluginSkillPath + "rate-to-activate.level").getKeys(false))
                 rateToActivate.put(Integer.parseInt(level), skillFileConfig.getDouble(pluginSkillPath + "rate-to-activate.level." + level));
+        levelDamageReflection = skillFileConfig.getInt(pluginSkillPath + "damage-reflection.level-to-activate");
+        levelDamageEvaluation = skillFileConfig.getString(pluginSkillPath + "damage-reflection.damage-reflection");
         SkillData skillData = new SkillData(ID, SkillType.PLUGIN, enabled, name, description, soundName, soundPitch, soundVolume, rateToActivate) {
             @Override
             public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
@@ -67,8 +72,8 @@ public class DodgeSkill {
                 try {
                     event.setCancelled(true);
 
-                    if (skillLevel >= SkillsFile.get().getInt("plugin-skills.dodge.damage-reflection.level-to-activate"))
-                        damager.damage(CalculatorUtil.evaluate(SkillsFile.get().getString("plugin-skills.dodge.damage-reflection.reflect-damage").replace("%damage%", String.valueOf(event.getDamage()))));
+                    if (skillLevel >= levelDamageReflection)
+                        damager.damage(CalculatorUtil.evaluate(levelDamageEvaluation.replace("%damage%", String.valueOf(event.getDamage()))));
 
                     Location victimLocation = event.getEntity().getLocation();
                     if (!skillData.getSoundName().equals(""))

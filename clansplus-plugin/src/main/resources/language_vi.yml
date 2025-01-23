@@ -49,6 +49,7 @@ online-status:
   online: '&aONLINE'
 unknown: 'N/A'
 time-format:
+  hh-mm-ss: '%hours% giờ %minutes% phút %seconds% giây'
   mm-ss: '%minutes% phút %seconds% giây'
   ss: '%seconds% giây'
 messages:

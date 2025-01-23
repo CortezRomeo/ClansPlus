@@ -11,7 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.util.HashMap;
+
 public class BoostScoreSkill {
+
+    public static HashMap<Integer, Integer> boostScoreLevel = new HashMap<>();
 
     public static void registerSkill() {
         FileConfiguration skillFileConfig = SkillsFile.get();
@@ -20,6 +24,8 @@ public class BoostScoreSkill {
         String name = skillFileConfig.getString(pluginSkillPath + "name");
         String description = skillFileConfig.getString(pluginSkillPath + "description");
         int ID = skillFileConfig.getInt(pluginSkillPath + "ID");
+        for (String level : skillFileConfig.getConfigurationSection(pluginSkillPath + "boost.level").getKeys(false))
+            boostScoreLevel.put(Integer.valueOf(level), skillFileConfig.getInt(pluginSkillPath + "boost.level." + level));
         SkillData skillData = new SkillData(ID, SkillType.PLUGIN, enabled, name, description, null, 0, 0, null) {
             @Override
             public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
@@ -48,7 +54,7 @@ public class BoostScoreSkill {
 
         // player clan's has this skill
         if (skillLevel > 0) {
-            // TODO add more score
+            PluginDataManager.getClanDatabaseByPlayerName(killer.getName()).setScore(killerClanData.getScore() + boostScoreLevel.get(skillLevel));
             return true;
         }
 

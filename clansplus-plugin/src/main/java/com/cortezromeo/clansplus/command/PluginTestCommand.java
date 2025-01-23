@@ -80,7 +80,7 @@ public class PluginTestCommand implements CommandExecutor {
                 EventManager.getWarEvent().runEvent(false);
             }
             if (args[0].equalsIgnoreCase("endwar")) {
-                EventManager.getWarEvent().endEvent();
+                EventManager.getWarEvent().endEvent(true, true, true);
             }
         }
 

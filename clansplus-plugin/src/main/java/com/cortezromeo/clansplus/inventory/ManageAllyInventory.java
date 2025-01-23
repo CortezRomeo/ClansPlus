@@ -12,6 +12,7 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -44,8 +45,7 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
     @Override
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
-        title = title.replace("%formatClanName%", ClanManager.getFormatClanName(PluginDataManager.getClanDatabase(allyName)));
-        title = title.replace("%clanName%", allyName);
+        title = StringUtil.setClanNamePlaceholder(title, allyName);
         return ClansPlus.nms.addColor(title);
     }
 

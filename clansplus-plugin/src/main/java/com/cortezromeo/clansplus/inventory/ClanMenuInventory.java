@@ -2,12 +2,12 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
-import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.ClanMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -39,10 +39,8 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
         String playerClanName = PluginDataManager.getPlayerDatabase(getOwner().getName()).getClan();
-        if (playerClanName != null) {
-            title = title.replace("%formatClanName%", ClanManager.getFormatClanName(PluginDataManager.getClanDatabase(playerClanName)));
-            title = title.replace("%clanName%", playerClanName);
-        }
+        if (playerClanName != null)
+            title = StringUtil.setClanNamePlaceholder(title, playerClanName);
         return ClansPlus.nms.addColor(title);
     }
 

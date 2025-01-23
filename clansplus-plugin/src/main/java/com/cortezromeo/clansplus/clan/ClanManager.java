@@ -7,6 +7,7 @@ import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -46,7 +47,7 @@ public class ClanManager {
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
         for (String playerInClan : clanData.getMembers()) {
             Player player = Bukkit.getPlayer(playerInClan);
-            MessageUtil.sendMessage(player, message.replace("%prefix%", Messages.CLAN_BROADCAST_PREFIX.replace("%formatClanName%", getFormatClanName(clanData))));
+            MessageUtil.sendMessage(player, StringUtil.setClanNamePlaceholder(message.replace("%prefix%", Messages.CLAN_BROADCAST_PREFIX), clanName));
         }
     }
 

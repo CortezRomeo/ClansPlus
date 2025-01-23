@@ -2,10 +2,10 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
-import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.ViewClanInventoryFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -33,8 +33,7 @@ public class ViewClanInventory extends ClanPlusInventoryBase {
     @Override
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
-        title = title.replace("%formatClanName%", ClanManager.getFormatClanName(PluginDataManager.getClanDatabase(clanName)));
-        title = title.replace("%clanName%", clanName);
+        title = StringUtil.setClanNamePlaceholder(title, clanName);
         return ClansPlus.nms.addColor(title);
     }
 

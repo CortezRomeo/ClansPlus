@@ -43,8 +43,7 @@ public class ItemUtil {
         ItemMeta itemMeta = modItem.getItemMeta();
 
         String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%formatClanName%", ClanManager.getFormatClanName(clanData));
-        itemName = itemName.replace("%clanName%", clanData.getName());
+        itemName = StringUtil.setClanNamePlaceholder(itemName, clanData.getName());
         itemName = itemName.replace("%clanCustomName%", ClanManager.getFormatCustomName(clanData));
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 

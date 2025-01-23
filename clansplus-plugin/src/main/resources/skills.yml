@@ -43,6 +43,16 @@ plugin-skills:
         23: "%damage% * 1.71"
         24: "%damage% * 1.74"
         25: "%damage% * 1.77"
+        26: "%damage% * 1.80"
+        27: "%damage% * 1.83"
+        28: "%damage% * 1.86"
+        29: "%damage% * 1.89"
+        30: "%damage% * 1.92"
+        31: "%damage% * 1.95"
+        32: "%damage% * 1.98"
+        33: "%damage% * 2.03"
+        34: "%damage% * 2.06"
+        35: "%damage% * 2.09"
     activate-sound:
       name: ENTITY_BLAZE_HURT
       pitch: 1
@@ -70,10 +80,20 @@ plugin-skills:
         19: 46
         20: 48
         21: 50
-        22: 52
-        23: 54
-        24: 56
-        25: 58
+        22: 50
+        23: 50
+        24: 50
+        25: 50
+        26: 50
+        27: 50
+        28: 50
+        29: 50
+        30: 50
+        31: 50
+        32: 50
+        33: 50
+        34: 50
+        35: 50
   dodge:
     enabled: true
     name: '&#03fcfcNé đòn'
@@ -115,10 +135,14 @@ plugin-skills:
         19: 46
         20: 48
         21: 50
-        22: 52
-        23: 54
-        24: 56
-        25: 58
+        22: 51
+        23: 52
+        24: 53
+        25: 54
+        26: 55
+        27: 56
+        28: 57
+        29: 58
   life_steal:
     enabled: true
     name: '&#fc9403Hút máu'
@@ -158,6 +182,19 @@ plugin-skills:
         23: "%playerMaxHealth% / 4.6"
         24: "%playerMaxHealth% / 4.4"
         25: "%playerMaxHealth% / 4.2"
+        26: "%playerMaxHealth% / 4"
+        27: "%playerMaxHealth% / 3.8"
+        28: "%playerMaxHealth% / 3.6"
+        29: "%playerMaxHealth% / 3.4"
+        30: "%playerMaxHealth% / 3.2"
+        31: "%playerMaxHealth% / 3.0"
+        32: "%playerMaxHealth% / 2.8"
+        33: "%playerMaxHealth% / 2.6"
+        34: "%playerMaxHealth% / 2.4"
+        35: "%playerMaxHealth% / 2.2"
+        36: "%playerMaxHealth% / 2.0"
+        37: "%playerMaxHealth% / 1.8"
+        38: "%playerMaxHealth% / 1.6"
     rate-to-activate:
       level:
         1: 10
@@ -181,10 +218,23 @@ plugin-skills:
         19: 46
         20: 48
         21: 50
-        22: 52
-        23: 54
-        24: 56
-        25: 58
+        22: 50
+        23: 50
+        24: 50
+        25: 50
+        26: 50
+        27: 50
+        28: 50
+        29: 50
+        30: 50
+        31: 50
+        32: 50
+        33: 50
+        34: 50
+        35: 50
+        36: 50
+        37: 50
+        38: 50
   boost_score:
     enabled: true
     name: '&#fc03c6Tăng điểm'

@@ -35,7 +35,7 @@ events:
 
     # Khung giờ trong ngày để bắt đầu sự kiện.
     event-time-frame:
-      #- HH:mm
+      #- HH:mm:ss
       - '10:30:00'
       - '15:30:00'
       - '21:30:00'
@@ -152,7 +152,7 @@ events:
         max-top: 5
         messages: |
           &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━&r
-                    &dSự kiện đã kết thúc
+                    &fSự kiện đã kết thúc
           &r
           &fTop 3 bang hội kiếm được nhiều điểm nhất&r
             &#fcd303Hạng nhất. &f%topScoreClaimed_1_name% &#85a832+%topScoreClaimed_1_score% điểm &#e0122a(60 Warpoint)
@@ -170,3 +170,9 @@ events:
             &#754200Hạng ba. &f%topTank_3_name% &#eb4034%topTank_3_score% dmg
           &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       not-enough-player: '%prefix%&#fc3903&l| &fKhông đủ người chơi để bắt đầu sự kiện. Sự kiện sẽ được dời sang mốc giờ sau.'
+      clan-broadcast:
+        prefix: '&#fc7703&lBANG HỘI WAR &f(%formatClanName%&r) '
+        gain-score-player: '%prefix%&#35d11d&l| &e%player%&f vừa hạ gục &c%target%&f và kiếm được &#d612e0%score%%checkBoostScore%&f điểm&f.'
+        gain-score-mob: '%prefix%&#35d11d&l| &e%player%&f vừa tiêu diệt &c%target%&f và kiếm được &#d612e0%score%%checkBoostScore%&f điểm&f.'
+      clan-broadcast-placeholders:
+        checkBoostScore: ' &e(+%bonusScore% điểm)&r'

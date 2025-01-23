@@ -3,7 +3,9 @@ package com.cortezromeo.clansplus.util;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.google.common.base.Strings;
 
 import java.text.SimpleDateFormat;
@@ -51,10 +53,23 @@ public class StringUtil {
             return Messages.STATUS_DISABLE;
     }
 
+    public static String setClanNamePlaceholder(String string, String clanName) {
+        if (!ClanManager.isClanExisted(clanName))
+            return string;
+
+        return string.replace("%formatClanName%", ClanManager.getFormatClanName(PluginDataManager.getClanDatabase(clanName))).replace("%clanName%", clanName);
+    }
+
     public static String getTimeFormat(long seconds) {
-        if (seconds > 60) {
+        if (seconds > 3600) {
+            String hhmmssString = Messages.TIME_FORMAT_HHMMSS;
+            hhmmssString = hhmmssString.replace("%hours%", String.valueOf(seconds / 3600));
+            hhmmssString = hhmmssString.replace("%minutes%", String.valueOf((seconds % 3600) / 60));
+            hhmmssString = hhmmssString.replace("%seconds%", String.valueOf(seconds % 60));
+            return ClansPlus.nms.addColor(hhmmssString);
+        } else if (seconds > 60) {
             String mmssString = Messages.TIME_FORMAT_MMSS;
-            mmssString = mmssString.replace("%minutes%", String.valueOf((seconds % 3600) / 60));
+            mmssString = mmssString.replace("%minutes%", String.valueOf((seconds / 60)));
             mmssString = mmssString.replace("%seconds%", String.valueOf(seconds % 60));
             return ClansPlus.nms.addColor(mmssString);
         } else

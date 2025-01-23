@@ -20,6 +20,8 @@ import java.util.Random;
 
 public class LifeStealSkill {
 
+    private static HashMap<Integer, String> healEvaluation = new HashMap<>();
+
     public static void registerSkill() {
         FileConfiguration skillFileConfig = SkillsFile.get();
         String pluginSkillPath = "plugin-skills.life_steal.";
@@ -31,6 +33,8 @@ public class LifeStealSkill {
         int soundPitch = skillFileConfig.getInt(pluginSkillPath + "activate-sound.pitch");
         int soundVolume = skillFileConfig.getInt(pluginSkillPath + "activate-sound.volume");
         HashMap<Integer, Double> rateToActivate = new HashMap<>();
+        for (String level : skillFileConfig.getConfigurationSection(pluginSkillPath + "heal.level").getKeys(false))
+            healEvaluation.put(Integer.valueOf(level), skillFileConfig.getString(pluginSkillPath + "heal.level." + level));
         if (skillFileConfig.get(pluginSkillPath + "rate-to-activate") != null)
             for (String level : skillFileConfig.getConfigurationSection(pluginSkillPath + "rate-to-activate.level").getKeys(false))
                 rateToActivate.put(Integer.parseInt(level), skillFileConfig.getDouble(pluginSkillPath + "rate-to-activate.level." + level));
@@ -65,7 +69,7 @@ public class LifeStealSkill {
 
             if (new Random().nextDouble() < chanceToActivate) {
                 try {
-                    double revivingHealth = CalculatorUtil.evaluate(SkillsFile.get().getString("plugin-skills.life_steal.heal.level." + skillLevel).replace("%playerMaxHealth%", String.valueOf(damager.getMaxHealth())));
+                    double revivingHealth = CalculatorUtil.evaluate(healEvaluation.get(skillLevel).replace("%playerMaxHealth%", String.valueOf(damager.getMaxHealth())));
                     if (damager.getHealth() + revivingHealth > damager.getMaxHealth())
                         damager.setHealth(damager.getMaxHealth());
                     else

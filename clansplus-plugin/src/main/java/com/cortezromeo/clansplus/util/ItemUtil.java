@@ -44,7 +44,7 @@ public class ItemUtil {
 
         String itemName = itemMeta.getDisplayName();
         itemName = StringUtil.setClanNamePlaceholder(itemName, clanData.getName());
-        itemName = itemName.replace("%clanCustomName%", ClanManager.getFormatCustomName(clanData));
+        itemName = itemName.replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData));
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 
         List<String> itemLore = itemMeta.getLore();
@@ -52,12 +52,12 @@ public class ItemUtil {
                         .replace("%warPoint%", String.valueOf(clanData.getWarPoint()))
                         .replace("%formatClanName%", ClanManager.getFormatClanName(clanData))
                         .replace("%clanName%", String.valueOf(clanData.getName()))
-                        .replace("%clanCustomName%", ClanManager.getFormatCustomName(clanData)))
+                        .replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData)))
                 .replace("%owner%", String.valueOf(clanData.getOwner()))
                 .replace("%memberSize%", String.valueOf(clanData.getMembers().size()))
                 .replace("%maxMembers%", String.valueOf(clanData.getMaxMembers()))
                 .replace("%allySize%", String.valueOf(clanData.getAllies().size()))
-                .replace("%message%", ClanManager.getFormatMessage(clanData))
+                .replace("%message%", ClanManager.getFormatClanMessage(clanData))
                 .replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()))
                 .replace("%warning%", String.valueOf(clanData.getWarning())));
         itemMeta.setLore(itemLore);

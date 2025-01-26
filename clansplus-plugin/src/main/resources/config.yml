@@ -7,9 +7,6 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 
-# Đặt license key đã mua tại dihoastore.net tại đây (Hướng dẫn cài: https://bit.ly/3gJtsbp)
-license-key: "XXXX-XXXX-XXXX-XXXX"
-
 # Dành cho việc fix lỗi, không cần bật nếu không cần đến.
 debug:
   enabled: false

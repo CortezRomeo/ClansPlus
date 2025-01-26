@@ -1,9 +1,9 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.file.inventory.NoClanInventoryFile;
+import com.cortezromeo.clansplus.file.inventory.ClanSettingsInventoryFile;
+import com.cortezromeo.clansplus.file.inventory.MembersMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
-import com.cortezromeo.clansplus.listener.AsyncPlayerChatListener;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -13,19 +13,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ClanSettingsInventory extends ClanPlusInventoryBase {
 
-public class NoClanInventory extends ClanPlusInventoryBase {
+    FileConfiguration fileConfiguration = ClanSettingsInventoryFile.get();
 
-    FileConfiguration fileConfiguration = NoClanInventoryFile.get();
-
-    public NoClanInventory(Player owner) {
+    public ClanSettingsInventory(Player owner) {
         super(owner);
     }
 
     @Override
     public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
         super.open();
     }
 
@@ -50,19 +52,19 @@ public class NoClanInventory extends ClanPlusInventoryBase {
             return;
         }
 
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
-        if (itemCustomData.equals("createNewClan")) {
-            getOwner().closeInventory();
-            if (!AsyncPlayerChatListener.createClan.contains(getOwner()))
-                AsyncPlayerChatListener.createClan.add(getOwner());
-            MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CREATE_CLAN);
-        }
-        if (itemCustomData.equals("clanList"))
-            new ClanListInventory(getOwner()).open();
+        if (itemCustomData.equals("back"))
+            new ClanMenuInventory(getOwner()).open();
     }
 
     @Override
@@ -87,26 +89,13 @@ public class NoClanInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack createNewClanItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.createNewClan.type"),
-                    fileConfiguration.getString("items.createNewClan.value"),
-                    fileConfiguration.getInt("items.createNewClan.customModelData"),
-                    fileConfiguration.getString("items.createNewClan.name"),
-                    fileConfiguration.getStringList("items.createNewClan.lore"), false), "createNewClan");
-            int createNewClanItemSlot = fileConfiguration.getInt("items.createNewClan.slot");
-            inventory.setItem(createNewClanItemSlot, createNewClanItem);
-
-            List<String> listClanItemLore = new ArrayList<>();
-            for (String lore : fileConfiguration.getStringList("items.clanList.lore")) {
-                lore = lore.replace("%totalClans%", String.valueOf(PluginDataManager.getClanDatabase().size()));
-                listClanItemLore.add(lore);
-            }
-            ItemStack listClanItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.clanList.type"),
-                    fileConfiguration.getString("items.clanList.value"),
-                    fileConfiguration.getInt("items.clanList.customModelData"),
-                    fileConfiguration.getString("items.clanList.name"),
-                    listClanItemLore, false), "clanList");
-            int listClanItemSlot = fileConfiguration.getInt("items.clanList.slot");
-            inventory.setItem(listClanItemSlot, listClanItem);
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+                    fileConfiguration.getString("items.back.value"),
+                    fileConfiguration.getInt("items.back.customModelData"),
+                    fileConfiguration.getString("items.back.name"),
+                    fileConfiguration.getStringList("items.back.lore"), false), "back");
+            int backItemSlot = fileConfiguration.getInt("items.back.slot");
+            inventory.setItem(backItemSlot, backItem);
         });
     }
 

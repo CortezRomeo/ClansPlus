@@ -125,11 +125,11 @@
             <version>5.6.1</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20250107</version>
         </dependency>
         <dependency>
             <groupId>com.cortezromeo.clansplus</groupId>

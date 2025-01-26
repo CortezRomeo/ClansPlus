@@ -57,7 +57,7 @@ public class RemoveAlly extends SubjectManager {
         PluginDataManager.saveClanDatabaseToStorage(targetClanName, targetClanData);
 
         MessageUtil.sendMessage(player, Messages.REMOVE_ALLY_SUCCESS.replace("%clan%", targetClanName));
-        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION.replace("%player%", playerName).replace("%clan%", targetClanName));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION.replace("%player%", playerName).replace("%clan%", targetClanName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
         ClanManager.alertClan(targetClanName, Messages.CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION.replace("%player%", playerName).replace("%clan%", playerClanData.getName()));
         return true;
     }

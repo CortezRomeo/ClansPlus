@@ -16,6 +16,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -31,6 +33,11 @@ public class AddAllyListInventory extends PaginatedInventory {
     public AddAllyListInventory(Player owner) {
         super(owner);
         sortItemType = SortItemType.ALL;
+    }
+
+    @Override
+    public void onSearch(PlayerChatEvent event) {
+
     }
 
     @Override

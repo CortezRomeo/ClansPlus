@@ -144,7 +144,7 @@ public class WarEvent {
         TIMELEFT = EVENT_TIME;
         STARTING = true;
 
-        // send event starting messages
+        // send event starting messages and create boss bar
         for (Player player : Bukkit.getOnlinePlayers()) {
             sendEventStatusMessage(player, true);
             createBossBar(player);
@@ -153,7 +153,6 @@ public class WarEvent {
         warEventTask = new BukkitRunnable() {
             @Override
             public void run() {
-
                 if (TIMELEFT > 0) {
                     // update boss bar
                     for (Player player : Bukkit.getOnlinePlayers())
@@ -373,7 +372,7 @@ public class WarEvent {
                 eventTimeFrame.append(MESSAGES_EVENT_NOT_STARTING_PLACEHOLDER_EVENTTIMEFRAME.replace("%eventTimeFrame%", timeFrame)).append("\n");
             }
             for (String requiredWorld : WORLD_REQUIREMENT_WORLDS)
-                eventRequiredWorlds.append(MESSAGES_EVENT_NOT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWord%", requiredWorld)).append("\n");
+                eventRequiredWorlds.append(MESSAGES_EVENT_NOT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWorld%", requiredWorld)).append("\n");
             sendMessage(player, MESSAGES_EVENT_NOT_STARTING
                     .replace("%eventTimeFrame%", eventTimeFrame.toString())
                     .replace("%requiredWorlds%", eventRequiredWorlds.toString())
@@ -383,7 +382,7 @@ public class WarEvent {
         } else {
             StringBuilder eventRequiredWorlds = new StringBuilder();
             for (String requiredWorld : WORLD_REQUIREMENT_WORLDS)
-                eventRequiredWorlds.append(MESSAGES_EVENT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWord%", requiredWorld)).append("\n");
+                eventRequiredWorlds.append(MESSAGES_EVENT_STARTING_PLACEHOLDER_REQUIREDWORLDS.replace("%requiredWorld%", requiredWorld)).append("\n");
             if (playSound)
                 player.playSound(player.getLocation(), ClansPlus.nms.createSound(STARTING_SOUND_NAME), STARTING_SOUND_VOLUME, STARTING_SOUND_PITCH);
             sendMessage(player, MESSAGES_EVENT_STARTING
@@ -468,6 +467,10 @@ public class WarEvent {
             getBossBarDatabase().get(player).removeAll();
             getBossBarDatabase().remove(player);
         }
+    }
+
+    public int getTimeLeft() {
+        return TIMELEFT;
     }
 
     public HashMap<String, Long> getPlayerDamagesCaused() {

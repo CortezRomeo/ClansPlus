@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -166,4 +168,8 @@ public class AllyListInventory extends PaginatedInventory {
         });
     }
 
+    @Override
+    public void onSearch(PlayerChatEvent event) {
+
+    }
 }

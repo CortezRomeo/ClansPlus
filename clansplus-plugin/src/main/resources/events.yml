@@ -136,7 +136,7 @@ events:
         &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       event-not-starting-placeholders:
         eventTimeFrame: '&7- &e%eventTimeFrame%'
-        requiredWorlds: '&7- &e%requiredWord%'
+        requiredWorlds: '&7- &e%requiredWorld%'
       event-starting: |
         &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━&r
                   &aSự kiện đang bắt đầu
@@ -146,7 +146,7 @@ events:
         %requiredWorlds%
         &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       event-starting-placeholders:
-        requiredWorlds: '&7- &e%requiredWord%'
+        requiredWorlds: '&7- &e%requiredWorld%'
       event-ending:
         # Vui lòng chỉnh max-top này dựa vào số top được dùng trong phần messages để tiết kiệm tài nguyên
         max-top: 5

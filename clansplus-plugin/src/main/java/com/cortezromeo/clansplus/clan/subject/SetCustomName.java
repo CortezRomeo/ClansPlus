@@ -51,7 +51,7 @@ public class SetCustomName extends SubjectManager {
         playerClanData.setCustomName(customName);
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
 
-        MessageUtil.sendMessage(player, Messages.SET_CUSTOM_NAME_SUCCESS.replaceAll("%clan%", playerClanData.getName()).replaceAll("%newCustomName%", customName));
+        MessageUtil.sendMessage(player, Messages.SET_CUSTOM_NAME_SUCCESS.replace("%clan%", playerClanData.getName()).replace("%newCustomName%", customName));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_CUSTOM_NAME.replace("%player%", playerName).replace("%newCustomName%", customName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
 
         return true;

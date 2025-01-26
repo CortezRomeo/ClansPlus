@@ -19,6 +19,7 @@ import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
+import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -65,6 +66,7 @@ public class ClansPlus extends JavaPlugin {
         initSkills();
         initSupports();
         EventManager.getWarEvent();
+        PluginDataManager.loadAllCustomHeadsFromJsonFiles();
 
         // Check license key when the plugin is activated from dihoastore.net
 /*        if (!DiHoaStore.doDiHoa()) {
@@ -329,6 +331,42 @@ public class ClansPlus extends JavaPlugin {
         }
         SkillsMenuInventoryFile.reload();
 
+        // inventories/events-menu-inventory.yml
+        String eventsMenuFileName = "events-menu-inventory.yml";
+        EventsMenuInventoryFile.setup();
+        EventsMenuInventoryFile.saveDefault();
+        File eventsMenuFile = new File(getDataFolder() + "/inventories/events-menu-inventory.yml");
+        try {
+            ConfigUpdater.update(this, eventsMenuFileName, eventsMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        EventsMenuInventoryFile.reload();
+
+        // inventories/clan-settings-inventory.yml
+        String clanSettingsFileName = "clan-settings-inventory.yml";
+        ClanSettingsInventoryFile.setup();
+        ClanSettingsInventoryFile.saveDefault();
+        File clanSettingsFile = new File(getDataFolder() + "/inventories/clan-settings-inventory.yml");
+        try {
+            ConfigUpdater.update(this, clanSettingsFileName, clanSettingsFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ClanSettingsInventoryFile.reload();
+
+        // inventories/set-icon-custom-head-list-inventory.yml
+        String setIconCustomHeadListFileName = "set-icon-custom-head-list-inventory.yml";
+        SetIconCustomHeadListInventoryFile.setup();
+        SetIconCustomHeadListInventoryFile.saveDefault();
+        File setIconCustomHeadListFile = new File(getDataFolder() + "/inventories/set-icon-custom-head-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, setIconCustomHeadListFileName, setIconCustomHeadListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SetIconCustomHeadListInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -399,6 +437,8 @@ public class ClansPlus extends JavaPlugin {
         }
         UpgradeFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded upgrade.yml.");
+
+        CustomHeadSupport.setupCustomHeadJsonFiles();
     }
 
     public void initLanguages() {
@@ -426,6 +466,7 @@ public class ClansPlus extends JavaPlugin {
         new PlayerJoinListener();
         new InventoryClickListener();
         new EntityDamageListener();
+        new AsyncPlayerChatListener();
         new PlayerChatListener();
         new PlayerQuitListener();
         new PlayerDeathListener();

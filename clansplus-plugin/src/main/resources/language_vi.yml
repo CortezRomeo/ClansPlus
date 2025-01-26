@@ -110,9 +110,12 @@ messages:
   reject-ally-invite-success: '%prefix%&#35d11d&l| &fBạn đã từ chối lời mời làm đồng minh của bang hội &e%clan%'
   remove-ally-success: '%prefix%&#35d11d&l| &fBạn đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh!'
   illegally-upgrade-skill: '%prefix%&#d12f1d&l| &fBạn cần phải nâng cấp trước cấp độ &e%skillLevel%&f.'
+  invalid-icon-value: '%prefix%&#d12f1d&l| &fIcon không hợp lệ!'
+  set-icon-success: '%prefix%&#35d11d&l| &fĐã chỉnh icon bang hội thành &e%value% (Type: %type%)&f thành công.'
   last-page: ''
   using-chat-box:
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
+    inventory-list-search: '%prefix%&#eaff00&l| &fVui lòng nhập ký tự cần tìm kiếm vào ô chat.'
   clan-broadcast:
     prefix: '&#3498eb&lBANG HỘI &f(%formatClanName%&r) '
     invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã gửi lời mời gia nhập bang hội tới &e%target%&f.'
@@ -120,17 +123,18 @@ messages:
     player-removed-from-clan: '%prefix%&#d12f1d&l| &e%player%&f đã bị đuổi ra khỏi bang hội bởi &r%rank%&e %by%&f.'
     player-leave-clan: '%prefix%&#d12f1d&l| &e%player%&f vừa rời bang hội.'
     player-reject-to-join: '%prefix%&#d12f1d&l| &e%player%&f đã từ chối tham gia bang hội.'
-    set-custom-name: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã chỉnh tên custom bang hội thành &r%newCustomName%&f.'
-    set-message: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã chỉnh thông báo bang hội thành &e%newMessage%&f.'
+    set-custom-name: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã chỉnh tên custom bang hội thành &r%newCustomName%&f.'
+    set-message: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã chỉnh thông báo bang hội thành &e%newMessage%&f.'
     member-promoted-to-owner: '%prefix%&#35d11d&l| &e%player%&f vừa chuyển quyền lãnh đạo bang hội cho &e%target%&f.'
     member-promoted-to-manager: '%prefix%&#35d11d&l| &e%player%&f đã trở thành quản lý bang hội bởi &r%rank%&e %by%&f.'
-    manager-removed: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã tước quyền quản lý của &e%target%&f.'
+    manager-removed: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã tước quyền quản lý của &e%target%&f.'
     receive-ally-invite: '%prefix%&#35d11d&l| &fBang hội &e%clan%&f vừa gửi lời mời trở thành đồng minh. Sử dụng lệnh &e/banghoi ally&f để chấp nhận hoặc từ chối.'
     new-ally-notification: '%prefix%&#35d11d&l| &fBang hội &e%clan%&f đã trở thành đồng minh!'
-    remove-ally-notification: '%prefix%&#35d11d&l| &e%player%&f đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh.'
+    remove-ally-notification: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh.'
     ally-removed-notification: '%prefix%&#d12f1d&l| &fBang hội này đã bị xóa khỏi danh sách đồng minh của bang hội &e%clan%&f bởi &e%player%&f.'
-    upgrade-max-members: '%prefix%&#35d11d&l| &e%player%&f đã nâng cấp số lượng thành viên tối đa lên &2%newMaxMembers%&f.'
-    upgrade-plugin-skill: '%prefix%&#35d11d&l| &e%player%&f đã nâng cấp %skillName%&f lên cấp độ &e%newLevel%&f.'
+    upgrade-max-members: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã nâng cấp số lượng thành viên tối đa lên &2%newMaxMembers%&f.'
+    upgrade-plugin-skill: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã nâng cấp %skillName%&f lên cấp độ &e%newLevel%&f.'
+    set-icon: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã chỉnh icon bang hội thành &e%value% (Type: %type%)&f.'
   commands:
     clanplus:
       messages:

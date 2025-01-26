@@ -7,13 +7,19 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.enums.CustomHeadCategory;
+import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +31,7 @@ public class PluginDataManager {
     public static boolean fixMembersOldData;
     public static HashMap<String, IPlayerData> playerDatabase = new HashMap<>();
     public static TreeMap<String, IClanData> clanDatabase = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public static HashMap<CustomHeadCategory, List<CustomHeadData>> customHeadDatabase = new HashMap<>();
 
     public static HashMap<String, IPlayerData> getPlayerDatabase() {
         return playerDatabase;
@@ -100,6 +107,14 @@ public class PluginDataManager {
             PluginDataStorage.savePlayerData(playerName, getPlayerDatabase().get(playerName));
     }
 
+    public static HashMap<CustomHeadCategory, List<CustomHeadData>> getCustomHeadDatabase() {
+        return customHeadDatabase;
+    }
+
+    public static List<CustomHeadData> getCustomHeadDatabase(CustomHeadCategory customHeadCategory) {
+        return getCustomHeadDatabase().get(customHeadCategory);
+    }
+
     public static void clearPlayerDatabase(String playerName) {
         if (!getPlayerDatabase().containsKey(playerName))
             return;
@@ -161,6 +176,28 @@ public class PluginDataManager {
                 if (commandSender != null)
                     commandSender.sendMessage("Successfully transferred database from " + ClansPlus.databaseType + " to " + toDatabaseType);
             });
+        }
+    }
+
+    public static void loadAllCustomHeadsFromJsonFiles() {
+        File customHeadsFolder = new File(ClansPlus.plugin.getDataFolder() + "/customheads");
+        if (!customHeadsFolder.exists())
+            CustomHeadSupport.setupCustomHeadJsonFiles();
+
+        for (CustomHeadCategory customHeadCategory : CustomHeadCategory.values()) {
+            String customHeadCategoryString = customHeadCategory.toString().toLowerCase().replace("_", "-");
+            List<CustomHeadData> customHeadDataList = new ArrayList<>();
+            try {
+                String jsonString = new String(Files.readAllBytes(Paths.get(ClansPlus.plugin.getDataFolder() + "/customheads/custom-head-" + customHeadCategoryString + ".json")));
+                JSONArray jsonArray = new JSONArray(jsonString);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String name = jsonObject.getString("name");
+                    String value = jsonObject.getString("value");
+                    customHeadDataList.add(new CustomHeadData(name, value));
+                }
+                getCustomHeadDatabase().put(customHeadCategory, customHeadDataList);
+            } catch (Exception exception) {}
         }
     }
 

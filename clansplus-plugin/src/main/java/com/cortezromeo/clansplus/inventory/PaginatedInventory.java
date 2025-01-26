@@ -4,6 +4,9 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +22,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
     public PaginatedInventory(Player owner) {
         super(owner);
     }
+
+    public abstract void onSearch(PlayerChatEvent event);
 
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");

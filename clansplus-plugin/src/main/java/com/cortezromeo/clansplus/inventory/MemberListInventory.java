@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -240,6 +242,11 @@ public class MemberListInventory extends PaginatedInventory {
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;
+    }
+
+    @Override
+    public void onSearch(PlayerChatEvent event) {
+
     }
 
     public enum SortItemType {

@@ -26,6 +26,9 @@ public class ItemUtil {
 
         ItemMeta materialMeta = material.get().getItemMeta();
 
+        if (materialMeta == null)
+            return material.get();
+
         materialMeta.setDisplayName(ClansPlus.nms.addColor(name));
 
         List<String> newList = new ArrayList<>();

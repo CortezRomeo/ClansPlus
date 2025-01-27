@@ -2,12 +2,10 @@ package com.cortezromeo.clansplus.support;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
-import com.cortezromeo.clansplus.util.MessageUtil;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
 
 public class CustomHeadSupport {
 

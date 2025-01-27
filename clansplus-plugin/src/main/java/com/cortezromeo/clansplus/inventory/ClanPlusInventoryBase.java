@@ -1,6 +1,8 @@
 package com.cortezromeo.clansplus.inventory;
 
+import com.cortezromeo.clansplus.ClansPlus;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -26,6 +28,17 @@ public abstract class ClanPlusInventoryBase implements InventoryHolder {
         return inventory;
     }
 
+    public void playClickSound(FileConfiguration fileConfiguration, String itemName) {
+        String itemPath = "items." + itemName + ".click-sound.";
+        String soundName = fileConfiguration.getString(itemPath + "name");
+
+        if (!fileConfiguration.getBoolean(itemPath + "enabled") || fileConfiguration.getString(itemPath + "name") == null) {
+            return;
+        }
+
+        getOwner().playSound(getOwner().getLocation(), ClansPlus.nms.createSound(soundName), fileConfiguration.getInt(itemPath + "volume"), fileConfiguration.getInt(itemPath + "pitch"));
+    }
+
     public abstract String getMenuName();
 
     public abstract int getSlots();
@@ -37,4 +50,5 @@ public abstract class ClanPlusInventoryBase implements InventoryHolder {
     public Player getOwner() {
         return owner;
     }
+
 }

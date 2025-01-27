@@ -15,8 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -36,11 +34,6 @@ public class AddMemberListInventory extends PaginatedInventory {
     }
 
     @Override
-    public void onSearch(PlayerChatEvent event) {
-
-    }
-
-    @Override
     public void open() {
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
@@ -53,6 +46,7 @@ public class AddMemberListInventory extends PaginatedInventory {
     @Override
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
+        title = title.replace("%search%", getSearch() != null ? fileConfiguration.getString("title-placeholders.search").replace("%search%", getSearch()) : "");
         return ClansPlus.nms.addColor(title);
     }
 
@@ -80,15 +74,17 @@ public class AddMemberListInventory extends PaginatedInventory {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        super.handleMenu(event);
+        playClickSound(fileConfiguration, itemCustomData);
         if (itemCustomData.equals("prevPage")) {
-            if (page != 0) {
-                page = page - 1;
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
                 open();
             }
         }
         if (itemCustomData.equals("nextPage")) {
             if (!((index + 1) >= players.size())) {
-                page = page + 1;
+                setPage(getPage() + 1);
                 open();
             } else {
                 MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
@@ -98,15 +94,17 @@ public class AddMemberListInventory extends PaginatedInventory {
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new MembersMenuInventory(getOwner()).open();
-        if (itemCustomData.equals("sortItem")) {
+        if (itemCustomData.equals("sort")) {
             if (sortItemType == SortItemType.NOCLAN)
                 sortItemType = SortItemType.BEINGINVITED;
             else if (sortItemType == SortItemType.BEINGINVITED)
                 sortItemType = SortItemType.NOCLAN;
-            page = 0;
+            setSearch(null);
+            setPage(0);
             super.open();
         }
         if (itemCustomData.contains("player=")) {
+            playClickSound(fileConfiguration, "player");
             itemCustomData = itemCustomData.replace("player=", "");
             new Invite(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.INVITE), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData, Settings.CLAN_SETTING_TIME_TO_ACCEPT).execute();
             super.open();
@@ -130,12 +128,12 @@ public class AddMemberListInventory extends PaginatedInventory {
             backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sortItem.type"),
-                    fileConfiguration.getString("items.sortItem.value"),
-                    fileConfiguration.getInt("items.sortItem.customModelData"),
-                    fileConfiguration.getString("items.sortItem.name"),
-                    fileConfiguration.getStringList("items.sortItem.lore." + sortItemType.toString()), false), "sortItem");
-            int sortItemSlot = fileConfiguration.getInt("items.sortItem.slot");
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sort.type"),
+                    fileConfiguration.getString("items.sort.value"),
+                    fileConfiguration.getInt("items.sort.customModelData"),
+                    fileConfiguration.getString("items.sort.name"),
+                    fileConfiguration.getStringList("items.sort.lore." + sortItemType.toString()), false), "sort");
+            int sortItemSlot = fileConfiguration.getInt("items.sort.slot");
             if (sortItemSlot < 0)
                 sortItemSlot = 0;
             if (sortItemSlot > 8)
@@ -157,9 +155,19 @@ public class AddMemberListInventory extends PaginatedInventory {
                 if (!ClanManager.beingInvitedPlayers.isEmpty())
                     players.addAll(ClanManager.beingInvitedPlayers.keySet());
 
+            if (getSearch() != null) {
+                List<String> newPlayers = new ArrayList<>();
+                for (String player : players) {
+                    if (player.toLowerCase().contains(getSearch().toLowerCase())) {
+                        newPlayers.add(player);
+                    }
+                }
+                players.clear();
+                players.addAll(newPlayers);
+            }
 
             for (int i = 0; i < getMaxItemsPerPage(); i++) {
-                index = getMaxItemsPerPage() * page + i;
+                index = getMaxItemsPerPage() * getPage() + i;
                 if (index >= players.size())
                     break;
                 if (players.get(index) != null) {

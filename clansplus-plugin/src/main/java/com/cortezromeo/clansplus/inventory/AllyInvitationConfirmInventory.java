@@ -85,6 +85,8 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
         Rank requiredRank = PluginDataManager.getClanDatabase(clanName).getSubjectPermission().get(Subject.MANAGEALLY);
 
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("close")) {
             getOwner().closeInventory();
             return;
@@ -128,7 +130,7 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, borderItem);
+                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
             ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),

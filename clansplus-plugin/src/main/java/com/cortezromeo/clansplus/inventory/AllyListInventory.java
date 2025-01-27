@@ -12,8 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ public class AllyListInventory extends PaginatedInventory {
     @Override
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
+        title = title.replace("%search%", getSearch() != null ? fileConfiguration.getString("title-placeholders.search").replace("%search%", getSearch()) : "");
         title = title.replace("%totalMembers%", String.valueOf(PluginDataManager.getClanDatabase().size()));
         return ClansPlus.nms.addColor(title);
     }
@@ -72,15 +71,18 @@ public class AllyListInventory extends PaginatedInventory {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        super.handleMenu(event);
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("prevPage")) {
-            if (page != 0) {
-                page = page - 1;
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
                 open();
             }
         }
         if (itemCustomData.equals("nextPage")) {
             if (!((index + 1) >= allies.size())) {
-                page = page + 1;
+                setPage(getPage() + 1);
                 open();
             } else {
                 MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
@@ -112,6 +114,7 @@ public class AllyListInventory extends PaginatedInventory {
             return;
 
         if (itemCustomData.contains("ally=")) {
+            playClickSound(fileConfiguration, "clan");
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
                     itemCustomData = itemCustomData.replace("ally=", "");
@@ -148,8 +151,19 @@ public class AllyListInventory extends PaginatedInventory {
                 allies.addAll(PluginDataManager.getClanDatabase(clanName).getAllies());
             }
 
+            if (getSearch() != null) {
+                List<String> newAllies = new ArrayList<>();
+                for (String ally : allies) {
+                    if (ally.toLowerCase().contains(getSearch().toLowerCase())) {
+                        newAllies.add(ally);
+                    }
+                }
+                allies.clear();
+                allies.addAll(newAllies);
+            }
+
             for (int i = 0; i < getMaxItemsPerPage(); i++) {
-                index = getMaxItemsPerPage() * page + i;
+                index = getMaxItemsPerPage() * getPage() + i;
                 if (index >= allies.size())
                     break;
                 if (allies.get(index) != null) {
@@ -166,10 +180,5 @@ public class AllyListInventory extends PaginatedInventory {
                 }
             }
         });
-    }
-
-    @Override
-    public void onSearch(PlayerChatEvent event) {
-
     }
 }

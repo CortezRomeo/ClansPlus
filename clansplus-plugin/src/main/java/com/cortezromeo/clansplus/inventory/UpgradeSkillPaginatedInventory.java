@@ -29,7 +29,7 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                     fileConfiguration.getString("items.border.name"),
                     fileConfiguration.getStringList("items.border.lore"), false);
             for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                inventory.setItem(itemSlot, borderItem);
+                inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
         }
 
         ItemStack invalidSkillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.invalidSkillLevel.type"),

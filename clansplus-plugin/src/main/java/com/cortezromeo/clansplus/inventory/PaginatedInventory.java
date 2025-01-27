@@ -1,11 +1,11 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.listener.PlayerChatListener;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,13 +17,41 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
 
     protected int page = 0;
     protected boolean isUsingBorder;
+    protected String search;
     protected int index = 0;
 
     public PaginatedInventory(Player owner) {
         super(owner);
     }
 
-    public abstract void onSearch(PlayerChatEvent event);
+    public void onSearch(PlayerChatEvent event) {
+        event.setCancelled(true);
+        setSearch(event.getMessage());
+        setPage(0);
+        open();
+    }
+
+    @Override
+    public void handleMenu(InventoryClickEvent event) {
+        if (event.getCurrentItem() == null)
+            return;
+
+        ItemStack itemStack = event.getCurrentItem();
+        String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
+
+        if (itemCustomData.equals("search")) {
+            event.setCancelled(true);
+            if (event.getClick().isRightClick()) {
+                search = null;
+                setPage(0);
+                PlayerChatListener.removeSearchPlayerQuery(getOwner());
+                open();
+            } else {
+                getOwner().closeInventory();
+                PlayerChatListener.addSearchPlayerQuery(getOwner(), this);
+            }
+        }
+    }
 
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
@@ -36,7 +64,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             if (getSlots() > 18)
                 for (int i = 0; i < 10; i++) {
                     if (inventory.getItem(i) == null) {
-                        inventory.setItem(i, borderItem);
+                        inventory.setItem(i, ClansPlus.nms.addCustomData(borderItem, "border"));
                     }
                 }
             if (getSlots() > 27) {
@@ -94,7 +122,20 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             nextPageItemSlot = 8;
         nextPageItemSlot = (getSlots() - 9) + nextPageItemSlot;
 
-        if (page > 0)
+        ItemStack searchItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.search.type"),
+                fileConfiguration.getString("items.search.value"),
+                fileConfiguration.getInt("items.search.customModelData"),
+                fileConfiguration.getString("items.search.name"),
+                fileConfiguration.getStringList("items.search.lore"), false), "search");
+        int searchItemSlot = fileConfiguration.getInt("items.search.slot");
+        if (searchItemSlot < 0)
+            searchItemSlot = 0;
+        if (searchItemSlot > 8)
+            searchItemSlot = 8;
+        searchItemSlot = (getSlots() - 9) + searchItemSlot;
+        inventory.setItem(searchItemSlot, searchItem);
+
+        if (getPage() > 0)
             inventory.setItem(prevPageItemSlot, getPageItemStack(prevItem));
         inventory.setItem(closeItemSlot, closeItem);
         inventory.setItem(nextPageItemSlot, getPageItemStack(nextItem));
@@ -105,9 +146,9 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         ItemMeta itemMeta = modItem.getItemMeta();
 
         List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%page%", String.valueOf(page))
-                .replace("%nextPage%", String.valueOf(page + 2))
-                .replace("%prevPage%", String.valueOf(page > 0 ? page : 0))));
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%page%", String.valueOf(getPage()))
+                .replace("%nextPage%", String.valueOf(getPage() + 2))
+                .replace("%prevPage%", String.valueOf(getPage() > 0 ? getPage() : 0))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;
@@ -124,5 +165,21 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             return 7 + (isUsingBorder ? 0 : 11);
         else
             return 28 + (isUsingBorder ? 0 : 17);
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

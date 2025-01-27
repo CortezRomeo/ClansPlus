@@ -29,10 +29,15 @@ rows: 6
 items:
   border:
     enabled: true
+    name: ''
     type: material
     value: BLACK_STAINED_GLASS_PANE
     customModelData: 0
-    name: ''
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
     lore:
       - ''
   nextPage:
@@ -41,6 +46,11 @@ items:
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
     customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
     lore:
       - '&7Sang trang %nextPage%'
   prevPage:
@@ -49,14 +59,24 @@ items:
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
     customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
     lore:
       - '&7Về trang %prevPage%'
   search:
     name: '&6Tìm kiếm'
-    slot: 5
+    slot: 6
     type: material
     value: WRITABLE_BOOK
     customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_CARTOGRAPHY_TABLE_TAKE_RESULT'
+      volume: 1
+      pitch: 1
     lore:
       - '&eNhấn vào đây để tìm kiếm'
       - '&eChuột-Phải để xóa danh sách tìm kiếm'
@@ -65,6 +85,12 @@ items:
     slot: 4
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
     lore:
       - '&eNhấn vào đây để đóng'
   back:
@@ -72,12 +98,188 @@ items:
     slot: 3
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
     lore:
       - '&eNhấn vào đây để trở về'
   customHead:
     name: '&b%name%'
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
     lore:
       - ''
       - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
       - ''
       - '&eNhấn vào đây để chỉnh thành icon bang hội'
+  sort:
+    name: '&bSắp xếp'
+    slot: 5
+    type: material
+    value: OAK_SIGN
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 1
+    lore:
+      ANIMALS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&b⇨ Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      MONSTERS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&b⇨ Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      BLOCKS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&b⇨ Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      DECORATION:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&b⇨ Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      FOOD_DRINKS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&b⇨ Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      HUMANOID:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&b⇨ Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      HUMANS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&b⇨ Con người'
+        - '&7Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      PLANTS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&b⇨ Thực vật'
+        - '&7Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'
+      MISCELLANEOUS:
+        - ''
+        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - ''
+        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - ''
+        - '&7Động vật'
+        - '&7Quái vật'
+        - '&7Khối'
+        - '&7Trang trí'
+        - '&7Đồ ăn và thức uống'
+        - '&7Hình nhân'
+        - '&7Con người'
+        - '&7Thực vật'
+        - '&b⇨ Hỗn hợp'
+        - ''
+        - '&eNhấn vào đây để thay đổi'

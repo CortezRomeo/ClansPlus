@@ -74,15 +74,19 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
         if (itemCustomData.contains("manageMembersRank=")) {
+            playClickSound(fileConfiguration, "manageMembersRank");
             itemCustomData = itemCustomData.replace("manageMembersRank=", "");
             new ManageMemberRankInventory(getOwner(), itemCustomData).open();
         }
         if (itemCustomData.contains("kick=")) {
+            playClickSound(fileConfiguration, "kickMember");
             itemCustomData = itemCustomData.replace("kick=", "");
             if (new Kick(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.KICK), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute())
                 new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
@@ -100,7 +104,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, borderItem);
+                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
             ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),

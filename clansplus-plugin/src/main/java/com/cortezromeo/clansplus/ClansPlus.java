@@ -367,6 +367,18 @@ public class ClansPlus extends JavaPlugin {
         }
         SetIconCustomHeadListInventoryFile.reload();
 
+        // inventories/set-icon-material-list-inventory.yml
+        String setIconMaterialListFileName = "set-icon-material-list-inventory.yml";
+        SetIconMaterialListInventoryFile.setup();
+        SetIconMaterialListInventoryFile.saveDefault();
+        File setIconMaterialListFile = new File(getDataFolder() + "/inventories/set-icon-material-list-inventory.yml");
+        try {
+            ConfigUpdater.update(this, setIconMaterialListFileName, setIconMaterialListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SetIconMaterialListInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");

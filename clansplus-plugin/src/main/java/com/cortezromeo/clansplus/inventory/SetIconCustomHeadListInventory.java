@@ -8,8 +8,6 @@ import com.cortezromeo.clansplus.clan.subject.SetIcon;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
 import com.cortezromeo.clansplus.file.inventory.SetIconCustomHeadListInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
-import com.cortezromeo.clansplus.listener.AsyncPlayerChatListener;
-import com.cortezromeo.clansplus.listener.PlayerChatListener;
 import com.cortezromeo.clansplus.storage.CustomHeadData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
@@ -18,8 +16,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -31,7 +27,6 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
     FileConfiguration fileConfiguration = SetIconCustomHeadListInventoryFile.get();
     private CustomHeadCategory category;
     private List<CustomHeadData> customheads = new ArrayList<>();
-    private String search;
 
     public SetIconCustomHeadListInventory(Player owner, CustomHeadCategory category) {
         super(owner);
@@ -51,7 +46,7 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
     @Override
     public String getMenuName() {
         String title = fileConfiguration.getString("title");
-        title = title.replace("%search%", search != null ? fileConfiguration.getString("title-placeholders.search").replace("%search%", search) : "");
+        title = title.replace("%search%", getSearch() != null ? fileConfiguration.getString("title-placeholders.search").replace("%search%", getSearch()) : "");
         return ClansPlus.nms.addColor(title);
     }
 
@@ -79,15 +74,18 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        super.handleMenu(event);
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("prevPage")) {
-            if (page != 0) {
-                page = page - 1;
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
                 open();
             }
         }
         if (itemCustomData.equals("nextPage")) {
             if (!((index + 1) >= customheads.size())) {
-                page = page + 1;
+                setPage(getPage() + 1);
                 open();
             } else {
                 MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
@@ -97,18 +95,31 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new AlliesMenuInventory(getOwner()).open();
-        if (itemCustomData.equals("search")) {
-            if (event.getClick().isRightClick()) {
-                search = null;
-                page = 0;
-                PlayerChatListener.removeSearchPlayerQuery(getOwner());
-                open();
-            } else {
-                getOwner().closeInventory();
-                PlayerChatListener.addSearchPlayerQuery(getOwner(), this);
-            }
+        if (itemCustomData.equals("sort")) {
+            if (category == CustomHeadCategory.ANIMALS)
+                category = CustomHeadCategory.MONSTERS;
+            else if (category == CustomHeadCategory.MONSTERS)
+                category = CustomHeadCategory.BLOCKS;
+            else if (category == CustomHeadCategory.BLOCKS)
+                category = CustomHeadCategory.DECORATION;
+            else if (category == CustomHeadCategory.DECORATION)
+                category = CustomHeadCategory.FOOD_DRINKS;
+            else if (category == CustomHeadCategory.FOOD_DRINKS)
+                category = CustomHeadCategory.HUMANOID;
+            else if (category == CustomHeadCategory.HUMANOID)
+                category = CustomHeadCategory.HUMANS;
+            else if (category == CustomHeadCategory.HUMANS)
+                category = CustomHeadCategory.PLANTS;
+            else if (category == CustomHeadCategory.PLANTS)
+                category = CustomHeadCategory.MISCELLANEOUS;
+            else if (category == CustomHeadCategory.MISCELLANEOUS)
+                category = CustomHeadCategory.ANIMALS;
+            setSearch(null);
+            setPage(0);
+            super.open();
         }
         if (itemCustomData.contains("value=")) {
+            playClickSound(fileConfiguration, "customHead");
             new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), IconType.CUSTOMHEAD, itemCustomData.replace("value=", "")).execute();
         }
     }
@@ -130,18 +141,18 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack searchItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.search.type"),
-                    fileConfiguration.getString("items.search.value"),
-                    fileConfiguration.getInt("items.search.customModelData"),
-                    fileConfiguration.getString("items.search.name"),
-                    fileConfiguration.getStringList("items.search.lore"), false), "search");
-            int searchItemSlot = fileConfiguration.getInt("items.search.slot");
-            if (searchItemSlot < 0)
-                searchItemSlot = 0;
-            if (searchItemSlot > 8)
-                searchItemSlot = 8;
-            searchItemSlot = (getSlots() - 9) + searchItemSlot;
-            inventory.setItem(searchItemSlot, searchItem);
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sort.type"),
+                    fileConfiguration.getString("items.sort.value"),
+                    fileConfiguration.getInt("items.sort.customModelData"),
+                    fileConfiguration.getString("items.sort.name"),
+                    fileConfiguration.getStringList("items.sort.lore." + category.toString()), false), "sort");
+            int sortItemSlot = fileConfiguration.getInt("items.sort.slot");
+            if (sortItemSlot < 0)
+                sortItemSlot = 0;
+            if (sortItemSlot > 8)
+                sortItemSlot = 8;
+            sortItemSlot = (getSlots() - 9) + sortItemSlot;
+            inventory.setItem(sortItemSlot, sortItem);
 
             if (PluginDataManager.getClanDatabase().isEmpty())
                 return;
@@ -153,10 +164,10 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             } else
                 return;
 
-            if (search != null) {
+            if (getSearch() != null) {
                 List<CustomHeadData> newCustomHeads = new ArrayList<>();
                 for (CustomHeadData customHeadData: customheads) {
-                    if (customHeadData.getName().toLowerCase().contains(search.toLowerCase())) {
+                    if (customHeadData.getName().toLowerCase().contains(getSearch().toLowerCase())) {
                         newCustomHeads.add(customHeadData);
                     }
                 }
@@ -165,7 +176,7 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             }
 
             for (int i = 0; i < getMaxItemsPerPage(); i++) {
-                index = getMaxItemsPerPage() * page + i;
+                index = getMaxItemsPerPage() * getPage() + i;
                 if (index >= customheads.size())
                     break;
                 if (customheads.get(index) != null) {
@@ -190,13 +201,5 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
                 }
             }
         });
-    }
-
-    @Override
-    public void onSearch(PlayerChatEvent event) {
-        event.setCancelled(true);
-        search = event.getMessage();
-        page = 0;
-        open();
     }
 }

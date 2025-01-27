@@ -2,17 +2,13 @@ package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.clan.subject.Create;
-import com.cortezromeo.clansplus.inventory.PaginatedInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.inventory.InventoryHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AsyncPlayerChatListener implements Listener {

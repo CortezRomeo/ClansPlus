@@ -80,6 +80,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("prevPage")) {
             if (page != 0) {
                 page = page - 1;

@@ -73,21 +73,26 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
             new ManageMemberInventory(getOwner(), playerName).open();
         if (itemCustomData.contains("setOwner=")) {
+            playClickSound(fileConfiguration, "setOwner");
             itemCustomData = itemCustomData.replace("setOwner=", "");
             new SetOwner(Rank.LEADER, getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute();
             super.open();
         }
         if (itemCustomData.contains("setManager=")) {
+            playClickSound(fileConfiguration, "setManager");
             itemCustomData = itemCustomData.replace("setManager=", "");
             new SetManager(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETMANAGER), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute();
             super.open();
         }
         if (itemCustomData.contains("removeManager=")) {
+            playClickSound(fileConfiguration, "setManager");
             itemCustomData = itemCustomData.replace("removeManager=", "");
             new RemoveManager(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.REMOVEMANAGER), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData).execute();
             super.open();
@@ -104,7 +109,7 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, borderItem);
+                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
             ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),

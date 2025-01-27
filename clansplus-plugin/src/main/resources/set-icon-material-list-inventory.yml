@@ -22,8 +22,10 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Cài đặt bang hội'
-rows: 4
+title: '&0Chỉnh icon | MATERIAL%search%'
+title-placeholders:
+  search: ' &0(&e%search%&0)'
+rows: 6
 items:
   border:
     enabled: true
@@ -38,9 +40,49 @@ items:
       pitch: 1
     lore:
       - ''
+  nextPage:
+    name: '&aTrang sau'
+    slot: 8
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&7Sang trang %nextPage%'
+  prevPage:
+    name: '&aTrang trước'
+    slot: 0
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&7Về trang %prevPage%'
+  search:
+    name: '&6Tìm kiếm'
+    slot: 5
+    type: material
+    value: WRITABLE_BOOK
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_CARTOGRAPHY_TABLE_TAKE_RESULT'
+      volume: 1
+      pitch: 1
+    lore:
+      - '&eNhấn vào đây để tìm kiếm'
+      - '&eChuột-Phải để xóa danh sách tìm kiếm'
   close:
     name: '&cĐóng'
-    slot: 31
+    slot: 4
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     customModelData: 0
@@ -53,7 +95,7 @@ items:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 30
+    slot: 3
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     customModelData: 0
@@ -64,3 +106,13 @@ items:
       pitch: 2
     lore:
       - '&eNhấn vào đây để trở về'
+  material:
+    name: ''
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&eNhấn vào đây để chỉnh thành icon bang hội'

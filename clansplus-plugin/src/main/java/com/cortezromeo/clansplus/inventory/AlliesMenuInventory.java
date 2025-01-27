@@ -63,6 +63,7 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        playClickSound(fileConfiguration, itemCustomData);
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
@@ -87,7 +88,7 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, borderItem);
+                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
             ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),

@@ -147,10 +147,15 @@ skills:
 items:
   border:
     enabled: true
+    name: ''
     type: material
     value: BLACK_STAINED_GLASS_PANE
     customModelData: 0
-    name: ''
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
     lore:
       - ''
   skillReview:
@@ -164,10 +169,15 @@ items:
       - '&fTiến trình:'
       - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
   invalidSkillLevel:
+    name: '&7Kỹ năng này chưa được cài đặt'
     type: material
     value: LIGHT_GRAY_STAINED_GLASS_PANE
     customModelData: 0
-    name: '&7Kỹ năng này chưa được cài đặt'
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
     lore:
       - '&cKhông thể nâng cấp'
   nextPage:
@@ -176,6 +186,11 @@ items:
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
     customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
     lore:
       - '&7Sang trang %nextPage%'
   prevPage:
@@ -184,6 +199,11 @@ items:
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
     customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
     lore:
       - '&7Về trang %prevPage%'
   close:
@@ -191,6 +211,12 @@ items:
     slot: 49
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
     lore:
       - '&eNhấn vào đây để đóng'
   back:
@@ -198,5 +224,11 @@ items:
     slot: 48
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
     lore:
       - '&eNhấn vào đây để trở về'

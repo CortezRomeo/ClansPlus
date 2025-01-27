@@ -3,6 +3,10 @@ author: Cortez_Romeo
 version: '${project.version}'
 main: com.cortezromeo.clansplus.ClansPlus
 api-version: 1.16
+softdepend:
+  - Vault
+  - PlayerPoints
+  - DiscordSRV
 commands:
   clan:
     aliases:

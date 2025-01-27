@@ -80,6 +80,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
+        playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
@@ -105,7 +107,7 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++) {
                     if (itemSlot == closeItemSlot || itemSlot == backItemSlot || itemSlot == warEventItemSlot)
                         continue;
-                    inventory.setItem(itemSlot, borderItem);
+                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
                 }
             }
 

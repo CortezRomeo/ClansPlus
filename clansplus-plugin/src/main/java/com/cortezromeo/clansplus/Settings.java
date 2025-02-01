@@ -2,7 +2,6 @@ package com.cortezromeo.clansplus;
 
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
-import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -38,31 +37,12 @@ public class Settings {
     public static List<String> CLAN_SETTING_PROHIBITED_CHARACTER = new ArrayList<>();
     public static int CLAN_SETTING_NAME_MINIMUM_LENGTH;
     public static int CLAN_SETTING_NAME_MAXIMUM_LENGTH;
+    public static int CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH;
+    public static int CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH;
     public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
-
-    public static boolean EVENT_CLAN_WAR_SETTING_JOIN_NOTIFICATION;
-    public static int EVENT_CLAN_WAR_SETTING_MINIMUM_PLAYER_ONLINE;
-    public static boolean EVENT_CLAN_WAR_SETTING_WORLDS_ENABLED;
-    public static List<String> EVENT_CLAN_WAR_SETTING_WORLDS = new ArrayList<>();
-    public static int EVENT_CLAN_WAR_SETTING_EVENT_TIME;
-    public static boolean EVENT_CLAN_WAR_SETTING_COMBAT_COMMAND_COOLDOWN_ENABLED;
-    public static int EVENT_CLAN_WAR_SETTING_COMBAT_COMMAND_COOLDOWN_SECONDS;
-    public static List<String> EVENT_CLAN_WAR_SETTING_TIME_FRAME = new ArrayList<>();
-    public static boolean EVENT_CLAN_WAR_SETTING_BOSS_BAR_ENABLED;
-    public static String EVENT_CLAN_WAR_SETTING_BOSS_BAR_TITLE;
-    public static String EVENT_CLAN_WAR_SETTING_BOSS_BAR_COLOR;
-    public static String EVENT_CLAN_WAR_SETTING_BOSS_BAR_STYLE;
-    public static String EVENT_CLAN_WAR_SETTING_STARTING_SOUND_NAME;
-    public static int EVENT_CLAN_WAR_SETTING_STARTING_SOUND_VOLUME;
-    public static int EVENT_CLAN_WAR_SETTING_STARTING_SOUND_PITCH;
-    public static String EVENT_CLAN_WAR_SETTING_ENDING_SOUND_NAME;
-    public static int EVENT_CLAN_WAR_SETTING_ENDING_SOUND_VOLUME;
-    public static int EVENT_CLAN_WAR_SETTING_ENDING_SOUND_PITCH;
-    public static HashMap<String, Integer> EVENT_CLAN_WAR_SETTING_POINTS_VANILLA_MOBS = new HashMap<>();
-    public static HashMap<String, Integer> EVENT_CLAN_WAR_SETTING_POINTS_MYTHIC_MOBS = new HashMap<>();
-    public static int EVENT_CLAN_WAR_SETTING_POINTS_PLAYER;
-    public static List<String> CLAN_WAR_STARTING_COMMANDS = new ArrayList<>();
-    public static List<String> CLAN_WAR_ENDING_COMMANDS = new ArrayList<>();
+    public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
+    public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
+    public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
 
     public static String DEPEND_PLACEHOLDERAPI_CLANLESS;
     public static String DEPEND_PLACEHOLDERAPI_CLAN_TOP;
@@ -108,55 +88,18 @@ public class Settings {
         if (!CLAN_SETTING_PROHIBITED_CHARACTER.isEmpty())
             CLAN_SETTING_PROHIBITED_CHARACTER.clear();
         CLAN_SETTING_PROHIBITED_CHARACTER.addAll(configuration.getStringList("clan-settings.clan-name-settings.prohibited-character"));
-        CLAN_SETTING_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length");
-        CLAN_SETTING_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length");
+        CLAN_SETTING_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length.clan-name");
+        CLAN_SETTING_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length.clan-name");
+        CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length.clan-custom-name");
+        CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length.clan-custom-name");
         if (!CLAN_SETTING_PERMISSION_DEFAULT.isEmpty())
             CLAN_SETTING_PERMISSION_DEFAULT.clear();
-        for (String subject : configuration.getConfigurationSection("clan-settings.creating-clan-settings.permission-default").getKeys(false))
-            CLAN_SETTING_PERMISSION_DEFAULT.put(Subject.valueOf(subject.toUpperCase()), Rank.valueOf(configuration.getString("clan-settings.creating-clan-settings.permission-default." + subject).toUpperCase()));
-
-        String clanWarEventPath = "events.clan-war-event.";
-        FileConfiguration eventFileConfiguration = EventsFile.get();
-        EVENT_CLAN_WAR_SETTING_JOIN_NOTIFICATION = eventFileConfiguration.getBoolean(clanWarEventPath + "player-join-notification");
-        EVENT_CLAN_WAR_SETTING_MINIMUM_PLAYER_ONLINE = eventFileConfiguration.getInt("bang-hoi-war.minimum-player-online");
-        if (!EVENT_CLAN_WAR_SETTING_WORLDS.isEmpty())
-            EVENT_CLAN_WAR_SETTING_WORLDS.clear();
-        EVENT_CLAN_WAR_SETTING_WORLDS_ENABLED = eventFileConfiguration.getBoolean(clanWarEventPath + "world-requirement.enabled");
-        EVENT_CLAN_WAR_SETTING_WORLDS.addAll(eventFileConfiguration.getStringList(clanWarEventPath + "world-requirement.worlds"));
-        EVENT_CLAN_WAR_SETTING_EVENT_TIME = eventFileConfiguration.getInt(clanWarEventPath + "event-time");
-        EVENT_CLAN_WAR_SETTING_COMBAT_COMMAND_COOLDOWN_ENABLED = eventFileConfiguration.getBoolean(clanWarEventPath + "combat-command-cooldown.enabled");
-        EVENT_CLAN_WAR_SETTING_COMBAT_COMMAND_COOLDOWN_SECONDS = eventFileConfiguration.getInt(clanWarEventPath + "combat-command-cooldown.seconds");
-        if (!EVENT_CLAN_WAR_SETTING_TIME_FRAME.isEmpty())
-            EVENT_CLAN_WAR_SETTING_TIME_FRAME.clear();
-        EVENT_CLAN_WAR_SETTING_TIME_FRAME.addAll(eventFileConfiguration.getStringList(clanWarEventPath + "time-frame"));
-        EVENT_CLAN_WAR_SETTING_BOSS_BAR_ENABLED = eventFileConfiguration.getBoolean(clanWarEventPath + "event-boss-bar-settings.enabled");
-        EVENT_CLAN_WAR_SETTING_BOSS_BAR_TITLE = eventFileConfiguration.getString(clanWarEventPath + "event-boss-bar-settings.title");
-        EVENT_CLAN_WAR_SETTING_BOSS_BAR_COLOR = eventFileConfiguration.getString(clanWarEventPath + "event-boss-bar-settings.color");
-        EVENT_CLAN_WAR_SETTING_BOSS_BAR_STYLE = eventFileConfiguration.getString(clanWarEventPath + "event-boss-bar-settings.style");
-        EVENT_CLAN_WAR_SETTING_STARTING_SOUND_NAME = eventFileConfiguration.getString(clanWarEventPath + "sound-settings.starting-sound.name");
-        EVENT_CLAN_WAR_SETTING_STARTING_SOUND_VOLUME = eventFileConfiguration.getInt(clanWarEventPath + "sound-settings.starting-sound.volume");
-        EVENT_CLAN_WAR_SETTING_STARTING_SOUND_PITCH = eventFileConfiguration.getInt(clanWarEventPath + "sound-settings.starting-sound.pitch");
-        EVENT_CLAN_WAR_SETTING_ENDING_SOUND_NAME = eventFileConfiguration.getString(clanWarEventPath + "sound-settings.ending-sound.name");
-        EVENT_CLAN_WAR_SETTING_ENDING_SOUND_VOLUME = eventFileConfiguration.getInt(clanWarEventPath + "sound-settings.ending-sound.volume");
-        EVENT_CLAN_WAR_SETTING_ENDING_SOUND_PITCH = eventFileConfiguration.getInt(clanWarEventPath + "sound-settings.ending-sound.pitch");
-        for (String mob : eventFileConfiguration.getConfigurationSection(clanWarEventPath + "score-settings.vanilla-mobs").getKeys(false)) {
-            if (!EVENT_CLAN_WAR_SETTING_POINTS_VANILLA_MOBS.isEmpty())
-                EVENT_CLAN_WAR_SETTING_POINTS_VANILLA_MOBS.clear();
-            EVENT_CLAN_WAR_SETTING_POINTS_VANILLA_MOBS.put(mob, eventFileConfiguration.getInt(clanWarEventPath + "score-settings.vanilla-mobs." + mob));
-        }
-        for (String mythicmob : eventFileConfiguration.getConfigurationSection(clanWarEventPath + "score-settings.mythicmobs-mobs").getKeys(false)) {
-            if (!EVENT_CLAN_WAR_SETTING_POINTS_MYTHIC_MOBS.isEmpty())
-                EVENT_CLAN_WAR_SETTING_POINTS_MYTHIC_MOBS.clear();
-            EVENT_CLAN_WAR_SETTING_POINTS_MYTHIC_MOBS.put(mythicmob, eventFileConfiguration.getInt(clanWarEventPath + "score-settings.mythicmobs-mobs." + mythicmob));
-        }
-        EVENT_CLAN_WAR_SETTING_POINTS_PLAYER = eventFileConfiguration.getInt(clanWarEventPath + "score-settings.player");
-        if (!CLAN_WAR_STARTING_COMMANDS.isEmpty())
-            CLAN_WAR_STARTING_COMMANDS.clear();
-        CLAN_WAR_STARTING_COMMANDS.addAll(eventFileConfiguration.getStringList(clanWarEventPath + "commands.starting-commands"));
-        if (!CLAN_WAR_ENDING_COMMANDS.isEmpty())
-            CLAN_WAR_ENDING_COMMANDS.clear();
-        CLAN_WAR_ENDING_COMMANDS.addAll(eventFileConfiguration.getStringList(clanWarEventPath + "commands.ending-commands"));
-        DEPEND_PLACEHOLDERAPI_CLANLESS = eventFileConfiguration.getString("soft-depends.placeholderapi.clanless");
-        DEPEND_PLACEHOLDERAPI_CLAN_TOP = eventFileConfiguration.getString("soft-depends.placeholderapi.bang-hoi-top");
+        for (Subject subject : Subject.values())
+            CLAN_SETTING_PERMISSION_DEFAULT.put(subject, Rank.valueOf(configuration.getString("clan-settings.creating-clan-settings.permission-default." + subject)));
+        CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration.getBoolean("clan-settings.permission-default-forced");
+        CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
+        CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
+        DEPEND_PLACEHOLDERAPI_CLANLESS = configuration.getString("soft-depends.placeholderapi.clanless");
+        DEPEND_PLACEHOLDERAPI_CLAN_TOP = configuration.getString("soft-depends.placeholderapi.bang-hoi-top");
     }
 }

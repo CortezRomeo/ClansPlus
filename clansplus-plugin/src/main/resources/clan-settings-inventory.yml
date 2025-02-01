@@ -64,3 +64,173 @@ items:
       pitch: 2
     lore:
       - '&eNhấn vào đây để trở về'
+  setIcon:
+    name: '&eTùy chỉnh icon bang hội'
+    slot: 10
+    type: material
+    value: item_frame
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fIcon của bang hội có thể được tùy chỉnh'
+      - '&ftheo dạng &eMATERIAL&f hoặc &eCUSTOM HEAD&f.'
+      - ''
+      - '&fBang hội sử dụng &cminecraft-heads.com&f để lấy'
+      - '&fdữ liệu custom head.'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'
+  setCustomName:
+    name: '&eTùy chỉnh tên custom'
+    slot: 11
+    type: material
+    value: name_tag
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_CARTOGRAPHY_TABLE_TAKE_RESULT'
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+      - '&fTên custom bang hội sẽ được hiển thị như'
+      - '&fdạng tên phụ và có thể tùy chỉnh được'
+      - '&fmàu cũng như các ký tự đặc biệt và cho'
+      - '&fphép có dấu cách.'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để thực hiện'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  setMessage:
+    name: '&eTùy chỉnh thông báo'
+    slot: 12
+    type: material
+    value: flower_banner_pattern
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_CARTOGRAPHY_TABLE_TAKE_RESULT'
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+      - '&fThông báo bang hội sẽ được hiển thị'
+      - '&fkhi một thành viên trong bang hội vừa'
+      - '&fđăng nhập vào máy chủ. Thông báo'
+      - '&fcũng có thể được xem trong giao diện'
+      - '&fhoặc khi xài lệnh để xem.'
+      - ''
+      - '&fThông báo có thể được dùng để thông'
+      - '&fbáo cho các thành viên trong bang'
+      - '&fhội các thông tin hoặc cập nhật'
+      - '&fmới nhất ở trong bang hội.'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để thực hiện'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  setSpawn:
+    name: '&eThiết lập spawn bang hội'
+    slot: 13
+    type: material
+    value: red_bed
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fSpawn bang hội là một điểm dịch chuyển chung về'
+      - '&fdành cho các thành viên trong bang hôội.'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để thiết lập ngay tại nơi bạn đang đứng'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  setPermission:
+    name: '&eThiết lập quyền'
+    slot: 14
+    type: material
+    value: totem_of_undying
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fThiết lập các quyền cho các chức vụ trong bang hội.'
+      - ''
+      - '&fMời thành viên: %invite_rank%'
+      - '&fĐuổi thành viên: %kick_rank%'
+      - '&fChỉnh tên custom: %setcustomname_rank%'
+      - '&fChỉnh icon: %seticon_rank%'
+      - '&fDịch chuyển về spawn: %spawn_rank%'
+      - '&fThiết lập điểm spawn: %setspawn_rank%'
+      - '&fTùy chỉnh thông báo: %setmessage_rank%'
+      - '&fThêm quản lý: %setmanager_rank%'
+      - '&fXóa quản lý: %removemanager_rank%'
+      - '&fSử dụng bang hội chat: %chat_rank%'
+      - '&fNâng cấp: %upgrade_rank%'
+      - '&fThiết lập đồng minh: %manageally_rank%'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để tùy chỉnh'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  setDiscord:
+    name: '&eThiết lập Discord'
+    slot: 15
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzM5ZWU3MTU0OTc5YjNmODc3MzVhMWM4YWMwODc4MTRiNzkyOGQwNTc2YTI2OTViYTAxZWQ2MTYzMTk0MjA0NSJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fDisord có thể dùng cho các thông báo về bang hội'
+      - '&fcũng như mang chat bang hội lên trên kênh discord.'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để tùy chỉnh'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+  disband:
+    name: '&eXóa bang hội'
+    slot: 16
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmUwZmQxMDE5OWU4ZTRmY2RhYmNhZTRmODVjODU5MTgxMjdhN2M1NTUzYWQyMzVmMDFjNTZkMThiYjk0NzBkMyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fKhi bang hội đã xóa, mọi dữ liệu thuộc về bang hội'
+      - '&fnhư chỉ số nâng cấp, thành viên, và tất cả mọi'
+      - '&fthứ liên quan đến bang hội này sẽ bị xóa và không'
+      - '&fthể khôi phục.'
+      - ''
+      - '%checkPermission%'
+    placeholders:
+      checkPermission:
+        true: '&eNhấn vào đây để xác nhận'
+        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'

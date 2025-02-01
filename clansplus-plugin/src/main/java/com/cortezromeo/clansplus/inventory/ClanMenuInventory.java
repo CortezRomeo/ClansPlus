@@ -82,6 +82,8 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new UpgradeMenuInventory(getOwner()).open();
         if (itemCustomData.equals("events"))
             new EventsMenuInventory(getOwner()).open();
+        if (itemCustomData.equals("settings"))
+            new ClanSettingsInventory(getOwner()).open();
     }
 
     @Override

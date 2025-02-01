@@ -93,6 +93,9 @@ public class PluginDataH2Storage implements PluginStorage {
         List<String> allies = new ArrayList<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
+        HashMap<Subject, Rank> permissionDefault = new HashMap<>();
+        for (Subject subject : Subject.values())
+            permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
 
         ClanData clanData = new ClanData(
                 clanName,
@@ -110,7 +113,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 null,
                 allies,
                 skillLevel,
-                Settings.CLAN_SETTING_PERMISSION_DEFAULT,
+                permissionDefault,
                 allyInvitation,
                 0,
                 null);

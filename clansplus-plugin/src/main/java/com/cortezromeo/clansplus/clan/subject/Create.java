@@ -1,8 +1,11 @@
 package com.cortezromeo.clansplus.clan.subject;
 
+import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.DatabaseType;
 import com.cortezromeo.clansplus.api.enums.IconType;
 import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.language.Messages;
@@ -37,6 +40,40 @@ public class Create extends SubjectManager {
             return false;
         }
 
+        if (clanName.length() < Settings.CLAN_SETTING_NAME_MINIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MINIMUM_CLAN_LENGTH.replace("%minimumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_NAME_MINIMUM_LENGTH)));
+            return false;
+        }
+
+        if (clanName.length() > Settings.CLAN_SETTING_NAME_MAXIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MAXIMUM_CLAN_LENGTH.replace("%maximumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_NAME_MAXIMUM_LENGTH)));
+            return false;
+        }
+
+        for (String prohibitedClanName : Settings.CLAN_SETTING_PROHIBITED_NAME) {
+            if (clanName.equalsIgnoreCase(prohibitedClanName)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CLAN_NAME.replace("%clanName%", clanName));
+                return false;
+            }
+        }
+
+        if (ClansPlus.databaseType == DatabaseType.YAML) {
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("\\");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("/");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add(":");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("*");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("?");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("<");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add(">");
+            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("|");
+        }
+        for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
+            if (clanName.contains(prohibitedCharacter)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
+                return false;
+            }
+        }
+
         Date date = new Date();
         long dateLong = date.getTime();
         List<String> members = new ArrayList<>();
@@ -44,7 +81,9 @@ public class Create extends SubjectManager {
         List<String> allies = new ArrayList<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
-        if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
+        HashMap<Subject, Rank> permissionDefault = new HashMap<>();
+        for (Subject subject : Subject.values())
+            permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));        if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
             skillLevel = Settings.CLAN_SETTING_SKILL_DEFAULT;
 
         ClanData clanData = new ClanData(
@@ -63,7 +102,7 @@ public class Create extends SubjectManager {
                 null,
                 allies,
                 skillLevel,
-                Settings.CLAN_SETTING_PERMISSION_DEFAULT,
+                permissionDefault,
                 allyInvitation,
                 0,
                 null);

@@ -61,6 +61,10 @@ public class ClanCommand implements CommandExecutor {
                 new Leave(player, player.getName()).execute();
                 return false;
             }
+            if (args[0].equalsIgnoreCase("spawn")) {
+                new Spawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SPAWN), player, player.getName()).execute();
+                return false;
+            }
             if (args[0].equalsIgnoreCase("disband")) {
                 if (!commandConfirmation.contains(sender)) {
                     commandConfirmation.add(sender);

@@ -33,6 +33,10 @@ public class Messages {
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
     public static String NOT_ENOUGH_CURRENCY;
+    public static String ILLEGAL_MINIMUM_CLAN_LENGTH;
+    public static String ILLEGAL_MAXIMUM_CLAN_LENGTH;
+    public static String PROHIBITED_CLAN_NAME;
+    public static String PROHIBITED_CHARACTER;
     public static String MUST_BE_IN_CLAN;
     public static String CLAN_CANNOT_BE_THE_SAME;
     public static String TARGET_DOES_NOT_EXIST;
@@ -84,8 +88,16 @@ public class Messages {
     public static String ILLEGALLY_UPGRADE_SKILL;
     public static String INVALID_ICON_VALUE;
     public static String SET_ICON_SUCCESS;
+    public static String SET_SPAWN_SUCCESS;
+    public static String UNKNOWN_SPAWN_POINT;
+    public static String SPAWN_POINT_COUNT_DOWN;
+    public static String MOVE_WHILE_SPAWNING;
+    public static String SPAWN_SUCCESS;
+    public static String CHANGE_PERMISSION;
     public static String LAST_PAGE;
     public static String USING_CHAT_BOX_CREATE_CLAN;
+    public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
+    public static String USING_CHAT_BOX_SET_MESSAGE;
     public static String USING_CHAT_BOX_INVENTORY_LIST_SEARCH;
     public static List<String> COMMAND_CLANPLUS_MESSAGES_NON_CLAN;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN;
@@ -113,6 +125,8 @@ public class Messages {
     public static String CLAN_BROADCAST_UPGRADE_MAX_MEMBERS;
     public static String CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL;
     public static String CLAN_BROADCAST_SET_ICON;
+    public static String CLAN_BROADCAST_SET_SPAWN;
+    public static String CLAN_BROADCAST_CHANGE_PERMISSION;
 
     public static void setupValue(String locale) {
         locale = locale.toLowerCase();
@@ -152,6 +166,10 @@ public class Messages {
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");
         NOT_ENOUGH_CURRENCY = fileConfiguration.getString("messages.not-enough-currency");
+        ILLEGAL_MINIMUM_CLAN_LENGTH = fileConfiguration.getString("messages.illegal-minimum-clan-name-length");
+        ILLEGAL_MAXIMUM_CLAN_LENGTH = fileConfiguration.getString("messages.illegal-maximum-clan-name-length");
+        PROHIBITED_CLAN_NAME = fileConfiguration.getString("messages.prohibited-clan-name");
+        PROHIBITED_CHARACTER = fileConfiguration.getString("messages.prohibited-character");
         MUST_BE_IN_CLAN = fileConfiguration.getString("messages.must-be-in-clan");
         CLAN_CANNOT_BE_THE_SAME = fileConfiguration.getString("messages.clan-cannot-be-the-same");
         TARGET_DOES_NOT_EXIST = fileConfiguration.getString("messages.target-does-not-exist");
@@ -203,13 +221,21 @@ public class Messages {
         ILLEGALLY_UPGRADE_SKILL = fileConfiguration.getString("messages.illegally-upgrade-skill");
         INVALID_ICON_VALUE = fileConfiguration.getString("messages.invalid-icon-value");
         SET_ICON_SUCCESS = fileConfiguration.getString("messages.set-icon-success");
+        SET_SPAWN_SUCCESS = fileConfiguration.getString("messages.set-spawn-success");
+        UNKNOWN_SPAWN_POINT = fileConfiguration.getString("messages.unknown-spawn-point");
+        SPAWN_POINT_COUNT_DOWN = fileConfiguration.getString("messages.spawn-point-count-down");
+        MOVE_WHILE_SPAWNING = fileConfiguration.getString("messages.move-while-spawning");
+        SPAWN_SUCCESS = fileConfiguration.getString("messages.spawn-success");
+        CHANGE_PERMISSION = fileConfiguration.getString("messages.change-permission");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
+        USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");
+        USING_CHAT_BOX_SET_MESSAGE = fileConfiguration.getString("messages.using-chat-box.set-message");
         USING_CHAT_BOX_INVENTORY_LIST_SEARCH = fileConfiguration.getString("messages.using-chat-box.inventory-list-search");
-        for (Subject subject : Subject.values())
-            for (String subjectDescription : fileConfiguration.getConfigurationSection("subject-description").getKeys(false))
-                if (subjectDescription.equalsIgnoreCase(subject.toString()))
-                    subject.setDescription(fileConfiguration.getString("subject-description." + subject.toString().toLowerCase()));
+        for (Subject subject : Subject.values()) {
+            subject.setName(fileConfiguration.getString("subject.name." + subject));
+            subject.setDescription(fileConfiguration.getString("subject.description." + subject));
+        }
         COMMAND_CLANPLUS_MESSAGES_NON_CLAN = fileConfiguration.getStringList("messages.commands.clanplus.messages.non-clan-commands");
         COMMAND_CLANPLUS_MESSAGES_IN_CLAN = fileConfiguration.getString("messages.commands.clanplus.messages.in-clan-commands.messages");
         COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS = fileConfiguration.getString("messages.commands.clanplus.messages.in-clan-commands.placeholder.memberCommands.messages");
@@ -236,6 +262,8 @@ public class Messages {
         CLAN_BROADCAST_UPGRADE_MAX_MEMBERS = fileConfiguration.getString("messages.clan-broadcast.upgrade-max-members");
         CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL = fileConfiguration.getString("messages.clan-broadcast.upgrade-plugin-skill");
         CLAN_BROADCAST_SET_ICON = fileConfiguration.getString("messages.clan-broadcast.set-icon");
+        CLAN_BROADCAST_SET_SPAWN = fileConfiguration.getString("messages.clan-broadcast.set-spawn");
+        CLAN_BROADCAST_CHANGE_PERMISSION = fileConfiguration.getString("messages.clan-broadcast.change-permission");
 
         MessageUtil.debug("LOADING MESSAGES", "Loaded message file name: " + locale + ".");
     }

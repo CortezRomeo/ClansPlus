@@ -11,6 +11,7 @@ import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
 import com.cortezromeo.clansplus.inventory.SetIconCustomHeadListInventory;
 import com.cortezromeo.clansplus.inventory.SetIconMaterialListInventory;
+import com.cortezromeo.clansplus.inventory.SetPermissionInventory;
 import com.cortezromeo.clansplus.inventory.UpgradePluginSkillInventory;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -86,10 +87,13 @@ public class PluginTestCommand implements CommandExecutor {
                 EventManager.getWarEvent().endEvent(true, true, true);
             }
             if (args[0].equalsIgnoreCase("customheadlist")) {
-                new SetIconCustomHeadListInventory(player, CustomHeadCategory.ANIMALS).open();
+                new SetIconCustomHeadListInventory(player, CustomHeadCategory.ALPHABET).open();
             }
             if (args[0].equalsIgnoreCase("materiallist")) {
                 new SetIconMaterialListInventory(player).open();
+            }
+            if (args[0].equalsIgnoreCase("setpermission")) {
+                new SetPermissionInventory(player).open();
             }
         }
 

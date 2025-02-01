@@ -45,7 +45,7 @@ database:
 
 # Thanh tiến trình
 progress-bar:
-  total-bars: 15
+  total-bars: 20
   symbol:
     completed: '&2&m━'
     not-completed: '&f&m━'
@@ -65,7 +65,7 @@ clan-settings:
     # Icon bang hội mặc định khi vừa tạo bang
     icon-default:
       type: MATERIAL
-      value: DIRT
+      value: ITEM_FRAME
     # ID Skill: Level mặc định
     # Có thể thêm hoặc bớt
     skill-level-default:
@@ -88,11 +88,18 @@ clan-settings:
       SETMANAGER: LEADER
       REMOVEMANAGER: LEADER
       CHAT: MEMBER
-      UPGRADE: MEMBER
+      UPGRADE: MANAGER
       MANAGEALLY: MANAGER
 
-  # Nếu tùy chọn này được bật,
-  use-default-permission: false
+  # Nếu tùy chọn này được bật, các quyền của tất cả bang hội trong máy chủ sẽ được thiết lập
+  # mặc định như mục "permission-default" ở trên và không có bang hội nào được quyền thay đổi
+  # quyền trừ khi tùy chọn này bị tắt.
+  permission-default-forced: false
+
+  # Thời gian chờ để dịch chuyển về spawn bang hội
+  spawn-countdown:
+    enabled: true
+    seconds: 5
 
   # Thiết lập về mời người chơi vào bang hội
   invite-settings:
@@ -119,9 +126,13 @@ clan-settings:
     prohibited-character:
     - '&'
     # Số ký tự tối thiểu có thể đặt cho tên bang hội (Không tính mã màu).
-    minimum-length: 3
+    minimum-length:
+      clan-name: 3
+      clan-custom-name: 3
     # Số ký tự tối đa có thể đặt cho tên tên bang hội (Không tính mã màu).
-    maximum-length: 20
+    maximum-length:
+      clan-name: 20
+      clan-custom-name: 30
 
 # Những plugin có thể dùng để hỗ trợ plugin BangHoi.
 # Bao gồm: PlaceholderAPI, DiscordSRV.

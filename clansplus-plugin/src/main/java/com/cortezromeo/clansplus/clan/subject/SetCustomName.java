@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -46,6 +47,30 @@ public class SetCustomName extends SubjectManager {
                         MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
                         return false;
                     }
+
+        if (customName.length() < Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MINIMUM_CLAN_LENGTH.replace("%minimumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH)));
+            return false;
+        }
+
+        if (customName.length() > Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MAXIMUM_CLAN_LENGTH.replace("%maximumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH)));
+            return false;
+        }
+
+        for (String prohibitedClanName : Settings.CLAN_SETTING_PROHIBITED_NAME) {
+            if (customName.equalsIgnoreCase(prohibitedClanName)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CLAN_NAME.replace("%clanName%", customName));
+                return false;
+            }
+        }
+
+        for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
+            if (customName.contains(prohibitedCharacter)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
+                return false;
+            }
+        }
 
         IClanData playerClanData = getPlayerClanData();
         playerClanData.setCustomName(customName);

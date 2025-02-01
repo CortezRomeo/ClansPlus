@@ -379,6 +379,30 @@ public class ClansPlus extends JavaPlugin {
         }
         SetIconMaterialListInventoryFile.reload();
 
+        // inventories/set-icon-menu-inventory.yml
+        String setIconMenuFileName = "set-icon-menu-inventory.yml";
+        SetIconMenuInventoryFile.setup();
+        SetIconMenuInventoryFile.saveDefault();
+        File setIconMenuFile = new File(getDataFolder() + "/inventories/set-icon-menu-inventory.yml");
+        try {
+            ConfigUpdater.update(this, setIconMenuFileName, setIconMenuFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SetIconMenuInventoryFile.reload();
+
+        // inventories/set-permission-inventory.yml
+        String setPermissionFileName = "set-permission-inventory.yml";
+        SetPermissionInventoryFile.setup();
+        SetPermissionInventoryFile.saveDefault();
+        File setPermissionFile = new File(getDataFolder() + "/inventories/set-permission-inventory.yml");
+        try {
+            ConfigUpdater.update(this, setPermissionFileName, setPermissionFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SetPermissionInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -481,6 +505,7 @@ public class ClansPlus extends JavaPlugin {
         new AsyncPlayerChatListener();
         new PlayerChatListener();
         new PlayerQuitListener();
+        new PlayerMovementListener();
         new PlayerDeathListener();
     }
 

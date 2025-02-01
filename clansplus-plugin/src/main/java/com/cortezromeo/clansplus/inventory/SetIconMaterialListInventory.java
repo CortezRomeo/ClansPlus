@@ -90,7 +90,7 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new AlliesMenuInventory(getOwner()).open();
+            new SetIconMenuInventory(getOwner()).open();
         if (itemCustomData.contains("value=")) {
             playClickSound(fileConfiguration, "material");
             new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), IconType.MATERIAL, itemCustomData.replace("value=", "")).execute();

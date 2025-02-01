@@ -56,7 +56,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
         List<String> allies = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         List<String> allyInvitation = new ArrayList<>();
-
+        HashMap<Subject, Rank> permissionDefault = new HashMap<>();
+        for (Subject subject : Subject.values())
+            permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         ClanData clanData = new ClanData(
                 clanName,
                 null,
@@ -73,7 +75,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 null,
                 allies,
                 skillLevel,
-                Settings.CLAN_SETTING_PERMISSION_DEFAULT,
+                permissionDefault,
                 allyInvitation,
                 0,
                 null);
@@ -173,7 +175,10 @@ public class PluginDataYAMLStorage implements PluginStorage {
         data.setSkillLevel(SkillType.vampire, storage.getInt("data.skill.4"));*/
 
         if (storage.getConfigurationSection("data.permission") == null) {
-            clanData.setSubjectPermission(Settings.CLAN_SETTING_PERMISSION_DEFAULT);
+            HashMap<Subject, Rank> newPermissionDefault = new HashMap<>();
+            for (Subject subject : Subject.values())
+                newPermissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
+            clanData.setSubjectPermission(newPermissionDefault);
         } else {
             for (String subjectName : storage.getConfigurationSection("data.permission").getKeys(false)) {
                 Subject subject = Subject.valueOf(subjectName);

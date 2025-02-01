@@ -94,9 +94,11 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new AlliesMenuInventory(getOwner()).open();
+            new SetIconMenuInventory(getOwner()).open();
         if (itemCustomData.equals("sort")) {
-            if (category == CustomHeadCategory.ANIMALS)
+            if (category == CustomHeadCategory.ALPHABET)
+                category = CustomHeadCategory.ANIMALS;
+            else if (category == CustomHeadCategory.ANIMALS)
                 category = CustomHeadCategory.MONSTERS;
             else if (category == CustomHeadCategory.MONSTERS)
                 category = CustomHeadCategory.BLOCKS;
@@ -113,7 +115,7 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             else if (category == CustomHeadCategory.PLANTS)
                 category = CustomHeadCategory.MISCELLANEOUS;
             else if (category == CustomHeadCategory.MISCELLANEOUS)
-                category = CustomHeadCategory.ANIMALS;
+                category = CustomHeadCategory.ALPHABET;
             setSearch(null);
             setPage(0);
             super.open();

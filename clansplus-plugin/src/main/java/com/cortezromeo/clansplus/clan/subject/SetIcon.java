@@ -41,11 +41,16 @@ public class SetIcon extends SubjectManager {
         IClanData playerClanData = getPlayerClanData();
 
         if (iconType == IconType.MATERIAL) {
-            XMaterial xMaterial = XMaterial.valueOf(value);
-            Material material = xMaterial.get();
-            if (material == null) {
+            try {
+                XMaterial xMaterial = XMaterial.valueOf(value);
+                Material material = xMaterial.get();
+                if (material == null) {
+                    MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
+                    MessageUtil.sendMessage(player, "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
+                    return false;
+                }
+            } catch (Exception exception) {
                 MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
-                MessageUtil.sendMessage(player, "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
                 return false;
             }
         }

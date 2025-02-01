@@ -22,7 +22,7 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Bang hội'
+title: '&0Chỉnh icon'
 rows: 4
 items:
   border:
@@ -44,34 +44,26 @@ items:
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     customModelData: 0
-    click-sound:
-      enabled: true
-      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
-      volume: 1
-      pitch: 2
     lore:
       - '&eNhấn vào đây để đóng'
-  createNewClan:
-    name: '&#03fc0bTạo bang hội mới'
-    slot: 11
+  back:
+    name: '&eTrở về'
+    slot: 30
     type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZmMzE0MzFkNjQ1ODdmZjZlZjk4YzA2NzU4MTA2ODFmOGMxM2JmOTZmNTFkOWNiMDdlZDc4NTJiMmZmZDEifX19
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     customModelData: 0
     click-sound:
       enabled: true
-      name: 'UI_CARTOGRAPHY_TABLE_TAKE_RESULT'
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
       volume: 1
-      pitch: 1
+      pitch: 2
     lore:
-      - ''
-      - '&fTạo bang hội mới và bạn sẽ là chủ bang hội.'
-      - ''
-      - '&eNhấn vào đây để tạo'
-  clanList:
-    name: '&#3498ebDanh sách bang hội'
-    slot: 15
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJlYmJkYjE4ZDc0NzI4MWI1NDYyZjg1N2VlOTg0Njc1YTM5ZDVhMDI3NDQ0NmEyMmY2NjI2NGE1M2QyYjAzNCJ9fX0=
+      - '&eNhấn vào đây để trở về'
+  material:
+    name: '&eMATERIAL'
+    slot: 11
+    type: material
+    value: GRASS_BLOCK
     customModelData: 0
     click-sound:
       enabled: true
@@ -80,8 +72,30 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fHiển thị tất cả thông tin bang hội có trong máy chủ.'
+      - '&fXem danh sách các vật phẩm mặc định'
+      - '&ftrong &aMinecraft&f.'
       - ''
-      - '&fTổng số bang hội: &e%totalClans%'
+      - '&eNhấn vào đây để tùy chỉnh'
+  customHead:
+    name: '&eCUSTOM HEAD'
+    slot: 15
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjMwNTQwNjgwNzgwMDhlNjg5NWJmYjMwNzMxYjdiZDY3MTQ1NWE4ZDI1MDZkNGI2ODhjODYxYzQzZTkyMmQzZCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
       - ''
-      - '&eNhấn vào đây để xem'
+      - '&fCustom head là dạng sử dụng block'
+      - '&fhình đầu người chơi nhưng được'
+      - '&ftrang trí theo nhiều hình dáng'
+      - '&fđặc biệt.'
+      - ''
+      - '&fBao gồm 9 ngăn được sắp xếp theo từng'
+      - '&fthể loại riêng biệt từ &eĐộng vật&f cho'
+      - '&fđến &eThực vật&f.'
+      - ''
+      - '&eNhấn vào đây để tùy chỉnh'

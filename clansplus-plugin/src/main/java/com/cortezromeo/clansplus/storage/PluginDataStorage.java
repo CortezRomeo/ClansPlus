@@ -25,10 +25,12 @@ public class PluginDataStorage {
                 playerDataFolder.mkdirs();
             }
             STORAGE = new PluginDataYAMLStorage();
+            ClansPlus.databaseType = DatabaseType.YAML;
         }
 
         if (databaseType == DatabaseType.H2) {
             STORAGE = new PluginDataH2Storage(Settings.DATABASE_SETTINGS_H2_FILE_NAME, Settings.DATABASE_SETTINGS_H2_TABLE_CLAN, Settings.DATABASE_SETTINGS_H2_TABLE_PLAYER);
+            ClansPlus.databaseType = DatabaseType.H2;
         }
     }
 

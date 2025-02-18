@@ -1,7 +1,10 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SkillManager;
@@ -113,6 +116,16 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         if (itemCustomData.contains("upgrade=")) {
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
+
+                    // check rank
+                    Rank upgradeRequiredrank = Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.UPGRADE);
+                    if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+                        upgradeRequiredrank = PluginDataManager.getClanDatabase(clanName).getSubjectPermission().get(Subject.UPGRADE);
+                    if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
+                        MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
+                        return;
+                    }
+
                     int levelChosen = Integer.parseInt(itemCustomData.replace("upgrade=", ""));
 
                     int skillID =  SkillManager.getSkillID(pluginSkill);

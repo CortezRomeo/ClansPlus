@@ -29,7 +29,8 @@ public class Invite extends SubjectManager {
             return false;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.INVITE));
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.INVITE));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));

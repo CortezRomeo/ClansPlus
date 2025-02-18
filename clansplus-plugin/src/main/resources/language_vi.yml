@@ -68,6 +68,11 @@ time-format:
   ss: '%seconds% giây'
 messages:
   prefix: '&#3498eb&lBANG HỘI&r '
+  clan-message:
+    - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+    - '    &eThông báo bang hội &b%formatClanName%'
+    - '&f%message%'
+    - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
   no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'
   non-console-command: '%prefix%&#d12f1d&l| &fConsole không thể sử dụng lệnh này.'
   command-confirmation: '%prefix%&#35d11d&l| &fVui lòng nhập lại lệnh một lần nữa để xác nhận.'
@@ -136,8 +141,12 @@ messages:
   move-while-spawning: '%prefix%&#d12f1d&l| &fBạn vừa di chuyển, lệnh dịch chuyển đã bị hủy!'
   spawn-success: '%prefix%&#35d11d&l| &fDịch chuyển về spawn bang hội thành công.'
   change-permission: '%prefix%&#35d11d&l| &fĐã chuyển quyền chức vụ được sử dụng &e%name%&f thành: %newRank%'
+  invalid-icon-type: '%prefix%&#d12f1d&l| &fIcon type tên &e%iconType%&f không hợp lệ. Icon type chỉ bao gồm: &bMATERIAL&f, &bCUSTOMHEAD&f.'
+  toggle-clan-chat-on: '%prefix%&#35d11d&l| &fĐã bật chat bang hội thành công.'
+  toggle-clan-chat-off: '%prefix%&#35d11d&l| &fĐã tắt chat bang hội.'
   last-page: ''
   using-chat-box:
+    clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
     set-custom-name: '%prefix%&#eaff00&l| &fVui lòng nhập tên custom vào ô chat.'
     set-message: '%prefix%&#eaff00&l| &fVui lòng nhập thông báo vào ô chat.'
@@ -190,16 +199,20 @@ messages:
               messages: |
                 &r
                 &#34eb6bLệnh dành cho thành viên
+                &#3498eb/banghoi list &fXem danh sách bang hội'
+                &#3498eb/banghoi info <Tên bang hội> &fXem thông tin bang hội cụ thể
+                &#3498eb/banghoi event &fXem thông tin sự kiện
                 &#3498eb/banghoi menu &fMở giao diện bang hội
                 &#3498eb/banghoi leave &fRời bang hội
-                &r%command%
+                &#3498eb/banghoi setting &fThiết lập bang hội
+                %command%
               placeholder:
                 command: '&#3498eb/banghoi %command% &f%description%'
             managerCommands:
               messages: |
                 &r
                 &#1d98d1Lệnh dành cho quản lý
-                &r%command%
+                %command%
               placeholder:
                 command: '&#3498eb/banghoi %command% &f%description%'
             leaderCommands:
@@ -208,6 +221,7 @@ messages:
                 &#e8e51eLệnh dành cho lãnh đạo (Bao gồm lệnh dành cho quản lý)
                 &#3498eb/banghoi setowner &fChuyển quyền lãnh đạo cho một thành viên trong bang hội
                 &#3498eb/banghoi disband &fXóa bang hội
-                &r%command%
+                &#3498eb/banghoi setpermission &fThiết lập quyền
+                %command%
               placeholder:
                 command: '&#3498eb/banghoi %command% &f%description%'

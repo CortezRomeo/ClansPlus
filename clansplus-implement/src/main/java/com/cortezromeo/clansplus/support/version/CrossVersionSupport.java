@@ -6,6 +6,7 @@ import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import com.cryptomorin.xseries.profiles.builder.XSkull;
+import com.cryptomorin.xseries.profiles.exceptions.ProfileChangeException;
 import com.cryptomorin.xseries.profiles.objects.ProfileInputType;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
 import de.tr7zw.changeme.nbtapi.NBTItem;
@@ -95,7 +96,11 @@ public class CrossVersionSupport extends VersionSupport {
 
     @Override
     public ItemStack getHeadItemFromBase64(String headValue) {
-        return XSkull.createItem().profile(Profileable.of(ProfileInputType.BASE64, headValue)).apply();
+        try {
+            return XSkull.createItem().profile(Profileable.of(ProfileInputType.BASE64, headValue)).apply();
+        } catch (ProfileChangeException exception) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
     }
 
     public ItemStack getHeadItemFromPlayerName(String playerName) {

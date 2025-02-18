@@ -1,7 +1,10 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.clan.subject.Spawn;
 import com.cortezromeo.clansplus.file.inventory.ClanMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -84,6 +87,10 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new EventsMenuInventory(getOwner()).open();
         if (itemCustomData.equals("settings"))
             new ClanSettingsInventory(getOwner()).open();
+        if (itemCustomData.equals("spawn"))
+            new Spawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SPAWN), getOwner(), getOwner().getName()).execute();
+        if (itemCustomData.equals("leave"))
+            new LeaveConfirmationInventory(getOwner()).open();
     }
 
     @Override
@@ -95,8 +102,12 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
+                List<String> leaveBlankSlot = fileConfiguration.getStringList("items.border.leave-blank");
+                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++) {
+                    if (!leaveBlankSlot.isEmpty() && leaveBlankSlot.contains(String.valueOf(itemSlot)))
+                        continue;
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
+                }
             }
 
             ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
@@ -179,6 +190,32 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getStringList("items.leave.lore"), false), "leave");
             int leaveItemSlot = fileConfiguration.getInt("items.leave.slot");
             inventory.setItem(leaveItemSlot, leaveItem);
+
+            ItemStack clanInfoItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(clanData.getIconType().toString(),
+                    clanData.getIconValue(),
+                    fileConfiguration.getInt("items.clanInfo.customModelData"),
+                    fileConfiguration.getString("items.clanInfo.name"),
+                    fileConfiguration.getStringList("items.clanInfo.lore"), false), "clanInfo");
+            int clanInfoItemSlot = fileConfiguration.getInt("items.clanInfo.slot");
+            inventory.setItem(clanInfoItemSlot, ItemUtil.getClanItemStack(clanInfoItem, clanData));
+
+            List<String> spawnItemLore = new ArrayList<>();
+            for (String lore : fileConfiguration.getStringList("items.spawn.lore." + (clanData.getSpawnPoint() != null ? "valid-spawn-point" : "invalid-spawn-point"))) {
+                if (clanData.getSpawnPoint() != null) {
+                    lore = lore.replace("%x%", String.valueOf((int) clanData.getSpawnPoint().getX()));
+                    lore = lore.replace("%y%", String.valueOf((int) clanData.getSpawnPoint().getY()));
+                    lore = lore.replace("%z%", String.valueOf((int) clanData.getSpawnPoint().getZ()));
+                    lore = lore.replace("%worldName%", clanData.getSpawnPoint().getWorld().getName());
+                }
+                spawnItemLore.add(lore);
+            }
+            ItemStack spawnItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.spawn.type"),
+                    fileConfiguration.getString("items.spawn.value"),
+                    fileConfiguration.getInt("items.spawn.customModelData"),
+                    fileConfiguration.getString("items.spawn.name"),
+                    spawnItemLore, false), "spawn");
+            int spawnItemSlot = fileConfiguration.getInt("items.spawn.slot");
+            inventory.setItem(spawnItemSlot, spawnItem);
         });
     }
 

@@ -2,12 +2,10 @@ package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.DatabaseType;
-import com.cortezromeo.clansplus.api.enums.IconType;
-import com.cortezromeo.clansplus.api.enums.Rank;
-import com.cortezromeo.clansplus.api.enums.Subject;
+import com.cortezromeo.clansplus.api.enums.*;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.SubjectManager;
+import com.cortezromeo.clansplus.clan.UpgradeManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.ClanData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -73,6 +71,10 @@ public class Create extends SubjectManager {
                 return false;
             }
         }
+
+        if (Settings.CLAN_SETTING_CREATE_ENABLED)
+            if (!UpgradeManager.checkPlayerCurrency(player, CurrencyType.valueOf(Settings.CLAN_SETTING_CREATE_TYPE.toUpperCase()), Settings.CLAN_SETTING_CREATE_VALUE, true))
+                return false;
 
         Date date = new Date();
         long dateLong = date.getTime();

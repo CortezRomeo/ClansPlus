@@ -25,6 +25,7 @@ public class Settings {
     public static String PROGRESS_BAR_SYMBOL_NOTCOMPLETED;
     public static boolean AUTO_SAVE_ENABLED;
     public static int AUTO_SAVE_SECONDS;
+    public static boolean CLAN_SETTING_CREATE_ENABLED;
     public static String CLAN_SETTING_CREATE_TYPE;
     public static long CLAN_SETTING_CREATE_CURRENCY;
     public static int CLAN_SETTING_CREATE_VALUE;
@@ -44,8 +45,10 @@ public class Settings {
     public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
 
-    public static String DEPEND_PLACEHOLDERAPI_CLANLESS;
-    public static String DEPEND_PLACEHOLDERAPI_CLAN_TOP;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLANLESS;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_TOP;
+    public static boolean SOFT_DEPEND_DISCORDSRV_ENABLED;
+    public static long SOFT_DEPEND_DISCORDSRV_CHANNELID;
 
     public static void setupValue() {
         MessageUtil.debug("SETTINGS", "Loading settings from config yaml...");
@@ -65,6 +68,7 @@ public class Settings {
         PROGRESS_BAR_SYMBOL_NOTCOMPLETED = configuration.getString("progress-bar.symbol.not-completed");
         AUTO_SAVE_ENABLED = configuration.getBoolean("database.auto-save.enabled");
         AUTO_SAVE_SECONDS = configuration.getInt("database.auto-save.seconds");
+        CLAN_SETTING_CREATE_ENABLED = configuration.getBoolean("clan-settings.creating-clan-settings.currency-requirement.enabled");
         CLAN_SETTING_CREATE_TYPE = configuration.getString("clan-settings.creating-clan-settings.currency-requirement.type");
         CLAN_SETTING_CREATE_CURRENCY = configuration.getLong("clan-settings.creating-clan-settings.currency-requirement.value");
         CLAN_SETTING_CREATE_VALUE = configuration.getInt("clan-settings.creating-bang-hoi.value");
@@ -99,7 +103,10 @@ public class Settings {
         CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration.getBoolean("clan-settings.permission-default-forced");
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
-        DEPEND_PLACEHOLDERAPI_CLANLESS = configuration.getString("soft-depends.placeholderapi.clanless");
-        DEPEND_PLACEHOLDERAPI_CLAN_TOP = configuration.getString("soft-depends.placeholderapi.bang-hoi-top");
+        SOFT_DEPEND_PLACEHOLDERAPI_CLANLESS = configuration.getString("soft-depends.placeholderapi.clanless");
+        SOFT_DEPEND_PLACEHOLDERAPI_CLAN_TOP = configuration.getString("soft-depends.placeholderapi.bang-hoi-top");
+        SOFT_DEPEND_DISCORDSRV_ENABLED = configuration.getBoolean("soft-depends.discordsrv.enabled");
+        SOFT_DEPEND_DISCORDSRV_CHANNELID = configuration.getLong("soft-depends.discordsrv.channelID");
+
     }
 }

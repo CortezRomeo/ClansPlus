@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.file.inventory.EventsMenuInventoryFile;
+import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
@@ -105,8 +106,13 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
                         fileConfiguration.getString("items.border.name"),
                         fileConfiguration.getStringList("items.border.lore"), false);
                 for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++) {
-                    if (itemSlot == closeItemSlot || itemSlot == backItemSlot || itemSlot == warEventItemSlot)
+                    if (itemSlot == closeItemSlot || itemSlot == warEventItemSlot)
                         continue;
+
+                    if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getClan() != null)
+                        if (itemSlot == backItemSlot)
+                            continue;
+
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
                 }
             }
@@ -130,9 +136,9 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
             List<String> warEventItemLore = new ArrayList<>();
             for (String lore : EventManager.getWarEvent().isStarting() ? fileConfiguration.getStringList("items.warEvent.lore.starting") : fileConfiguration.getStringList("items.warEvent.lore.not-starting")) {
                 lore = lore.replace("%closestTimeFrame%", new SimpleDateFormat("HH:mm:ss").format(new Date(EventManager.getWarEvent().getClosestTimeFrameMillis())));
-                lore = lore.replace("%closestTimeFrameTimeLeft%", String.valueOf(StringUtil.getTimeFormat(EventManager.getWarEvent().getClosestTimeFrameTimeLeft())));
+                lore = lore.replace("%closestTimeFrameTimeLeft%", String.valueOf(StringUtil.getTimeFormat(EventManager.getWarEvent().getClosestTimeFrameTimeLeft(), Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS)));
                 lore = lore.replace("%minimumPlayerOnline%", String.valueOf(EventManager.getWarEvent().MINIMUM_PLAYER_ONLINE));
-                lore = lore.replace("%eventTimeLeft%", StringUtil.getTimeFormat(EventManager.getWarEvent().getTimeLeft()));
+                lore = lore.replace("%eventTimeLeft%", StringUtil.getTimeFormat(EventManager.getWarEvent().getTimeLeft(), Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS));
                 if (lore.contains("%eventTimeFrame%")) {
                     for (String warEventTimeFrame : EventManager.getWarEvent().EVENT_TIME_FRAME) {
                         warEventItemLore.add(fileConfiguration.getString("items.warEvent.lore-placeholders.eventTimeFrame").replace("%eventTimeFrame%", warEventTimeFrame));

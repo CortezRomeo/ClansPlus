@@ -9,15 +9,17 @@ import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class SetMessage extends SubjectManager {
+public class Chat extends SubjectManager {
 
-    private final String clanMessage;
+    private String message;
 
-    public SetMessage(Rank rank, Player player, String playerName, String clanMessage) {
+    public Chat(Rank rank, Player player, String playerName, String message) {
         super(rank, player, playerName, null, null);
-        this.clanMessage = clanMessage;
+        this.message = message;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class SetMessage extends SubjectManager {
         }
 
         if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
-            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETMESSAGE));
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.CHAT));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
@@ -36,12 +38,15 @@ public class SetMessage extends SubjectManager {
         }
 
         IClanData playerClanData = getPlayerClanData();
-        playerClanData.setMessage(clanMessage);
-        PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
 
-        MessageUtil.sendMessage(player, Messages.SET_MESSAGE_SUCCESS.replace("%newMessage%", clanMessage));
-        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_MESSAGE.replace("%player%", playerName).replace("%newMessage%", clanMessage).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+        String clanChatFormat = Messages.USING_CHAT_BOX_CLAN_CHAT;
+        clanChatFormat = StringUtil.setClanNamePlaceholder(clanChatFormat, playerClanData.getName());
+        clanChatFormat = clanChatFormat.replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank()));
+        clanChatFormat = clanChatFormat.replace("%player%", playerName);
+        clanChatFormat = clanChatFormat.replace("%message%", message);
 
+        for (String clanMember : playerClanData.getMembers())
+            MessageUtil.sendMessage(Bukkit.getPlayer(clanMember), clanChatFormat);
         return true;
     }
 }

@@ -28,7 +28,8 @@ public class SetCustomName extends SubjectManager {
             return false;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
@@ -66,6 +67,8 @@ public class SetCustomName extends SubjectManager {
         }
 
         for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
+            if (prohibitedCharacter.equals("&"))
+                continue;
             if (customName.contains(prohibitedCharacter)) {
                 MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
                 return false;

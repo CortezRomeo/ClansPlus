@@ -1,7 +1,10 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.file.inventory.AlliesMenuInventoryFile;
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.subject.Disband;
+import com.cortezromeo.clansplus.file.inventory.DisbandConfirmationInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
@@ -12,14 +15,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
 
-public class AlliesMenuInventory extends ClanPlusInventoryBase {
+    FileConfiguration fileConfiguration = DisbandConfirmationInventoryFile.get();
 
-    FileConfiguration fileConfiguration = AlliesMenuInventoryFile.get();
-
-    public AlliesMenuInventory(Player owner) {
+    public DisbandConfirmationInventory(Player owner) {
         super(owner);
     }
 
@@ -27,6 +27,11 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
     public void open() {
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank() != Rank.LEADER) {
+            MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
             getOwner().closeInventory();
             return;
         }
@@ -55,7 +60,12 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
         }
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+
+        if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank() != Rank.LEADER) {
+            MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
             getOwner().closeInventory();
             return;
         }
@@ -64,17 +74,18 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
         playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
         if (itemCustomData.equals("back"))
-            new ClanMenuInventory(getOwner()).open();
-        if (itemCustomData.equals("addAlly"))
-            new AddAllyListInventory(getOwner()).open();
-        if (itemCustomData.equals("allyInvitation"))
-            new AllyInvitationListInventory(getOwner()).open();
-        if (itemCustomData.equals("allyList"))
-            new AllyListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
-            //new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+            new ClanSettingsInventory(getOwner()).open();
+        if (itemCustomData.equals("confirm")) {
+            new Disband(Rank.LEADER, getOwner(), getOwner().getName()).execute();
+            getOwner().closeInventory();
+        }
+        if (itemCustomData.equals("decline")) {
+            new ClanSettingsInventory(getOwner()).open();
+        }
     }
 
     @Override
@@ -106,35 +117,21 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack addAllyItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.addAlly.type"),
-                    fileConfiguration.getString("items.addAlly.value"),
-                    fileConfiguration.getInt("items.addAlly.customModelData"),
-                    fileConfiguration.getString("items.addAlly.name"),
-                    fileConfiguration.getStringList("items.addAlly.lore"), false), "addAlly");
-            int addAllyItemSlot = fileConfiguration.getInt("items.addAlly.slot");
-            inventory.setItem(addAllyItemSlot, addAllyItem);
+            ItemStack confirmItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.confirm.type"),
+                    fileConfiguration.getString("items.confirm.value"),
+                    fileConfiguration.getInt("items.confirm.customModelData"),
+                    fileConfiguration.getString("items.confirm.name"),
+                    fileConfiguration.getStringList("items.confirm.lore"), false), "confirm");
+            int confirmItemSlot = fileConfiguration.getInt("items.confirm.slot");
+            inventory.setItem(confirmItemSlot, confirmItem);
 
-            List<String> allyInvitationLore = new ArrayList<>();
-            int totalAllyInvitations = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getAllyInvitation().size();
-            for (String lore : fileConfiguration.getStringList("items.allyInvitation.lore")) {
-                lore = lore.replace("%totalAllyInvitations%", String.valueOf(totalAllyInvitations));
-                allyInvitationLore.add(lore);
-            }
-            ItemStack allyInvitationItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyInvitation.type"),
-                    fileConfiguration.getString("items.allyInvitation.value"),
-                    fileConfiguration.getInt("items.allyInvitation.customModelData"),
-                    fileConfiguration.getString("items.allyInvitation.name"),
-                    allyInvitationLore, totalAllyInvitations > 0), "allyInvitation");
-            int allyInvitationItemSlot = fileConfiguration.getInt("items.allyInvitation.slot");
-            inventory.setItem(allyInvitationItemSlot, allyInvitationItem);
-
-            ItemStack allyListItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyList.type"),
-                    fileConfiguration.getString("items.allyList.value"),
-                    fileConfiguration.getInt("items.allyList.customModelData"),
-                    fileConfiguration.getString("items.allyList.name"),
-                    fileConfiguration.getStringList("items.allyList.lore"), false), "allyList");
-            int allyListItemSlot = fileConfiguration.getInt("items.allyList.slot");
-            inventory.setItem(allyListItemSlot, allyListItem);
+            ItemStack declineItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.decline.type"),
+                    fileConfiguration.getString("items.decline.value"),
+                    fileConfiguration.getInt("items.decline.customModelData"),
+                    fileConfiguration.getString("items.decline.name"),
+                    fileConfiguration.getStringList("items.decline.lore"), false), "decline");
+            int declineItemSlot = fileConfiguration.getInt("items.decline.slot");
+            inventory.setItem(declineItemSlot, declineItem);
         });
     }
 

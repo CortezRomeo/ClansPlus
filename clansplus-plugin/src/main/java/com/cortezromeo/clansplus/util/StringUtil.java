@@ -60,20 +60,18 @@ public class StringUtil {
         return string.replace("%formatClanName%", ClanManager.getFormatClanName(PluginDataManager.getClanDatabase(clanName))).replace("%clanName%", clanName);
     }
 
-    public static String getTimeFormat(long seconds) {
+    public static String getTimeFormat(long seconds, String hhmmss, String mmss, String ss) {
         if (seconds > 3600) {
-            String hhmmssString = Messages.TIME_FORMAT_HHMMSS;
-            hhmmssString = hhmmssString.replace("%hours%", String.valueOf(seconds / 3600));
-            hhmmssString = hhmmssString.replace("%minutes%", String.valueOf((seconds % 3600) / 60));
-            hhmmssString = hhmmssString.replace("%seconds%", String.valueOf(seconds % 60));
-            return ClansPlus.nms.addColor(hhmmssString);
+            hhmmss = hhmmss.replace("%hours%", String.valueOf(seconds / 3600));
+            hhmmss = hhmmss.replace("%minutes%", String.valueOf((seconds % 3600) / 60));
+            hhmmss = hhmmss.replace("%seconds%", String.valueOf(seconds % 60));
+            return ClansPlus.nms.addColor(hhmmss);
         } else if (seconds > 60) {
-            String mmssString = Messages.TIME_FORMAT_MMSS;
-            mmssString = mmssString.replace("%minutes%", String.valueOf((seconds / 60)));
-            mmssString = mmssString.replace("%seconds%", String.valueOf(seconds % 60));
-            return ClansPlus.nms.addColor(mmssString);
+            mmss = mmss.replace("%minutes%", String.valueOf((seconds / 60)));
+            mmss = mmss.replace("%seconds%", String.valueOf(seconds % 60));
+            return ClansPlus.nms.addColor(mmss);
         } else
-            return ClansPlus.nms.addColor(Messages.TIME_FORMAT_SS.replace("%seconds%", String.valueOf(seconds)));
+            return ClansPlus.nms.addColor(ss.replace("%seconds%", String.valueOf(seconds)));
     }
 
 }

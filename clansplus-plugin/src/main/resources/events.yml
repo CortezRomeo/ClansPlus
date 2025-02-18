@@ -124,7 +124,7 @@ events:
     messages:
       prefix: '&#fc7703&lBANG HỘI WAR&r '
       event-not-starting: |
-        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━&r
+        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━━&r
                   &eSự kiện chưa bắt đầu
         &r
         &fCác khung giờ để bắt đầu sự kiện:
@@ -133,25 +133,25 @@ events:
         &fSố người chơi tối thiểu: &b%minimumPlayerOnline%
         &fThế giới cần vào để tính điểm:
         %requiredWorlds%
-        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       event-not-starting-placeholders:
         eventTimeFrame: '&7- &e%eventTimeFrame%'
         requiredWorlds: '&7- &e%requiredWorld%'
       event-starting: |
-        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━&r
+        &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━━&r
                   &aSự kiện đang bắt đầu
         &r
         &fThời gian còn lại: &a%eventTimeLeft%
         &fThế giới cần vào để tính điểm:
         %requiredWorlds%
-        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       event-starting-placeholders:
         requiredWorlds: '&7- &e%requiredWorld%'
       event-ending:
         # Vui lòng chỉnh max-top này dựa vào số top được dùng trong phần messages để tiết kiệm tài nguyên
         max-top: 5
         messages: |
-          &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━&r
+          &#fc3903&m━━━━━━━━━━━━&r &#fc7703BANG HỘI WAR &#fc3903&m━━━━━━━━━━━━━&r
                     &fSự kiện đã kết thúc
           &r
           &fTop 3 bang hội kiếm được nhiều điểm nhất&r
@@ -164,11 +164,10 @@ events:
             &#ccccccHạng nhì. &f%topDamage_2_name% &#eb4034%topDamage_2_score% dmg &#e0122a(50 Warpoint)
             &#754200Hạng ba. &f%topDamage_3_name% &#eb4034%topDamage_3_score% dmg &#e0122a(40 Warpoint)
           &r
-          &fTop 3 người chơi chịu nhiều sát thương nhất&r
-            &#fcd303Hạng nhất. &f%topTank_1_name% &#eb4034%topTank_1_score% dmg
-            &#ccccccHạng nhì. &f%topTank_2_name% &#eb4034%topTank_2_score% dmg
-            &#754200Hạng ba. &f%topTank_3_name% &#eb4034%topTank_3_score% dmg
-          &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          &fTổng sát thương gây ra: &b%totalDamagesCaused%
+          &fTổng sát thương chịu đựng: &b%totalDamagesCollected%
+          &fTổng điểm thu được: &b%totalScoreCollected%
+          &#fc3903&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       not-enough-player: '%prefix%&#fc3903&l| &fKhông đủ người chơi để bắt đầu sự kiện. Sự kiện sẽ được dời sang mốc giờ sau.'
       clan-broadcast:
         prefix: '&#fc7703&lBANG HỘI WAR &f(%formatClanName%&r) '

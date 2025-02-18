@@ -1,5 +1,6 @@
 package com.cortezromeo.clansplus.clan.subject;
 
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.IconType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
@@ -31,7 +32,8 @@ public class SetIcon extends SubjectManager {
             return false;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETICON));
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETICON));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
@@ -44,7 +46,7 @@ public class SetIcon extends SubjectManager {
             try {
                 XMaterial xMaterial = XMaterial.valueOf(value);
                 Material material = xMaterial.get();
-                if (material == null) {
+                if (material == null || material.equals(Material.AIR)) {
                     MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
                     MessageUtil.sendMessage(player, "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
                     return false;

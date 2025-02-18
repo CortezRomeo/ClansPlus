@@ -10,6 +10,8 @@ import org.bukkit.inventory.InventoryHolder;
 
 public class InventoryClickListener implements Listener {
 
+
+
     public InventoryClickListener() {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }

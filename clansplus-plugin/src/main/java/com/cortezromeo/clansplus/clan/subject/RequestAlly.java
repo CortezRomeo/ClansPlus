@@ -1,5 +1,6 @@
 package com.cortezromeo.clansplus.clan.subject;
 
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -26,7 +27,8 @@ public class RequestAlly extends SubjectManager {
             return false;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.MANAGEALLY));
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.MANAGEALLY));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));

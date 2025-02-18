@@ -29,6 +29,7 @@ public class Messages {
     public static String TIME_FORMAT_HHMMSS;
     public static String TIME_FORMAT_MMSS;
     public static String TIME_FORMAT_SS;
+    public static List<String> CLAN_MESSAGE;
     public static String NO_PERMISSION;
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
@@ -94,7 +95,11 @@ public class Messages {
     public static String MOVE_WHILE_SPAWNING;
     public static String SPAWN_SUCCESS;
     public static String CHANGE_PERMISSION;
+    public static String INVALID_ICON_TYPE;
+    public static String TOGGLE_CLAN_CHAT_ON;
+    public static String TOGGLE_CLAN_CHAT_OFF;
     public static String LAST_PAGE;
+    public static String USING_CHAT_BOX_CLAN_CHAT;
     public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
     public static String USING_CHAT_BOX_SET_MESSAGE;
@@ -162,6 +167,7 @@ public class Messages {
         TIME_FORMAT_HHMMSS = fileConfiguration.getString("time-format.hh-mm-ss");
         TIME_FORMAT_MMSS = fileConfiguration.getString("time-format.mm-ss");
         TIME_FORMAT_SS = fileConfiguration.getString("time-format.ss");
+        CLAN_MESSAGE = fileConfiguration.getStringList("messages.clan-message");
         NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");
@@ -227,7 +233,11 @@ public class Messages {
         MOVE_WHILE_SPAWNING = fileConfiguration.getString("messages.move-while-spawning");
         SPAWN_SUCCESS = fileConfiguration.getString("messages.spawn-success");
         CHANGE_PERMISSION = fileConfiguration.getString("messages.change-permission");
+        INVALID_ICON_TYPE = fileConfiguration.getString("messages.invalid-icon-type");
+        TOGGLE_CLAN_CHAT_ON = fileConfiguration.getString("messages.toggle-clan-chat-on");
+        TOGGLE_CLAN_CHAT_OFF = fileConfiguration.getString("messages.toggle-clan-chat-off");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
+        USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");
         USING_CHAT_BOX_SET_MESSAGE = fileConfiguration.getString("messages.using-chat-box.set-message");

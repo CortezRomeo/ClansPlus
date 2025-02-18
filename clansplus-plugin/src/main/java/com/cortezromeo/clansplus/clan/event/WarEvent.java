@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.clan.event;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.clan.skill.SkillData;
@@ -36,7 +37,7 @@ public class WarEvent {
 
     private BukkitTask warEventTask;
     private boolean STARTING = false;
-    private int TIMELEFT = 0;
+    private long TIMELEFT = 0;
     private HashMap<String, Long> playerDamagesCaused = new HashMap<>();
     private HashMap<String, Long> playerDamagesCollected = new HashMap<>();
     private HashMap<String, Long> clanScoreCollected = new HashMap<>();
@@ -150,6 +151,13 @@ public class WarEvent {
             createBossBar(player);
         }
 
+        try {
+            // send discord message
+            ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventStartingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-starting.json", EventManager.getWarEvent()));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
         warEventTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -217,6 +225,16 @@ public class WarEvent {
                     eventEndingMessage = eventEndingMessage.replace("%topTank_" + top + "_score%", "0");
                 }
             }
+            eventEndingMessage = eventEndingMessage.replace("%totalDamagesCaused%", String.valueOf(getTotalDamageCaused()));
+            eventEndingMessage = eventEndingMessage.replace("%totalDamagesCollected%", String.valueOf(getTotalDamageCollected()));
+            eventEndingMessage = eventEndingMessage.replace("%totalScoreCollected%", String.valueOf(getTotalScoreCollected()));
+        }
+
+        // send discord message
+        try {
+            ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventEndingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-ending.json", EventManager.getWarEvent()));
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -377,7 +395,7 @@ public class WarEvent {
                     .replace("%eventTimeFrame%", eventTimeFrame.toString())
                     .replace("%requiredWorlds%", eventRequiredWorlds.toString())
                     .replace("%closestTimeFrame%", new SimpleDateFormat("HH:mm:ss").format(new Date(getClosestTimeFrameMillis())))
-                    .replace("%closestTimeFrameTimeLeft%", String.valueOf(StringUtil.getTimeFormat(getClosestTimeFrameTimeLeft())))
+                    .replace("%closestTimeFrameTimeLeft%", String.valueOf(StringUtil.getTimeFormat(getClosestTimeFrameTimeLeft(), Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS)))
                     .replace("%minimumPlayerOnline%", String.valueOf(MINIMUM_PLAYER_ONLINE)));
         } else {
             StringBuilder eventRequiredWorlds = new StringBuilder();
@@ -386,7 +404,7 @@ public class WarEvent {
             if (playSound)
                 player.playSound(player.getLocation(), ClansPlus.nms.createSound(STARTING_SOUND_NAME), STARTING_SOUND_VOLUME, STARTING_SOUND_PITCH);
             sendMessage(player, MESSAGES_EVENT_STARTING
-                    .replace("%eventTimeLeft%", StringUtil.getTimeFormat(TIMELEFT))
+                    .replace("%eventTimeLeft%", StringUtil.getTimeFormat(TIMELEFT, Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS))
                     .replace("%requiredWorlds%", eventRequiredWorlds.toString()));
         }
     }
@@ -454,7 +472,7 @@ public class WarEvent {
         }
 
         BossBar playerBossBar = getBossBarDatabase().get(player);
-        playerBossBar.setTitle(ClansPlus.nms.addColor(BOSS_BAR_TITLE.replace("%timeLeft%", StringUtil.getTimeFormat(TIMELEFT))));
+        playerBossBar.setTitle(ClansPlus.nms.addColor(BOSS_BAR_TITLE.replace("%timeLeft%", StringUtil.getTimeFormat(TIMELEFT, Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS))));
         try {
             playerBossBar.setProgress((double) TIMELEFT / (double) EVENT_TIME);
         } catch (Exception exception) {
@@ -469,7 +487,7 @@ public class WarEvent {
         }
     }
 
-    public int getTimeLeft() {
+    public long getTimeLeft() {
         return TIMELEFT;
     }
 
@@ -501,10 +519,6 @@ public class WarEvent {
         return STARTING;
     }
 
-    public int getEventTimeLeft() {
-        return TIMELEFT;
-    }
-
     public BukkitTask getWarEventTask() {
         return warEventTask;
     }
@@ -522,6 +536,33 @@ public class WarEvent {
             return;
 
         player.sendMessage(ClansPlus.nms.addColor(message.replace("%prefix%", MESSAGES_PREFIX)));
+    }
+
+    public long getTotalDamageCaused() {
+        long totalDamageCaused = 0;
+        if (!playerDamagesCaused.isEmpty())
+            for (String player : playerDamagesCaused.keySet()) {
+                totalDamageCaused = totalDamageCaused + playerDamagesCaused.get(player);
+            }
+        return totalDamageCaused;
+    }
+
+    public long getTotalDamageCollected() {
+        long totalDamageCollected = 0;
+        if (!playerDamagesCollected.isEmpty())
+            for (String player : playerDamagesCollected.keySet()) {
+                totalDamageCollected = totalDamageCollected + playerDamagesCollected.get(player);
+            }
+        return totalDamageCollected;
+    }
+
+    public long getTotalScoreCollected() {
+        long totalScoreCollected = 0;
+        if (!clanScoreCollected.isEmpty())
+            for (String clan : clanScoreCollected.keySet()) {
+                totalScoreCollected = totalScoreCollected + clanScoreCollected.get(clan);
+            }
+        return totalScoreCollected;
     }
 
     public void alertClan(String clanName, String message) {

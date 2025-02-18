@@ -28,7 +28,8 @@ public class Spawn extends SubjectManager {
             return false;
         }
 
-        setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SPAWN));
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SPAWN));
 
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));

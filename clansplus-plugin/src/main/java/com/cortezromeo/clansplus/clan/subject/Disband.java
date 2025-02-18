@@ -23,6 +23,8 @@ public class Disband extends SubjectManager {
             return false;
         }
 
+        setRequiredRank(Rank.LEADER);
+
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return false;

@@ -1,0 +1,31 @@
+{
+  "title": "SỰ KIỆN BANG HỘI WAR",
+  "description": "Sự kiện vừa bắt đầu",
+  "thumbnail": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/13/Bad_Omen_JE2_BE2.png/",
+  "color": 16738880,
+  "fields": [
+    {
+      "name": "Thời gian",
+      "fieldtype": "normal",
+      "value": "%timeLeft%",
+      "inline": false
+    },
+    {
+      "name": "Số người chơi hiện tại",
+      "fieldtype": "normal",
+      "value": "%players% người",
+      "inline": false
+    }
+  ],
+  "placeholders": {
+    "timeLeft": {
+      "hhmmss": "%hours% giờ %minutes% phút %seconds% giây",
+      "mmss": "%minutes% phút %seconds% giây",
+      "ss": "%seconds% giây"
+    }
+  },
+  "footer": {
+    "text": "Thông báo bang hội",
+    "icon_url": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ef/Dolphin%27s_Grace_JE1.png/"
+  }
+}

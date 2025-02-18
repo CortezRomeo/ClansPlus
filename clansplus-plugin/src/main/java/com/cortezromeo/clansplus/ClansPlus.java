@@ -20,6 +20,7 @@ import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;
+import com.cortezromeo.clansplus.support.DiscordSupport;
 import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -45,6 +46,7 @@ public class ClansPlus extends JavaPlugin {
     private static boolean papiSupport = false;
     public static Economy vaultEconomy;
     private static PlayerPointsAPI playerPointsAPI;
+    private static DiscordSupport discordsrv;
 
     @Override
     public void onLoad() {
@@ -92,6 +94,11 @@ public class ClansPlus extends JavaPlugin {
         // playerpoints
         if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
             playerPointsAPI = PlayerPoints.getInstance().getAPI();
+        }
+
+        // discordsrv
+        if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
+            discordsrv = new DiscordSupport(this);
         }
     }
 
@@ -403,6 +410,30 @@ public class ClansPlus extends JavaPlugin {
         }
         SetPermissionInventoryFile.reload();
 
+        // inventories/disband-confirmation-inventory.yml
+        String disbandConfirmationFileName = "disband-confirmation-inventory.yml";
+        DisbandConfirmationInventoryFile.setup();
+        DisbandConfirmationInventoryFile.saveDefault();
+        File disbandConfirmationFile = new File(getDataFolder() + "/inventories/disband-confirmation-inventory.yml");
+        try {
+            ConfigUpdater.update(this, disbandConfirmationFileName, disbandConfirmationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DisbandConfirmationInventoryFile.reload();
+
+        // inventories/leave-confirmation-inventory.yml
+        String leaveConfirmationFileName = "leave-confirmation-inventory.yml";
+        LeaveConfirmationInventoryFile.setup();
+        LeaveConfirmationInventoryFile.saveDefault();
+        File leaveConfirmationFile = new File(getDataFolder() + "/inventories/leave-confirmation-inventory.yml");
+        try {
+            ConfigUpdater.update(this, leaveConfirmationFileName, leaveConfirmationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LeaveConfirmationInventoryFile.reload();
+
         // events.yml
         String eventFileName = "events.yml";
         File eventsFile = new File(getDataFolder() + "/events.yml");
@@ -474,6 +505,14 @@ public class ClansPlus extends JavaPlugin {
         UpgradeFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded upgrade.yml.");
 
+        // discordsrv-warevent-starting.json
+        File warEventStartingJsonFile = new File(getDataFolder(), "discordsrv-warevent-starting.json");
+        if (!warEventStartingJsonFile.exists()) saveResource(warEventStartingJsonFile.getName(), false);
+
+        // discordsrv-warevent-ending.json
+        File warEventEndingJsonFile = new File(getDataFolder(), "discordsrv-warevent-ending.json");
+        if (!warEventEndingJsonFile.exists()) saveResource(warEventEndingJsonFile.getName(), false);
+
         CustomHeadSupport.setupCustomHeadJsonFiles();
     }
 
@@ -543,6 +582,10 @@ public class ClansPlus extends JavaPlugin {
 
     public static PlayerPointsAPI getPlayerPointsAPI() {
         return playerPointsAPI;
+    }
+
+    public static DiscordSupport getDiscordSupport() {
+        return discordsrv;
     }
 
     @Override

@@ -58,6 +58,7 @@ clan-settings:
     # PLAYERPOINTS
     # VAULT
     currency-requirement:
+      enabled: true
       type: VAULT
       value: 1000
     # Số lượng thành viên tối đa mặc định
@@ -140,6 +141,9 @@ soft-depends:
   placeholderapi:
     clanless: '&c<Không có bang hội>'
     clan-top: '&#d1d1d1#%number% &r%name% &e&l━ &#f25eff%value% Điểm'
+  discordsrv:
+    enabled: false
+    channelID: 1336569267927122012
 
 # Bstats dùng để thống kê số liệu mấy chủ và số người chơi sử dụng plugin.
 # Không ảnh hướng đến hiệu năng của máy chủ.

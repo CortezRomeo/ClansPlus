@@ -22,8 +22,8 @@
 #          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
 #                  dán nó vào phần "value:" của item bạn cần
 
-title: '&0Thiết lập quyền'
-rows: 5
+title: '&0Xóa bang hội'
+rows: 4
 items:
   border:
     enabled: true
@@ -40,7 +40,7 @@ items:
       - ''
   close:
     name: '&cĐóng'
-    slot: 40
+    slot: 31
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     customModelData: 0
@@ -53,7 +53,7 @@ items:
       - '&eNhấn vào đây để đóng'
   back:
     name: '&eTrở về'
-    slot: 39
+    slot: 30
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     customModelData: 0
@@ -64,11 +64,29 @@ items:
       pitch: 2
     lore:
       - '&eNhấn vào đây để trở về'
-  reset:
-    name: '&aThiết lập lại'
-    slot: 41
+  confirm:
+    name: '&eXóa bang hội'
+    slot: 11
     type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRjMjhmZmI5MDYzZTYzMDM3YzdjOWMzYTk5OTc1MzMzMjU0OTQ2ZGRmYTAwMTg5OTYxNTE3NDBhNWM2Njg0MiJ9fX0=
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTc5YTVjOTVlZTE3YWJmZWY0NWM4ZGMyMjQxODk5NjQ5NDRkNTYwZjE5YTQ0ZjE5ZjhhNDZhZWYzZmVlNDc1NiJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'ENTITY_BAT_DEATH'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fKhi xóa bang hội, mọi dữ liệu thuộc về bang hội'
+      - '&fbao gồm thành viên, đồng minh, nâng cấp, và tất'
+      - '&fcả các thiết lập sẽ bị xóa.'
+      - ''
+      - '&eNhấn vào đây để thực hiện'
+  decline:
+    name: '&cTừ chối'
+    slot: 15
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0=
     customModelData: 0
     click-sound:
       enabled: true
@@ -76,70 +94,4 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - ''
-      - '&fThiết lập các quyền thành mặc định của máy chủ.'
-      - ''
-      - '&eNhấn vào đây để thực hiện'
-  subject:
-    name: '&d%name%'
-    slot:
-      INVITE: 10
-      KICK: 11
-      SETCUSTOMNAME: 12
-      SETICON: 13
-      SPAWN: 14
-      SETSPAWN: 15
-      SETMESSAGE: 16
-      SETMANAGER: 20
-      REMOVEMANAGER: 21
-      CHAT: 22
-      UPGRADE: 23
-      MANAGEALLY: 24
-    type:
-      LEADER: customhead
-      MANAGER: customhead
-      MEMBER: customhead
-    value:
-      LEADER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdjY2UwZjdjZDkxYjljMTYyODBiMDliMTJlNzk4Mjk0N2JhMTJhMzhlMzdkMDJhMDQ3ZDEwNTNjMzIzOWRkYyJ9fX0=
-      MANAGER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFmNTcwNTExMzBlODUwODQ4ZThlMzdlNzIxMTBhMTZmMDlkYmRhYjdkOWQ2ZTMzYTlmZWNmZDM0OGQ1YTExMCJ9fX0=
-      MEMBER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWUzOGZhMzEzMWUyZGEwNGE4ZjhkNTA4NzJhODIzMmQ3ZDlkZWEzNDBkMDZjOTA5N2ZmYTNjYzQ4MjA4ZGYxZCJ9fX0=
-    customModelData:
-      LEADER: 0
-      MANAGER: 0
-      MEMBER: 0
-    click-sound:
-      enabled: true
-      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
-      volume: 1
-      pitch: 2
-    lore:
-      LEADER:
-        - ''
-        - '&f%description%'
-        - ''
-        - '&fChức vụ có thể sử dụng:'
-        - '&#e8e51e⇨ Lãnh đạo'
-        - '&7Quản lý'
-        - '&7Thành viên'
-        - ''
-        - '&eNhấn để thay đổi'
-      MANAGER:
-        - ''
-        - '&f%description%'
-        - ''
-        - '&fChức vụ có thể sử dụng:'
-        - '&7Lãnh đạo'
-        - '&#1d98d1⇨ Quản lý'
-        - '&7Thành viên'
-        - ''
-        - '&eNhấn để thay đổi'
-      MEMBER:
-        - ''
-        - '&f%description%'
-        - ''
-        - '&fChức vụ có thể sử dụng:'
-        - '&7Lãnh đạo'
-        - '&7Quản lý'
-        - '&#34eb6b⇨ Thành viên'
-        - ''
-        - '&eNhấn để thay đổi'
+      - '&eNhấn vào đây để từ chối'

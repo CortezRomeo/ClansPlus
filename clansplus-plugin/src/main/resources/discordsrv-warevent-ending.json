@@ -1,0 +1,100 @@
+{
+  "title": "SỰ KIỆN BANG HỘI WAR",
+  "description": "Sự kiện đã kết thúc",
+  "thumbnail": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/43/JAPPA_Piglin_Brute.png/",
+  "color": 16738880,
+  "maxtop": 3,
+  "fields": [
+    {
+      "name": "",
+      "fieldtype": "blank",
+      "value": "",
+      "inline": false
+    },
+    {
+      "name": "> **TOP 3 BANG HỘI**",
+      "fieldtype": "normal",
+      "value": "Bang hội kiếm được nhiều điểm nhất",
+      "inline": false
+    },
+    {
+      "name": ":first_place: %topScoreClaimed_1_name%",
+      "fieldtype": "normal",
+      "value": "%topScoreClaimed_1_score%",
+      "inline": false
+    },
+    {
+      "name": ":second_place: %topScoreClaimed_2_name%",
+      "fieldtype": "normal",
+      "value": "%topScoreClaimed_2_score%",
+      "inline": false
+    },
+    {
+      "name": ":third_place: %topScoreClaimed_3_name%",
+      "fieldtype": "normal",
+      "value": "%topScoreClaimed_3_score%",
+      "inline": false
+    },
+    {
+      "name": "",
+      "fieldtype": "blank",
+      "value": "",
+      "inline": false
+    },
+    {
+      "name": "> **TOP 3 SÁT THƯƠNG CAO NHẤT**",
+      "fieldtype": "normal",
+      "value": "Người chơi gây nhiều sát thương nhất",
+      "inline": false
+    },
+    {
+      "name": ":first_place: %topDamage_1_name%",
+      "fieldtype": "normal",
+      "value": "%topDamage_1_score%",
+      "inline": false
+    },
+    {
+      "name": ":second_place: %topDamage_2_name%",
+      "fieldtype": "normal",
+      "value": "%topDamage_2_score%",
+      "inline": false
+    },
+    {
+      "name": ":third_place: %topDamage_3_name%",
+      "fieldtype": "normal",
+      "value": "%topDamage_3_score%",
+      "inline": false
+    },
+    {
+      "name": "",
+      "fieldtype": "blank",
+      "value": "",
+      "inline": false
+    },
+    {
+      "name": "Tổng sát thương",
+      "fieldtype": "normal",
+      "value": "%totalDamagesCaused%",
+      "inline": true
+    },
+    {
+      "name": "Tổng chống chịu",
+      "fieldtype": "normal",
+      "value": "%totalDamagesCollected%",
+      "inline": true
+    },
+    {
+      "name": "Tổng điểm thu được",
+      "fieldtype": "normal",
+      "value": "%totalScoreCollected%",
+      "inline": true
+    }
+  ],
+  "placeholders": {
+    "unknown": "N/A"
+  },
+  "footer": {
+    "text": "Thông báo bang hội",
+    "icon_url": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ef/Dolphin%27s_Grace_JE1.png/"
+  }
+}

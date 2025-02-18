@@ -21,6 +21,7 @@ public class ClanManager {
     public static HashMap<String, String> beingInvitedPlayers = new HashMap<>();
     // playerName, clanName
     public static HashMap<String, String> managersFromOldData = new HashMap<>();
+    public static List<Player> playerUsingClanChat = new ArrayList<>();
 
     public static boolean isClanExisted(String clanName) {
         return PluginDataManager.getClanDatabase().containsKey(clanName);
@@ -125,6 +126,23 @@ public class ClanManager {
         return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : clanData.getName();
     }
 
+    public static void sendClanBroadCast(Player player) {
+        if (PluginDataManager.getClanDatabaseByPlayerName(player.getName()) == null)
+            return;
+
+       IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+
+       if (clanData.getMessage() == null) {
+           return;
+       }
+
+        for (String clanMessageFormat : Messages.CLAN_MESSAGE) {
+            clanMessageFormat = StringUtil.setClanNamePlaceholder(clanMessageFormat, clanData.getName());
+            clanMessageFormat = clanMessageFormat.replace("%message%", clanData.getMessage());
+            MessageUtil.sendMessage(player, clanMessageFormat);
+        }
+    }
+
     public static String getFormatClanMessage(IClanData clanData) {
         if (clanData.getMessage() == null)
             return ClansPlus.nms.addColor( "<Không có thông báo>");
@@ -144,4 +162,9 @@ public class ClanManager {
             return Messages.RANK_DISPLAY_LEADER;
         return Messages.RANK_DISPLAY_MEMBER;
     }
+
+    public static List<Player> getPlayerUsingClanChat() {
+        return playerUsingClanChat;
+    }
+
 }

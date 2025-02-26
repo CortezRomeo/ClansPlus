@@ -37,6 +37,7 @@ public class WarEvent {
 
     private BukkitTask warEventTask;
     private boolean STARTING = false;
+    private long MAXTIMELEFT = 0;
     private long TIMELEFT = 0;
     private HashMap<String, Long> playerDamagesCaused = new HashMap<>();
     private HashMap<String, Long> playerDamagesCollected = new HashMap<>();
@@ -143,6 +144,7 @@ public class WarEvent {
         }
 
         TIMELEFT = EVENT_TIME;
+        MAXTIMELEFT = TIMELEFT;
         STARTING = true;
 
         // send event starting messages and create boss bar
@@ -292,6 +294,11 @@ public class WarEvent {
             }
         }
         STARTING = false;
+    }
+
+    public void setTimeLeft(int seconds) {
+        TIMELEFT = seconds;
+        MAXTIMELEFT = TIMELEFT;
     }
 
     public void onJoin(PlayerJoinEvent event) {
@@ -474,7 +481,13 @@ public class WarEvent {
         BossBar playerBossBar = getBossBarDatabase().get(player);
         playerBossBar.setTitle(ClansPlus.nms.addColor(BOSS_BAR_TITLE.replace("%timeLeft%", StringUtil.getTimeFormat(TIMELEFT, Messages.TIME_FORMAT_HHMMSS, Messages.TIME_FORMAT_MMSS, Messages.TIME_FORMAT_SS))));
         try {
-            playerBossBar.setProgress((double) TIMELEFT / (double) EVENT_TIME);
+            if (MAXTIMELEFT == 0) {
+                if (TIMELEFT == 0)
+                    MAXTIMELEFT = 1;
+                else
+                    MAXTIMELEFT = TIMELEFT;
+            }
+            playerBossBar.setProgress((double) TIMELEFT / (double) MAXTIMELEFT);
         } catch (Exception exception) {
             playerBossBar.setProgress(1);
         }

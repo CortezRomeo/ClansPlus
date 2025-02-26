@@ -121,7 +121,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                     Rank upgradeRequiredrank = Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.UPGRADE);
                     if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
                         upgradeRequiredrank = PluginDataManager.getClanDatabase(clanName).getSubjectPermission().get(Subject.UPGRADE);
-                    if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
+                    if (!ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
                         MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
                         return;
                     }

@@ -17,13 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class PluginDataManager {
 
@@ -140,8 +142,9 @@ public class PluginDataManager {
 
     public static void transferDatabase(CommandSender commandSender, DatabaseType toDatabaseType) {
         if (ClansPlus.databaseType != toDatabaseType) {
+            DatabaseType oldDatabaseType = ClansPlus.databaseType;
             if (commandSender != null)
-                commandSender.sendMessage("Transferring database from " + ClansPlus.databaseType + " to " + toDatabaseType + "...");
+                commandSender.sendMessage("Đang chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + "...");
             Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
                 PluginDataStorage.disableStorage();
                 PluginDataStorage.init(toDatabaseType);
@@ -174,7 +177,7 @@ public class PluginDataManager {
                 ClansPlus.plugin.reloadConfig();
 
                 if (commandSender != null)
-                    commandSender.sendMessage("Successfully transferred database from " + ClansPlus.databaseType + " to " + toDatabaseType);
+                    commandSender.sendMessage("Đã chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + " thành công.");
             });
         }
     }
@@ -298,5 +301,65 @@ public class PluginDataManager {
         if (!error.isEmpty())
             for (int errorID : error.keySet())
                 MessageUtil.debug("FIXING ILLEGAL DATABASE [ID " + errorID + "]", "Total: " + error.get(errorID));
+    }
+
+    public static void backupAll(String backupFileName) {
+        String backupPath = ClansPlus.plugin.getDataFolder() + "\\backup\\";
+        DatabaseType databaseType = ClansPlus.databaseType;
+        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Bắt đầu back up dữ liệu...");
+
+        // Save database before backing up
+        saveAllDatabase();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Settings.DATABASE_BACK_UP_FILE_NAME_FORMAT);
+        Date date = new Date();
+        if (backupFileName == null)
+            backupFileName = simpleDateFormat.format(date) + " (" + databaseType.toString().toLowerCase() + ")";
+        String zipFileName = backupPath + backupFileName + ".zip";
+
+        if (ClansPlus.databaseType == DatabaseType.YAML) {
+            Path clanDatabaseFolder = Paths.get(ClansPlus.plugin.getDataFolder() + "\\banghoiData");
+            Path playerDatabaseFolder = Paths.get(ClansPlus.plugin.getDataFolder() + "\\playerData");
+            Path zipPath = Paths.get(zipFileName);
+            try {
+                ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipPath.toFile()));
+                Files.walkFileTree(clanDatabaseFolder, new SimpleFileVisitor<>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        String entryName = "banghoiData/" + clanDatabaseFolder.relativize(file).toString();
+                        zos.putNextEntry(new ZipEntry(entryName.replace("\\", "/")));
+                        Files.copy(file, zos);
+                        zos.closeEntry();
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+                Files.walkFileTree(playerDatabaseFolder, new SimpleFileVisitor<>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        String entryName = "playerData/" + playerDatabaseFolder.relativize(file).toString();
+                        zos.putNextEntry(new ZipEntry(entryName.replace("\\", "/")));
+                        Files.copy(file, zos);
+                        zos.closeEntry();
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+                zos.close();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        } else if (ClansPlus.databaseType == DatabaseType.H2) {
+            if (PluginDataH2Storage.getConnection() ==  null) {
+                MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Không thể backup vì H2 chưa được kết nối!");
+                return;
+            }
+            try {
+                Statement statement = PluginDataH2Storage.getConnection().createStatement();
+                String sql = "BACKUP TO '" + zipFileName + "'";
+                statement.executeUpdate(sql);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Backup thành công.");
     }
 }

@@ -12,7 +12,7 @@ debug:
   enabled: false
   prefix: '&e[CLAN+ DEBUG] '
 
-# Ngôn ngữ nào sẽ được sử dụng để hiển thị thông báo
+# Ngôn ngữ nào sẽ được sử dụng để hiển thị thông báo.
 # Bao gồm: vi (Tiếng Việt)
 language: vi
 
@@ -35,7 +35,12 @@ database:
     enabled: true
     # Tự động lưu mỗi ... giây.
     seconds: 900
-  # Thiết lập cơ sỡ dữ liệu
+  # Tùy chọn về backup
+  backup-settings:
+    # https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+    file-name-date-format: 'HH-mm-ss MM-dd-yyyy'
+
+  # Thiết lập cơ sỡ dữ liệu.
   settings:
     h2:
       file-name: 'h2Database'
@@ -43,32 +48,35 @@ database:
         clan: 'clandata'
         player: 'playerdata'
 
-# Thanh tiến trình
+# Thanh tiến trình.
 progress-bar:
+  # Tổng số thanh.
   total-bars: 20
   symbol:
+    # Thanh đã hoàn thành.
     completed: '&2&m━'
+    # Thanh chưa hoàn thành.
     not-completed: '&f&m━'
 
 # Tùy chỉnh các thông số mặc định.
 clan-settings:
   # Số tiền cần để tạo.
   creating-clan-settings:
-    # Số tiền tệ cần để tạo bang hội
+    # Số tiền tệ cần để tạo bang hội.
     # PLAYERPOINTS
     # VAULT
     currency-requirement:
       enabled: true
       type: VAULT
       value: 1000
-    # Số lượng thành viên tối đa mặc định
+    # Số lượng thành viên tối đa mặc định.
     maximum-member-default: 5
-    # Icon bang hội mặc định khi vừa tạo bang
+    # Icon bang hội mặc định khi vừa tạo bang.
     icon-default:
       type: MATERIAL
       value: ITEM_FRAME
     # ID Skill: Level mặc định
-    # Có thể thêm hoặc bớt
+    # Có thể thêm hoặc bớt.
     skill-level-default:
       1: 0
       2: 0
@@ -76,7 +84,7 @@ clan-settings:
       4: 0
     # Các quyền mặc định sẽ được thiết lập cho clan khi vừa tạo.
     # Clan sẽ có quyền tùy chỉnh cái quyền dưới đây.
-    # Các rank bao gồm: LEADER, MANAGER, MEMBER.
+    # Các rank bao gồm: LEADER, MANAGER, MEMBER
     # Lưu ý: LEADER > MANAGER > MEMBER - Nếu quyền đó member xài được thì manager và leader xài được, nếu quyền đó manager xài được thì leader xài được.
     permission-default:
       INVITE: MANAGER
@@ -92,22 +100,22 @@ clan-settings:
       UPGRADE: MANAGER
       MANAGEALLY: MANAGER
 
-  # Nếu tùy chọn này được bật, các quyền của tất cả bang hội trong máy chủ sẽ được thiết lập
-  # mặc định như mục "permission-default" ở trên và không có bang hội nào được quyền thay đổi
+  # Nếu tùy chọn này được bật, các quyền của tất cả bang hội trong máy chủ sẽ được thiết lập.
+  # mặc định như mục "permission-default" ở trên và không có bang hội nào được quyền thay đổi.
   # quyền trừ khi tùy chọn này bị tắt.
   permission-default-forced: false
 
-  # Thời gian chờ để dịch chuyển về spawn bang hội
+  # Thời gian chờ để dịch chuyển về spawn bang hội.
   spawn-countdown:
     enabled: true
     seconds: 5
 
-  # Thiết lập về mời người chơi vào bang hội
+  # Thiết lập về mời người chơi vào bang hội.
   invite-settings:
     # Thời gian cần để chấp nhận.
     time-to-accept: 30
 
-  # Thiết lập về tùy chỉnh tên bang hội
+  # Thiết lập về tùy chỉnh tên bang hội.
   clan-name-settings:
     # Cấm đặt các tên sau (Bao gồm tên bang hội và tên custom).
     prohibited-name:

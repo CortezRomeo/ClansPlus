@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,6 +51,26 @@ public class ClanManager {
             Player player = Bukkit.getPlayer(playerInClan);
             MessageUtil.sendMessage(player, StringUtil.setClanNamePlaceholder(message.replace("%prefix%", Messages.CLAN_BROADCAST_PREFIX), clanName));
         }
+    }
+
+    public static void addPlayerToAClan(String playerName, String clanName, boolean forceToLeaveOldClan) {
+        if (!PluginDataManager.getClanDatabase().containsKey(clanName) || !PluginDataManager.getPlayerDatabase().containsKey(playerName)) {
+            return;
+        }
+
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
+
+        if (playerData.getClan() != null && forceToLeaveOldClan) {
+            PluginDataManager.getClanDatabase(playerData.getClan()).getMembers().remove(playerName);
+            PluginDataManager.clearPlayerDatabase(playerName);
+        }
+
+        PluginDataManager.getClanDatabase(clanName).getMembers().add(playerName);
+        playerData.setClan(clanName);
+        playerData.setRank(Rank.MEMBER);
+        playerData.setJoinDate(new Date().getTime());
+        PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
+        PluginDataManager.saveClanDatabaseToStorage(clanName);
     }
 
     public static HashMap<String, Integer> getClansScoreHashMap() {

@@ -1,16 +1,12 @@
 package com.cortezromeo.clansplus.clan.subject;
 
-import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
-import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
-
-import java.util.Date;
 
 public class Accept extends SubjectManager {
 
@@ -45,13 +41,7 @@ public class Accept extends SubjectManager {
             return false;
         }
 
-        clanData.getMembers().add(playerName);
-        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
-        playerData.setClan(clanName);
-        playerData.setRank(Rank.MEMBER);
-        playerData.setJoinDate(new Date().getTime());
-        PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
-        PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
+        ClanManager.addPlayerToAClan(playerName, clanName, true);
 
         MessageUtil.sendMessage(player, Messages.JOIN_CLAN_SUCCESS.replace("%clan%", clanName));
         ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_PLAYER_JOIN_CLAN.replace("%player%", playerName));

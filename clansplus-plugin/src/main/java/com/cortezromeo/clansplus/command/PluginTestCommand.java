@@ -1,7 +1,6 @@
 package com.cortezromeo.clansplus.command;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.api.enums.DatabaseType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -98,16 +97,6 @@ public class PluginTestCommand implements CommandExecutor {
         }
 
         if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("transfer")) {
-                try {
-                    DatabaseType databaseType = DatabaseType.valueOf(args[1].toUpperCase());
-                    if (databaseType != ClansPlus.databaseType) {
-                        PluginDataManager.transferDatabase(sender, databaseType);
-                    }
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
             if (args[0].equalsIgnoreCase("upgrade"))
                 new UpgradePluginSkillInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName(), PluginSkill.valueOf(args[1].toUpperCase()), true).open();
         }

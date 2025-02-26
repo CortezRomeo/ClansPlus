@@ -7,6 +7,7 @@ import com.cortezromeo.clansplus.clan.skill.plugin.BoostScoreSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.CriticalHitSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.DodgeSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.LifeStealSkill;
+import com.cortezromeo.clansplus.command.ClanAdminCommand;
 import com.cortezromeo.clansplus.command.ClanCommand;
 import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.file.EventsFile;
@@ -70,12 +71,6 @@ public class ClansPlus extends JavaPlugin {
         EventManager.getWarEvent();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
 
-        // Check license key when the plugin is activated from dihoastore.net
-/*        if (!DiHoaStore.doDiHoa()) {
-            Bukkit.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }*/
-
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             try {
                 PluginDataManager.loadPlayerDatabase(player.getName());
@@ -110,6 +105,10 @@ public class ClansPlus extends JavaPlugin {
         File languageFolder = new File(getDataFolder() + "/languages");
         if (!languageFolder.exists())
             languageFolder.mkdirs();
+
+        File backupFolder = new File(getDataFolder() + "/backup");
+        if (!backupFolder.exists())
+            backupFolder.mkdirs();
 
         // config.yml
         saveDefaultConfig();
@@ -534,6 +533,7 @@ public class ClansPlus extends JavaPlugin {
 
     public void initCommands() {
         new ClanCommand();
+        new ClanAdminCommand();
         new PluginTestCommand();
     }
 

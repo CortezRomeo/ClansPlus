@@ -29,7 +29,7 @@ public class Accept extends SubjectManager {
 
         String clanName = ClanManager.beingInvitedPlayers.get(playerName);
         if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
-            MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(player, Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             ClanManager.beingInvitedPlayers.remove(playerName);
             return false;
         }

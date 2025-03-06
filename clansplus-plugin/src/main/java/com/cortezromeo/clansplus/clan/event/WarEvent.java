@@ -84,6 +84,10 @@ public class WarEvent {
     public List<String> ENDING_COMMANDS;
 
     public WarEvent() {
+        setupValue();
+    }
+
+    public void setupValue() {
         FileConfiguration eventFileConfig = EventsFile.get();
 
         String eventPath = "events.clan-war-event.";
@@ -154,8 +158,9 @@ public class WarEvent {
         }
 
         try {
-            // send discord message
-            ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventStartingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-starting.json", EventManager.getWarEvent()));
+            if (ClansPlus.getDiscordSupport() != null)
+                // send discord message
+                ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventStartingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-starting.json", EventManager.getWarEvent()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -234,7 +239,8 @@ public class WarEvent {
 
         // send discord message
         try {
-            ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventEndingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-ending.json", EventManager.getWarEvent()));
+            if (ClansPlus.getDiscordSupport() != null)
+                ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventEndingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-ending.json", EventManager.getWarEvent()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -372,6 +378,13 @@ public class WarEvent {
 
         if (killerClanData == null || victimClanData == null)
             return;
+
+        if (killerClanData.getName().equals(victimClanData.getName()))
+            return;
+
+        if (!killerClanData.getAllies().isEmpty())
+            if (killerClanData.getAllies().contains(victimClanData.getName()))
+                return;
 
         killerClanData.setScore(killerClanData.getScore() + SCORE_PLAYER);
         // save to hash map because the database will update a lot during war event

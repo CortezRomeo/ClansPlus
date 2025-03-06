@@ -41,7 +41,7 @@ public class MemberListInventory extends PaginatedInventory {
     @Override
     public void open() {
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
         super.open();
@@ -71,7 +71,7 @@ public class MemberListInventory extends PaginatedInventory {
         }
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
             return;
         }
@@ -103,7 +103,7 @@ public class MemberListInventory extends PaginatedInventory {
 
         if (itemCustomData.equals("back")) {
             if (fromViewClan) {
-                new ViewClanInventory(getOwner(), clanName).open();
+                new ViewClanInformationInventory(getOwner(), clanName).open();
                 return;
             }
             if (playerData.getClan() != null) {
@@ -112,7 +112,7 @@ public class MemberListInventory extends PaginatedInventory {
                     return;
                 }
             }
-            new ViewClanInventory(getOwner(), clanName).open();
+            new ViewClanInformationInventory(getOwner(), clanName).open();
         }
         if (itemCustomData.equals("sort")) {
             if (sortItemType == SortItemType.PERMISSION)

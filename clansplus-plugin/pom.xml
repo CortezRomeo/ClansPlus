@@ -101,6 +101,7 @@
             <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://repo.extendedclip.com/releases/ -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>

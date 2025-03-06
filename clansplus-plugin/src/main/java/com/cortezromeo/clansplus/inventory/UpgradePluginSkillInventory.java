@@ -47,7 +47,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     @Override
     public void open() {
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
         super.open();
@@ -75,7 +75,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         }
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
             return;
         }

@@ -103,6 +103,7 @@ public class ClanSettingsInventory extends ClanPlusInventoryBase {
         }
         if (itemCustomData.equals("setDiscord")) {
             // TODO set discord
+            MessageUtil.sendMessage(getOwner(), Messages.FEATURE_IN_PROGRESS);
         }
         if (itemCustomData.equals("disband")) {
             new DisbandConfirmationInventory(getOwner()).open();

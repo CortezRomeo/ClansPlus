@@ -33,7 +33,7 @@ public class AllyListInventory extends PaginatedInventory {
     @Override
     public void open() {
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
         super.open();
@@ -63,7 +63,7 @@ public class AllyListInventory extends PaginatedInventory {
         }
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
             return;
         }
@@ -95,7 +95,7 @@ public class AllyListInventory extends PaginatedInventory {
 
         if (itemCustomData.equals("back")) {
             if (fromViewClan) {
-                new ViewClanInventory(getOwner(), clanName).open();
+                new ViewClanInformationInventory(getOwner(), clanName).open();
                 return;
             }
             if (playerData.getClan() != null) {
@@ -104,7 +104,7 @@ public class AllyListInventory extends PaginatedInventory {
                     return;
                 }
             }
-            new ViewClanInventory(getOwner(), clanName).open();
+            new ViewClanInformationInventory(getOwner(), clanName).open();
         }
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)

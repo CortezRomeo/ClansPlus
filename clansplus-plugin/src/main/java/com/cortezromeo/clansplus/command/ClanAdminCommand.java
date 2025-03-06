@@ -10,8 +10,18 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.EventManager;
+import com.cortezromeo.clansplus.clan.skill.plugin.BoostScoreSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.CriticalHitSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.DodgeSkill;
+import com.cortezromeo.clansplus.clan.skill.plugin.LifeStealSkill;
+import com.cortezromeo.clansplus.file.EventsFile;
+import com.cortezromeo.clansplus.file.SkillsFile;
+import com.cortezromeo.clansplus.file.UpgradeFile;
+import com.cortezromeo.clansplus.file.inventory.*;
 import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
+import com.cortezromeo.clansplus.support.DiscordSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
@@ -51,6 +61,56 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reload")) {
                 // TODO: RELOAD
+                long time = System.currentTimeMillis();
+
+                ClansPlus.plugin.reloadConfig();
+                ClanListInventoryFile.reload();
+                NoClanInventoryFile.reload();
+                ClanMenuInventoryFile.reload();
+                MembersMenuInventoryFile.reload();
+                AddMemberListInventoryFile.reload();
+                MemberListInventoryFile.reload();
+                ManageMemberInventoryFile.reload();
+                ManageMemberRankInventoryFile.reload();
+                AlliesMenuInventoryFile.reload();
+                AddAllyListInventoryFile.reload();
+                AllyInvitationInventoryFile.reload();
+                AllyInivtationConfirmInventoryFile.reload();
+                AllyListInventoryFile.reload();
+                ManageAllyInventoryFile.reload();
+                ViewClanInventoryFile.reload();
+                UpgradePluginSkillListInventoryFile.reload();
+                UpgradeMenuInventoryFile.reload();
+                SkillsMenuInventoryFile.reload();
+                EventsMenuInventoryFile.reload();
+                ClanSettingsInventoryFile.reload();
+                SetIconCustomHeadListInventoryFile.reload();
+                SetIconMaterialListInventoryFile.reload();
+                SetIconMenuInventoryFile.reload();
+                SetPermissionInventoryFile.reload();
+                DisbandConfirmationInventoryFile.reload();
+                LeaveConfirmationInventoryFile.reload();
+                EventsFile.reload();
+                SkillsFile.reload();
+                UpgradeFile.reload();
+
+                Settings.setupValue();
+
+                Vietnamese.reload();
+                Messages.setupValue(Settings.LANGUAGE);
+
+                CriticalHitSkill.registerSkill();
+                DodgeSkill.registerSkill();
+                LifeStealSkill.registerSkill();
+                BoostScoreSkill.registerSkill();
+
+                EventManager.getWarEvent().setupValue();
+
+                if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null)
+                    ClansPlus.discordsrv = new DiscordSupport(ClansPlus.plugin);
+
+                sender.sendMessage("Đã reload plugin (" + (System.currentTimeMillis() - time) + "ms)");
+                return false;
             }
             if (args[0].equalsIgnoreCase("backup")) {
                 sender.sendMessage("Đang tạo backup, vui lòng đợi...");
@@ -60,6 +120,30 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     sender.sendMessage("Database type: " + ClansPlus.databaseType.toString().toUpperCase());
                 });
                 return false;
+            }
+            if (args[0].equalsIgnoreCase("chatspy")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    if (!ClanManager.getPlayerUsingChatSpy().contains(player)) {
+                        ClanManager.getPlayerUsingChatSpy().add(player);
+                        player.sendMessage("Đã bật spy bang hội chat thành công.");
+                        return false;
+                    } else {
+                        ClanManager.getPlayerUsingChatSpy().remove(player);
+                        player.sendMessage("Đã tắt bang hội chat thành công.");
+                        return false;
+                    }
+                } else {
+                    if (ClanManager.isConsoleUsingChatSpy()) {
+                        ClanManager.consoleUsingChatSpy = false;
+                        sender.sendMessage("Đã tắt spy bang hội chat thành công.");
+                        return false;
+                    } else {
+                        ClanManager.consoleUsingChatSpy = true;
+                        sender.sendMessage("Đã bật spy bang hội chat thành công.");
+                        return false;
+                    }
+                }
             }
         }
 
@@ -201,6 +285,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                             sender.sendMessage("Icon value: " + iconValue);
                         } catch (Exception exception) {
                             sender.sendMessage("Vui lòng nhập icon value hợp lệ!");
+                            return false;
                         }
                         return false;
                     }
@@ -550,18 +635,140 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 });
                 return false;
             }
+            if (args[0].equalsIgnoreCase("setPlayerData")) {
+                String playerName;
+                try {
+                    playerName = args[1];
+                    if (!PluginDataManager.getPlayerDatabase().containsKey(playerName)) {
+                        sender.sendMessage("Người chơi " + playerName + " không tồn tại trong dữ liệu!");
+                        return false;
+                    }
+                    PlayerDataType playerDataType;
+                    try {
+                        playerDataType = PlayerDataType.valueOf(args[2].toLowerCase());
+                    } catch (Exception exception) {
+                        sender.sendMessage("Type " + (args[2] == null ? "" : args[2] + " ") + "không hợp lệ.");
+                        return false;
+                    }
+
+                    if (playerDataType.equals(PlayerDataType.clanname)) {
+                        if (args[3].equalsIgnoreCase("set")) {
+                            String clanName;
+                            try {
+                                clanName = args[4];
+                            } catch (Exception exception) {
+                                sender.sendMessage("Vui lòng nhập tên clan hợp lệ.");
+                                return false;
+                            }
+                            if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
+                                sender.sendMessage("Clan " + clanName + " không tồn tại.");
+                                return false;
+                            }
+                            if (ClanManager.isPlayerInClan(playerName)) {
+                                if (PluginDataManager.getPlayerDatabase(playerName).getRank() == Rank.LEADER) {
+                                    sender.sendMessage(playerName + " đang là chủ bang hội của " + PluginDataManager.getPlayerDatabase(playerName).getClan() + ". Vui lòng xài lệnh reset thay vì set!");
+                                    return false;
+                                }
+                            }
+                            ClanManager.addPlayerToAClan(playerName, clanName, true);
+                            sender.sendMessage("Đã cho " + playerName + " vào " + clanName + ".");
+                            sender.sendMessage("Dữ liệu của " + clanName + " cũng đồng thời được thêm người chơi " + playerName + " vào danh sách thành viên.");
+                            return false;
+                        }
+                        if (args[3].equalsIgnoreCase("reset")) {
+                            if (!ClanManager.isPlayerInClan(playerName)) {
+                                sender.sendMessage(playerName + " không có clan!");
+                                return false;
+                            }
+                            String playerClanName = PluginDataManager.getPlayerDatabase(playerName).getClan();
+                            PluginDataManager.clearPlayerDatabase(playerName);
+                            sender.sendMessage("Đã loại bỏ " + playerName + " khỏi danh sách thành viên của clan " + playerClanName);
+                            return false;
+                        }
+                    }
+                    if (playerDataType.equals(PlayerDataType.rank)) {
+                        if (args[3].equalsIgnoreCase("set")) {
+                            Rank chosenRank;
+                            try {
+                                chosenRank = Rank.valueOf(args[4].toUpperCase());
+                            } catch (Exception exception) {
+                                sender.sendMessage("Rank không hợp lệ!");
+                                sender.sendMessage("Các rank hiện có:");
+                                for (Rank rank : Rank.values())
+                                    sender.sendMessage(rank.toString().toUpperCase());
+                                return false;
+                            }
+                            PluginDataManager.getPlayerDatabase(playerName).setRank(chosenRank);
+                            sender.sendMessage("Đã set rank của " + playerName + " thành " + chosenRank + ".");
+                            return false;
+                        }
+                    }
+                    if (playerDataType.equals(PlayerDataType.joindate)) {
+                        if (args[3].equalsIgnoreCase("set")) {
+                            Long newJoinDate;
+                            try {
+                                newJoinDate = Long.parseLong(args[4]);
+                            } catch (Exception exception) {
+                                sender.sendMessage("Số ngày không hợp lệ! Vui lòng nhập milliseconds");
+                                return false;
+                            }
+                            PluginDataManager.getPlayerDatabase(playerName).setJoinDate(newJoinDate);
+                            sender.sendMessage("Đã set ngày tham gia của " + playerName + " thành " + newJoinDate + " (" + com.cortezromeo.clansplus.util.StringUtil.dateTimeToDateFormat(newJoinDate));
+                            return false;
+                        }
+                    }
+                    if (playerDataType.equals(PlayerDataType.scorecollected)) {
+                        if (args[3].equalsIgnoreCase("set")) {
+                            Long newScoreCollected;
+                            try {
+                                newScoreCollected = Long.parseLong(args[4]);
+                            } catch (Exception exception) {
+                                sender.sendMessage("Số ngày không hợp lệ!");
+                                return false;
+                            }
+                            PluginDataManager.getPlayerDatabase(playerName).setScoreCollected(newScoreCollected);
+                            sender.sendMessage("Đã set số điểm kiếm được của " + playerName + " thành " + newScoreCollected);
+                            return false;
+                        }
+                        if (args[3].equalsIgnoreCase("reset")) {
+                            PluginDataManager.getPlayerDatabase(playerName).setScoreCollected(0);
+                            sender.sendMessage("Đã reset số điểm kiểm được của " + playerName + ".");
+                            return false;
+                        }
+                    }
+                    if (playerDataType.equals(PlayerDataType.lastactivated)) {
+                        if (args[3].equalsIgnoreCase("set")) {
+                            Long newLastActivated;
+                            try {
+                                newLastActivated = Long.parseLong(args[4]);
+                            } catch (Exception exception) {
+                                sender.sendMessage("Số ngày không hợp lệ! Vui lòng nhập milliseconds");
+                                return false;
+                            }
+                            PluginDataManager.getPlayerDatabase(playerName).setLastActivated(newLastActivated);
+                            sender.sendMessage("Đã set thời gian hoạt động cuối cùng của " + playerName + " thành " + newLastActivated + " (" + com.cortezromeo.clansplus.util.StringUtil.dateTimeToDateFormat(newLastActivated));
+                            return false;
+                        }
+                    }
+                } catch (Exception exception) {
+                    sender.sendMessage("Vui lòng nhập tên người chơi!");
+                    return false;
+                }
+                return false;
+            }
         }
 
         sender.sendMessage("ClanPlus (Version: " + ClansPlus.plugin.getDescription().getVersion() + ") - Admin");
         sender.sendMessage("Plugin được làm và phát triển bởi Cortez_Romeo");
         sender.sendMessage("");
         sender.sendMessage("/clanadmin reload");
+        sender.sendMessage("/clanadmin chatspy");
         sender.sendMessage("/clanadmin transferPluginDatabaseType <type>");
         sender.sendMessage("/clanadmin backup (custom file name)");
         sender.sendMessage("/clanadmin setClanData <clan name> <type> (give/add/set/remove/reset) (value)");
         sender.sendMessage(ChatColor.AQUA + "Types: score, warpoint, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies");
         sender.sendMessage("/clanadmin setClanSkillData <clan name> <skill id> <skill level>");
-        sender.sendMessage("/clanadmin setPlayerData <player name> (type) (give/set/remove/reset) (value)");
+        sender.sendMessage("/clanadmin setPlayerData <player name> (type) (set/reset) (value)");
         sender.sendMessage(ChatColor.AQUA + "Types: clanname, rank, joindate, scorecollected, lastactivated");
         sender.sendMessage("/clanadmin event <event> (start/end/settime) (value)");
         sender.sendMessage("/clanadmin delete <clan name>");
@@ -593,6 +800,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             commands.add("event");
             commands.add("backup");
             commands.add("delete");
+            commands.add("chatspy");
 
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {
@@ -602,6 +810,10 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
              }
+            if (args[0].equalsIgnoreCase("setplayerdata")) {
+                if (!PluginDataManager.getPlayerDatabase().isEmpty())
+                    commands.addAll(PluginDataManager.getPlayerDatabase().keySet());
+            }
             if (args[0].equalsIgnoreCase("event"))
                 commands.add("war");
             if (args[0].equalsIgnoreCase("transferPluginDatabaseType")) {
@@ -634,6 +846,13 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     }
                 }
             }
+            if (args[0].equalsIgnoreCase("setplayerdata")) {
+                if (PluginDataManager.getPlayerDatabase().containsKey(args[1])) {
+                    for (PlayerDataType playerDataType : PlayerDataType.values()) {
+                        commands.add(playerDataType.toString().toLowerCase());
+                    }
+                }
+            }
             if (args[0].equalsIgnoreCase("event") && args[1].equalsIgnoreCase("war")) {
                 commands.add("start");
                 commands.add("end");
@@ -662,6 +881,14 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     }
                 }
             }
+            if (args[0].equalsIgnoreCase("setplayerdata")) {
+                if (PluginDataManager.getPlayerDatabase().containsKey(args[1])) {
+                    String type = args[2];
+                    commands.add("set");
+                    if (type.equalsIgnoreCase("scorecollected") || type.equalsIgnoreCase("clanname"))
+                        commands.add("reset");
+                }
+            }
             StringUtil.copyPartialMatches(args[3], commands, completions);
         } else if (args.length == 5) {
             if (args[0].equalsIgnoreCase("setclandata")) {
@@ -674,6 +901,20 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     if (args[2].equalsIgnoreCase("icon")) {
                         for (IconType iconType : IconType.values()) {
                             commands.add(iconType.toString().toUpperCase());
+                        }
+                    }
+                }
+            }
+            if (args[0].equalsIgnoreCase("setplayerdata")) {
+                if (PluginDataManager.getPlayerDatabase().containsKey(args[1])) {
+                    if (args[2].equalsIgnoreCase("rank") && args[3].equalsIgnoreCase("set")) {
+                        for (Rank rank : Rank.values()) {
+                            commands.add(rank.toString().toUpperCase());
+                        }
+                    }
+                    if (args[2].equalsIgnoreCase("clanname") && args[3].equalsIgnoreCase("set")) {
+                        if (!PluginDataManager.getClanDatabase().isEmpty()) {
+                            commands.addAll(PluginDataManager.getClanDatabase().keySet());
                         }
                     }
                 }
@@ -710,15 +951,12 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         return completions;
     }
 
-    private HashMap<Subject, Rank> getPlayerClanSubjectPer(IClanData clanData) {
-        if (Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
-            return Settings.CLAN_SETTING_PERMISSION_DEFAULT;
-        else
-            return clanData.getSubjectPermission();
-    }
-
     private enum ClanDataType {
         score, warpoint, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies
+    }
+    private enum PlayerDataType {
+        clanname, rank, joindate, scorecollected, lastactivated
+
     }
 
 }

@@ -23,6 +23,9 @@ public class ClanManager {
     // playerName, clanName
     public static HashMap<String, String> managersFromOldData = new HashMap<>();
     public static List<Player> playerUsingClanChat = new ArrayList<>();
+    public static List<Player> playerTogglingPvP = new ArrayList<>();
+    public static List<Player> playerUsingChatSpy = new ArrayList<>();
+    public static boolean consoleUsingChatSpy = true;
 
     public static boolean isClanExisted(String clanName) {
         return PluginDataManager.getClanDatabase().containsKey(clanName);
@@ -188,4 +191,15 @@ public class ClanManager {
         return playerUsingClanChat;
     }
 
+    public static List<Player> getPlayerTogglingPvP() {
+        return playerTogglingPvP;
+    }
+
+    public static List<Player> getPlayerUsingChatSpy() {
+        return playerUsingChatSpy;
+    }
+
+    public static boolean isConsoleUsingChatSpy() {
+        return consoleUsingChatSpy;
+    }
 }

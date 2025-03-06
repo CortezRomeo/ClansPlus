@@ -57,8 +57,8 @@ events:
         volume: 50
       # Âm thanh khi sự kiện kết thúc
       ending-sound:
-        name: ITEM_TOTEM_USE
-        pitch: -1
+        name: ENTITY_DRAGON_FIREBALL_EXPLODE
+        pitch: 2
         volume: 1
 
     # Số điểm cộng khi giết

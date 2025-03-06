@@ -36,7 +36,7 @@ public class RemoveAlly extends SubjectManager {
         }
 
         if (!PluginDataManager.getClanDatabase().containsKey(targetClanName)) {
-            MessageUtil.sendMessage(player, Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", targetClanName));
+            MessageUtil.sendMessage(player, Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", targetClanName));
             return false;
         }
 

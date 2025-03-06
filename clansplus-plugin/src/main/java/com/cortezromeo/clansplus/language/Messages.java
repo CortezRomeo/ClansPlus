@@ -47,7 +47,7 @@ public class Messages {
     public static String REQUIRED_RANK;
     public static String INVITATION_REJECTION;
     public static String ALREADY_IN_CLAN;
-    public static String CLAN_NO_LONGER_EXIST;
+    public static String CLAN_DOES_NOT_EXIST;
     public static String CLAN_IS_FULL;
     public static String JOIN_CLAN_SUCCESS;
     public static String CLAN_ALREADY_EXIST;
@@ -98,7 +98,12 @@ public class Messages {
     public static String INVALID_ICON_TYPE;
     public static String TOGGLE_CLAN_CHAT_ON;
     public static String TOGGLE_CLAN_CHAT_OFF;
+    public static String TOGGLE_CLAN_PVP_ON;
+    public static String TOGGLE_CLAN_PVP_OFF;
+    public static String CLAN_MEMBER_PVP_DENY;
+    public static String CLAN_MEMBER_PVP_DENY_VICTIM;
     public static String LAST_PAGE;
+    public static String FEATURE_IN_PROGRESS;
     public static String USING_CHAT_BOX_CLAN_CHAT;
     public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -185,7 +190,7 @@ public class Messages {
         REQUIRED_RANK = fileConfiguration.getString("messages.required-rank");
         INVITATION_REJECTION = fileConfiguration.getString("messages.invitation-rejection");
         ALREADY_IN_CLAN = fileConfiguration.getString("messages.already-in-clan");
-        CLAN_NO_LONGER_EXIST = fileConfiguration.getString("messages.clan-no-longer-exist");
+        CLAN_DOES_NOT_EXIST = fileConfiguration.getString("messages.clan-does-not-exist");
         CLAN_IS_FULL = fileConfiguration.getString("messages.clan-is-full");
         JOIN_CLAN_SUCCESS = fileConfiguration.getString("messages.join-clan-success");
         CLAN_ALREADY_EXIST = fileConfiguration.getString("messages.clan-already-exist");
@@ -236,7 +241,12 @@ public class Messages {
         INVALID_ICON_TYPE = fileConfiguration.getString("messages.invalid-icon-type");
         TOGGLE_CLAN_CHAT_ON = fileConfiguration.getString("messages.toggle-clan-chat-on");
         TOGGLE_CLAN_CHAT_OFF = fileConfiguration.getString("messages.toggle-clan-chat-off");
+        TOGGLE_CLAN_PVP_ON = fileConfiguration.getString("messages.toggle-clan-pvp-on");
+        TOGGLE_CLAN_PVP_OFF = fileConfiguration.getString("messages.toggle-clan-pvp-off");
+        CLAN_MEMBER_PVP_DENY = fileConfiguration.getString("messages.clan-member-pvp-deny");
+        CLAN_MEMBER_PVP_DENY_VICTIM = fileConfiguration.getString("messages.clan-member-pvp-deny-victim");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
+        FEATURE_IN_PROGRESS = fileConfiguration.getString("messages.feature-in-progress");
         USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");

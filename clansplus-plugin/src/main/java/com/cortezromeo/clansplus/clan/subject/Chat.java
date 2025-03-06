@@ -47,6 +47,13 @@ public class Chat extends SubjectManager {
 
         for (String clanMember : playerClanData.getMembers())
             MessageUtil.sendMessage(Bukkit.getPlayer(clanMember), clanChatFormat);
+
+        // for the spy
+        String spyMessage = "[BANG HOI CHAT SPY] (" + PluginDataManager.getPlayerDatabase(playerName).getRank() + ") " + playerName + " (" + playerClanData.getName() + "): " + message;
+        for (Player playerSpy : ClanManager.getPlayerUsingChatSpy())
+            MessageUtil.sendMessage(playerSpy, spyMessage);
+        if (ClanManager.isConsoleUsingChatSpy())
+            MessageUtil.log(spyMessage);
         return true;
     }
 }

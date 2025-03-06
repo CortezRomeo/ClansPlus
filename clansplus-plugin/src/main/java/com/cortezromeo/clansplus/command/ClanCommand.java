@@ -8,6 +8,7 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.clan.subject.*;
 import com.cortezromeo.clansplus.inventory.*;
 import com.cortezromeo.clansplus.language.Messages;
@@ -85,6 +86,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 }
                 return false;
             }
+            if (args[0].equalsIgnoreCase("setspawn")) {
+                new SetSpawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETSPAWN), player, player.getName()).execute();
+                return false;
+            }
             if (args[0].equalsIgnoreCase("list")) {
                 new ClanListInventory(player).open();
                 return false;
@@ -129,8 +134,41 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     return false;
                 }
             }
+            if (args[0].equalsIgnoreCase("pvp")) {
+                if (PluginDataManager.getPlayerDatabase(player.getName()).getClan() == null) {
+                    MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+                    return false;
+                } else {
+                    if (!ClanManager.getPlayerTogglingPvP().contains(player)) {
+                        MessageUtil.sendMessage(player, Messages.TOGGLE_CLAN_PVP_ON);
+                        ClanManager.getPlayerTogglingPvP().add(player);
+                    } else {
+                        MessageUtil.sendMessage(player, Messages.TOGGLE_CLAN_PVP_OFF);
+                        ClanManager.getPlayerTogglingPvP().remove(player);
+                    }
+                    return false;
+                }
+            }
+            if (args[0].equalsIgnoreCase("info")) {
+                if (ClanManager.isPlayerInClan(player)) {
+                    new ViewClanInformationInventory(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan()).open();
+                    return false;
+                } else {
+                    MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+                    return false;
+                }
+            }
         }
         if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("info")) {
+                if (PluginDataManager.getClanDatabase().containsKey(args[1])) {
+                    new ViewClanInformationInventory(player, args[1]).open();
+                    return false;
+                } else {
+                    MessageUtil.sendMessage(player, Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", args[1]));
+                    return false;
+                }
+            }
             if (args[0].equalsIgnoreCase("create")) {
                 new Create(player, player.getName(), args[1]).execute();
                 return false;
@@ -157,6 +195,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("requestally")) {
                 new RequestAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), player, player.getName(), args[1]).execute();
+                return false;
+            }
+            if (args[0].equalsIgnoreCase("event") && args[1].equalsIgnoreCase("war")) {
+                EventManager.getWarEvent().sendEventStatusMessage(player, false);
                 return false;
             }
         }
@@ -308,6 +350,9 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
              }
+            if (args[0].equalsIgnoreCase("event")) {
+                commands.add("war");
+            }
 
             // all the commands below should be for the player who is in a clan
             if (playerClanData != null) {

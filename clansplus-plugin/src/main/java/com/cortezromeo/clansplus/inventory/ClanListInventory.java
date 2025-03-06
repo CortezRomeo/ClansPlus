@@ -101,7 +101,7 @@ public class ClanListInventory extends PaginatedInventory {
         if (itemCustomData.contains("clan=")) {
             playClickSound(fileConfiguration, "clan");
             itemCustomData = itemCustomData.replace("clan=", "");
-            new ViewClanInventory(getOwner(), itemCustomData).open();
+            new ViewClanInformationInventory(getOwner(), itemCustomData).open();
         }
     }
 

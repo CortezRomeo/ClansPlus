@@ -120,9 +120,21 @@ public class PluginDataManager {
     public static void clearPlayerDatabase(String playerName) {
         if (!getPlayerDatabase().containsKey(playerName))
             return;
+
+        String playerClanName = "";
+        if (ClanManager.isPlayerInClan(playerName))
+            playerClanName = getPlayerDatabase(playerName).getClan();
+
         getPlayerDatabase(playerName).setClan(null);
         getPlayerDatabase(playerName).setRank(null);
         getPlayerDatabase(playerName).setJoinDate(0);
+
+        if (playerClanName != null && !playerClanName.equalsIgnoreCase("")) {
+            getClanDatabase(playerClanName).getMembers().remove(playerName);
+
+            if (getClanDatabase(playerClanName).getOwner().equals(playerName))
+                deleteClanData(playerClanName);
+        }
         savePlayerDatabaseToStorage(playerName);
     }
 

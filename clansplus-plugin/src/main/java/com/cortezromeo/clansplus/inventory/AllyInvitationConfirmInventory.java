@@ -35,11 +35,11 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
             return;
         }
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
         if (PluginDataManager.getClanDatabase(targetClan) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", targetClan));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", targetClan));
             return;
         }
         super.open();
@@ -73,11 +73,11 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
         }
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
         if (PluginDataManager.getClanDatabase(targetClan) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", targetClan));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", targetClan));
             return;
         }
 

@@ -51,7 +51,7 @@
         <!-- PlaceholderAPI -->
         <repository>
             <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/releases/</url>
         </repository>
         <!-- PlayerPoints -->
         <repository>

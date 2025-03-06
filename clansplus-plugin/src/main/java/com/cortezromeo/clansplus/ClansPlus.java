@@ -22,8 +22,10 @@ import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.support.DiscordSupport;
+import com.cortezromeo.clansplus.support.PlaceholderAPISupport;
 import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
+import com.cortezromeo.clansplus.task.EventTask;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import net.milkbowl.vault.economy.Economy;
@@ -44,10 +46,11 @@ public class ClansPlus extends JavaPlugin {
     public static VersionSupport nms;
     public static DatabaseType databaseType;
     private static com.cortezromeo.clansplus.api.ClanPlus api;
-    private static boolean papiSupport = false;
+    public static boolean papiSupport = false;
     public static Economy vaultEconomy;
-    private static PlayerPointsAPI playerPointsAPI;
-    private static DiscordSupport discordsrv;
+    public static PlayerPointsAPI playerPointsAPI;
+    public static DiscordSupport discordsrv = null;
+    private EventTask eventTask;
 
     @Override
     public void onLoad() {
@@ -70,6 +73,7 @@ public class ClansPlus extends JavaPlugin {
         initSupports();
         EventManager.getWarEvent();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
+        eventTask = new EventTask();
 
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             try {
@@ -94,6 +98,12 @@ public class ClansPlus extends JavaPlugin {
         // discordsrv
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
             discordsrv = new DiscordSupport(this);
+        }
+
+        // placeholderapi
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderAPISupport().register();
+            papiSupport = true;
         }
     }
 
@@ -586,6 +596,10 @@ public class ClansPlus extends JavaPlugin {
 
     public static DiscordSupport getDiscordSupport() {
         return discordsrv;
+    }
+
+    public EventTask getEventTask() {
+        return eventTask;
     }
 
     @Override

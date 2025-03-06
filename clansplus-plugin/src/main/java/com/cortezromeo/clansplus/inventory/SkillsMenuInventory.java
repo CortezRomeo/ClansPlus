@@ -60,7 +60,7 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
         }
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
-            MessageUtil.sendMessage(getOwner(), Messages.CLAN_NO_LONGER_EXIST.replace("%clan%", clanName));
+            MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             return;
         }
 
@@ -73,7 +73,7 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
             getOwner().closeInventory();
         if (itemCustomData.equals("back")) {
             if (fromViewClan) {
-                new ViewClanInventory(getOwner(), clanName).open();
+                new ViewClanInformationInventory(getOwner(), clanName).open();
                 return;
             }
             IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
@@ -83,7 +83,7 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
                     return;
                 }
             }
-            new ViewClanInventory(getOwner(), clanName).open();
+            new ViewClanInformationInventory(getOwner(), clanName).open();
         }
         if (itemCustomData.contains("pluginskill=")) {
             itemCustomData = itemCustomData.replace("pluginskill=", "");

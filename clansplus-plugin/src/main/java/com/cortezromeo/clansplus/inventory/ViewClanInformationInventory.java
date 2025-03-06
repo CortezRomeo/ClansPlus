@@ -15,12 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewClanInventory extends ClanPlusInventoryBase {
+public class ViewClanInformationInventory extends ClanPlusInventoryBase {
 
     FileConfiguration fileConfiguration = ViewClanInventoryFile.get();
     private String clanName;
 
-    public ViewClanInventory(Player owner, String clanName) {
+    public ViewClanInformationInventory(Player owner, String clanName) {
         super(owner);
         this.clanName = clanName;
     }

@@ -645,5 +645,6 @@ public class ClansPlus extends JavaPlugin {
         log("");
         log("&fVersion: &b" + getDescription().getVersion());
         log("&fAuthor: &bCortez_Romeo");
+        log("&f--------------------------------");
     }
 }

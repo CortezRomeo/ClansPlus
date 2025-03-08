@@ -121,20 +121,18 @@ public class PluginDataManager {
         if (!getPlayerDatabase().containsKey(playerName))
             return;
 
-        String playerClanName = "";
+/*        String playerClanName = "";
         if (ClanManager.isPlayerInClan(playerName))
-            playerClanName = getPlayerDatabase(playerName).getClan();
+            playerClanName = getPlayerDatabase(playerName).getClan();*/
 
         getPlayerDatabase(playerName).setClan(null);
         getPlayerDatabase(playerName).setRank(null);
         getPlayerDatabase(playerName).setJoinDate(0);
 
-        if (playerClanName != null && !playerClanName.equalsIgnoreCase("")) {
+/*        if (playerClanName != null && !playerClanName.equalsIgnoreCase("")) {
             getClanDatabase(playerClanName).getMembers().remove(playerName);
+        }*/
 
-            if (getClanDatabase(playerClanName).getOwner().equals(playerName))
-                deleteClanData(playerClanName);
-        }
         savePlayerDatabaseToStorage(playerName);
     }
 
@@ -281,7 +279,6 @@ public class PluginDataManager {
                                     clanData.getMembers().remove(clanData.getOwner());
                                     clanData.setOwner(memberName);
                                     savePlayerDatabaseToStorage(memberName, memberData);
-                                    saveClanDatabaseToStorage(clanName, clanData);
                                     isCase2Fixed = true;
                                     break b;
                                 }
@@ -294,11 +291,31 @@ public class PluginDataManager {
                         }
                     }
                 }
-
                 if (clanData.getMembers().isEmpty() || clanData.getMembers() == null) {
                     MessageUtil.debug("FIXING ILLEGAL DATABASE [ID 2 CASE 1: There is no members in this clan]", "Delete clan " + clanName + " (clan owner: " + clanData.getOwner() + ")");
                     error.put(2, error.getOrDefault(2, 0) + 1);
                     deletedClans.add(clanName);
+                } else {
+                    for (String memberName : clanData.getMembers()) {
+                        if (getPlayerDatabase(memberName).getClan() == null)
+                            clanData.getMembers().remove(memberName);
+                        else
+                            if (!getPlayerDatabase(memberName).getClan().equalsIgnoreCase(clanName))
+                                clanData.getMembers().remove(memberName);
+                    }
+                }
+                saveClanDatabaseToStorage(clanName, clanData);
+            }
+        }
+        if (!getPlayerDatabase().isEmpty()) {
+            for (String playerName : getPlayerDatabase().keySet()) {
+                IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
+                if (playerData.getClan() != null) {
+                    if (!PluginDataManager.getClanDatabase().containsKey(playerData.getClan())) {
+                        MessageUtil.debug("FIXING ILLEGAL DATABASE [ID 3 CASE 1: Player's clan does not exist]", "Clear player database " + playerName);
+                        clearPlayerDatabase(playerName);
+                        error.put(3, error.getOrDefault(3, 0) + 1);
+                    }
                 }
             }
         }

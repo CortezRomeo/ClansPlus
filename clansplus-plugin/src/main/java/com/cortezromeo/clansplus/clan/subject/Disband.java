@@ -31,9 +31,10 @@ public class Disband extends SubjectManager {
         }
 
         IClanData clanData = getPlayerClanData();
-        for (String memberName : clanData.getMembers())
-            if (!memberName.equals(playerName))
-                MessageUtil.sendMessage(Bukkit.getPlayer(memberName), Messages.DISBAND_NOTIFICATION.replace("%clan%", clanData.getName()));
+        if (!clanData.getMembers().isEmpty())
+            for (String memberName : clanData.getMembers())
+                if (!memberName.equals(playerName))
+                    MessageUtil.sendMessage(Bukkit.getPlayer(memberName), Messages.DISBAND_NOTIFICATION.replace("%clan%", clanData.getName()));
 
         if (PluginDataManager.deleteClanData(clanData.getName())) {
             MessageUtil.sendMessage(player, Messages.DISBAND_SUCCESS.replace("%clan%", clanData.getName()));

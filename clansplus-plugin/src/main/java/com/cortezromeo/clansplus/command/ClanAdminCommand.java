@@ -478,6 +478,10 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                 sender.sendMessage(allyName + " đã là đồng minh trong bang hội này rồi!");
                                 return false;
                             }
+                            if (allyName.equalsIgnoreCase(clanName)) {
+                                sender.sendMessage(allyName + " không thể tự là đồng minh của chính mình.");
+                                return false;
+                            }
                             PluginDataManager.getClanDatabase(clanName).getAllyInvitation().remove(allyName);
                             PluginDataManager.getClanDatabase(allyName).getAllyInvitation().remove(clanName);
                             PluginDataManager.getClanDatabase(clanName).getAllies().add(allyName);

@@ -1,12 +1,16 @@
 package com.cortezromeo.clansplus;
 
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 public class API implements com.cortezromeo.clansplus.api.ClanPlus {
@@ -108,8 +112,110 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
         return getPluginDataManager;
     }
 
+    private final ClanManagerUtil getClanManager = new ClanManagerUtil() {
+        @Override
+        public boolean isClanExisted(String clanName) {
+            return ClanManager.isClanExisted(clanName);
+        }
+
+        @Override
+        public boolean isPlayerInClan(String playerName) {
+            return ClanManager.isPlayerInClan(playerName);
+        }
+
+        @Override
+        public boolean isPlayerInClan(Player player) {
+            return ClanManager.isPlayerInClan(player);
+        }
+
+        @Override
+        public void alertClan(String clanName, String message) {
+            ClanManager.alertClan(clanName, message);
+        }
+
+        @Override
+        public void addPlayerToAClan(String playerName, String clanName, boolean forceToLeaveOldClan) {
+            ClanManager.addPlayerToAClan(playerName, clanName, forceToLeaveOldClan);
+        }
+
+        @Override
+        public HashMap<String, Integer> getClansScoreHashMap() {
+            return ClanManager.getClansScoreHashMap();
+        }
+
+        @Override
+        public HashMap<String, Integer> getClansPlayerSize() {
+            return ClanManager.getClansPlayerSize();
+        }
+
+        @Override
+        public HashMap<String, Long> getClansWarpointHashMap() {
+            return ClanManager.getClansWarpointHashMap();
+        }
+
+        @Override
+        public HashMap<String, Long> getClansCreatedDate() {
+            return ClanManager.getClansCreatedDate();
+        }
+
+        @Override
+        public List<String> getClansCustomName() {
+            return ClanManager.getClansCustomName();
+        }
+
+        @Override
+        public boolean isPlayerRankSatisfied(String playerName, Rank requiredRank) {
+            return ClanManager.isPlayerRankSatisfied(playerName, requiredRank);
+        }
+
+        @Override
+        public String getFormatClanName(IClanData clanData) {
+            return ClanManager.getFormatClanName(clanData);
+        }
+
+        @Override
+        public void sendClanBroadCast(Player player) {
+            ClanManager.sendClanBroadCast(player);
+        }
+
+        @Override
+        public String getFormatClanMessage(IClanData clanData) {
+            return ClanManager.getFormatClanMessage(clanData);
+        }
+
+        @Override
+        public String getFormatClanCustomName(IClanData clanData) {
+            return ClanManager.getFormatClanCustomName(clanData);
+        }
+
+        @Override
+        public String getFormatRank(Rank rank) {
+            return ClanManager.getFormatRank(rank);
+        }
+
+        @Override
+        public List<Player> getPlayerUsingClanChat() {
+            return ClanManager.getPlayerUsingClanChat();
+        }
+
+        @Override
+        public List<Player> getPlayerTogglingPvP() {
+            return ClanManager.getPlayerTogglingPvP();
+        }
+
+        @Override
+        public List<Player> getPlayerUsingChatSpy() {
+            return ClanManager.getPlayerUsingChatSpy();
+        }
+
+        @Override
+        public boolean isConsoleUsingChatSpy() {
+            return ClanManager.isConsoleUsingChatSpy();
+        }
+    };
+
     @Override
     public ClanManagerUtil getClanManager() {
-        return null;
+        return getClanManager;
     }
 }

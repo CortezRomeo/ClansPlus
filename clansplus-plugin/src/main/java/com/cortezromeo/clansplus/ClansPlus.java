@@ -40,6 +40,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
+import static com.cortezromeo.clansplus.util.MessageUtil.log;
+
 public class ClansPlus extends JavaPlugin {
 
     public static ClansPlus plugin;
@@ -74,6 +76,25 @@ public class ClansPlus extends JavaPlugin {
         EventManager.getWarEvent();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
         eventTask = new EventTask();
+
+        log("&f--------------------------------");
+        log("&2  ____ _                 ____  _");
+        log("&2 / ___| | __ _ _ __     |  _ \\| |_   _ ___");
+        log("&2| |   | |/ _` | '_ \\    | |_) | | | | / __|");
+        log("&2| |___| | (_| | | | |   |  __/| | |_| \\__ \\");
+        log("&2 \\____|_|\\__,_|_| |_|   |_|   |_|\\__,_|___/");
+        log("");
+        log("&fVersion: &b" + getDescription().getVersion());
+        log("&fAuthor: &bCortez_Romeo");
+        log("&eKhởi chạy plugin trên phiên bản: " + Bukkit.getServer().getClass().getName().split("\\.")[3]);
+        log("");
+        log("&fSupport:");
+        log((vaultEconomy != null ? "&2[YES] &aVault" : "&4[NO] &cVault"));
+        log((papiSupport ? "&2[YES] &aPlaceholderAPI" : "&4[NO] &cPlaceholderAPI"));
+        log((discordsrv != null ? "&2[YES] &aDiscordSRV" : "&4[NO] &cDiscordSRV"));
+        log((playerPointsAPI != null ? "&2[YES] &aPlayerPoints" : "&4[NO] &cPlayerPoints"));
+        log("");
+        log("&f--------------------------------");
 
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             try {
@@ -574,12 +595,12 @@ public class ClansPlus extends JavaPlugin {
             databaseType = DatabaseType.valueOf(Settings.DATABASE_TYPE.toUpperCase());
             PluginDataStorage.init(databaseType);
         } catch (IllegalArgumentException exception) {
-            MessageUtil.log("&c--------------------------------------");
-            MessageUtil.log("    &4ERROR");
-            MessageUtil.log("&eDatabase type &c&l" + Settings.DATABASE_TYPE + "&e does not exist!");
-            MessageUtil.log("&ePlease check it again in config.yml.");
-            MessageUtil.log("&eDatabase will automatically use &b&lYAML &eto load.");
-            MessageUtil.log("&c--------------------------------------");
+            log("&c--------------------------------------");
+            log("    &4ERROR");
+            log("&eDatabase type &c&l" + Settings.DATABASE_TYPE + "&e does not exist!");
+            log("&ePlease check it again in config.yml.");
+            log("&eDatabase will automatically use &b&lYAML &eto load.");
+            log("&c--------------------------------------");
             PluginDataStorage.init(DatabaseType.YAML);
             databaseType = DatabaseType.YAML;
             Settings.DATABASE_TYPE = "YAML";
@@ -616,5 +637,15 @@ public class ClansPlus extends JavaPlugin {
                         player.closeInventory();
                 } catch (Exception exception) {}
             }
+
+        log("&f--------------------------------");
+        log("&c  ____ _                 ____  _");
+        log("&c / ___| | __ _ _ __     |  _ \\| |_   _ ___");
+        log("&c| |   | |/ _` | '_ \\    | |_) | | | | / __|");
+        log("&c| |___| | (_| | | | |   |  __/| | |_| \\__ \\");
+        log("&c \\____|_|\\__,_|_| |_|   |_|   |_|\\__,_|___/");
+        log("");
+        log("&fVersion: &b" + getDescription().getVersion());
+        log("&fAuthor: &bCortez_Romeo");
     }
 }

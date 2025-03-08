@@ -7,6 +7,7 @@ import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
+import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,14 +41,14 @@ public class UpgradeManager {
             }
         }
         if (currencyType == CurrencyType.VAULT) {
-            if (ClansPlus.vaultEconomy == null) {
+            if (VaultSupport.getEcon() == null) {
                 MessageUtil.throwErrorMessage("SERVER KHÔNG CÓ PLUGIN VAULT ĐỂ THỰC HIỆN HÀNH ĐỘNG, VUI LÒNG CHECK LẠI");
                 player.sendMessage("Lỗi: Không có plugin Vault, vui lòng liên hệ admin server ngay lập tức");
                 return false;
             }
-            if (ClansPlus.vaultEconomy.getBalance(player) >= value) {
+            if (VaultSupport.getEcon().getBalance(player) >= value) {
                 if (take)
-                    ClansPlus.vaultEconomy.withdrawPlayer(player, value);
+                    VaultSupport.getEcon().withdrawPlayer(player, value);
                 return true;
             }
         }

@@ -1,11 +1,14 @@
 package com.cortezromeo.clansplus.api;
 
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 public interface ClanPlus {
@@ -53,7 +56,45 @@ public interface ClanPlus {
     ClanManagerUtil getClanManager();
 
     interface ClanManagerUtil {
+        boolean isClanExisted(String clanName);
 
+        boolean isPlayerInClan(String playerName);
+
+        boolean isPlayerInClan(Player player);
+
+        void alertClan(String clanName, String message);
+
+        void addPlayerToAClan(String playerName, String clanName, boolean forceToLeaveOldClan);
+
+        HashMap<String, Integer> getClansScoreHashMap();
+
+        HashMap<String, Integer> getClansPlayerSize();
+
+        HashMap<String, Long> getClansWarpointHashMap();
+
+        HashMap<String, Long> getClansCreatedDate();
+
+        List<String> getClansCustomName();
+
+        boolean isPlayerRankSatisfied(String playerName, Rank requiredRank);
+
+        String getFormatClanName(IClanData clanData);
+
+        void sendClanBroadCast(Player player);
+
+        String getFormatClanMessage(IClanData clanData);
+
+        String getFormatClanCustomName(IClanData clanData);
+
+        String getFormatRank(Rank rank);
+
+        List<Player> getPlayerUsingClanChat();
+
+        List<Player> getPlayerTogglingPvP();
+
+        List<Player> getPlayerUsingChatSpy();
+
+        boolean isConsoleUsingChatSpy();
     }
 
 }

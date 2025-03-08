@@ -7,6 +7,7 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +25,7 @@ public class EntityDamageListener implements Listener {
     public void onDamage(EntityDamageByEntityEvent event) {
         EventManager.getWarEvent().onDamage(event);
 
-        if (!(event.getDamager() instanceof Player) && !(event.getEntity() instanceof Player))
+        if (event.getDamager().getType() != EntityType.PLAYER || event.getEntity().getType() != EntityType.PLAYER)
             return;
 
         // Check clan PVP --

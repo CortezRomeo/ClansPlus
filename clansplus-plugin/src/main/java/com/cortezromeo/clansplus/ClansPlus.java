@@ -9,7 +9,6 @@ import com.cortezromeo.clansplus.clan.skill.plugin.DodgeSkill;
 import com.cortezromeo.clansplus.clan.skill.plugin.LifeStealSkill;
 import com.cortezromeo.clansplus.command.ClanAdminCommand;
 import com.cortezromeo.clansplus.command.ClanCommand;
-import com.cortezromeo.clansplus.command.PluginTestCommand;
 import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
@@ -565,7 +564,6 @@ public class ClansPlus extends JavaPlugin {
     public void initCommands() {
         new ClanCommand();
         new ClanAdminCommand();
-        new PluginTestCommand();
     }
 
     public void initListener() {

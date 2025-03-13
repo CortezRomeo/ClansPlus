@@ -147,13 +147,8 @@ clan-settings:
 # Bao gồm: PlaceholderAPI, DiscordSRV.
 soft-depends:
   placeholderapi:
-    clanless: '&c<Không có bang hội>'
-    clan-top: '&#d1d1d1#%number% &r%name% &e&l━ &#f25eff%value% Điểm'
+    # Trả về no-clan nếu người chơi không có bang hội
+    no-clan: 'N/A'
   discordsrv:
     enabled: false
     channelID: 1336569267927122012
-
-# Bstats dùng để thống kê số liệu mấy chủ và số người chơi sử dụng plugin.
-# Không ảnh hướng đến hiệu năng của máy chủ.
-bStats:
-  enabled: true

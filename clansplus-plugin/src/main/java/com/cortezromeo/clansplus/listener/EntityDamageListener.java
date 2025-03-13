@@ -23,8 +23,6 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        EventManager.getWarEvent().onDamage(event);
-
         if (event.getDamager().getType() != EntityType.PLAYER || event.getEntity().getType() != EntityType.PLAYER)
             return;
 
@@ -34,6 +32,8 @@ public class EntityDamageListener implements Listener {
 
         if (!ClanManager.isPlayerInClan(damager) && !ClanManager.isPlayerInClan(entity))
             return;
+
+        EventManager.getWarEvent().onDamage(event);
 
         int checkEvent = 0;
 

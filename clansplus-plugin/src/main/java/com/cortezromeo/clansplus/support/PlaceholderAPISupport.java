@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.support;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
@@ -33,7 +34,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
             return null;
 
         if (!ClanManager.isPlayerInClan(player))
-            return "";
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
         IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());

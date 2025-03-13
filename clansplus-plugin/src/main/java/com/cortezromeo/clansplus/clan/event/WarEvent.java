@@ -326,16 +326,16 @@ public class WarEvent {
             return;
 
         Player damager = (Player) entityDamager;
+        Player victim = (Player) entityVictim;
+
+        if (!ClanManager.isPlayerInClan(damager) || !ClanManager.isPlayerInClan(victim))
+            return;
 
         if (WORLD_REQUIREMENT_ENABLED)
             if (!WORLD_REQUIREMENT_WORLDS.contains(damager.getWorld().getName()))
                 return;
 
         IClanData damagerClanData = PluginDataManager.getClanDatabaseByPlayerName(damager.getName());
-        IClanData victimClanData = PluginDataManager.getClanDatabaseByPlayerName(entityVictim.getName());
-
-        if (damagerClanData == null || victimClanData == null)
-            return;
 
         SkillData dodgeSkillData = SkillManager.getSkillData().get(SkillManager.getSkillID(PluginSkill.DODGE));
         if (dodgeSkillData != null) {

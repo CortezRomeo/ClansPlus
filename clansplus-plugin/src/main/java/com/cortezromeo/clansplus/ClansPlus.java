@@ -102,6 +102,8 @@ public class ClansPlus extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+
+        new Metrics(this, 25078);
     }
 
     public void initSupports() {

@@ -105,17 +105,21 @@ Example of using the API:
 
         // Add a player to a clan.
         String playerName = "Cortez_Romeo";
-        ClanManager.addPlayerToAClan(playerName, clanName, false);
+        clanPlusAPI.getClanManager().addPlayerToAClan(playerName, clanName, false);
 
         // Promote this player to leader of the clan.
-        PluginDataManager.getPlayerDatabase(playerName).setRank(Rank.LEADER);
+        clanPlusAPI.getPluginDataManager().getPlayerDatabase(playerName).setRank(Rank.LEADER);
+        clanData.setOwner(playerName);
 
         // Adjust clan's database
         clanData.setMessage("This is the first message of this clan!");
         clanData.setCustomName("&bSuper Clan");
-        
-        // One of the stuff you can do with clan manager.
+
+        // One of the stuffs you can do with clan manager.
         clanPlusAPI.getClanManager().alertClan(clanName, "Have a good day!");
+
+        // Save database
+        clanPlusAPI.getPluginDataManager().saveClanDatabaseToStorage(clanName, clanData);
 ```
 ## Contact
 [![Discord Server](https://discord.com/api/guilds/1187827789664096267/widget.png?style=banner3)](https://discord.gg/XdJfN2X)

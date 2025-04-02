@@ -2,7 +2,6 @@ package com.cortezromeo.clansplus.clan.skill;
 
 import com.cortezromeo.clansplus.api.enums.SkillType;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 
@@ -32,7 +31,7 @@ public abstract class SkillData {
 
     public abstract boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event);
 
-    public abstract boolean onDie(SkillData skillData, PlayerDeathEvent event);
+    public abstract boolean onDie(SkillData skillData, String killerName, String victimName, boolean isMob);
 
     public int getId() {
         return id;

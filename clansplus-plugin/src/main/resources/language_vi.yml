@@ -73,7 +73,7 @@ messages:
     - '    &eThông báo bang hội &b%formatClanName%'
     - '&f%message%'
     - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-  no-permission: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này.'
+  permission-required: '%prefix%&#d12f1d&l| &fBạn không có quyền để xài lệnh này. (&e%permission%&f)'
   non-console-command: '%prefix%&#d12f1d&l| &fConsole không thể sử dụng lệnh này.'
   command-confirmation: '%prefix%&#35d11d&l| &fVui lòng nhập lại lệnh một lần nữa để xác nhận.'
   not-enough-currency: '%prefix%&#d12f1d&l| &fKhông có đủ %currencySymbol%%price% %currencyName%&f.'

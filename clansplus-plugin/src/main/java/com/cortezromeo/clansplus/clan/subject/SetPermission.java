@@ -30,6 +30,12 @@ public class SetPermission extends SubjectManager {
 
         setRequiredRank(Rank.LEADER);
 
+        String commandPermission = "clanplus.setpermission";
+        if (!player.hasPermission(commandPermission)) {
+            MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
+            return false;
+        }
+
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return false;

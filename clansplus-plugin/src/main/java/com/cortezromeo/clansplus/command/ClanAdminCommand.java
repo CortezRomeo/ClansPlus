@@ -52,8 +52,9 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (sender instanceof Player player) {
-            if (!player.hasPermission("clanplus.admin")) {
-                MessageUtil.sendMessage(player, Messages.NO_PERMISSION);
+            String commandPermission = "clanplus.admin";
+            if (!player.hasPermission(commandPermission)) {
+                MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
                 return false;
             }
         }
@@ -785,8 +786,9 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (!player.hasPermission("clanplus.admin")) {
-                MessageUtil.sendMessage(player, Messages.NO_PERMISSION);
+            String commandPermission = "clanplus.admin";
+            if (!player.hasPermission(commandPermission)) {
+                MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
                 return null;
             }
         }

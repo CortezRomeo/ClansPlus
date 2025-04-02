@@ -30,7 +30,7 @@ public class Messages {
     public static String TIME_FORMAT_MMSS;
     public static String TIME_FORMAT_SS;
     public static List<String> CLAN_MESSAGE;
-    public static String NO_PERMISSION;
+    public static String PERMISSION_REQUIRED;
     public static String NON_CONSOLE_COMMAND;
     public static String COMMAND_CONFIRMATION;
     public static String NOT_ENOUGH_CURRENCY;
@@ -173,7 +173,7 @@ public class Messages {
         TIME_FORMAT_MMSS = fileConfiguration.getString("time-format.mm-ss");
         TIME_FORMAT_SS = fileConfiguration.getString("time-format.ss");
         CLAN_MESSAGE = fileConfiguration.getStringList("messages.clan-message");
-        NO_PERMISSION = fileConfiguration.getString("messages.no-permission");
+        PERMISSION_REQUIRED = fileConfiguration.getString("messages.permission-required");
         NON_CONSOLE_COMMAND = fileConfiguration.getString("messages.non-console-command");
         COMMAND_CONFIRMATION = fileConfiguration.getString("messages.command-confirmation");
         NOT_ENOUGH_CURRENCY = fileConfiguration.getString("messages.not-enough-currency");

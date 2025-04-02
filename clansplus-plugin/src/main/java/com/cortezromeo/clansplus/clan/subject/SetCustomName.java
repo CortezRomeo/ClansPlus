@@ -31,6 +31,12 @@ public class SetCustomName extends SubjectManager {
         if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
             setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
 
+        String commandPermission = "clanplus.setcustomname";
+        if (!player.hasPermission(commandPermission)) {
+            MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
+            return false;
+        }
+
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return false;

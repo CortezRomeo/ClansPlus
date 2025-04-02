@@ -6,10 +6,10 @@ import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.SkillData;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 
@@ -33,18 +33,21 @@ public class BoostScoreSkill {
             }
 
             @Override
-            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
-                return onDieEvent(skillData, event);
+            public boolean onDie(SkillData skillData, String killerName, String victimName, boolean isMob) {
+                return onDieEvent(skillData, killerName, victimName, isMob);
             }
         };
         SkillManager.registerPluginSkill(ID, skillData);
     }
 
-    public static boolean onDieEvent(SkillData skillData, PlayerDeathEvent event) {
+    public static boolean onDieEvent(SkillData skillData, String killerName, String victimName, boolean isMob) {
         if (!skillData.isEnabled())
             return false;
 
-        Player killer = event.getEntity().getKiller();
+        Player killer = Bukkit.getPlayer(killerName);
+        if (killer == null)
+            return false;
+
         IClanData killerClanData = PluginDataManager.getClanDatabaseByPlayerName(killer.getName());
 
         if (killerClanData == null)

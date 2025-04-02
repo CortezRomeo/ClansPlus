@@ -8,12 +8,11 @@ import com.cortezromeo.clansplus.clan.skill.SkillData;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.CalculatorUtil;
-import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -44,7 +43,7 @@ public class LifeStealSkill {
                 return onDamageEvent(skillData, event);
             }
             @Override
-            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
+            public boolean onDie(SkillData skillData, String killerName, String victimName, boolean isMob) {
                 return false;
             }
         };
@@ -76,7 +75,7 @@ public class LifeStealSkill {
                         damager.setHealth(damager.getHealth() + revivingHealth);
 
                     Location damagerLocation = damager.getLocation();
-                    damagerLocation.getWorld().spawnParticle(XParticle.HAPPY_VILLAGER.get(), damagerLocation, 2);
+                    damagerLocation.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, damagerLocation, 2);
                     if (!skillData.getSoundName().equals(""))
                         damagerLocation.getWorld().playSound(damagerLocation, ClansPlus.nms.createSound(skillData.getSoundName()), skillData.getSoundVolume(), skillData.getSoundPitch());
                     return true;

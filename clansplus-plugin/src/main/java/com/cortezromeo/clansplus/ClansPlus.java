@@ -51,6 +51,7 @@ public class ClansPlus extends JavaPlugin {
     public static Economy vaultEconomy;
     public static PlayerPointsAPI playerPointsAPI;
     public static DiscordSupport discordsrv = null;
+    public static boolean mythicMobs = false;
     private EventTask eventTask;
 
     @Override
@@ -88,10 +89,11 @@ public class ClansPlus extends JavaPlugin {
         log("&eKhởi chạy plugin trên phiên bản: " + Bukkit.getServer().getClass().getName().split("\\.")[3]);
         log("");
         log("&fSupport:");
-        log((vaultEconomy != null ? "&2[YES] &aVault" : "&4[NO] &cVault"));
-        log((papiSupport ? "&2[YES] &aPlaceholderAPI" : "&4[NO] &cPlaceholderAPI"));
-        log((discordsrv != null ? "&2[YES] &aDiscordSRV" : "&4[NO] &cDiscordSRV"));
-        log((playerPointsAPI != null ? "&2[YES] &aPlayerPoints" : "&4[NO] &cPlayerPoints"));
+        log((vaultEconomy != null ? "&2[SUPPORTED] &aVault" : "&4[UNSUPPORTED] &cVault"));
+        log((papiSupport ? "&2[SUPPORTED] &aPlaceholderAPI" : "&4[UNSUPPORTED] &cPlaceholderAPI"));
+        log((discordsrv != null ? "&2[SUPPORTED] &aDiscordSRV" : "&4[UNSUPPORTED] &cDiscordSRV"));
+        log((playerPointsAPI != null ? "&2[SUPPORTED] &aPlayerPoints" : "&4[UNSUPPORTED] &cPlayerPoints"));
+        log((mythicMobs ? "&2[SUPPORTED] &aMythicMobs" : "&4[UNSUPPORTED] &cMythicMobs"));
         log("");
         log("&f--------------------------------");
 
@@ -127,6 +129,10 @@ public class ClansPlus extends JavaPlugin {
             new PlaceholderAPISupport().register();
             papiSupport = true;
         }
+
+        // mythicmobs
+        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null)
+            mythicMobs = true;
     }
 
     public void initFiles() {
@@ -577,6 +583,7 @@ public class ClansPlus extends JavaPlugin {
         new PlayerQuitListener();
         new PlayerMovementListener();
         new PlayerDeathListener();
+        new EntityDeathListener();
     }
 
     public void initSkills() {
@@ -609,6 +616,10 @@ public class ClansPlus extends JavaPlugin {
 
     public static boolean isPapiSupport() {
         return papiSupport;
+    }
+
+    public static boolean isMythicMobsSupport() {
+        return mythicMobs;
     }
 
     public static PlayerPointsAPI getPlayerPointsAPI() {

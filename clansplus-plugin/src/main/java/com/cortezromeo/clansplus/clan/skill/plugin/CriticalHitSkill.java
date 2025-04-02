@@ -13,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -45,7 +44,7 @@ public class CriticalHitSkill {
             }
 
             @Override
-            public boolean onDie(SkillData skillData, PlayerDeathEvent event) {
+            public boolean onDie(SkillData skillData, String killerName, String victimName, boolean isMob) {
                 return false;
             }
         };

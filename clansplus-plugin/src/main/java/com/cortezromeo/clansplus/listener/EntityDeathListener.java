@@ -5,17 +5,17 @@ import com.cortezromeo.clansplus.clan.EventManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 
-public class PlayerDeathListener implements Listener {
+public class EntityDeathListener implements Listener {
 
-    public PlayerDeathListener() {
+    public EntityDeathListener() {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
     @EventHandler
-    public void onDie(PlayerDeathEvent event) {
-        EventManager.getWarEvent().onPlayerDie(event);
+    public void onDie(EntityDeathEvent event) {
+        EventManager.getWarEvent().onEntityDie(event);
     }
 
 }

@@ -30,7 +30,7 @@ public class EntityDamageListener implements Listener {
         Player damager = (Player) event.getDamager();
         Player entity = (Player) event.getEntity();
 
-        if (!ClanManager.isPlayerInClan(damager) && !ClanManager.isPlayerInClan(entity))
+        if (!ClanManager.isPlayerInClan(damager) || !ClanManager.isPlayerInClan(entity))
             return;
 
         EventManager.getWarEvent().onDamage(event);

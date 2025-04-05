@@ -6,7 +6,7 @@
 
     <groupId>com.cortezromeo.clansplus</groupId>
     <artifactId>ClansPlus</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
     <packaging>pom</packaging>
 
     <name>ClansPlus</name>
@@ -63,11 +63,6 @@
             <id>nexus</id>
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
-        </repository>
-        <!-- DiscordSRV -->
-        <repository>
-            <id>Scarsz-Nexus</id>
-            <url>https://nexus.scarsz.me/content/groups/public/</url>
         </repository>
     </repositories>
 

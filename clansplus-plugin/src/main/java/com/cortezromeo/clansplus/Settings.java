@@ -47,8 +47,7 @@ public class Settings {
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
 
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
-    public static boolean SOFT_DEPEND_DISCORDSRV_ENABLED;
-    public static long SOFT_DEPEND_DISCORDSRV_CHANNELID;
+    public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
 
     public static void setupValue() {
         MessageUtil.debug("SETTINGS", "Loading settings from config yaml...");
@@ -105,8 +104,6 @@ public class Settings {
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
-        SOFT_DEPEND_DISCORDSRV_ENABLED = configuration.getBoolean("soft-depends.discordsrv.enabled");
-        SOFT_DEPEND_DISCORDSRV_CHANNELID = configuration.getLong("soft-depends.discordsrv.channelID");
-
+        SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
     }
 }

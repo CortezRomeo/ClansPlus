@@ -106,9 +106,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 BoostScoreSkill.registerSkill();
 
                 EventManager.getWarEvent().setupValue();
-
-                if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null)
-                    ClansPlus.discordsrv = new DiscordSupport(ClansPlus.plugin);
+                ClansPlus.discordSupport = new DiscordSupport();
 
                 sender.sendMessage("Đã reload plugin (" + (System.currentTimeMillis() - time) + "ms)");
                 return false;

@@ -51,7 +51,6 @@ You might need these plugins to utilize my plugin resources totally.
         -   **%clanplus_player_lastactivated%** - Get player last activated as milliseconds
         -   **%clanplus_player_format_lastactivated%** - Get player last activated (mm/dd/yyyy)
 
-- [DiscordSRV](https://www.spigotmc.org/resources/discordsrv.18494/)
 - [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/)
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
 ## API Usage

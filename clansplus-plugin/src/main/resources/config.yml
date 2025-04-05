@@ -144,11 +144,10 @@ clan-settings:
       clan-custom-name: 30
 
 # Những plugin có thể dùng để hỗ trợ plugin BangHoi.
-# Bao gồm: PlaceholderAPI, DiscordSRV.
+# Bao gồm: PlaceholderAPI.
 soft-depends:
   placeholderapi:
     # Trả về no-clan nếu người chơi không có bang hội
     no-clan: 'N/A'
-  discordsrv:
-    enabled: false
-    channelID: 1336569267927122012
+  discordWebhook:
+    webhookURL: ""

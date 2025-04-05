@@ -50,7 +50,7 @@ public class ClansPlus extends JavaPlugin {
     public static boolean papiSupport = false;
     public static Economy vaultEconomy;
     public static PlayerPointsAPI playerPointsAPI;
-    public static DiscordSupport discordsrv = null;
+    public static DiscordSupport discordSupport;
     public static boolean mythicMobs = false;
     private EventTask eventTask;
 
@@ -91,7 +91,6 @@ public class ClansPlus extends JavaPlugin {
         log("&fSupport:");
         log((vaultEconomy != null ? "&2[SUPPORTED] &aVault" : "&4[UNSUPPORTED] &cVault"));
         log((papiSupport ? "&2[SUPPORTED] &aPlaceholderAPI" : "&4[UNSUPPORTED] &cPlaceholderAPI"));
-        log((discordsrv != null ? "&2[SUPPORTED] &aDiscordSRV" : "&4[UNSUPPORTED] &cDiscordSRV"));
         log((playerPointsAPI != null ? "&2[SUPPORTED] &aPlayerPoints" : "&4[UNSUPPORTED] &cPlayerPoints"));
         log((mythicMobs ? "&2[SUPPORTED] &aMythicMobs" : "&4[UNSUPPORTED] &cMythicMobs"));
         log("");
@@ -119,11 +118,6 @@ public class ClansPlus extends JavaPlugin {
             playerPointsAPI = PlayerPoints.getInstance().getAPI();
         }
 
-        // discordsrv
-        if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
-            discordsrv = new DiscordSupport(this);
-        }
-
         // placeholderapi
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderAPISupport().register();
@@ -133,6 +127,9 @@ public class ClansPlus extends JavaPlugin {
         // mythicmobs
         if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null)
             mythicMobs = true;
+
+        // discordWebhook
+        discordSupport = new DiscordSupport();
     }
 
     public void initFiles() {
@@ -627,7 +624,7 @@ public class ClansPlus extends JavaPlugin {
     }
 
     public static DiscordSupport getDiscordSupport() {
-        return discordsrv;
+        return discordSupport;
     }
 
     public EventTask getEventTask() {

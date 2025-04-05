@@ -1,99 +1,76 @@
 package com.cortezromeo.clansplus.support;
 
-import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.clan.event.WarEvent;
 import com.cortezromeo.clansplus.util.HashMapUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
-import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.api.commands.PluginSlashCommand;
-import github.scarsz.discordsrv.api.commands.SlashCommand;
-import github.scarsz.discordsrv.api.commands.SlashCommandProvider;
-import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.MessageBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import github.scarsz.discordsrv.dependencies.jda.api.events.interaction.SlashCommandEvent;
-import github.scarsz.discordsrv.dependencies.jda.api.interactions.commands.build.CommandData;
-import github.scarsz.discordsrv.dependencies.jda.api.interactions.commands.build.SubcommandData;
-import github.scarsz.discordsrv.util.DiscordUtil;
 import org.bukkit.Bukkit;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class DiscordSupport implements SlashCommandProvider {
+public class DiscordSupport {
 
-    private final boolean discordsrvEnabled;
-    private final Long channelID;
+    private DiscordWebhook discordWebhook;
 
-    public DiscordSupport(ClansPlus plugin) {
-        this.discordsrvEnabled = Settings.SOFT_DEPEND_DISCORDSRV_ENABLED;
-        this.channelID = Settings.SOFT_DEPEND_DISCORDSRV_CHANNELID;
-    }
-
-    public Guild getGuild() {
-        return DiscordSRV.getPlugin().getJda().getGuilds().stream().findFirst().orElse(null);
+    public DiscordSupport() {
+        this.discordWebhook = new DiscordWebhook(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
     }
 
     public void sendMessage(String message) {
-        if (!discordsrvEnabled) {
+        if (discordWebhook == null || discordWebhook.equals(""))
             return;
+
+        discordWebhook.addEmbed(new DiscordWebhook.EmbedObject().setDescription(message));
+        try {
+            discordWebhook.execute();
+        } catch (Exception exception) {
+            MessageUtil.throwErrorMessage("[Discord Web Hook] Gặp lỗi khi cố gắng kết nối tới web hook URL! (" + exception.getMessage() + ")");
         }
-        TextChannel messageChannel = getGuild().getTextChannelById(channelID);
-        if (messageChannel == null) {
-            MessageUtil.throwErrorMessage("[DiscordSRV] Không thể kết nối tới channel ID " + channelID + ", vui lòng kiểm tra lại!");
-            return;
-        }
-        messageChannel.sendMessage(message).queue();
     }
 
-    public void sendMessage(Message message) {
-        if (!discordsrvEnabled) {
+    public void sendMessage(DiscordWebhook.EmbedObject embedObject) {
+        if (discordWebhook == null || discordWebhook.equals(""))
             return;
+
+        discordWebhook.addEmbed(embedObject);
+        try {
+            discordWebhook.execute();
+        } catch (Exception exception) {
+            MessageUtil.throwErrorMessage("[Discord Web Hook] Gặp lỗi khi cố gắng kết nối tới web hook URL! (" + exception.getMessage() + ")");
         }
-        TextChannel messageChannel = getGuild().getTextChannelById(channelID);
-        if (messageChannel == null) {
-            MessageUtil.throwErrorMessage("[DiscordSRV] Không thể kết nối tới channel ID " + channelID + ", vui lòng kiểm tra lại!");
-            return;
-        }
-        DiscordUtil.queueMessage(messageChannel, message);
     }
 
-    public Message getWarEventStartingMessage(String jsonFile, WarEvent warEvent) throws IOException {
+    public DiscordWebhook.EmbedObject getWarEventStartingMessage(String jsonFile, WarEvent warEvent) throws IOException {
         String jsonString = new String(Files.readAllBytes(Paths.get(jsonFile)));
         JSONObject jsonObject = new JSONObject(jsonString);
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+        DiscordWebhook.EmbedObject embedObject = new DiscordWebhook.EmbedObject();
 
         if (jsonObject.has("title")) {
-            embedBuilder.setTitle(formatWarEventStartingMessage(jsonObject.getString("title"), jsonObject, warEvent));
+            embedObject.setTitle(formatWarEventStartingMessage(jsonObject.getString("title"), jsonObject, warEvent));
         }
         if (jsonObject.has("description")) {
-            embedBuilder.setDescription(formatWarEventStartingMessage(jsonObject.getString("description"), jsonObject, warEvent));
+            embedObject.setDescription(formatWarEventStartingMessage(jsonObject.getString("description"), jsonObject, warEvent));
         }
         if (jsonObject.has("thumbnail")) {
-            embedBuilder.setThumbnail(jsonObject.getString("thumbnail"));
+            embedObject.setThumbnail(jsonObject.getString("thumbnail"));
         }
         if (jsonObject.has("color")) {
-            embedBuilder.setColor(jsonObject.getInt("color"));
+            embedObject.setColor(jsonObject.getInt("color"));
         }
         if (jsonObject.has("fields")) {
             for (Object fieldObj : jsonObject.getJSONArray("fields")) {
                 JSONObject field = (JSONObject) fieldObj;
                 if (field.getString("fieldtype").equalsIgnoreCase("blank")) {
-                    embedBuilder.addBlankField(false);
+                    embedObject.addBlankField(false);
                 } else {
                     String name = formatWarEventStartingMessage(field.getString("name"), jsonObject, warEvent);
                     String value = formatWarEventStartingMessage(field.getString("value"), jsonObject, warEvent);
-                    embedBuilder.addField(name, value, field.optBoolean("inline", false));
+                    embedObject.addField(name, value, field.optBoolean("inline", false));
                 }
             }
         }
@@ -102,39 +79,39 @@ public class DiscordSupport implements SlashCommandProvider {
             String text = formatWarEventStartingMessage(object.getString("text"), jsonObject, warEvent);
             String icon_url = object.getString("icon_url");
             if (icon_url == null)
-                embedBuilder.setFooter(text);
+                embedObject.setFooter(text);
             else
-                embedBuilder.setFooter(text, icon_url);
+                embedObject.setFooter(text, icon_url);
         }
-        return new MessageBuilder().setEmbeds(embedBuilder.build()).build();
+        return embedObject;
     }
 
-    public Message getWarEventEndingMessage(String jsonFile, WarEvent warEvent) throws IOException {
+    public DiscordWebhook.EmbedObject getWarEventEndingMessage(String jsonFile, WarEvent warEvent) throws IOException {
         String jsonString = new String(Files.readAllBytes(Paths.get(jsonFile)));
         JSONObject jsonObject = new JSONObject(jsonString);
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+        DiscordWebhook.EmbedObject embedObject = new DiscordWebhook.EmbedObject();
 
         if (jsonObject.has("title")) {
-            embedBuilder.setTitle(formatWarEventEndingMessage(jsonObject.getString("title"), jsonObject, warEvent));
+            embedObject.setTitle(formatWarEventEndingMessage(jsonObject.getString("title"), jsonObject, warEvent));
         }
         if (jsonObject.has("description")) {
-            embedBuilder.setDescription(formatWarEventEndingMessage(jsonObject.getString("description"), jsonObject, warEvent));
+            embedObject.setDescription(formatWarEventEndingMessage(jsonObject.getString("description"), jsonObject, warEvent));
         }
         if (jsonObject.has("thumbnail")) {
-            embedBuilder.setThumbnail(jsonObject.getString("thumbnail"));
+            embedObject.setThumbnail(jsonObject.getString("thumbnail"));
         }
         if (jsonObject.has("color")) {
-            embedBuilder.setColor(jsonObject.getInt("color"));
+            embedObject.setColor(jsonObject.getInt("color"));
         }
         if (jsonObject.has("fields")) {
             for (Object fieldObj : jsonObject.getJSONArray("fields")) {
                 JSONObject field = (JSONObject) fieldObj;
                 if (field.getString("fieldtype").equalsIgnoreCase("blank")) {
-                    embedBuilder.addBlankField(false);
+                    embedObject.addBlankField(false);
                 } else {
                     String name = formatWarEventEndingMessage(field.getString("name"), jsonObject, warEvent);
                     String value = formatWarEventEndingMessage(field.getString("value"), jsonObject, warEvent);
-                    embedBuilder.addField(name, value, field.optBoolean("inline", false));
+                    embedObject.addField(name, value, field.optBoolean("inline", false));
                 }
             }
         }
@@ -143,11 +120,11 @@ public class DiscordSupport implements SlashCommandProvider {
             String text = formatWarEventEndingMessage(object.getString("text"), jsonObject, warEvent);
             String icon_url = object.getString("icon_url");
             if (icon_url == null)
-                embedBuilder.setFooter(text);
+                embedObject.setFooter(text);
             else
-                embedBuilder.setFooter(text, icon_url);
+                embedObject.setFooter(text, icon_url);
         }
-        return new MessageBuilder().setEmbeds(embedBuilder.build()).build();
+        return embedObject;
     }
 
     private String formatWarEventStartingMessage(String string, JSONObject jsonObject, WarEvent warEvent) {
@@ -202,22 +179,5 @@ public class DiscordSupport implements SlashCommandProvider {
         return string;
     }
 
-    @Override
-    public Set<PluginSlashCommand> getSlashCommands() {
-        return new HashSet<>(Arrays.asList(
-                // ping pong
-                new PluginSlashCommand(ClansPlus.plugin, new CommandData("ping", "A classic match of ping pong")),
 
-                // bests
-                new PluginSlashCommand(ClansPlus.plugin, new CommandData("best", "Best _____")
-                        .addSubcommands(new SubcommandData("friend", "Best friend"))
-                        .addSubcommands(new SubcommandData("plugin", "Best plugin"))
-                )
-        ));
-    }
-
-    @SlashCommand(path = "ping")
-    public void pingCommand(SlashCommandEvent event) {
-        event.reply("Pong!").queue();
-    }
 }

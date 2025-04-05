@@ -15,14 +15,11 @@ import java.util.List;
 
 public class DiscordSupport {
 
-    private DiscordWebhook discordWebhook;
-
-    public DiscordSupport() {
-        this.discordWebhook = new DiscordWebhook(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
-    }
+    public DiscordSupport() {}
 
     public void sendMessage(String message) {
-        if (discordWebhook == null || discordWebhook.equals(""))
+        DiscordWebhook discordWebhook = new DiscordWebhook(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
+        if (Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL == null || Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL.equals(""))
             return;
 
         discordWebhook.addEmbed(new DiscordWebhook.EmbedObject().setDescription(message));
@@ -34,7 +31,8 @@ public class DiscordSupport {
     }
 
     public void sendMessage(DiscordWebhook.EmbedObject embedObject) {
-        if (discordWebhook == null || discordWebhook.equals(""))
+        DiscordWebhook discordWebhook = new DiscordWebhook(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
+        if (Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL == null || Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL.equals(""))
             return;
 
         discordWebhook.addEmbed(embedObject);

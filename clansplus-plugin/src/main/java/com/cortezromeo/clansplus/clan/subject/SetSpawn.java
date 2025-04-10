@@ -28,10 +28,22 @@ public class SetSpawn extends SubjectManager {
         if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
             setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETSPAWN));
 
+        String commandPermission = "clanplus.setspawn";
+        if (!player.hasPermission(commandPermission)) {
+            MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
+            return false;
+        }
+
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return false;
         }
+
+        if (Settings.CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED)
+            if (Settings.CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS.contains(getPlayer().getWorld().getName())) {
+                MessageUtil.sendMessage(player, Messages.CLAN_SET_SPAWN_BLACK_LIST_WORLD);
+                return false;
+            }
 
         IClanData playerClanData = getPlayerClanData();
         Location playerLocation = player.getLocation();

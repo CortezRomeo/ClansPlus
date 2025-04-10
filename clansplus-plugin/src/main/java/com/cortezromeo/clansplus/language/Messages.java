@@ -102,6 +102,8 @@ public class Messages {
     public static String TOGGLE_CLAN_PVP_OFF;
     public static String CLAN_MEMBER_PVP_DENY;
     public static String CLAN_MEMBER_PVP_DENY_VICTIM;
+    public static String CLAN_SET_SPAWN_BLACK_LIST_WORLD;
+    public static String CLAN_SPAWN_BLACK_LIST_WORLD;
     public static String LAST_PAGE;
     public static String FEATURE_IN_PROGRESS;
     public static String USING_CHAT_BOX_CLAN_CHAT;
@@ -245,6 +247,8 @@ public class Messages {
         TOGGLE_CLAN_PVP_OFF = fileConfiguration.getString("messages.toggle-clan-pvp-off");
         CLAN_MEMBER_PVP_DENY = fileConfiguration.getString("messages.clan-member-pvp-deny");
         CLAN_MEMBER_PVP_DENY_VICTIM = fileConfiguration.getString("messages.clan-member-pvp-deny-victim");
+        CLAN_SET_SPAWN_BLACK_LIST_WORLD = fileConfiguration.getString("messages.clan-set-spawn-black-list-world");
+        CLAN_SPAWN_BLACK_LIST_WORLD = fileConfiguration.getString("messages.clan-spawn-black-list-world");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         FEATURE_IN_PROGRESS = fileConfiguration.getString("messages.feature-in-progress");
         USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");

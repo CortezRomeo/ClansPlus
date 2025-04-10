@@ -43,6 +43,12 @@ public class Spawn extends SubjectManager {
             return false;
         }
 
+        if (Settings.CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED)
+            if (Settings.CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS.contains(playerClanData.getSpawnPoint().getWorld().getName())) {
+                MessageUtil.sendMessage(player, Messages.CLAN_SPAWN_BLACK_LIST_WORLD);
+                return false;
+            }
+
         if (Settings.CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED) {
             if (PlayerMovementListener.spawnCountDownPlayers.contains(player))
                 return false;

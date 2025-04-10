@@ -7,6 +7,8 @@ import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
+import com.cortezromeo.clansplus.util.HashMapUtil;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -32,6 +34,30 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, String s) {
         if (s == null)
             return null;
+
+        // top
+        if (!PluginDataManager.getClanDatabase().isEmpty()) {
+            if (s.startsWith("top")) {
+                try {
+                    int value = Integer.parseInt(s.replace("top_score_name_", "").replace("top_score_value_", ""));
+                    value = value - 1;
+
+                    if (value < 0 || PluginDataManager.getClanDatabase().size() <= value)
+                        return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+
+                    IClanData clanData = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap()).get(value));
+
+                    if (s.startsWith("top_score_name_"))
+                        return ClansPlus.nms.addColor(StringUtil.setClanNamePlaceholder(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME, clanData.getName()).replace("%top%", String.valueOf(value + 1)));
+                    if (s.startsWith("top_score_value_"))
+                        return ClansPlus.nms.addColor(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE.replace("%value%", String.valueOf(clanData.getScore())));
+
+                } catch (Exception exception) {
+                    MessageUtil.throwErrorMessage("[PlaceholderAPI] Value nhập cho PAPI không hợp lệ! (papi: " + s + ") (" + exception.getMessage() + ")");
+                }
+
+            }
+        }
 
         if (!ClanManager.isPlayerInClan(player))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;

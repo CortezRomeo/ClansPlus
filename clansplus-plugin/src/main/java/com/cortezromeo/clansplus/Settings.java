@@ -43,10 +43,14 @@ public class Settings {
     public static int CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH;
     public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
     public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
+    public static boolean CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED;
+    public static List<String> CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS;
     public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
 
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE;
     public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
 
     public static void setupValue() {
@@ -101,9 +105,13 @@ public class Settings {
         for (Subject subject : Subject.values())
             CLAN_SETTING_PERMISSION_DEFAULT.put(subject, Rank.valueOf(configuration.getString("clan-settings.creating-clan-settings.permission-default." + subject)));
         CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration.getBoolean("clan-settings.permission-default-forced");
+        CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED = configuration.getBoolean("clan-settings.set-spawn-settings.blacklist-worlds.enabled");
+        CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS = configuration.getStringList("clan-settings.set-spawn-settings.blacklist-worlds.worlds");
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
+        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");
+        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE = configuration.getString("soft-depends.placeholderapi.top-score-value");
         SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
     }
 }

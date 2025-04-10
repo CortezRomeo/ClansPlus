@@ -105,6 +105,13 @@ clan-settings:
   # quyền trừ khi tùy chọn này bị tắt.
   permission-default-forced: false
 
+  set-spawn-settings:
+    blacklist-worlds:
+      enabled: true
+      worlds:
+        - blacklistworld1
+        - blacklistworld2
+
   # Thời gian chờ để dịch chuyển về spawn bang hội.
   spawn-countdown:
     enabled: true
@@ -149,5 +156,10 @@ soft-depends:
   placeholderapi:
     # Trả về no-clan nếu người chơi không có bang hội
     no-clan: 'N/A'
+    # %formatClanName%: Lấy tên của clan, nếu có display name thì hiện display name và ngược lại sẽ hiện tên gốc
+    # %clanName%: Lấy tên gốc của clan
+    # %top%: Lấy số top
+    top-score-name: '&r%formatClanName%'
+    top-score-value: '%value%'
   discordWebhook:
     webhookURL: ""

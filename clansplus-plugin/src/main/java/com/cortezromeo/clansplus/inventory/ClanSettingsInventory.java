@@ -85,7 +85,7 @@ public class ClanSettingsInventory extends ClanPlusInventoryBase {
                 if (!AsyncPlayerChatListener.setCustomName.contains(getOwner()))
                     AsyncPlayerChatListener.setCustomName.add(getOwner());
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_SET_CUSTOM_NAME);
-                MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX);
+                MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
             }
         }
         if (itemCustomData.equals("setMessage")) {
@@ -94,7 +94,7 @@ public class ClanSettingsInventory extends ClanPlusInventoryBase {
                 if (!AsyncPlayerChatListener.setMessage.contains(getOwner()))
                     AsyncPlayerChatListener.setMessage.add(getOwner());
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_SET_MESSAGE);
-                MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX);
+                MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
             }
         }
         if (itemCustomData.equals("setSpawn"))

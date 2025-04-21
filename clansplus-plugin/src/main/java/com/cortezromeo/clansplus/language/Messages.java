@@ -112,6 +112,7 @@ public class Messages {
     public static String USING_CHAT_BOX_SET_MESSAGE;
     public static String USING_CHAT_BOX_INVENTORY_LIST_SEARCH;
     public static String USING_CHAT_BOX_CANCEL_USING_CHAT_BOX;
+    public static String USING_CHAT_BOX_CANCEL_USING_CHAT_BOX_SUCCESS;
     public static List<String> COMMAND_CLANPLUS_MESSAGES_NON_CLAN;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN;
     public static String COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS;
@@ -258,6 +259,7 @@ public class Messages {
         USING_CHAT_BOX_SET_MESSAGE = fileConfiguration.getString("messages.using-chat-box.set-message");
         USING_CHAT_BOX_INVENTORY_LIST_SEARCH = fileConfiguration.getString("messages.using-chat-box.inventory-list-search");
         USING_CHAT_BOX_CANCEL_USING_CHAT_BOX = fileConfiguration.getString("messages.using-chat-box.cancel-using-chat-box");
+        USING_CHAT_BOX_CANCEL_USING_CHAT_BOX_SUCCESS = fileConfiguration.getString("messages.using-chat-box.cancel-using-chat-box-success");
         for (Subject subject : Subject.values()) {
             subject.setName(fileConfiguration.getString("subject.name." + subject));
             subject.setDescription(fileConfiguration.getString("subject.description." + subject));

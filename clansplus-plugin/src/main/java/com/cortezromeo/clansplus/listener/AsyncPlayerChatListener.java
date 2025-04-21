@@ -8,6 +8,8 @@ import com.cortezromeo.clansplus.clan.subject.Chat;
 import com.cortezromeo.clansplus.clan.subject.Create;
 import com.cortezromeo.clansplus.clan.subject.SetCustomName;
 import com.cortezromeo.clansplus.clan.subject.SetMessage;
+import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,9 +39,11 @@ public class AsyncPlayerChatListener implements Listener {
         String message = event.getMessage();
 
         if (message.equals(Settings.CHAT_SETTING_STOP_USING_CHAT_WORD)) {
+            event.setCancelled(true);
             createClan.remove(player);
             setCustomName.remove(player);
             setMessage.remove(player);
+            MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX_SUCCESS);
             return;
         }
 

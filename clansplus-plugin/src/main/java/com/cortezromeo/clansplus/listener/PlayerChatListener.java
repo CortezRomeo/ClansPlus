@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.inventory.PaginatedInventory;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -38,7 +39,7 @@ public class PlayerChatListener implements Listener {
 
     public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
         MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_INVENTORY_LIST_SEARCH);
-        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX);
+        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
         searchingQueryInventoryList.put(player, inventoryHolder);
     }
 

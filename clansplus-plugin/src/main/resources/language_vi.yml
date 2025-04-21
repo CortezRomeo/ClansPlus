@@ -159,6 +159,7 @@ messages:
     set-message: '%prefix%&#eaff00&l| &fVui lòng nhập thông báo vào ô chat.'
     inventory-list-search: '%prefix%&#eaff00&l| &fVui lòng nhập ký tự cần tìm kiếm vào ô chat.'
     cancel-using-chat-box: '&7Sử dụng &e%word%&7 để dừng thao tác.'
+    cancel-using-chat-box-success: '&aHủy sử dụng ô chat thành công.'
   clan-broadcast:
     prefix: '&#3498eb&lBANG HỘI &f(%formatClanName%&r) '
     invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã gửi lời mời gia nhập bang hội tới &e%target%&f.'

@@ -143,7 +143,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                     long value = UpgradeFile.get().getLong("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".price." + newSkillLevel);
                     if (UpgradeManager.checkPlayerCurrency(getOwner(), CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".currency-type").toUpperCase()), value, true)) {
                         PluginDataManager.getClanDatabase(clanName).getSkillLevel().put(skillID, newSkillLevel);
-                        ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL.replace("%player%", getOwner().getName()).replace("%skillName%", SkillsFile.get().getString("plugin-skills." + pluginSkill.toString().toLowerCase() + ".name")).replace("%newLevel%", String.valueOf(newSkillLevel)));
+                        ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL.replace("%player%", getOwner().getName()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank())).replace("%skillName%", SkillsFile.get().getString("plugin-skills." + pluginSkill.toString().toLowerCase() + ".name")).replace("%newLevel%", String.valueOf(newSkillLevel)));
                         super.open();
                     }
                     return;

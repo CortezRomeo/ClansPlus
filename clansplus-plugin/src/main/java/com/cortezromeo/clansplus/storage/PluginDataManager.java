@@ -229,8 +229,15 @@ public class PluginDataManager {
             if (!PluginDataStorage.getAllPlayers().isEmpty())
                 for (String playerName : PluginDataStorage.getAllPlayers())
                     loadPlayerDatabase(playerName);
-        if (Settings.DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED)
-            fixIllegalDatabase();
+        if (Settings.DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED) {
+            try {
+                fixIllegalDatabase();
+            } catch (Exception exception) {
+                if (Settings.DEBUG_ENABLED)
+                    exception.printStackTrace();
+                MessageUtil.debug("FIX ILLEGAL DATABASE", exception.getMessage());
+            }
+        }
 
         if (fixClansOldData || fixMembersOldData)
             saveAllDatabase();

@@ -85,7 +85,7 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
             if (UpgradeManager.checkPlayerCurrency(getOwner(), upgradeMaxMembersCT, value, true)) {
                 playerClanData.setMaxMembers(playerClanData.getMaxMembers() + 1);
                 PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
-                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS.replace("%player%", getOwner().getName()).replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
+                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS.replace("%player%", getOwner().getName()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank())).replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
                 super.open();
             }
         }

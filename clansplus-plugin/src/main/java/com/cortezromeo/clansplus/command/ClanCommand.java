@@ -106,6 +106,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 new ClanSettingsInventory(player).open();
                 return false;
             }
+            if (args[0].equalsIgnoreCase("upgrade")) {
+                new UpgradeMenuInventory(player).open();
+                return false;
+            }
             if (args[0].equalsIgnoreCase("event")) {
                 new EventsMenuInventory(player).open();
                 return false;
@@ -334,6 +338,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     commands.add("leave");
                 }
                 commands.add("setting");
+                commands.add("upgrade");
                 commands.add("menu");
                 // player is not in a clan -> list all commands for non clan player
             } else {

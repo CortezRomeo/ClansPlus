@@ -38,6 +38,7 @@ public class PlayerChatListener implements Listener {
 
     public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
         MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_INVENTORY_LIST_SEARCH);
+        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX);
         searchingQueryInventoryList.put(player, inventoryHolder);
     }
 

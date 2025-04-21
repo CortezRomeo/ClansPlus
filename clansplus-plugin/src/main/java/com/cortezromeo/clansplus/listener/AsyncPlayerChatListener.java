@@ -11,6 +11,7 @@ import com.cortezromeo.clansplus.clan.subject.SetMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -27,13 +28,20 @@ public class AsyncPlayerChatListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
         if (event.isCancelled())
             return;
 
         Player player = event.getPlayer();
         String message = event.getMessage();
+
+        if (message.equals(Settings.CHAT_SETTING_STOP_USING_CHAT_WORD)) {
+            createClan.remove(player);
+            setCustomName.remove(player);
+            setMessage.remove(player);
+            return;
+        }
 
         if (createClan.contains(player)) {
             event.setCancelled(true);

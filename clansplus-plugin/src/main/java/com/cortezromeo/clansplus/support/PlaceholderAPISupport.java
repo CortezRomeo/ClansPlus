@@ -65,6 +65,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
         IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
 
+        if (clanData == null)
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+
         if (s.equalsIgnoreCase("clan_name"))
             return clanData.getName();
         if (s.equalsIgnoreCase("clan_customname"))

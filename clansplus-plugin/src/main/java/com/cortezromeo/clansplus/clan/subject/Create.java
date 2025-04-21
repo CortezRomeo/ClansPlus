@@ -73,7 +73,7 @@ public class Create extends SubjectManager {
         }
 
         if (Settings.CLAN_SETTING_CREATE_ENABLED)
-            if (!UpgradeManager.checkPlayerCurrency(player, CurrencyType.valueOf(Settings.CLAN_SETTING_CREATE_TYPE.toUpperCase()), Settings.CLAN_SETTING_CREATE_VALUE, true))
+            if (!UpgradeManager.checkPlayerCurrency(player, CurrencyType.valueOf(Settings.CLAN_SETTING_CREATE_TYPE.toUpperCase()), Settings.CLAN_SETTING_CREATE_CURRENCY, true))
                 return false;
 
         Date date = new Date();

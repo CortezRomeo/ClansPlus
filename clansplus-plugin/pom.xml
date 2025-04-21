@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.cortezromeo.clansplus</groupId>
         <artifactId>ClansPlus</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
     </parent>
 
     <artifactId>clansplus-plugin</artifactId>
@@ -30,7 +30,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>${java.version}</source>
+                    <release>${java.version}</release>
                     <target>${java.version}</target>
                 </configuration>
             </plugin>

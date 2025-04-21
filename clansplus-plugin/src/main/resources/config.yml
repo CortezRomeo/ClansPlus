@@ -150,6 +150,11 @@ clan-settings:
       clan-name: 20
       clan-custom-name: 30
 
+# Thiết lập về chat
+chat-settings:
+  # Sử dụng từ dưới này để hủy việc tương tác bằng chat
+  stop-using-chat-word: '?cancel'
+
 # Những plugin có thể dùng để hỗ trợ plugin BangHoi.
 # Bao gồm: PlaceholderAPI.
 soft-depends:

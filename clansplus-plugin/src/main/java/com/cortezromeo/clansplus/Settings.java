@@ -29,7 +29,6 @@ public class Settings {
     public static boolean CLAN_SETTING_CREATE_ENABLED;
     public static String CLAN_SETTING_CREATE_TYPE;
     public static long CLAN_SETTING_CREATE_CURRENCY;
-    public static int CLAN_SETTING_CREATE_VALUE;
     public static int CLAN_SETTING_TIME_TO_ACCEPT;
     public static int CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT;
     public static String CLAN_SETTING_ICON_DEFAULT_TYPE;
@@ -47,6 +46,7 @@ public class Settings {
     public static List<String> CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS;
     public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
+    public static String CHAT_SETTING_STOP_USING_CHAT_WORD;
 
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME;
@@ -75,7 +75,6 @@ public class Settings {
         CLAN_SETTING_CREATE_ENABLED = configuration.getBoolean("clan-settings.creating-clan-settings.currency-requirement.enabled");
         CLAN_SETTING_CREATE_TYPE = configuration.getString("clan-settings.creating-clan-settings.currency-requirement.type");
         CLAN_SETTING_CREATE_CURRENCY = configuration.getLong("clan-settings.creating-clan-settings.currency-requirement.value");
-        CLAN_SETTING_CREATE_VALUE = configuration.getInt("clan-settings.creating-bang-hoi.value");
         CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT = configuration.getInt("clan-settings.creating-clan-settings.maximum-member-default");
         CLAN_SETTING_ICON_DEFAULT_TYPE = configuration.getString("clan-settings.creating-clan-settings.icon-default.type");
         CLAN_SETTING_ICON_DEFAULT_VALUE = configuration.getString("clan-settings.creating-clan-settings.icon-default.value");
@@ -109,6 +108,7 @@ public class Settings {
         CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS = configuration.getStringList("clan-settings.set-spawn-settings.blacklist-worlds.worlds");
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
+        CHAT_SETTING_STOP_USING_CHAT_WORD = configuration.getString("chat-settings.stop-using-chat-word");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE = configuration.getString("soft-depends.placeholderapi.top-score-value");

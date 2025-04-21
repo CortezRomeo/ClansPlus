@@ -62,6 +62,7 @@ public class NoClanInventory extends ClanPlusInventoryBase {
             if (!AsyncPlayerChatListener.createClan.contains(getOwner()))
                 AsyncPlayerChatListener.createClan.add(getOwner());
             MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CREATE_CLAN);
+            MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX);
         }
         if (itemCustomData.equals("clanList"))
             new ClanListInventory(getOwner()).open();

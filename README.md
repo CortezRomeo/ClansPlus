@@ -8,7 +8,7 @@ A minecraft plugin that allows players to create and manage their own clan.
 
 This software runs on [Spigot](https://www.spigotmc.org/) and NMS.
 Spigot forks without compiled NMS code are not supported.
-Officially supported servers are [spigot](https://www.spigotmc.org/) and [paper](https://papermc.io/).
+Officially supported servers are [spigot](https://www.spigotmc.org/) and [paper](https://papermc.io/) and [folia](https://github.com/PaperMC/Folia/).
 It is required to use [**Java 11**](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html) or
 newer.
 
@@ -61,6 +61,7 @@ You might need these plugins to utilize my plugin resources totally.
 
 - [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/)
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
+- [VaultUnlocked](https://www.spigotmc.org/resources/vaultunlocked.117277/) - For Folia Servers - A replacement for Vault
 
 ## API Usage
 

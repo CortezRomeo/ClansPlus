@@ -1,5 +1,6 @@
 package com.cortezromeo.clansplus.api.server;
 
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -33,4 +34,6 @@ public abstract class VersionSupport {
     public abstract String addColor(String textToTranslate);
 
     public abstract String stripColor(String textToStrip);
+
+    public abstract Particle getParticle(String particleName);
 }

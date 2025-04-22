@@ -27,6 +27,7 @@ import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.task.EventTask;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
+import com.tcoded.folialib.FoliaLib;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
@@ -52,6 +53,7 @@ public class ClansPlus extends JavaPlugin {
     public static PlayerPointsAPI playerPointsAPI;
     public static DiscordSupport discordSupport;
     public static boolean mythicMobs = false;
+    public FoliaLib foliaLib;
     private EventTask eventTask;
 
     @Override
@@ -64,6 +66,8 @@ public class ClansPlus extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        foliaLib = new FoliaLib(this);
+        foliaLib.enableInvalidTickValueDebug();
         initFiles();
         Settings.setupValue();
         initLanguages();

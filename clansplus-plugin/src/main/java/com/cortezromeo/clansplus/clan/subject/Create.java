@@ -85,7 +85,8 @@ public class Create extends SubjectManager {
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
         for (Subject subject : Subject.values())
-            permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));        if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
+            permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
+        if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
             skillLevel = Settings.CLAN_SETTING_SKILL_DEFAULT;
 
         ClanData clanData = new ClanData(

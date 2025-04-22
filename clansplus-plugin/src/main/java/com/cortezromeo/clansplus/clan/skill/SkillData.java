@@ -37,36 +37,36 @@ public abstract class SkillData {
         return id;
     }
 
-    public SkillType getSkillType() {
-        return skillType;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public SkillType getSkillType() {
+        return skillType;
     }
 
     public void setSkillType(SkillType skillType) {
         this.skillType = skillType;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {

@@ -155,7 +155,7 @@ public class PluginDataManager {
             DatabaseType oldDatabaseType = ClansPlus.databaseType;
             if (commandSender != null)
                 commandSender.sendMessage("Đang chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + "...");
-            Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+            ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
                 PluginDataStorage.disableStorage();
                 PluginDataStorage.init(toDatabaseType);
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {

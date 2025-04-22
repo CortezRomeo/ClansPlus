@@ -147,7 +147,7 @@ public class MemberListInventory extends PaginatedInventory {
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
             ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
                     fileConfiguration.getString("items.back.value"),

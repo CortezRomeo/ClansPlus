@@ -47,10 +47,13 @@ public class MessageUtil {
 
         message = message.replace("%prefix%" , Messages.PREFIX);
 
-        if (!ClansPlus.isPapiSupport())
-            player.sendMessage(ClansPlus.nms.addColor(message));
-        else
-            player.sendMessage(ClansPlus.nms.addColor(PlaceholderAPI.setPlaceholders(player, message)));
+        if (!ClansPlus.isPapiSupport()) {
+            String finalMessage = message;
+            ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(finalMessage)));
+        } else {
+            String finalMessage = message;
+            ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(PlaceholderAPI.setPlaceholders(player, finalMessage))));
+        }
     }
 
     // only use for testing plugin

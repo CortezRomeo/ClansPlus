@@ -43,7 +43,7 @@ public class RemoveManager extends SubjectManager {
             return false;
         }
 
-        IPlayerData targetData =  PluginDataManager.getPlayerDatabase(targetName);
+        IPlayerData targetData = PluginDataManager.getPlayerDatabase(targetName);
         IClanData playerClanData = getPlayerClanData();
 
         if (!isTargetAndPlayerInTheSameClan()) {

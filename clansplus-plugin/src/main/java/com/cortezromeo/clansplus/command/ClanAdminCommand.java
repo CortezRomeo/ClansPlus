@@ -113,7 +113,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("backup")) {
                 sender.sendMessage("Đang tạo backup, vui lòng đợi...");
-                Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+                ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
                     PluginDataManager.backupAll(null);
                     sender.sendMessage("Backup thành công! File backup sẽ nằm trong folder backup trong folder plugin.");
                     sender.sendMessage("Database type: " + ClansPlus.databaseType.toString().toUpperCase());
@@ -630,7 +630,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 }
 
                 sender.sendMessage("Đang tạo backup, vui lòng đợi...");
-                Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+                ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
                     PluginDataManager.backupAll(fileName);
                     sender.sendMessage("Backup thành công! File backup sẽ nằm trong folder backup trong folder plugin.");
                     sender.sendMessage("Database type: " + ClansPlus.databaseType.toString().toUpperCase());
@@ -833,7 +833,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     sender.sendMessage("Để an toàn dữ liệu trong việc chuyển đổi dữ liệu, vui lòng làm trong lúc máy chủ không có người chơi.");
                     sender.sendMessage("-----------------------");
                     transferDataCommandNotifying.add(sender);
-                    Bukkit.getScheduler().runTaskLater(ClansPlus.plugin, () -> {
+                    ClansPlus.plugin.foliaLib.getScheduler().runLater(()  -> {
                         transferDataCommandNotifying.remove(sender);
                     }, 20 * 30);
                 }

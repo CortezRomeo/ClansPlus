@@ -41,7 +41,7 @@ public class SetOwner extends SubjectManager {
         }
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
-        IPlayerData targetData =  PluginDataManager.getPlayerDatabase(targetName);
+        IPlayerData targetData = PluginDataManager.getPlayerDatabase(targetName);
         IClanData playerClanData = getPlayerClanData();
         IClanData targetClanData = getTargetClanData();
 

@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.task;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.clan.EventManager;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class EventTask implements Runnable {
 
-    private BukkitTask eventTask;
+    private WrappedTask eventTask;
 
     public EventTask() {
-        this.eventTask = Bukkit.getScheduler().runTaskTimer(ClansPlus.plugin, this, 0, 20L);
+        this.eventTask = ClansPlus.plugin.foliaLib.getScheduler().runTimer(this, 1, 20L);
     }
 
     @Override
@@ -32,11 +33,8 @@ public class EventTask implements Runnable {
         }
     }
 
-    public BukkitTask getEventTask() {
+    public WrappedTask getEventTask() {
         return eventTask;
     }
 
-    public int getEventTaskID() {
-        return eventTask.getTaskId();
-    }
 }

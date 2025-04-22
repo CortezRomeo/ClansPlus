@@ -37,7 +37,7 @@ public class MessageUtil {
     public static void sendMessage(CommandSender sender, String message) {
         if (message.equals(""))
             return;
-        message = message.replace("%prefix%" , Messages.PREFIX);
+        message = message.replace("%prefix%", Messages.PREFIX);
         sender.sendMessage(ClansPlus.nms.addColor(message));
     }
 
@@ -45,7 +45,7 @@ public class MessageUtil {
         if (player == null | message.equals(""))
             return;
 
-        message = message.replace("%prefix%" , Messages.PREFIX);
+        message = message.replace("%prefix%", Messages.PREFIX);
 
         if (!ClansPlus.isPapiSupport()) {
             String finalMessage = message;

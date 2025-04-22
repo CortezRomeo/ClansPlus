@@ -24,7 +24,7 @@
 
 title: '&0Nâng cấp kỹ năng %skillName%'
 rows: 6
-skill-track: [9, 18, 27, 28, 29, 20, 11, 2, 3, 4, 13, 22, 31, 32, 33, 24, 15, 6,7, 8, 17, 26, 35, 44, 53]
+skill-track: [ 9, 18, 27, 28, 29, 20, 11, 2, 3, 4, 13, 22, 31, 32, 33, 24, 15, 6,7, 8, 17, 26, 35, 44, 53 ]
 skills:
   critical_hit:
     unlocked:
@@ -66,12 +66,12 @@ skills:
         enabled: true
         level:
           2:
-          - ''
-          - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
-          - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
-          - '  &fcho đối phương.'
-          - ''
-          - '&aĐã mở khóa'
+            - ''
+            - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+            - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
+            - '  &fcho đối phương.'
+            - ''
+            - '&aĐã mở khóa'
     locked:
       name: '&#03fcfcNé đòn &e[Level: %level%]'
       type: material

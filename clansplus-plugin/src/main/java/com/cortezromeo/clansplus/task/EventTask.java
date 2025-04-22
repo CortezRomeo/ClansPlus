@@ -3,8 +3,6 @@ package com.cortezromeo.clansplus.task;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.clan.EventManager;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

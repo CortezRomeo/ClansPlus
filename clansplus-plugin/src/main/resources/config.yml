@@ -126,21 +126,21 @@ clan-settings:
   clan-name-settings:
     # Cấm đặt các tên sau (Bao gồm tên bang hội và tên custom).
     prohibited-name:
-    - admin
-    - staff
-    - helper
-    - moderator
-    - administrator
-    - staffs
-    - admins
-    - moderators
-    - administrators
-    - helpers
-    - owner
-    - owners
+      - admin
+      - staff
+      - helper
+      - moderator
+      - administrator
+      - staffs
+      - admins
+      - moderators
+      - administrators
+      - helpers
+      - owner
+      - owners
     # Ký tự cấm (& vẫn xài được để đặt tên custom cho bang hội).
     prohibited-character:
-    - '&'
+      - '&'
     # Số ký tự tối thiểu có thể đặt cho tên bang hội (Không tính mã màu).
     minimum-length:
       clan-name: 3

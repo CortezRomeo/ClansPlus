@@ -86,12 +86,13 @@ Setting up maven:
 Checking if ClanPlus in on the server:
 
 ```java
+
 @Override
 public void onEnable() {
     if (Bukkit.getPluginManager().getPlugin("ClanPlus") == null) {
-            getLogger().severe("ClanPlus is not in the server!");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
+        getLogger().severe("ClanPlus is not in the server!");
+        Bukkit.getPluginManager().disablePlugin(this);
+        return;
     }
 }
 ```
@@ -106,34 +107,68 @@ Example of using the API:
 
 ```java
         // Initialize plugin API.
-        ClanPlus clanPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
+ClanPlus clanPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
 
-        // Get clan name and clan data.
-        String clanName = "HelloClan";
+// Get clan name and clan data.
+String clanName = "HelloClan";
 
-        // If clan does not exist, create a new clan.
-        if (!clanPlusAPI.getPluginDataManager().getClanDatabase().containsKey(clanName))
-            clanPlusAPI.getPluginDataManager().loadClanDatabase(clanName);
+// If clan does not exist, create a new clan.
+        if(!clanPlusAPI.
 
-        IClanData clanData = clanPlusAPI.getPluginDataManager().getClanDatabase(clanName);
+getPluginDataManager().
 
-        // Add a player to a clan.
-        String playerName = "Cortez_Romeo";
-        clanPlusAPI.getClanManager().addPlayerToAClan(playerName, clanName, false);
+getClanDatabase().
 
-        // Promote this player to leader of the clan.
-        clanPlusAPI.getPluginDataManager().getPlayerDatabase(playerName).setRank(Rank.LEADER);
-        clanData.setOwner(playerName);
+containsKey(clanName))
+        clanPlusAPI.
 
-        // Adjust clan's database
-        clanData.setMessage("This is the first message of this clan!");
-        clanData.setCustomName("&bSuper Clan");
+getPluginDataManager().
 
-        // One of the stuffs you can do with clan manager.
-        clanPlusAPI.getClanManager().alertClan(clanName, "Have a good day!");
+loadClanDatabase(clanName);
 
-        // Save database
-        clanPlusAPI.getPluginDataManager().saveClanDatabaseToStorage(clanName, clanData);
+IClanData clanData = clanPlusAPI.getPluginDataManager().getClanDatabase(clanName);
+
+// Add a player to a clan.
+String playerName = "Cortez_Romeo";
+        clanPlusAPI.
+
+getClanManager().
+
+addPlayerToAClan(playerName, clanName, false);
+
+// Promote this player to leader of the clan.
+        clanPlusAPI.
+
+getPluginDataManager().
+
+getPlayerDatabase(playerName).
+
+setRank(Rank.LEADER);
+        clanData.
+
+setOwner(playerName);
+
+// Adjust clan's database
+        clanData.
+
+setMessage("This is the first message of this clan!");
+        clanData.
+
+setCustomName("&bSuper Clan");
+
+// One of the stuffs you can do with clan manager.
+        clanPlusAPI.
+
+getClanManager().
+
+alertClan(clanName, "Have a good day!");
+
+// Save database
+        clanPlusAPI.
+
+getPluginDataManager().
+
+saveClanDatabaseToStorage(clanName, clanData);
 ```
 
 ## Contact

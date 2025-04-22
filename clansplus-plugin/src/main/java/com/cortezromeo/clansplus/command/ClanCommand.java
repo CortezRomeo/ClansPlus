@@ -354,7 +354,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
-             }
+            }
             if (args[0].equalsIgnoreCase("event")) {
                 commands.add("war");
             }

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 
 /**
  * Class used to execute Discord Webhooks with low effort
@@ -167,41 +167,13 @@ public class DiscordWebhook {
             return title;
         }
 
-        public String getDescription() {
-            return description;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public int getColor() {
-            return color;
-        }
-
-        public Footer getFooter() {
-            return footer;
-        }
-
-        public Thumbnail getThumbnail() {
-            return thumbnail;
-        }
-
-        public Image getImage() {
-            return image;
-        }
-
-        public Author getAuthor() {
-            return author;
-        }
-
-        public List<Field> getFields() {
-            return fields;
-        }
-
         public EmbedObject setTitle(String title) {
             this.title = title;
             return this;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         public EmbedObject setDescription(String description) {
@@ -209,9 +181,17 @@ public class DiscordWebhook {
             return this;
         }
 
+        public String getUrl() {
+            return url;
+        }
+
         public EmbedObject setUrl(String url) {
             this.url = url;
             return this;
+        }
+
+        public int getColor() {
+            return color;
         }
 
         public EmbedObject setColor(Color color) {
@@ -224,14 +204,17 @@ public class DiscordWebhook {
             return this;
         }
 
+        public Footer getFooter() {
+            return footer;
+        }
+
         public EmbedObject setFooter(String text) {
             this.footer = new Footer(text, null);
             return this;
         }
 
-        public EmbedObject setFooter(String text, String icon) {
-            this.footer = new Footer(text, icon);
-            return this;
+        public Thumbnail getThumbnail() {
+            return thumbnail;
         }
 
         public EmbedObject setThumbnail(String url) {
@@ -239,8 +222,25 @@ public class DiscordWebhook {
             return this;
         }
 
+        public Image getImage() {
+            return image;
+        }
+
         public EmbedObject setImage(String url) {
             this.image = new Image(url);
+            return this;
+        }
+
+        public Author getAuthor() {
+            return author;
+        }
+
+        public List<Field> getFields() {
+            return fields;
+        }
+
+        public EmbedObject setFooter(String text, String icon) {
+            this.footer = new Footer(text, icon);
             return this;
         }
 

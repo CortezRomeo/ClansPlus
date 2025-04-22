@@ -193,10 +193,10 @@ items:
       pitch: 2
     lore:
       invalid-spawn-point:
-      - ''
-      - '&cBang hội này chưa có điểm spawn!'
-      - ''
-      - '&4Không thể dịch chuyển'
+        - ''
+        - '&cBang hội này chưa có điểm spawn!'
+        - ''
+        - '&4Không thể dịch chuyển'
       valid-spawn-point:
         - ''
         - '&fThế giới: &e%worldName%'

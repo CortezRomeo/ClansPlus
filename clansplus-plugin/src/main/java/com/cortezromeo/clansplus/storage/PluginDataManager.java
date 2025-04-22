@@ -11,7 +11,6 @@ import com.cortezromeo.clansplus.enums.CustomHeadCategory;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -138,7 +137,7 @@ public class PluginDataManager {
 
     public static boolean deleteClanData(String clanName) {
         if (!getClanDatabase().containsKey(clanName))
-           return false;
+            return false;
 
         IClanData clanData = getClanDatabase(clanName);
 
@@ -180,7 +179,7 @@ public class PluginDataManager {
                     exception.printStackTrace();
                 }
                 try {
-                    ConfigUpdater.update(ClansPlus.plugin, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default");
+                    ConfigUpdater.update(ClansPlus.plugin, "config.yml", configFile, "clan-settings.creating-clan-settings.skill-level-default");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -210,7 +209,8 @@ public class PluginDataManager {
                     customHeadDataList.add(new CustomHeadData(name, value));
                 }
                 getCustomHeadDatabase().put(customHeadCategory, customHeadDataList);
-            } catch (Exception exception) {}
+            } catch (Exception exception) {
+            }
         }
     }
 
@@ -256,7 +256,8 @@ public class PluginDataManager {
         HashMap<Integer, Integer> error = new HashMap<>();
         List<String> deletedClans = new ArrayList<>();
         if (!getClanDatabase().isEmpty()) {
-            a: for (String clanName : getClanDatabase().keySet()) {
+            a:
+            for (String clanName : getClanDatabase().keySet()) {
                 IClanData clanData = getClanDatabase(clanName);
 
                 if (getPlayerDatabase().containsKey(clanData.getOwner())) {
@@ -271,7 +272,8 @@ public class PluginDataManager {
                             continue a;
                             // case 2: check whether clan's member is in this clan to determine to delete the clan or transfer clan's leader to member
                         } else if (clanData.getMembers().size() > 1) {
-                            b: for (String memberName : clanData.getMembers()) {
+                            b:
+                            for (String memberName : clanData.getMembers()) {
                                 if (memberName.equals(clanData.getOwner()))
                                     continue b;
                                 if (!getPlayerDatabase().containsKey(memberName))
@@ -306,9 +308,8 @@ public class PluginDataManager {
                     for (String memberName : clanData.getMembers()) {
                         if (getPlayerDatabase(memberName).getClan() == null)
                             clanData.getMembers().remove(memberName);
-                        else
-                            if (!getPlayerDatabase(memberName).getClan().equalsIgnoreCase(clanName))
-                                clanData.getMembers().remove(memberName);
+                        else if (!getPlayerDatabase(memberName).getClan().equalsIgnoreCase(clanName))
+                            clanData.getMembers().remove(memberName);
                     }
                 }
                 saveClanDatabaseToStorage(clanName, clanData);
@@ -384,7 +385,7 @@ public class PluginDataManager {
                 exception.printStackTrace();
             }
         } else if (ClansPlus.databaseType == DatabaseType.H2) {
-            if (PluginDataH2Storage.getConnection() ==  null) {
+            if (PluginDataH2Storage.getConnection() == null) {
                 MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Không thể backup vì H2 chưa được kết nối!");
                 return;
             }

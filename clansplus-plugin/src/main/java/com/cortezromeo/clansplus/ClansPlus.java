@@ -47,14 +47,34 @@ public class ClansPlus extends JavaPlugin {
     public static ClansPlus plugin;
     public static VersionSupport nms;
     public static DatabaseType databaseType;
-    private static com.cortezromeo.clansplus.api.ClanPlus api;
     public static boolean papiSupport = false;
     public static Economy vaultEconomy;
     public static PlayerPointsAPI playerPointsAPI;
     public static DiscordSupport discordSupport;
     public static boolean mythicMobs = false;
+    private static com.cortezromeo.clansplus.api.ClanPlus api;
     public FoliaLib foliaLib;
     private EventTask eventTask;
+
+    public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {
+        return api;
+    }
+
+    public static boolean isPapiSupport() {
+        return papiSupport;
+    }
+
+    public static boolean isMythicMobsSupport() {
+        return mythicMobs;
+    }
+
+    public static PlayerPointsAPI getPlayerPointsAPI() {
+        return playerPointsAPI;
+    }
+
+    public static DiscordSupport getDiscordSupport() {
+        return discordSupport;
+    }
 
     @Override
     public void onLoad() {
@@ -153,7 +173,7 @@ public class ClansPlus extends JavaPlugin {
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
         try {
-            ConfigUpdater.update(this, "config.yml", configFile,  "clan-settings.creating-clan-settings.skill-level-default");
+            ConfigUpdater.update(this, "config.yml", configFile, "clan-settings.creating-clan-settings.skill-level-default");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -594,10 +614,6 @@ public class ClansPlus extends JavaPlugin {
         BoostScoreSkill.registerSkill();
     }
 
-    public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {
-        return api;
-    }
-
     public void initDatabase() {
         try {
             databaseType = DatabaseType.valueOf(Settings.DATABASE_TYPE.toUpperCase());
@@ -613,22 +629,6 @@ public class ClansPlus extends JavaPlugin {
             databaseType = DatabaseType.YAML;
             Settings.DATABASE_TYPE = "YAML";
         }
-    }
-
-    public static boolean isPapiSupport() {
-        return papiSupport;
-    }
-
-    public static boolean isMythicMobsSupport() {
-        return mythicMobs;
-    }
-
-    public static PlayerPointsAPI getPlayerPointsAPI() {
-        return playerPointsAPI;
-    }
-
-    public static DiscordSupport getDiscordSupport() {
-        return discordSupport;
     }
 
     public EventTask getEventTask() {
@@ -647,7 +647,8 @@ public class ClansPlus extends JavaPlugin {
                     InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
                     if (holder instanceof ClanPlusInventoryBase)
                         player.closeInventory();
-                } catch (Exception exception) {}
+                } catch (Exception exception) {
+                }
             }
 
         log("&f--------------------------------");

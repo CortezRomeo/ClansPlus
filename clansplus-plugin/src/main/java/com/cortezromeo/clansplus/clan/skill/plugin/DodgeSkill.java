@@ -42,6 +42,7 @@ public class DodgeSkill {
             public boolean onDamage(SkillData skillData, EntityDamageByEntityEvent event) {
                 return onDamageEvent(skillData, event);
             }
+
             @Override
             public boolean onDie(SkillData skillData, String killerName, String victimName, boolean isMob) {
                 return false;

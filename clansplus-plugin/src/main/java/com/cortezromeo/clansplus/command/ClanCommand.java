@@ -75,7 +75,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     commandConfirmation.add(sender);
                     MessageUtil.sendMessage(player, Messages.COMMAND_CONFIRMATION);
 
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(ClansPlus.plugin, () -> {
+                    ClansPlus.plugin.foliaLib.getScheduler().runLaterAsync(() -> {
                         if (commandConfirmation.contains(sender))
                             commandConfirmation.remove(sender);
                     }, 20 * 10);
@@ -354,7 +354,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
-             }
+            }
             if (args[0].equalsIgnoreCase("event")) {
                 commands.add("war");
             }

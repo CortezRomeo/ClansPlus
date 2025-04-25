@@ -12,7 +12,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -110,12 +109,13 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
                     new SetPermission(Rank.LEADER, getOwner(), getOwner().getName(), clickedSubject, Rank.LEADER).execute();
                 open();
             }
-        } catch (Exception exception) {}
+        } catch (Exception exception) {
+        }
     }
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
                         fileConfiguration.getString("items.border.value"),

@@ -15,7 +15,8 @@ import java.util.List;
 
 public class DiscordSupport {
 
-    public DiscordSupport() {}
+    public DiscordSupport() {
+    }
 
     public void sendMessage(String message) {
         DiscordWebhook discordWebhook = new DiscordWebhook(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);

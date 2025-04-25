@@ -10,7 +10,6 @@ import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Invite extends SubjectManager {
@@ -63,7 +62,7 @@ public class Invite extends SubjectManager {
         MessageUtil.sendMessage(target, Messages.INCOMING_CLAN_INVITE.replace("%player%", playerName).replace("%seconds%", String.valueOf(Settings.CLAN_SETTING_TIME_TO_ACCEPT)).replace("%clan%", playerClanData.getName()));
         ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_INVITE_NOTIFICATION.replace("%player%", playerName).replace("%target%", targetName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runLaterAsync(() -> {
             if (ClanManager.beingInvitedPlayers.containsKey(targetName)) {
                 MessageUtil.sendMessage(target, Messages.INVITE_EXPIRED.replace("%clan%", ClanManager.beingInvitedPlayers.get(targetName)));
                 MessageUtil.sendMessage(player, Messages.INVITER_INVITE_EXPIRED.replace("%player%", targetName));

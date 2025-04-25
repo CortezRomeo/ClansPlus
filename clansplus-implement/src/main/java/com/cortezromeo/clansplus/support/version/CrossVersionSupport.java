@@ -5,15 +5,13 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XItemFlag;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
+import com.cryptomorin.xseries.particles.XParticle;
 import com.cryptomorin.xseries.profiles.builder.XSkull;
 import com.cryptomorin.xseries.profiles.exceptions.ProfileChangeException;
 import com.cryptomorin.xseries.profiles.objects.ProfileInputType;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -169,6 +167,21 @@ public class CrossVersionSupport extends VersionSupport {
     @Override
     public String stripColor(String textToStrip) {
         return textToStrip == null ? null : STRIP_COLOR_PATTERN.matcher(textToStrip).replaceAll("");
+    }
+
+    @Override
+    public Particle getParticle(String particleName) {
+        try {
+            return XParticle.of(particleName).get().get();
+        } catch (Exception exception) {
+            getPlugin().getLogger().severe("----------------------------------------------------");
+            getPlugin().getLogger().severe("PARTICLE NAME " + particleName + " DOES NOT EXIST!");
+            getPlugin().getLogger().severe("Maybe you type it wrong or it does not exist in this server version.");
+            getPlugin().getLogger().severe("Please take a look at those valid particles right here:");
+            getPlugin().getLogger().severe("https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html");
+            getPlugin().getLogger().severe("----------------------------------------------------");
+            return Particle.BARRIER;
+        }
     }
 
 }

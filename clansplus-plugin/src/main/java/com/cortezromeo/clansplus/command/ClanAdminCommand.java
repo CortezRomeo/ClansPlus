@@ -24,7 +24,6 @@ import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.support.DiscordSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -113,7 +112,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("backup")) {
                 sender.sendMessage("Đang tạo backup, vui lòng đợi...");
-                Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+                ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
                     PluginDataManager.backupAll(null);
                     sender.sendMessage("Backup thành công! File backup sẽ nằm trong folder backup trong folder plugin.");
                     sender.sendMessage("Database type: " + ClansPlus.databaseType.toString().toUpperCase());
@@ -630,7 +629,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 }
 
                 sender.sendMessage("Đang tạo backup, vui lòng đợi...");
-                Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+                ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
                     PluginDataManager.backupAll(fileName);
                     sender.sendMessage("Backup thành công! File backup sẽ nằm trong folder backup trong folder plugin.");
                     sender.sendMessage("Database type: " + ClansPlus.databaseType.toString().toUpperCase());
@@ -813,7 +812,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
-             }
+            }
             if (args[0].equalsIgnoreCase("setplayerdata")) {
                 if (!PluginDataManager.getPlayerDatabase().isEmpty())
                     commands.addAll(PluginDataManager.getPlayerDatabase().keySet());
@@ -833,7 +832,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     sender.sendMessage("Để an toàn dữ liệu trong việc chuyển đổi dữ liệu, vui lòng làm trong lúc máy chủ không có người chơi.");
                     sender.sendMessage("-----------------------");
                     transferDataCommandNotifying.add(sender);
-                    Bukkit.getScheduler().runTaskLater(ClansPlus.plugin, () -> {
+                    ClansPlus.plugin.foliaLib.getScheduler().runLater(() -> {
                         transferDataCommandNotifying.remove(sender);
                     }, 20 * 30);
                 }
@@ -958,6 +957,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     private enum ClanDataType {
         score, warpoint, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies
     }
+
     private enum PlayerDataType {
         clanname, rank, joindate, scorecollected, lastactivated
 

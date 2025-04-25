@@ -22,6 +22,16 @@ public class PlayerChatListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
+    public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
+        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_INVENTORY_LIST_SEARCH);
+        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
+        searchingQueryInventoryList.put(player, inventoryHolder);
+    }
+
+    public static void removeSearchPlayerQuery(Player player) {
+        searchingQueryInventoryList.remove(player);
+    }
+
     @EventHandler
     public void onChat(PlayerChatEvent event) {
         if (event.isCancelled())
@@ -35,16 +45,6 @@ public class PlayerChatListener implements Listener {
                 ((PaginatedInventory) holder).onSearch(event);
             searchingQueryInventoryList.remove(player);
         }
-    }
-
-    public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
-        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_INVENTORY_LIST_SEARCH);
-        MessageUtil.sendMessage(player, Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
-        searchingQueryInventoryList.put(player, inventoryHolder);
-    }
-
-    public static void removeSearchPlayerQuery(Player player) {
-        searchingQueryInventoryList.remove(player);
     }
 
 }

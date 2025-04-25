@@ -33,7 +33,7 @@ public class PluginDataH2Storage implements PluginStorage {
             if (connection != null)
                 disableStorage();
 
-            connection = new JdbcConnection("jdbc:h2:./" + ClansPlus.plugin.getDataFolder()  + "/" + fileName + ";mode=MySQL", new Properties(), null, null, false);
+            connection = new JdbcConnection("jdbc:h2:./" + ClansPlus.plugin.getDataFolder() + "/" + fileName + ";mode=MySQL", new Properties(), null, null, false);
             connection.setAutoCommit(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -87,6 +87,92 @@ public class PluginDataH2Storage implements PluginStorage {
         return connection;
     }
 
+    private static boolean isClanDataExisted(String clanName) {
+        String sql = "select * from " + clanTable + " where NAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, clanName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            rs.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean isPlayerDataExisted(String playerName) {
+        String sql = "SELECT * FROM " + playerTable + " WHERE PLAYERNAME=?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, playerName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            rs.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
+    private static void initClanData(String clanName) {
+        String sql = "INSERT INTO " + clanTable + " (" +
+                "NAME, CUSTOMNAME, OWNER, MESSAGE, SCORE, WARPOINT, WARNING, " +
+                "MAXMEMBERS, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
+                "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, " +
+                "ALLIES, SKILLLEVEL, SUBJECTPERMISSION, ALLYINVITATION, " +
+                "DISCORDCHANNELID, DISCORDJOINLINK) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, clanName);      // NAME
+            preparedStatement.setString(2, "");         // CUSTOMNAME
+            preparedStatement.setString(3, "");         // OWNER
+            preparedStatement.setString(4, "");         // MESSAGE
+            preparedStatement.setInt(5, 0);             // SCORE
+            preparedStatement.setLong(6, 0);             // WARPOINT
+            preparedStatement.setInt(7, 0);             // WARNING
+            preparedStatement.setInt(8, 0);             // MAXMEMBERS
+            preparedStatement.setInt(9, 0);             // CREATEDDATE
+            preparedStatement.setString(10, "");         // ICONTYPE
+            preparedStatement.setString(11, "");        // ICONVALUE
+            preparedStatement.setString(12, "");        // MEMBERS
+            preparedStatement.setString(13, "");        // SPAWNPOINTWORLD
+            preparedStatement.setInt(14, 0);            // SPAWNPOINTX
+            preparedStatement.setInt(15, 0);            // SPAWNPOINTY
+            preparedStatement.setInt(16, 0);            // SPAWNPOINTZ
+            preparedStatement.setString(17, "");        // ALLIES
+            preparedStatement.setString(18, "");        // SKILLLEVEL
+            preparedStatement.setString(18, "");        // SKILLLEVEL
+            preparedStatement.setString(19, "");        // SUBJECTPERMISSION
+            preparedStatement.setString(20, "");        // ALLYINVITATION
+            preparedStatement.setLong(21, 0L);        // DISCORDCHANNELID
+            preparedStatement.setString(22, "");        // DISCORDJOINLINK
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void initPlayerData(String playerName) {
+        String sql = "INSERT INTO " + playerTable + " (" +
+                "PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED, LASTACTIVATED) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, playerName);    // PLAYERNAME
+            preparedStatement.setString(2, "");         // UUID
+            preparedStatement.setString(3, "");         // CLAN
+            preparedStatement.setString(4, "");         // RANK
+            preparedStatement.setLong(5, 0);            // JOINDATE
+            preparedStatement.setLong(6, 0);            // SCORECOLLECTED
+            preparedStatement.setLong(7, 0);            // LASTACTIVATED
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public ClanData getClanData(String clanName) {
         List<String> members = new ArrayList<>();
@@ -138,13 +224,18 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
                 clanData.setIconType(IconType.valueOf(resultSet.getString("ICONTYPE")));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
-                clanData.setMembers(gson.fromJson(resultSet.getString("MEMBERS"), new TypeToken<List<String>>(){}.getType()));
+                clanData.setMembers(gson.fromJson(resultSet.getString("MEMBERS"), new TypeToken<List<String>>() {
+                }.getType()));
                 if (resultSet.getString("SPAWNPOINTWORLD") != null)
                     clanData.setSpawnPoint(new Location(Bukkit.getWorld(resultSet.getString("SPAWNPOINTWORLD")), resultSet.getDouble("SPAWNPOINTX"), resultSet.getDouble("SPAWNPOINTY"), resultSet.getDouble("SPAWNPOINTZ")));
-                clanData.setAllies(gson.fromJson(resultSet.getString("ALLIES"), new TypeToken<List<String>>(){}.getType()));
-                clanData.setSkillLevel(gson.fromJson(resultSet.getString("SKILLLEVEL"), new TypeToken<HashMap<Integer, Integer>>(){}.getType()));
-                clanData.setSubjectPermission(gson.fromJson(resultSet.getString("SUBJECTPERMISSION"), new TypeToken<HashMap<Subject, Rank>>(){}.getType()));
-                clanData.setAllyInvitation(gson.fromJson(resultSet.getString("ALLYINVITATION"), new TypeToken<List<String>>(){}.getType()));
+                clanData.setAllies(gson.fromJson(resultSet.getString("ALLIES"), new TypeToken<List<String>>() {
+                }.getType()));
+                clanData.setSkillLevel(gson.fromJson(resultSet.getString("SKILLLEVEL"), new TypeToken<HashMap<Integer, Integer>>() {
+                }.getType()));
+                clanData.setSubjectPermission(gson.fromJson(resultSet.getString("SUBJECTPERMISSION"), new TypeToken<HashMap<Subject, Rank>>() {
+                }.getType()));
+                clanData.setAllyInvitation(gson.fromJson(resultSet.getString("ALLYINVITATION"), new TypeToken<List<String>>() {
+                }.getType()));
                 clanData.setDiscordChannelID(resultSet.getLong("DISCORDCHANNELID"));
                 clanData.setDiscordJoinLink(resultSet.getString("DISCORDJOINLINK"));
             }
@@ -338,92 +429,6 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.execute();
         } catch (Exception exception) {
             exception.printStackTrace();
-        }
-    }
-
-    private static boolean isClanDataExisted(String clanName) {
-        String sql = "select * from " + clanTable + " where NAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, clanName);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-            rs.close();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return false;
-    }
-
-    private static boolean isPlayerDataExisted(String playerName) {
-        String sql = "SELECT * FROM " + playerTable + " WHERE PLAYERNAME=?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, playerName);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-            rs.close();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return false;
-    }
-
-    private static void initClanData(String clanName) {
-        String sql = "INSERT INTO " + clanTable + " (" +
-                "NAME, CUSTOMNAME, OWNER, MESSAGE, SCORE, WARPOINT, WARNING, " +
-                "MAXMEMBERS, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
-                "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, " +
-                "ALLIES, SKILLLEVEL, SUBJECTPERMISSION, ALLYINVITATION, " +
-                "DISCORDCHANNELID, DISCORDJOINLINK) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, clanName);      // NAME
-            preparedStatement.setString(2, "");         // CUSTOMNAME
-            preparedStatement.setString(3, "");         // OWNER
-            preparedStatement.setString(4, "");         // MESSAGE
-            preparedStatement.setInt(5, 0);             // SCORE
-            preparedStatement.setLong(6, 0);             // WARPOINT
-            preparedStatement.setInt(7, 0);             // WARNING
-            preparedStatement.setInt(8, 0);             // MAXMEMBERS
-            preparedStatement.setInt(9, 0);             // CREATEDDATE
-            preparedStatement.setString(10, "");         // ICONTYPE
-            preparedStatement.setString(11, "");        // ICONVALUE
-            preparedStatement.setString(12, "");        // MEMBERS
-            preparedStatement.setString(13, "");        // SPAWNPOINTWORLD
-            preparedStatement.setInt(14, 0);            // SPAWNPOINTX
-            preparedStatement.setInt(15, 0);            // SPAWNPOINTY
-            preparedStatement.setInt(16, 0);            // SPAWNPOINTZ
-            preparedStatement.setString(17, "");        // ALLIES
-            preparedStatement.setString(18, "");        // SKILLLEVEL
-            preparedStatement.setString(18, "");        // SKILLLEVEL
-            preparedStatement.setString(19, "");        // SUBJECTPERMISSION
-            preparedStatement.setString(20, "");        // ALLYINVITATION
-            preparedStatement.setLong(21, 0L);        // DISCORDCHANNELID
-            preparedStatement.setString(22, "");        // DISCORDJOINLINK
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void initPlayerData(String playerName) {
-        String sql = "INSERT INTO " + playerTable + " (" +
-                "PLAYERNAME, UUID, CLAN, RANK, JOINDATE, SCORECOLLECTED, LASTACTIVATED) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setString(1, playerName);    // PLAYERNAME
-            preparedStatement.setString(2, "");         // UUID
-            preparedStatement.setString(3, "");         // CLAN
-            preparedStatement.setString(4, "");         // RANK
-            preparedStatement.setLong(5, 0);            // JOINDATE
-            preparedStatement.setLong(6, 0);            // SCORECOLLECTED
-            preparedStatement.setLong(7, 0);            // LASTACTIVATED
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -15,6 +15,8 @@ public interface ClanPlus {
 
     PluginDataManagerUtil getPluginDataManager();
 
+    ClanManagerUtil getClanManager();
+
     interface PluginDataManagerUtil {
         HashMap<String, IPlayerData> getPlayerDatabase();
 
@@ -52,8 +54,6 @@ public interface ClanPlus {
 
         void saveAllDatabase();
     }
-
-    ClanManagerUtil getClanManager();
 
     interface ClanManagerUtil {
         boolean isClanExisted(String clanName);

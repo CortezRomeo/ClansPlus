@@ -11,7 +11,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.listener.PlayerMovementListener;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -55,24 +54,21 @@ public class Spawn extends SubjectManager {
             PlayerMovementListener.spawnCountDownPlayers.add(player);
 
             AtomicInteger countDownSeconds = new AtomicInteger(Settings.CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS);
-            MessageUtil.sendMessage(player, Messages.SPAWN_POINT_COUNT_DOWN.replace("%seconds%" , String.valueOf(countDownSeconds.get())));
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (!PlayerMovementListener.spawnCountDownPlayers.contains(player)) {
-                        MessageUtil.sendMessage(player, Messages.MOVE_WHILE_SPAWNING);
-                        cancel();
-                        return;
-                    }
-
-                    countDownSeconds.set(countDownSeconds.get() - 1);
-                    if (countDownSeconds.get() <= 0) {
-                        PlayerMovementListener.spawnCountDownPlayers.remove(player);
-                        spawn();
-                        cancel();
-                    }
+            MessageUtil.sendMessage(player, Messages.SPAWN_POINT_COUNT_DOWN.replace("%seconds%", String.valueOf(countDownSeconds.get())));
+            ClansPlus.plugin.foliaLib.getScheduler().runAtEntityTimer(player, task -> {
+                if (!PlayerMovementListener.spawnCountDownPlayers.contains(player)) {
+                    MessageUtil.sendMessage(player, Messages.MOVE_WHILE_SPAWNING);
+                    task.cancel();
+                    return;
                 }
-            }.runTaskTimer(ClansPlus.plugin, 0, 20);
+
+                countDownSeconds.set(countDownSeconds.get() - 1);
+                if (countDownSeconds.get() <= 0) {
+                    PlayerMovementListener.spawnCountDownPlayers.remove(player);
+                    spawn();
+                    task.cancel();
+                }
+            }, 1, 20L);
         } else {
             spawn();
             return true;
@@ -83,7 +79,18 @@ public class Spawn extends SubjectManager {
 
     public void spawn() {
         IClanData playerClanData = getPlayerClanData();
-        getPlayer().teleport(playerClanData.getSpawnPoint());
+        if (ClansPlus.plugin.foliaLib.isSpigot()) {
+            getPlayer().teleport(playerClanData.getSpawnPoint());
+        }
+        if (ClansPlus.plugin.foliaLib.isPaper()) {
+            getPlayer().teleportAsync(playerClanData.getSpawnPoint());
+        }
+        if (ClansPlus.plugin.foliaLib.isFolia()) {
+            getPlayer().teleportAsync(playerClanData.getSpawnPoint());
+        }
+        if (ClansPlus.plugin.foliaLib.isUnsupported()) {
+            getPlayer().teleport(playerClanData.getSpawnPoint());
+        }
         MessageUtil.sendMessage(player, Messages.SPAWN_SUCCESS);
     }
 }

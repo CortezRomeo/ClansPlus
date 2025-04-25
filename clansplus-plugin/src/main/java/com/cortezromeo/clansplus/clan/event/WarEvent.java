@@ -15,6 +15,7 @@ import com.cortezromeo.clansplus.util.CommandUtil;
 import com.cortezromeo.clansplus.util.HashMapUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import org.bukkit.Bukkit;
@@ -29,8 +30,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,15 +37,7 @@ import java.util.*;
 
 public class WarEvent {
 
-    private BukkitTask warEventTask;
-    private boolean STARTING = false;
-    private long MAXTIMELEFT = 0;
-    private long TIMELEFT = 0;
-    private HashMap<String, Long> playerDamagesCaused = new HashMap<>();
-    private HashMap<String, Long> playerDamagesCollected = new HashMap<>();
-    private HashMap<String, Long> clanScoreCollected = new HashMap<>();
-    private HashMap<Player, BossBar> bossBarDatabase = new HashMap<>();
-
+    public WrappedTask wrappedTask;
     public boolean ENABLED;
     public boolean PLAYER_JOIN_NOTIFICATION_ENABLED;
     public String MESSAGES_PREFIX;
@@ -85,6 +76,13 @@ public class WarEvent {
     public List<String> STARTING_COMMANDS;
     public boolean ENDING_REWARD_ENABLED;
     public List<String> ENDING_COMMANDS;
+    private boolean STARTING = false;
+    private long MAXTIMELEFT = 0;
+    private long TIMELEFT = 0;
+    private HashMap<String, Long> playerDamagesCaused = new HashMap<>();
+    private HashMap<String, Long> playerDamagesCollected = new HashMap<>();
+    private HashMap<String, Long> clanScoreCollected = new HashMap<>();
+    private HashMap<Player, BossBar> bossBarDatabase = new HashMap<>();
 
     public WarEvent() {
         setupValue();
@@ -168,21 +166,18 @@ public class WarEvent {
             exception.printStackTrace();
         }
 
-        warEventTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (TIMELEFT > 0) {
-                    // update boss bar
-                    for (Player player : Bukkit.getOnlinePlayers())
-                        createBossBar(player);
-                    TIMELEFT--;
-                }
-                // ending event
-                if (TIMELEFT <= 0 || !isStarting()) {
-                    endEvent(true, true, true);
-                }
+        wrappedTask = ClansPlus.plugin.foliaLib.getScheduler().runTimerAsync(() -> {
+            if (TIMELEFT > 0) {
+                // update boss bar
+                for (Player player : Bukkit.getOnlinePlayers())
+                    ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> createBossBar(player));
+                TIMELEFT--;
             }
-        }.runTaskTimer(ClansPlus.plugin, 0, 20);
+            // ending event
+            if (TIMELEFT <= 0 || !isStarting()) {
+                endEvent(true, true, true);
+            }
+        }, 0, 20L);
 
     }
 
@@ -193,9 +188,9 @@ public class WarEvent {
         // set event time left to zero
         TIMELEFT = 0;
 
-        if (warEventTask != null)
-            if (!warEventTask.isCancelled())
-                warEventTask.cancel();
+        if (wrappedTask != null)
+            if (!wrappedTask.isCancelled())
+                wrappedTask.cancel();
 
         List<String> topClanScoreCollected = HashMapUtil.sortFromGreatestToLowestL(getClanScoreCollected());
         List<String> topPlayerDamagesCaused = HashMapUtil.sortFromGreatestToLowestL(getPlayerDamagesCaused());
@@ -304,14 +299,9 @@ public class WarEvent {
                                 CommandUtil.dispatchCommand(Bukkit.getPlayer(playerName), commandsRewarded.replace("%clan%", playerClanName).replace("%player%", playerName));
                         }
                     }
-            }
+                }
         }
         STARTING = false;
-    }
-
-    public void setTimeLeft(int seconds) {
-        TIMELEFT = seconds;
-        MAXTIMELEFT = TIMELEFT;
     }
 
     public void onJoin(PlayerJoinEvent event) {
@@ -591,6 +581,11 @@ public class WarEvent {
         return TIMELEFT;
     }
 
+    public void setTimeLeft(int seconds) {
+        TIMELEFT = seconds;
+        MAXTIMELEFT = TIMELEFT;
+    }
+
     public HashMap<String, Long> getPlayerDamagesCaused() {
         return playerDamagesCaused;
     }
@@ -617,14 +612,6 @@ public class WarEvent {
 
     public boolean isStarting() {
         return STARTING;
-    }
-
-    public BukkitTask getWarEventTask() {
-        return warEventTask;
-    }
-
-    public int getWarEventTaskID() {
-        return warEventTask.getTaskId();
     }
 
     public HashMap<Player, BossBar> getBossBarDatabase() {

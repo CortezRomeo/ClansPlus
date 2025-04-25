@@ -8,7 +8,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -128,7 +127,7 @@ public class AllyListInventory extends PaginatedInventory {
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
             ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
                     fileConfiguration.getString("items.back.value"),

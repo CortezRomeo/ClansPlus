@@ -6,7 +6,6 @@ import com.cortezromeo.clansplus.file.inventory.ViewClanInventoryFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -71,7 +70,7 @@ public class ViewClanInformationInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
 
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),

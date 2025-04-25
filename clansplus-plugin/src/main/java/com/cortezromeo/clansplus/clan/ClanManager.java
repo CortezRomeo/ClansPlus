@@ -154,11 +154,11 @@ public class ClanManager {
         if (PluginDataManager.getClanDatabaseByPlayerName(player.getName()) == null)
             return;
 
-       IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
 
-       if (clanData.getMessage() == null) {
-           return;
-       }
+        if (clanData.getMessage() == null) {
+            return;
+        }
 
         for (String clanMessageFormat : Messages.CLAN_MESSAGE) {
             clanMessageFormat = StringUtil.setClanNamePlaceholder(clanMessageFormat, clanData.getName());
@@ -169,7 +169,7 @@ public class ClanManager {
 
     public static String getFormatClanMessage(IClanData clanData) {
         if (clanData.getMessage() == null)
-            return ClansPlus.nms.addColor( "<Không có thông báo>");
+            return ClansPlus.nms.addColor("<Không có thông báo>");
         return ClansPlus.nms.addColor(clanData.getMessage());
     }
 

@@ -7,13 +7,11 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
-import org.bukkit.Bukkit;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ import java.util.List;
 public class EventsMenuInventory extends ClanPlusInventoryBase {
 
     FileConfiguration fileConfiguration = EventsMenuInventoryFile.get();
-    private BukkitTask bukkitRunnable;
+    private WrappedTask wrappedTask;
 
     public EventsMenuInventory(Player owner) {
         super(owner);
@@ -43,17 +41,17 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
             getOwner().updateInventory();
         }
 
-        if (bukkitRunnable == null) {
-            bukkitRunnable = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (getInventory().getViewers().isEmpty() || !getOwner().getOpenInventory().getTopInventory().equals(getInventory())) {
-                        cancel();
-                        return;
-                    }
-                    open();
+        if (wrappedTask == null) {
+
+            ClansPlus.plugin.foliaLib.getScheduler().runTimerAsync(task -> {
+                wrappedTask = task;
+
+                if (getInventory() == null || !getInventory().getViewers().contains(getOwner())) {
+                    task.cancel();
+                    return;
                 }
-            }.runTaskTimerAsynchronously(ClansPlus.nms.getPlugin(), 20, fileConfiguration.getInt("auto-update.seconds") * 20L);
+                setMenuItems();
+            }, 20, fileConfiguration.getInt("auto-update.seconds") * 20L);
         }
     }
 
@@ -95,7 +93,7 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             int warEventItemSlot = fileConfiguration.getInt("items.warEvent.slot");

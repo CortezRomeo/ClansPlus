@@ -6,6 +6,7 @@ api-version: 1.16
 softdepend:
   - Vault
   - PlayerPoints
+folia-supported: true
 commands:
   clan:
     aliases:

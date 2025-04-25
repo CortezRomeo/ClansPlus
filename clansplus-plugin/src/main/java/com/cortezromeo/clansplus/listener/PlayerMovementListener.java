@@ -22,7 +22,7 @@ public class PlayerMovementListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-         spawnCountDownPlayers.remove(event.getPlayer());
+        spawnCountDownPlayers.remove(event.getPlayer());
     }
 
 }

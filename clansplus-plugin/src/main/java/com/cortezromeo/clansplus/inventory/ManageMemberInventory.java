@@ -95,7 +95,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
 
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
@@ -169,12 +169,12 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         List<String> itemLore = itemMeta.getLore();
         itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
-                        .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
-                        .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
-                        .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
-                        .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
-                        .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
-                        .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
+                .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
+                .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
+                .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
+                .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
+                .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
+                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

@@ -197,7 +197,7 @@ messages:
           - '&#3498eb/banghoi list &fXem danh sách bang hội'
         in-clan-commands:
           messages: |
-          
+            
             &#3498ebBANG HỘI
             &7Phiên bản %version%
             %memberCommands%

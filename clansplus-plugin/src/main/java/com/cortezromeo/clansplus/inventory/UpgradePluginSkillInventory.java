@@ -19,7 +19,6 @@ import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
 import com.google.common.primitives.Ints;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -128,7 +127,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
                     int levelChosen = Integer.parseInt(itemCustomData.replace("upgrade=", ""));
 
-                    int skillID =  SkillManager.getSkillID(pluginSkill);
+                    int skillID = SkillManager.getSkillID(pluginSkill);
                     int clanDataSkillLevel = PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(skillID);
                     int newSkillLevel = clanDataSkillLevel + 1;
 
@@ -155,7 +154,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             super.addPaginatedMenuItems(fileConfiguration);
             ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
                     fileConfiguration.getString("items.back.value"),
@@ -207,7 +206,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                 if (skillLevels.get(index) != null) {
                     int skillLevel = Integer.parseInt(skillLevels.get(index));
                     try {
-                        String skillConfigPath = "skills." + skillName + "." + (PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(skillID) >= skillLevel ? "unlocked." : "locked.");                        List<String> skillLLevelItemLore = new ArrayList<>();
+                        String skillConfigPath = "skills." + skillName + "." + (PluginDataManager.getClanDatabase(clanName).getSkillLevel().get(skillID) >= skillLevel ? "unlocked." : "locked.");
+                        List<String> skillLLevelItemLore = new ArrayList<>();
                         if (fileConfiguration.getBoolean(skillConfigPath + "customLore.enabled") && fileConfiguration.getString(skillConfigPath + "customLore.level." + skillLevel) != null) {
                             for (String lore : fileConfiguration.getStringList(skillConfigPath + "customLore.level." + skillLevel))
                                 skillLLevelItemLore.add(addSkillLevelItemPlaceholders(skillLevel, skillID, skillCurrencyType, lore));

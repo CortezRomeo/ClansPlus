@@ -211,7 +211,7 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public void setSubjectPermission (HashMap<Subject, Rank> subjectPermission) {
+    public void setSubjectPermission(HashMap<Subject, Rank> subjectPermission) {
         this.subjectPermission = subjectPermission;
     }
 

@@ -6,7 +6,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -74,12 +73,12 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
             new AllyInvitationListInventory(getOwner()).open();
         if (itemCustomData.equals("allyList"))
             new AllyListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName(), false).open();
-            //new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
+        //new MemberListInventory(getOwner(), PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName())).open();
     }
 
     @Override
     public void setMenuItems() {
-        Bukkit.getScheduler().runTaskAsynchronously(ClansPlus.plugin, () -> {
+        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
                         fileConfiguration.getString("items.border.value"),

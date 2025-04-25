@@ -106,12 +106,6 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
             PluginDataManager.saveAllDatabase();
         }
     };
-
-    @Override
-    public PluginDataManagerUtil getPluginDataManager() {
-        return getPluginDataManager;
-    }
-
     private final ClanManagerUtil getClanManager = new ClanManagerUtil() {
         @Override
         public boolean isClanExisted(String clanName) {
@@ -213,6 +207,11 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
             return ClanManager.isConsoleUsingChatSpy();
         }
     };
+
+    @Override
+    public PluginDataManagerUtil getPluginDataManager() {
+        return getPluginDataManager;
+    }
 
     @Override
     public ClanManagerUtil getClanManager() {

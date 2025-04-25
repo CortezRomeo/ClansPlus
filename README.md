@@ -8,19 +8,21 @@ A minecraft plugin that allows players to create and manage their own clan.
 
 This software runs on [Spigot](https://www.spigotmc.org/) and NMS.
 Spigot forks without compiled NMS code are not supported.
-Officially supported servers are [spigot](https://www.spigotmc.org/) and [paper](https://papermc.io/) and [folia](https://github.com/PaperMC/Folia/).
+Officially supported servers are **[spigot](https://www.spigotmc.org/)** and **[paper](https://papermc.io/)** and **[folia](https://github.com/PaperMC/Folia/)**.
 It is required to use [**Java 11**](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html) or
 newer.
 
 ## Main features
 
-- A lot of options for players to manage and control their clan.
-- Automatically updating files if there is a new update.
-- Configable messages, gui, etc..
-- Supporting API.
+- A lot of options for players to manage and control their clan
+- Automatically updating files if there is a new update
+- Configable messages, gui, etc
+- Supporting teleportasync using paper api
+- Supporting API
 - Supporting GUI
 - Supporting Hex Color
 - Supporting BossBar
+- Supporting Discord Web Hook to send messages to Discord
 - Supporting Floodgate (GeyserMC)
 - Easily managing plugin database
 
@@ -58,6 +60,9 @@ You might need these plugins to utilize my plugin resources totally.
         - **%clanplus_player_scorecollected%** - Get player score collected
         - **%clanplus_player_lastactivated%** - Get player last activated as milliseconds
         - **%clanplus_player_format_lastactivated%** - Get player last activated (mm/dd/yyyy)
+    - To get top clans:
+        - **%clanplus_top_score_name_<position>%** - Get the name of clan ranked <position>
+        - **%clanplus_top_score_value_<position>%** - Get the value of clan ranked <position>        
 
 - [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/)
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
@@ -84,21 +89,21 @@ Setting up maven:
 	</dependency>
 ```
 
-Checking if ClanPlus in on the server:
+Checking if ClansPlus in on the server:
 
 ```java
 
 @Override
 public void onEnable() {
-    if (Bukkit.getPluginManager().getPlugin("ClanPlus") == null) {
-        getLogger().severe("ClanPlus is not in the server!");
+    if (Bukkit.getPluginManager().getPlugin("ClansPlus") == null) {
+        getLogger().severe("ClansPlus is not in the server!");
         Bukkit.getPluginManager().disablePlugin(this);
         return;
     }
 }
 ```
 
-Initializing ClanPlus's API:
+Initializing ClansPlus's API:
 
 ```java
 ClanPlus clanPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();

@@ -62,6 +62,8 @@ online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
 unknown: 'N/A'
+no-messages: '<Không có thông báo>'
+no-customname: '<Không có tên custom>'
 time-format:
   hh-mm-ss: '%hours% giờ %minutes% phút %seconds% giây'
   mm-ss: '%minutes% phút %seconds% giây'

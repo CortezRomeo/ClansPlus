@@ -26,6 +26,8 @@ public class Messages {
     public static String ONLINE_STATUS_ONLINE;
     public static String PREFIX;
     public static String UNKNOWN;
+    public static String NO_MESSAGES;
+    public static String NO_CUSTOMNAME;
     public static String TIME_FORMAT_HHMMSS;
     public static String TIME_FORMAT_MMSS;
     public static String TIME_FORMAT_SS;
@@ -147,12 +149,12 @@ public class Messages {
         File messageFile = new File(ClansPlus.plugin.getDataFolder() + "/languages/language_" + locale + ".yml");
         FileConfiguration fileConfiguration;
         if (!messageFile.exists()) {
-            fileConfiguration = Vietnamese.get();
+            fileConfiguration = English.get();
             MessageUtil.log("&c--------------------------------------");
             MessageUtil.log("    &4ERROR");
             MessageUtil.log("&eLocale &c&l" + locale + "&r&e does not exist!");
             MessageUtil.log("&ePlease check it again in config.yml.");
-            MessageUtil.log("&eMessages will automatically be loaded using &b&lVietnamese&e.");
+            MessageUtil.log("&eMessages will automatically be loaded using &b&lEnglish&e.");
             MessageUtil.log("&c--------------------------------------");
         } else {
             fileConfiguration = YamlConfiguration.loadConfiguration(messageFile);
@@ -173,6 +175,8 @@ public class Messages {
         ONLINE_STATUS_ONLINE = fileConfiguration.getString("online-status.online");
         PREFIX = fileConfiguration.getString("messages.prefix");
         UNKNOWN = fileConfiguration.getString("unknown");
+        NO_MESSAGES = fileConfiguration.getString("no-messages");
+        NO_CUSTOMNAME = fileConfiguration.getString("no-customname");
         TIME_FORMAT_HHMMSS = fileConfiguration.getString("time-format.hh-mm-ss");
         TIME_FORMAT_MMSS = fileConfiguration.getString("time-format.mm-ss");
         TIME_FORMAT_SS = fileConfiguration.getString("time-format.ss");

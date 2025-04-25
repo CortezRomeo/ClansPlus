@@ -61,8 +61,8 @@ public class SetManager extends SubjectManager {
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
 
         MessageUtil.sendMessage(player, Messages.PROMOTE_TO_MANAGER_SUCCESS.replace("%clan%", getPlayerClanData().getName()).replace("%player%", targetName));
-        MessageUtil.sendMessage(target, Messages.PROMOTED_TO_OWNER.replace("%clan%", getPlayerClanData().getName()).replace("%player%", playerName));
-        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_MEMBER_PROMOTED_TO_OWNER.replace("%player%", playerName).replace("%target%", targetName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+        MessageUtil.sendMessage(target, Messages.PROMOTED_TO_MANAGER.replace("%clan%", getPlayerClanData().getName()).replace("%player%", playerName));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_MEMBER_PROMOTED_TO_MANAGER.replace("%by%", playerName).replace("%player%", targetName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
 
         return true;
     }

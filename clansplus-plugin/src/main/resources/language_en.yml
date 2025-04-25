@@ -1,0 +1,239 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Attention:
+#  * Set to '' if you want to disable that message
+#    for list, just a single (- '')
+#  * Hex color supported
+#  * Remember to add a space between '' to make it to ' ' if you want it for
+#    a blank line
+
+rank-display:
+  MEMBER: '&#34eb6bMember'
+  MANAGER: '&#1d98d1Manager'
+  LEADER: '&#e8e51eLeader'
+currency-display:
+  VAULT:
+    symbol: '&6$'
+    name: '&6money'
+  PLAYERPOINTS:
+    symbol: '&b۞'
+    name: '&bCoin'
+  WARPOINT:
+    symbol: '&c✬'
+    name: '&cWar point'
+status:
+  ENABLE: '&aEnabled'
+  DISABLE: '&cDisabled'
+subject:
+  name:
+    INVITE: 'Invite member'
+    KICK: 'Kick member'
+    SETCUSTOMNAME: 'Change custom name'
+    SETICON: 'Change icon'
+    SPAWN: 'Teleport to spawn'
+    SETSPAWN: 'Set spawn point'
+    SETMESSAGE: 'Set announcement'
+    SETMANAGER: 'Add manager'
+    REMOVEMANAGER: 'Remove manager'
+    CHAT: 'Clan chat'
+    UPGRADE: 'Upgrade'
+    MANAGEALLY: 'Manage allies'
+  description:
+    INVITE: 'Invite others to the clan'
+    KICK: 'Kick a member out of the clan'
+    SETCUSTOMNAME: 'Change the clan’s custom name (Color codes)'
+    SETICON: 'Change the clan’s icon'
+    SPAWN: 'Teleport to the clan’s spawn point'
+    SETSPAWN: 'Set the spawn point for the clan'
+    SETMESSAGE: 'Set the clan’s announcement'
+    SETMANAGER: 'Promote a clan member to manager'
+    REMOVEMANAGER: 'Remove manager rights from a clan member'
+    CHAT: 'Enable or disable clan chat'
+    UPGRADE: 'Upgrade the clan'
+    MANAGEALLY: 'Send ally requests and manage allies'
+online-status:
+  offline: '&cOFFLINE'
+  online: '&aONLINE'
+unknown: 'N/A'
+no-messages: '<No announcements>'
+no-customname: '<No custom name>'
+time-format:
+  hh-mm-ss: '%hours% hours %minutes% minutes %seconds% seconds'
+  mm-ss: '%minutes% minutes %seconds% seconds'
+  ss: '%seconds% seconds'
+messages:
+  prefix: '&#3498eb&lCLAN&r '
+  clan-message:
+    - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+    - '    &eClan Announcement &b%formatClanName%'
+    - '&f%message%'
+    - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+  permission-required: '%prefix%&#d12f1d&l| &fYou do not have permission to use this command. (&e%permission%&f)'
+  non-console-command: '%prefix%&#d12f1d&l| &fConsole cannot use this command.'
+  command-confirmation: '%prefix%&#35d11d&l| &fPlease enter the command again to confirm.'
+  not-enough-currency: '%prefix%&#d12f1d&l| &fNot enough %currencySymbol%%price% %currencyName%&f.'
+  illegal-minimum-clan-name-length: '%prefix%&#d12f1d&l| &fClan name too short! (Minimum: &e%minimumClanNameLength%&f)'
+  illegal-maximum-clan-name-length: '%prefix%&#d12f1d&l| &fClan name too long! (Maximum: &e%maximumClanNameLength%&f)'
+  prohibited-clan-name: '%prefix%&#d12f1d&l| &fName &e%clanName%&f is prohibited from being used for a clan.'
+  prohibited-character: '%prefix%&#d12f1d&l| &fCharacter &e%character%&f is not allowed in clan names.'
+  must-be-in-clan: '%prefix%&#d12f1d&l| &fYou must be in a clan to do this.'
+  clan-cannot-be-the-same: '%prefix%&#d12f1d&l| &fYou cannot do this with your own clan.'
+  target-does-not-exist: '%prefix%&#d12f1d&l| &fData for &e%player%&f does not exist.'
+  target-must-be-in-clan: '%prefix%&#d12f1d&l| &e%player%&f must be in a clan to do this.'
+  target-clan-membership-error: '%prefix%&#d12f1d&l| &e%player%&f is not in your clan!'
+  target-clan-ally-membership-error: '%prefix%&#d12f1d&l| &e%clan%&f is not an ally of your clan.'
+  required-rank: '%prefix%&#d12f1d&l| &fYou must be %requiredRank%&f to do this.'
+  invitation-rejection: '%prefix%&#d12f1d&l| &fNo pending clan invitations.'
+  already-in-clan: '%prefix%&#d12f1d&l| &fYou are already in a clan.'
+  clan-does-not-exist: '%prefix%&#d12f1d&l| &fClan &e%clan%&f does not exist.'
+  clan-is-full: '%prefix%&#d12f1d&l| &fClan &e%clan%&f is full.'
+  join-clan-success: '%prefix%&#35d11d&l| &fSuccessfully joined clan &e%clan%&f.'
+  clan-already-exist: '%prefix%&#d12f1d&l| &fClan with name &e%clan%&f already exists.'
+  create-clan-success: '%prefix%&#35d11d&l| &fSuccessfully created clan &e%clan%&f!'
+  disband-notification: '%prefix%&#d12f1d&l| &fYour clan (&e%clan%&f) has been disbanded!'
+  disband-success: '%prefix%&#35d11d&l| &fSuccessfully disbanded clan &e%clan%&f!'
+  disband-fail: '%prefix%&#d12f1d&l| &fFailed to disband clan, please contact admin.'
+  target-already-in-clan: '%prefix%&#d12f1d&l| &e%player%&f is already in a clan.'
+  not-enough-member-slots: '%prefix%&#d12f1d&l| &fYour clan has reached the maximum number of members!'
+  target-invitation: '%prefix%&#d12f1d&l| &e%player%&f has been invited to the clan!'
+  invitation-success: '%prefix%&#35d11d&l| &fInvitation sent to &e%player%&f, they have &e%seconds% seconds&f to accept!'
+  incoming-clan-invite: |
+    %prefix%&#35d11d&l| &e%player%&f invited you to join clan &e%clan%&f, you have &e%seconds% seconds&f to decide before the invite expires.
+    &a/clan accept&f to accept
+    &c/clan reject&f to reject
+  invite-expired: '%prefix%&#d12f1d&l| &fInvitation to clan &e%clan%&f has expired.'
+  inviter-invite-expired: '%prefix%&#d12f1d&l| &fInvitation to &e%player%&f has expired.'
+  self-kick-error: '%prefix%&#d12f1d&l| &fYou cannot kick yourself.'
+  kick-leader-error: '%prefix%&#d12f1d&l| &fYou cannot kick the leader!'
+  target-removal-success: '%prefix%&#35d11d&l| &fSuccessfully kicked &e%player%&f from the clan!'
+  kicked-from-clan: '%prefix%&#d12f1d&l| &fYou were kicked from clan &e%clan%&f by &e%player%&f.'
+  leader-cannot-leave: '%prefix%&#d12f1d&l| &fYou cannot leave as you are the leader. You must transfer leadership or disband the clan.'
+  leave-clan-success: '%prefix%&#35d11d&l| &fSuccessfully left clan &e%clan%&f.'
+  rejected-clan-invite: '%prefix%&#35d11d&l| &fSuccessfully rejected the clan invitation from &e%clan%&f.'
+  set-custom-name-success: '%prefix%&#35d11d&l| &fSuccessfully set custom clan name for &e%clan%&f to &r%newCustomName%&f.'
+  set-message-success: '%prefix%&#35d11d&l| &fSuccessfully set clan announcement to &e%newMessage%&f.'
+  self-targeted-error: '%prefix%&#d12f1d&l| &fYou cannot do this to yourself.'
+  promote-to-owner-success: '%prefix%&#35d11d&l| &fYou have transferred clan leadership of &e%clan%&f to &e%player%&f.'
+  promoted-to-owner: '%prefix%&#35d11d&l| &e%player%&f has transferred clan leadership of &e%clan%&f to you!'
+  already-a-manager: '%prefix%&#d12f1d&l| &e%player%&f is already a manager.'
+  promote-to-manager-success: '%prefix%&#35d11d&l| &fYou have promoted &e%player%&f to clan manager.'
+  promoted-to-manager: '%prefix%&#35d11d&l| &fYou have been promoted to clan manager of &e%clan%&f by &e%player%&f.'
+  not-a-manager: '%prefix%&#d12f1d&l| &e%player%&f is not a manager.'
+  remove-a-manager-success: '%prefix%&#35d11d&l| &fYou have removed manager rights from &e%player%&f.'
+  manager-removed: '%prefix%&#d12f1d&l| &fYou have been removed as a manager by &e%player%&f.'
+  already-an-ally: '%prefix%&#d12f1d&l| &fClan &e%clan%&f is already an ally.'
+  already-sent-ally-invite: '%prefix%&#d12f1d&l| &fYou have already sent an ally request to clan &e%clan%&f.'
+  send-ally-invite-success: '%prefix%&#35d11d&l| &fSuccessfully sent ally request to clan &e%clan%&f!'
+  accept-ally-invite-success: '%prefix%&#35d11d&l| &fYou accepted the ally request from clan &e%clan%'
+  reject-ally-invite-success: '%prefix%&#35d11d&l| &fYou rejected the ally request from clan &e%clan%'
+  remove-ally-success: '%prefix%&#35d11d&l| &fYou removed clan &e%clan%&f from your ally list!'
+  illegally-upgrade-skill: '%prefix%&#d12f1d&l| &fYou must upgrade the previous level &e%skillLevel%&f first.'
+  invalid-icon-value: '%prefix%&#d12f1d&l| &fInvalid icon!'
+  set-icon-success: '%prefix%&#35d11d&l| &fSuccessfully set clan icon to &e%value% (Type: %type%)&f.'
+  set-spawn-success: '%prefix%&#35d11d&l| &fSuccessfully set clan spawn to (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (World: &e%world%&f).'
+  unknown-spawn-point: '%prefix%&#d12f1d&l| &fClan does not have a spawn point!'
+  spawn-point-count-down: '%prefix%&#35d11d&l| &fYou will be teleported in &e%seconds% seconds&f, please do not move.'
+  move-while-spawning: '%prefix%&#d12f1d&l| &fYou moved, teleportation cancelled!'
+  spawn-success: '%prefix%&#35d11d&l| &fSuccessfully teleported to clan spawn.'
+  change-permission: '%prefix%&#35d11d&l| &fChanged rank permission for &e%name%&f to: %newRank%'
+  invalid-icon-type: '%prefix%&#d12f1d&l| &fInvalid icon type &e%iconType%&f. Valid types: &bMATERIAL&f, &bCUSTOMHEAD&f.'
+  toggle-clan-chat-on: '%prefix%&#35d11d&l| &fClan chat &aenabled&f.'
+  toggle-clan-chat-off: '%prefix%&#35d11d&l| &fClan chat &cdisabled&f.'
+  toggle-clan-pvp-on: '%prefix%&#35d11d&l| &fClan PVP &aenabled&f. You can now PVP with members and allies.'
+  toggle-clan-pvp-off: '%prefix%&#35d11d&l| &fClan PVP &cdisabled&f.'
+  clan-member-pvp-deny: '%prefix%&#d12f1d&l| &fCannot attack clan member. Use &e/clan pvp&f to enable/disable PVP.'
+  clan-member-pvp-deny-victim: '%prefix%&#d12f1d&l| &e%player%&f has not enabled clan PVP. They must enable it to take damage.'
+  clan-set-spawn-black-list-world: '%prefix%&#d12f1d&l| &fThis world is blacklisted for setting spawn! Use a different world.'
+  clan-spawn-black-list-world: '%prefix%&#d12f1d&l| &fCannot teleport to this world. Ask a leader to change the spawn.'
+  last-page: '%prefix%&#d12f1d&l| &fYou are on the last page.'
+  feature-in-progress: '%prefix%&#d12f1d&l| &fFeature is still in development, please check back later...'
+  using-chat-box:
+    clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
+    create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'
+    set-custom-name: '%prefix%&#eaff00&l| &fPlease enter the custom name in the chat box.'
+    set-message: '%prefix%&#eaff00&l| &fPlease enter the announcement in the chat box.'
+    inventory-list-search: '%prefix%&#eaff00&l| &fPlease enter the keyword to search in the chat box.'
+    cancel-using-chat-box: '&7Type &e%word%&7 to cancel.'
+    cancel-using-chat-box-success: '&aSuccessfully cancelled chat box input.'
+  clan-broadcast:
+    prefix: '&#3498eb&lCLAN &f(%formatClanName%&r) '
+    invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f sent a clan invitation to &e%target%&f.'
+    player-join-clan: '%prefix%&#35d11d&l| &e%player%&f has joined the clan.'
+    player-removed-from-clan: '%prefix%&#d12f1d&l| &e%player%&f was kicked from the clan by &r%rank%&e %by%&f.'
+    player-leave-clan: '%prefix%&#d12f1d&l| &e%player%&f has left the clan.'
+    player-reject-to-join: '%prefix%&#d12f1d&l| &e%player%&f rejected the clan invitation.'
+    set-custom-name: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan custom name to &r%newCustomName%&f.'
+    set-message: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan announcement to &e%newMessage%&f.'
+    member-promoted-to-owner: '%prefix%&#35d11d&l| &e%player%&f transferred clan leadership to &e%target%&f.'
+    member-promoted-to-manager: '%prefix%&#35d11d&l| &e%player%&f became a clan manager by &r%rank%&e %by%&f.'
+    manager-removed: '%prefix%&#35d11d&l| &r%rank%&e %player%&f removed manager rights from &e%target%&f.'
+    receive-ally-invite: '%prefix%&#35d11d&l| &fClan &e%clan%&f has sent an ally request. Accept or reject it in the ally interface.'
+    new-ally-notification: '%prefix%&#35d11d&l| &fClan &e%clan%&f is now an ally!'
+    remove-ally-notification: '%prefix%&#35d11d&l| &r%rank%&e %player%&f removed clan &e%clan%&f from allies.'
+    ally-removed-notification: '%prefix%&#d12f1d&l| &fThis clan was removed from the ally list of clan &e%clan%&f by &e%player%&f.'
+    upgrade-max-members: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded the max number of members to &2%newMaxMembers%&f.'
+    upgrade-plugin-skill: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded %skillName%&f to level &e%newLevel%&f.'
+    set-icon: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan icon to &e%value% (Type: %type%)&f.'
+    set-spawn: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan spawn to (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (World: &e%world%&f).'
+    change-permission: '%prefix%&#35d11d&l| &r%rank%&e %player%&f changed rank permission for &e%name%&f to: %newRank%'
+  commands:
+    clanplus:
+      messages:
+        non-clan-commands:
+          - ' '
+          - '&#3498ebCLAN'
+          - '&7Version %version%'
+          - ' '
+          - '&#3498eb/clan create <clan name> &fCreate a new clan'
+          - '&#3498eb/clan accept &fAccept a clan invitation'
+          - '&#3498eb/clan deny &fReject a clan invitation'
+          - '&#3498eb/clan info <clan name> &fView specific clan information'
+          - '&#3498eb/clan event &fView event info'
+          - '&#3498eb/clan list &fView list of clans'
+        in-clan-commands:
+          messages: |
+            
+            &#3498ebCLAN
+            &7Version %version%
+            %memberCommands%
+            %managerCommands%
+            %leaderCommands%
+          placeholder:
+            memberCommands:
+              messages: |
+                &r
+                &#34eb6bCommands for members
+                &#3498eb/clan list &fView list of clans'
+                &#3498eb/clan info <clan name> &fView specific clan information
+                &#3498eb/clan event &fView event info
+                &#3498eb/clan menu &fOpen clan GUI
+                &#3498eb/clan leave &fLeave clan
+                &#3498eb/clan setting &fClan settings
+                &#3498eb/clan upgrade &fUpgrade clan
+                %command%
+              placeholder:
+                command: '&#3498eb/clan %command% &f%description%'
+            managerCommands:
+              messages: |
+                &r
+                &#1d98d1Commands for managers
+                %command%
+              placeholder:
+                command: '&#3498eb/clan %command% &f%description%'
+            leaderCommands:
+              messages: |
+                &r
+                &#e8e51eCommands for leaders (Includes manager commands)
+                &#3498eb/clan setowner &fTransfer leadership to another clan member
+                &#3498eb/clan disband &fDisband the clan
+                &#3498eb/clan setpermission &fSet permissions
+                %command%
+              placeholder:
+                command: '&#3498eb/clan %command% &f%description%'

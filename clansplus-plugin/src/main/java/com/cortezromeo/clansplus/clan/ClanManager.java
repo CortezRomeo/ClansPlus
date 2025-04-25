@@ -169,13 +169,13 @@ public class ClanManager {
 
     public static String getFormatClanMessage(IClanData clanData) {
         if (clanData.getMessage() == null)
-            return ClansPlus.nms.addColor("<Không có thông báo>");
+            return ClansPlus.nms.addColor(Messages.NO_MESSAGES);
         return ClansPlus.nms.addColor(clanData.getMessage());
     }
 
     public static String getFormatClanCustomName(IClanData clanData) {
         if (clanData.getCustomName() == null)
-            return ClansPlus.nms.addColor("<Không có tên custom>");
+            return ClansPlus.nms.addColor(Messages.NO_CUSTOMNAME);
         return ClansPlus.nms.addColor(clanData.getCustomName());
     }
 

@@ -4,7 +4,6 @@ import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
-import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.Kick;
 import com.cortezromeo.clansplus.file.inventory.ManageMemberInventoryFile;
@@ -12,14 +11,11 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,7 +119,7 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack memberItem = getPlayerItemStack(ItemUtil.getItem("playerhead",
+            ItemStack memberItem = ItemUtil.getPlayerItemStack(ItemUtil.getItem("playerhead",
                     playerName,
                     fileConfiguration.getInt("items.member.customModelData"),
                     fileConfiguration.getString("items.member.name"),
@@ -156,28 +152,6 @@ public class ManageMemberInventory extends ClanPlusInventoryBase {
             inventory.setItem(kickMemberItemSlot, kickMemberItem);
 
         });
-    }
-
-    private @NotNull ItemStack getPlayerItemStack(ItemStack itemStack, String playerName) {
-        ItemStack modItem = new ItemStack(itemStack);
-        ItemMeta itemMeta = modItem.getItemMeta();
-
-        String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%player%", playerName);
-        itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
-
-        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
-        List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
-                .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
-                .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
-                .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
-                .replace("%onlineStatus%", (Bukkit.getPlayer(playerName) != null ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
-                .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
-                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
-        itemMeta.setLore(itemLore);
-        modItem.setItemMeta(itemMeta);
-        return modItem;
     }
 
 }

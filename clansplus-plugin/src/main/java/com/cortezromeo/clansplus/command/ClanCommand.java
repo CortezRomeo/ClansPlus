@@ -40,8 +40,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player))
+        if (!(sender instanceof Player player)) {
+            MessageUtil.sendMessage(sender, Messages.NON_CONSOLE_COMMAND);
             return false;
+        }
 
         if (args.length == 0) {
             if (PluginDataManager.getPlayerDatabase(player.getName()).getClan() == null) {

@@ -73,8 +73,8 @@ public class EntityDamageListener implements Listener {
         if (event.getEntity() == null || damager == null)
             return;
 
-        if (damager instanceof Arrow arrow) {
-            if (arrow.getShooter() instanceof Player shooter) {
+        if (damager instanceof Projectile projectile) {
+            if (projectile.getShooter() instanceof Player shooter) {
                 Damageable damageableVictim = (Damageable) event.getEntity();
                 if (damageableVictim instanceof Player victim) {
 

@@ -2,8 +2,13 @@ package com.cortezromeo.clansplus.util;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.language.Messages;
+import com.cortezromeo.clansplus.storage.PluginDataManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +68,36 @@ public class ItemUtil {
                 .replace("%message%", ClanManager.getFormatClanMessage(clanData))
                 .replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()))
                 .replace("%warning%", String.valueOf(clanData.getWarning())));
+        itemMeta.setLore(itemLore);
+        modItem.setItemMeta(itemMeta);
+        return modItem;
+    }
+
+    public static @NotNull ItemStack getPlayerItemStack(ItemStack itemStack, String playerName) {
+        ItemStack modItem = new ItemStack(itemStack);
+        ItemMeta itemMeta = modItem.getItemMeta();
+
+        String itemName = itemMeta.getDisplayName();
+        itemName = itemName.replace("%player%", playerName);
+        itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
+
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
+        List<String> itemLore = itemMeta.getLore();
+
+        Player player = Bukkit.getPlayer(playerName);
+        boolean onlineStatus;
+        if (player == null)
+            onlineStatus = false;
+        else
+            onlineStatus = !PlayerUtil.isVanished(player);
+
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
+                .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
+                .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
+                .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
+                .replace("%onlineStatus%", (onlineStatus ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
+                .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
+                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

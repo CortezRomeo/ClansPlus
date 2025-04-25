@@ -3,7 +3,6 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.Subject;
-import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.Invite;
 import com.cortezromeo.clansplus.file.inventory.AddMemberListInventoryFile;
@@ -11,13 +10,12 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,6 +146,8 @@ public class AddMemberListInventory extends PaginatedInventory {
 
             if (sortItemType == SortItemType.NOCLAN)
                 for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (PlayerUtil.isVanished(player))
+                        continue;
                     if (!ClanManager.isPlayerInClan(player) && !ClanManager.beingInvitedPlayers.containsKey(player.getName()))
                         players.add(player.getName());
                 }
@@ -178,28 +178,11 @@ public class AddMemberListInventory extends PaginatedInventory {
                             0,
                             fileConfiguration.getString("items.player.name"),
                             fileConfiguration.getStringList("items.player.lore"), false);
-                    ItemStack itemStack = ClansPlus.nms.addCustomData(getPlayerItemStack(playerItem, playerName), "player=" + playerName);
+                    ItemStack itemStack = ClansPlus.nms.addCustomData(ItemUtil.getPlayerItemStack(playerItem, playerName), "player=" + playerName);
                     inventory.addItem(itemStack);
                 }
             }
         });
-    }
-
-    private @NotNull ItemStack getPlayerItemStack(ItemStack itemStack, String playerName) {
-        ItemStack modItem = new ItemStack(itemStack);
-        ItemMeta itemMeta = modItem.getItemMeta();
-
-        String itemName = itemMeta.getDisplayName();
-        itemName = itemName.replace("%player%", playerName);
-        itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
-
-        IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
-        List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
-                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
-        itemMeta.setLore(itemLore);
-        modItem.setItemMeta(itemMeta);
-        return modItem;
     }
 
     public enum SortItemType {

@@ -47,6 +47,7 @@ public class Settings {
     public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
     public static String CHAT_SETTING_STOP_USING_CHAT_WORD;
+    public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
 
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME;
@@ -109,6 +110,7 @@ public class Settings {
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
         CHAT_SETTING_STOP_USING_CHAT_WORD = configuration.getString("chat-settings.stop-using-chat-word");
+        VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration.getBoolean("vanish-settings.hide-vanish-player.enabled");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE = configuration.getString("soft-depends.placeholderapi.top-score-value");

@@ -302,6 +302,11 @@ public class WarEvent {
                 }
         }
         STARTING = false;
+
+        // clear war data after each event
+        playerDamagesCaused.clear();
+        playerDamagesCollected.clear();
+        clanScoreCollected.clear();
     }
 
     public void onJoin(PlayerJoinEvent event) {

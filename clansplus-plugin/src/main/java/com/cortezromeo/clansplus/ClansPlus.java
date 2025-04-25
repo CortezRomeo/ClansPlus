@@ -14,6 +14,7 @@ import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
 import com.cortezromeo.clansplus.inventory.ClanPlusInventoryBase;
+import com.cortezromeo.clansplus.language.English;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.*;
@@ -587,6 +588,18 @@ public class ClansPlus extends JavaPlugin {
         }
         Vietnamese.reload();
 
+        // language_en.yml
+        String englishFileName = "language_en.yml";
+        English.setup();
+        English.saveDefault();
+        File englishFile = new File(getDataFolder(), "/languages/language_en.yml");
+        try {
+            ConfigUpdater.update(this, englishFileName, englishFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        English.reload();
+
         Messages.setupValue(Settings.LANGUAGE);
     }
 
@@ -640,16 +653,17 @@ public class ClansPlus extends JavaPlugin {
         PluginDataManager.saveAllDatabase();
         PluginDataStorage.disableStorage();
 
-        if (!Bukkit.getOnlinePlayers().isEmpty())
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                try {
+        try {
+            if (!Bukkit.getOnlinePlayers().isEmpty())
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     EventManager.getWarEvent().removeBossBar(player);
                     InventoryHolder holder = player.getOpenInventory().getTopInventory().getHolder();
                     if (holder instanceof ClanPlusInventoryBase)
                         player.closeInventory();
-                } catch (Exception exception) {
                 }
-            }
+        } catch (IncompatibleClassChangeError exception) {
+            exception.printStackTrace();
+        }
 
         log("&f--------------------------------");
         log("&c  ____ _                 ____  _");

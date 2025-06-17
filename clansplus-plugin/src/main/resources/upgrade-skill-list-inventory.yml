@@ -7,143 +7,143 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-#  Lưu ý:
-#  * Có hỗ trợ hex color
-#  * Có 3 type chính, đó là:
-#    + material: value chỉnh thành MATERIAL của block
-#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
-#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
-#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
-#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
-#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
-#    + customhead: Đọc phần ở dưới
-#      + Cách sử dụng custom-head:
-#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
-#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
-#                  dán nó vào phần "value:" của item bạn cần
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
 
-title: '&0Nâng cấp kỹ năng %skillName%'
+title: '&0Upgrade Skill %skillName%'
 rows: 6
-skill-track: [ 9, 18, 27, 28, 29, 20, 11, 2, 3, 4, 13, 22, 31, 32, 33, 24, 15, 6,7, 8, 17, 26, 35, 44, 53 ]
+skill-track: [ 9, 18, 27, 28, 29, 20, 11, 2, 3, 4, 13, 22, 31, 32, 33, 24, 15, 6, 7, 8, 17, 26, 35, 44, 53 ]
 skills:
   critical_hit:
     unlocked:
-      name: '&#fc4103Chí mạng &e[Level: %level%]'
+      name: '&#fc4103Critical Hit &e[Level: %level%]'
       type: material
       value: GREEN_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fSát thương: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fDamage: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&aĐã mở khóa'
+        - '&aUnlocked'
     locked:
-      name: '&#fc4103Chí mạng &e[Level: %level%]'
+      name: '&#fc4103Critical Hit &e[Level: %level%]'
       type: material
       value: RED_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fSát thương: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fDamage: &7%oldOnHitDamage% DMG &e⇨ &6%newOnHitDamage% DMG'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&fYêu cầu: %currencySymbol%%price% &e%currencyName%'
+        - '&fRequired: %currencySymbol%%price% &e%currencyName%'
         - ''
-        - '&eNhấn vào đây để mở khóa'
+        - '&eClick here to unlock'
   dodge:
     unlocked:
-      name: '&#03fcfcNé đòn &e[Level: %level%]'
+      name: '&#03fcfcDodge &e[Level: %level%]'
       type: material
       value: GREEN_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&aĐã mở khóa'
+        - '&aUnlocked'
       customLore:
         enabled: true
         level:
           2:
             - ''
-            - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
-            - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
-            - '  &fcho đối phương.'
+            - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
+            - '&8- &fReflect &c%damageReflectionEvaluate% &fdamage'
+            - '  &fto the attacker.'
             - ''
-            - '&aĐã mở khóa'
+            - '&aUnlocked'
     locked:
-      name: '&#03fcfcNé đòn &e[Level: %level%]'
+      name: '&#03fcfcDodge &e[Level: %level%]'
       type: material
       value: RED_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - '&fRequired: %currencySymbol%%price% %currencyName%'
         - ''
-        - '&eNhấn vào đây để mở khóa'
+        - '&eClick here to unlock'
       customLore:
         enabled: true
         level:
           2:
             - ''
-            - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
-            - '&8- &fDội lại &c%damageReflectionEvaluate% &fsát thương'
-            - '  &fcho đối phương.'
+            - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
+            - '&8- &fReflect &c%damageReflectionEvaluate% &fdamage'
+            - '  &fto the attacker.'
             - ''
-            - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+            - '&fRequired: %currencySymbol%%price% %currencyName%'
             - ''
-            - '&eNhấn vào đây để mở khóa'
+            - '&eClick here to unlock'
   life_steal:
     unlocked:
-      name: '&#fc9403Hút máu &e[Level: %level%]'
+      name: '&#fc9403Life Steal &e[Level: %level%]'
       type: material
       value: GREEN_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fHút máu: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fHeal: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&aĐã mở khóa'
+        - '&aUnlocked'
     locked:
-      name: '&#fc9403Hút máu &e[Level: %level%]'
+      name: '&#fc9403Life Steal &e[Level: %level%]'
       type: material
       value: RED_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fHút máu: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
-        - '&8- &fTỉ lệ kích hoạt: &7%oldRate%% &e⇨ &6%newRate%%'
+        - '&8- &fHeal: &7%oldHeal% ❤ &e⇨ &6%newHeal% ❤'
+        - '&8- &fActivation Rate: &7%oldRate%% &e⇨ &6%newRate%%'
         - ''
-        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - '&fRequired: %currencySymbol%%price% %currencyName%'
         - ''
-        - '&eNhấn vào đây để mở khóa'
+        - '&eClick here to unlock'
   boost_score:
     unlocked:
-      name: '&#fc03c6Tăng điểm &e[Level: %level%]'
+      name: '&#fc03c6Score Boost &e[Level: %level%]'
       type: material
       value: GREEN_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fCộng thêm: &7%oldBoostScore% ĐIỂM &e⇨ &6%newBoostScore% ĐIỂM'
+        - '&8- &fBonus Score: &7%oldBoostScore% PTS &e⇨ &6%newBoostScore% PTS'
         - ''
-        - '&aĐã mở khóa'
+        - '&aUnlocked'
     locked:
-      name: '&#fc03c6Tăng điểm &e[Level: %level%]'
+      name: '&#fc03c6Score Boost &e[Level: %level%]'
       type: material
       value: RED_STAINED_GLASS_PANE
       customModelData: 0
       lore:
         - ''
-        - '&8- &fCộng thêm: &7%oldBoostScore% ĐIỂM &e⇨ &6%newBoostScore% ĐIỂM'
+        - '&8- &fBonus Score: &7%oldBoostScore% PTS &e⇨ &6%newBoostScore% PTS'
         - ''
-        - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+        - '&fRequired: %currencySymbol%%price% %currencyName%'
         - ''
-        - '&eNhấn vào đây để mở khóa'
+        - '&eClick here to unlock'
 items:
   border:
     enabled: true
@@ -166,10 +166,10 @@ items:
       - ''
       - '%skillDescription%'
       - ''
-      - '&fTiến trình:'
+      - '&fProgress:'
       - '%progressBar% &a%currentLevel%&7/&2%maxLevel%'
   invalidSkillLevel:
-    name: '&7Kỹ năng này chưa được cài đặt'
+    name: '&7This skill is not configured'
     type: material
     value: LIGHT_GRAY_STAINED_GLASS_PANE
     customModelData: 0
@@ -179,9 +179,9 @@ items:
       volume: 1
       pitch: 1
     lore:
-      - '&cKhông thể nâng cấp'
+      - '&cCannot upgrade'
   nextPage:
-    name: '&aTrang sau'
+    name: '&aNext Page'
     slot: 50
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
@@ -192,9 +192,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&7Sang trang %nextPage%'
+      - '&7To page %nextPage%'
   prevPage:
-    name: '&aTrang trước'
+    name: '&aPrevious Page'
     slot: 47
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
@@ -205,9 +205,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&7Về trang %prevPage%'
+      - '&7Back to page %prevPage%'
   close:
-    name: '&cĐóng'
+    name: '&cClose'
     slot: 49
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
@@ -218,9 +218,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để đóng'
+      - '&eClick here to close'
   back:
-    name: '&eTrở về'
+    name: '&eGo Back'
     slot: 48
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
@@ -231,4 +231,4 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để trở về'
+      - '&eClick here to go back'

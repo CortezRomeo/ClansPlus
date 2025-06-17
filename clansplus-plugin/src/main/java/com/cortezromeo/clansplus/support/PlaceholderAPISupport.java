@@ -53,7 +53,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                         return ClansPlus.nms.addColor(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE.replace("%value%", String.valueOf(clanData.getScore())));
 
                 } catch (Exception exception) {
-                    MessageUtil.throwErrorMessage("[PlaceholderAPI] Value nhập cho PAPI không hợp lệ! (papi: " + s + ") (" + exception.getMessage() + ")");
+                    MessageUtil.throwErrorMessage("[PlaceholderAPI] Value typed for PlaceholderAPI is not available! (papi: " + s + ") (" + exception.getMessage() + ")");
                 }
 
             }

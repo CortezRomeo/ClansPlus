@@ -55,7 +55,7 @@ public class Spawn extends SubjectManager {
 
             AtomicInteger countDownSeconds = new AtomicInteger(Settings.CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS);
             MessageUtil.sendMessage(player, Messages.SPAWN_POINT_COUNT_DOWN.replace("%seconds%", String.valueOf(countDownSeconds.get())));
-            ClansPlus.plugin.foliaLib.getScheduler().runAtEntityTimer(player, task -> {
+            ClansPlus.support.getFoliaLib().getScheduler().runAtEntityTimer(player, task -> {
                 if (!PlayerMovementListener.spawnCountDownPlayers.contains(player)) {
                     MessageUtil.sendMessage(player, Messages.MOVE_WHILE_SPAWNING);
                     task.cancel();
@@ -79,18 +79,12 @@ public class Spawn extends SubjectManager {
 
     public void spawn() {
         IClanData playerClanData = getPlayerClanData();
-        if (ClansPlus.plugin.foliaLib.isSpigot()) {
-            getPlayer().teleport(playerClanData.getSpawnPoint());
-        }
-        if (ClansPlus.plugin.foliaLib.isPaper()) {
-            getPlayer().teleportAsync(playerClanData.getSpawnPoint());
-        }
-        if (ClansPlus.plugin.foliaLib.isFolia()) {
-            getPlayer().teleportAsync(playerClanData.getSpawnPoint());
-        }
-        if (ClansPlus.plugin.foliaLib.isUnsupported()) {
-            getPlayer().teleport(playerClanData.getSpawnPoint());
-        }
         MessageUtil.sendMessage(player, Messages.SPAWN_SUCCESS);
+        if (ClansPlus.support.getFoliaLib().isSpigot() || ClansPlus.support.getFoliaLib().isUnsupported()) {
+            getPlayer().teleport(playerClanData.getSpawnPoint());
+            return;
+        }
+        if (ClansPlus.support.getFoliaLib().isPaper() || ClansPlus.support.getFoliaLib().isFolia())
+            getPlayer().teleportAsync(playerClanData.getSpawnPoint());
     }
 }

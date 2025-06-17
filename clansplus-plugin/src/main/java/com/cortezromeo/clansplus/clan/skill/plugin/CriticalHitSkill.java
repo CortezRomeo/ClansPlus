@@ -8,7 +8,6 @@ import com.cortezromeo.clansplus.clan.skill.SkillData;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.CalculatorUtil;
-import com.cryptomorin.xseries.particles.XParticle;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -73,7 +72,7 @@ public class CriticalHitSkill {
                     event.setDamage(damage);
 
                     Location victimLocation = event.getEntity().getLocation();
-                    victimLocation.getWorld().spawnParticle(XParticle.EXPLOSION.get(), victimLocation, 2);
+                    victimLocation.getWorld().spawnParticle(ClansPlus.nms.getParticle("EXPLOSION"), victimLocation, 2);
                     if (!skillData.getSoundName().equals(""))
                         victimLocation.getWorld().playSound(victimLocation, ClansPlus.nms.createSound(skillData.getSoundName()), skillData.getSoundPitch(), skillData.getSoundVolume());
 

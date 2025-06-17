@@ -7,22 +7,22 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-#  Lưu ý:
-#  * Có hỗ trợ hex color
-#  * Có 3 type chính, đó là:
-#    + material: value chỉnh thành MATERIAL của block
-#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
-#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
-#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
-#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
-#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
-#    + customhead: Đọc phần ở dưới
-#      + Cách sử dụng custom-head:
-#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
-#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
-#                  dán nó vào phần "value:" của item bạn cần
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
 
-title: '&0Cài đặt chức vụ &#7526ad%player%'
+title: '&0Set Role &#7526ad%player%'
 rows: 4
 items:
   border:
@@ -39,7 +39,7 @@ items:
     lore:
       - ''
   close:
-    name: '&cĐóng'
+    name: '&cClose'
     slot: 31
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
@@ -50,9 +50,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để đóng'
+      - '&eClick here to close'
   back:
-    name: '&eTrở về'
+    name: '&eGo Back'
     slot: 30
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
@@ -63,9 +63,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để trở về'
+      - '&eClick here to go back'
   setOwner:
-    name: '&eChuyển quyền lãnh đạo'
+    name: '&eTransfer Leadership'
     slot: 11
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM2MmFjNmQ5ZmY4YmZiYzliYWRhYzM1ZjYyN2NiZTkxN2FjMjVhZjhlNmU5ZDM4MmNlM2RkMzE3YWMwMzk4In19fQ==
@@ -77,13 +77,13 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fChuyển quyền lãnh đạo bang hội cho người chơi này.'
+      - '&fTransfer clan leadership to this player.'
       - ''
       - '%checkPermission%'
     placeholders:
       checkPermission:
-        true: '&eNhấn vào đây để thực hiện'
-        false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+        true: '&eClick here to proceed'
+        false: '&cYou must be %getRequiredRank%&c to perform this action.'
   setManager:
     slot: 15
     click-sound:
@@ -92,32 +92,31 @@ items:
       volume: 1
       pitch: 2
     isAManager:
-      name: '&cXóa quyền quản lý'
+      name: '&cRemove Manager Role'
       type: customhead
       value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY3ODM2ZjA0N2Q3NDFhYzRmNzM4NWY3YzNkYzQ4YmE4ZGY0MzczMmU1YWVlYzMzMjY4MjlhNzI4NDczNyJ9fX0=
       customModelData: 0
       lore:
         - ''
-        - '&e%player%&f hiện đang là quản lý của bang'
-        - '&fhội, bấm vào nút này sẽ xóa đi quyền quản'
-        - '&flý bang hội của ngươời chơi này.'
+        - '&e%player%&f is currently a clan manager.'
+        - '&fClick this to remove their manager role.'
         - ''
         - '%checkPermission%'
       placeholders:
         checkPermission:
-          true: '&eNhấn vào đây để thực hiện'
-          false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+          true: '&eClick here to proceed'
+          false: '&cYou must be %getRequiredRank%&c to perform this action.'
     isAMember:
-      name: '&aCho làm quản lý'
+      name: '&aAssign Manager Role'
       type: customhead
       value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGQ4YjcxNzNkODQxZjI1NjNlYzEwODg4OGIwZjc5NzkxN2VmYzE4YmUyNzg2MWYwYTY3NjFhYTNlZDkxY2UifX19
       customModelData: 0
       lore:
         - ''
-        - '&fCho &e%player%&f lên làm quản lý bang hội.'
+        - '&fAssign &e%player%&f as a clan manager.'
         - ''
         - '%checkPermission%'
       placeholders:
         checkPermission:
-          true: '&eNhấn vào đây để thực hiện'
-          false: '&cBạn cần là %getRequiredRank%&c để thực hiện.'
+          true: '&eClick here to proceed'
+          false: '&cYou must be %getRequiredRank%&c to perform this action.'

@@ -14,7 +14,7 @@ public class EventTask implements Runnable {
     private WrappedTask eventTask;
 
     public EventTask() {
-        this.eventTask = ClansPlus.plugin.foliaLib.getScheduler().runTimer(this, 1, 20L);
+        this.eventTask = ClansPlus.support.getFoliaLib().getScheduler().runTimer(this, 1, 20L);
     }
 
     @Override

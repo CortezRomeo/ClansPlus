@@ -12,7 +12,7 @@ public class MessageUtil {
 
     public static void throwErrorMessage(String message) {
         Bukkit.getLogger().severe(ClansPlus.nms.addColor(message));
-        log("&4&l[BANG HOI ERROR] &c&lIf this error affect player's experience, please contact me through discord: Cortez_Romeo");
+        log("&4&l[ClAN ERROR] &c&lIf this error affect player's experience, please contact me through discord: Cortez_Romeo");
     }
 
     public static void sendBroadCast(String message) {
@@ -47,12 +47,12 @@ public class MessageUtil {
 
         message = message.replace("%prefix%", Messages.PREFIX);
 
-        if (!ClansPlus.isPapiSupport()) {
+        if (!ClansPlus.support.isPlaceholderAPISupported()) {
             String finalMessage = message;
-            ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(finalMessage)));
+            ClansPlus.support.getFoliaLib().getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(finalMessage)));
         } else {
             String finalMessage = message;
-            ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(PlaceholderAPI.setPlaceholders(player, finalMessage))));
+            ClansPlus.support.getFoliaLib().getScheduler().runAtEntity(player, task -> player.sendMessage(ClansPlus.nms.addColor(PlaceholderAPI.setPlaceholders(player, finalMessage))));
         }
     }
 

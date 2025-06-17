@@ -154,7 +154,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
     @Override
     public void setMenuItems() {
-        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
+        ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             super.addPaginatedMenuItems(fileConfiguration);
             ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
                     fileConfiguration.getString("items.back.value"),

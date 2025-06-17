@@ -10,7 +10,7 @@ import com.cryptomorin.xseries.profiles.builder.XSkull;
 import com.cryptomorin.xseries.profiles.exceptions.ProfileChangeException;
 import com.cryptomorin.xseries.profiles.objects.ProfileInputType;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -124,9 +124,11 @@ public class CrossVersionSupport extends VersionSupport {
         if (itemStack.getType() == Material.AIR)
             return null;
 
-        NBTItem nbtItem = new NBTItem(itemStack);
-        nbtItem.setString(NBT_KEY + ".customdata", data);
-        return nbtItem.getItem();
+        NBT.modify(itemStack, nbt -> {
+            nbt.setString(NBT_KEY + ".customdata", data);
+        });
+
+        return itemStack;
     }
 
     @Override
@@ -137,11 +139,7 @@ public class CrossVersionSupport extends VersionSupport {
         if (itemStack.getType() == Material.AIR)
             return null;
 
-        NBTItem nbtItem = new NBTItem(itemStack);
-        if (nbtItem.getString(NBT_KEY + ".customdata") != null) {
-            return nbtItem.getString(NBT_KEY + ".customdata");
-        }
-        return "";
+        return NBT.get(itemStack, nbt -> (String) (nbt.getString(NBT_KEY + ".customdata")));
     }
 
     @Override

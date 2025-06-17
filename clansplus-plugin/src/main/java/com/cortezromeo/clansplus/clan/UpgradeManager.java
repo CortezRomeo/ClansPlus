@@ -7,7 +7,6 @@ import com.cortezromeo.clansplus.clan.skill.PluginSkill;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
-import com.cortezromeo.clansplus.support.VaultSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,26 +40,26 @@ public class UpgradeManager {
             }
         }
         if (currencyType == CurrencyType.VAULT) {
-            if (VaultSupport.getEcon() == null) {
-                MessageUtil.throwErrorMessage("SERVER KHÔNG CÓ PLUGIN VAULT ĐỂ THỰC HIỆN HÀNH ĐỘNG, VUI LÒNG CHECK LẠI");
-                player.sendMessage("Lỗi: Không có plugin Vault, vui lòng liên hệ admin server ngay lập tức");
+            if (ClansPlus.support.getVault() == null) {
+                MessageUtil.throwErrorMessage("THE SERVER DOES NOT HAVE THE VAULT PLUGIN TO PERFORM THE ACTION, PLEASE CHECK AGAIN");
+                player.sendMessage("Error: Vault plugin is missing, please contact the server admin immediately");
                 return false;
             }
-            if (VaultSupport.getEcon().getBalance(player) >= value) {
+            if (ClansPlus.support.getVault().getBalance(player) >= value) {
                 if (take)
-                    VaultSupport.getEcon().withdrawPlayer(player, value);
+                    ClansPlus.support.getVault().withdrawPlayer(player, value);
                 return true;
             }
         }
         if (currencyType == CurrencyType.PLAYERPOINTS) {
-            if (ClansPlus.getPlayerPointsAPI() == null) {
-                MessageUtil.throwErrorMessage("SERVER KHÔNG CÓ PLUGIN PLAYERPOINTS ĐỂ THỰC HIỆN HÀNH ĐỘNG, VUI LÒNG CHECK LẠI");
-                player.sendMessage("Lỗi: Không có plugin PlayerPoints, vui lòng liên hệ admin server ngay lập tức");
+            if (ClansPlus.support.getPlayerPointsAPI() == null) {
+                MessageUtil.throwErrorMessage("THE SERVER DOES NOT HAVE THE PLAYERPOINTS PLUGIN TO PERFORM THE ACTION, PLEASE CHECK AGAIN");
+                player.sendMessage("Error: PlayerPoints plugin is missing, please contact the server admin immediately");
                 return false;
             }
-            if (ClansPlus.getPlayerPointsAPI().look(player.getUniqueId()) >= value) {
+            if (ClansPlus.support.getPlayerPointsAPI().look(player.getUniqueId()) >= value) {
                 if (take)
-                    ClansPlus.getPlayerPointsAPI().take(player.getUniqueId(), (int) value);
+                    ClansPlus.support.getPlayerPointsAPI().take(player.getUniqueId(), (int) value);
                 return true;
             }
         }

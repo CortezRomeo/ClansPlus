@@ -60,7 +60,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 new Accept(player, player.getName()).execute();
                 return false;
             }
-            if (args[0].equalsIgnoreCase("reject")) {
+            if (args[0].equalsIgnoreCase("reject") || args[0].equalsIgnoreCase("deny")) {
                 new Reject(player, player.getName()).execute();
                 return false;
             }
@@ -77,7 +77,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     commandConfirmation.add(sender);
                     MessageUtil.sendMessage(player, Messages.COMMAND_CONFIRMATION);
 
-                    ClansPlus.plugin.foliaLib.getScheduler().runLaterAsync(() -> {
+                    ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(() -> {
                         if (commandConfirmation.contains(sender))
                             commandConfirmation.remove(sender);
                     }, 20 * 10);

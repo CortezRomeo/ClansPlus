@@ -10,8 +10,8 @@
 plugin-skills:
   critical_hit:
     enabled: true
-    name: '&#fc4103Chí mạng'
-    description: '&fGây sát thương chí mạng.'
+    name: '&#fc4103Critical Hit'
+    description: '&fDeal critical damage.'
     ID: 1
     display:
       type: MATERIAL
@@ -96,17 +96,14 @@ plugin-skills:
         35: 50
   dodge:
     enabled: true
-    name: '&#03fcfcNé đòn'
-    description: '&fChặn hoàn toàn đòn đánh của đối phương'
+    name: '&#03fcfcDodge'
+    description: '&fCompletely block incoming attack.'
     ID: 2
     display:
       type: MATERIAL
       value: SHIELD
-    # Dội lại sát thương
     damage-reflection:
-      # Cấp độ cần để kích hoạt
       level-to-activate: 2
-      # Tính toán sát thương dội lại
       damage-reflection: '%damage%'
     activate-sound:
       name: ITEM_SHIELD_BLOCK
@@ -145,8 +142,8 @@ plugin-skills:
         29: 58
   life_steal:
     enabled: true
-    name: '&#fc9403Hút máu'
-    description: '&fHút máu đối phương khi gây sát thương'
+    name: '&#fc9403Life Steal'
+    description: '&fSteal health from enemy when dealing damage'
     ID: 3
     activate-sound:
       name: ENTITY_WITHER_SHOOT
@@ -237,8 +234,8 @@ plugin-skills:
         38: 50
   boost_score:
     enabled: true
-    name: '&#fc03c6Tăng điểm'
-    description: '&fCộng thêm điểm phụ khi bang hội được cộng điểm'
+    name: '&#fc03c6Score Boost'
+    description: '&fAdds bonus score when the clan gains points'
     ID: 4
     display:
       type: MATERIAL

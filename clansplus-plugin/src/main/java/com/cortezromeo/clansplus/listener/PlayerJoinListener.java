@@ -20,13 +20,13 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
+        ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             Player player = event.getPlayer();
             PluginDataManager.loadPlayerDatabase(player.getName());
             PluginDataManager.getPlayerDatabase(player.getName()).setLastActivated(new Date().getTime());
 
-            ClansPlus.plugin.foliaLib.getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 30);
-            ClansPlus.plugin.foliaLib.getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 40);
+            ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 30);
+            ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 40);
         });
     }
 

@@ -21,17 +21,11 @@ import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;
-import com.cortezromeo.clansplus.support.DiscordSupport;
-import com.cortezromeo.clansplus.support.PlaceholderAPISupport;
-import com.cortezromeo.clansplus.support.VaultSupport;
+import com.cortezromeo.clansplus.support.Support;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.task.EventTask;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.tchristofferson.configupdater.ConfigUpdater;
-import com.tcoded.folialib.FoliaLib;
-import net.milkbowl.vault.economy.Economy;
-import org.black_ixx.playerpoints.PlayerPoints;
-import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -46,35 +40,14 @@ import static com.cortezromeo.clansplus.util.MessageUtil.log;
 public class ClansPlus extends JavaPlugin {
 
     public static ClansPlus plugin;
+    private static com.cortezromeo.clansplus.api.ClanPlus api;
     public static VersionSupport nms;
     public static DatabaseType databaseType;
-    public static boolean papiSupport = false;
-    public static Economy vaultEconomy;
-    public static PlayerPointsAPI playerPointsAPI;
-    public static DiscordSupport discordSupport;
-    public static boolean mythicMobs = false;
-    private static com.cortezromeo.clansplus.api.ClanPlus api;
-    public FoliaLib foliaLib;
+    public static Support support;
     private EventTask eventTask;
 
     public static com.cortezromeo.clansplus.api.ClanPlus getAPI() {
         return api;
-    }
-
-    public static boolean isPapiSupport() {
-        return papiSupport;
-    }
-
-    public static boolean isMythicMobsSupport() {
-        return mythicMobs;
-    }
-
-    public static PlayerPointsAPI getPlayerPointsAPI() {
-        return playerPointsAPI;
-    }
-
-    public static DiscordSupport getDiscordSupport() {
-        return discordSupport;
     }
 
     @Override
@@ -87,8 +60,6 @@ public class ClansPlus extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        foliaLib = new FoliaLib(this);
-        foliaLib.enableInvalidTickValueDebug();
         initFiles();
         Settings.setupValue();
         initLanguages();
@@ -97,7 +68,8 @@ public class ClansPlus extends JavaPlugin {
         initCommands();
         initListener();
         initSkills();
-        initSupports();
+        support = new Support();
+        support.setupSupports();
         EventManager.getWarEvent();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
         eventTask = new EventTask();
@@ -111,13 +83,15 @@ public class ClansPlus extends JavaPlugin {
         log("");
         log("&fVersion: &b" + getDescription().getVersion());
         log("&fAuthor: &bCortez_Romeo");
-        log("&eKhởi chạy plugin trên phiên bản: " + Bukkit.getServer().getClass().getName().split("\\.")[3]);
+        log("&eRunning version: " + Bukkit.getServer().getClass().getName().split("\\.")[3]);
+        if (support.isFoliaLibSupported())
+            log("      &2&lFOLIA SUPPORTED");
         log("");
         log("&fSupport:");
-        log((vaultEconomy != null ? "&2[SUPPORTED] &aVault" : "&4[UNSUPPORTED] &cVault"));
-        log((papiSupport ? "&2[SUPPORTED] &aPlaceholderAPI" : "&4[UNSUPPORTED] &cPlaceholderAPI"));
-        log((playerPointsAPI != null ? "&2[SUPPORTED] &aPlayerPoints" : "&4[UNSUPPORTED] &cPlayerPoints"));
-        log((mythicMobs ? "&2[SUPPORTED] &aMythicMobs" : "&4[UNSUPPORTED] &cMythicMobs"));
+        log((support.isVaultSupported()? "&2[SUPPORTED] &aVault" : "&4[UNSUPPORTED] &cVault"));
+        log((support.isPlaceholderAPISupported() ? "&2[SUPPORTED] &aPlaceholderAPI" : "&4[UNSUPPORTED] &cPlaceholderAPI"));
+        log((support.isPlayerPointsSupported() ? "&2[SUPPORTED] &aPlayerPoints" : "&4[UNSUPPORTED] &cPlayerPoints"));
+        log((support.isMythicMobsSupported() ? "&2[SUPPORTED] &aMythicMobs" : "&4[UNSUPPORTED] &cMythicMobs"));
         log("");
         log("&f--------------------------------");
 
@@ -130,31 +104,6 @@ public class ClansPlus extends JavaPlugin {
         }
 
         new Metrics(this, 25078);
-    }
-
-    public void initSupports() {
-        // vault
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-            VaultSupport.setup();
-        }
-
-        // playerpoints
-        if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
-            playerPointsAPI = PlayerPoints.getInstance().getAPI();
-        }
-
-        // placeholderapi
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderAPISupport().register();
-            papiSupport = true;
-        }
-
-        // mythicmobs
-        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null)
-            mythicMobs = true;
-
-        // discordWebhook
-        discordSupport = new DiscordSupport();
     }
 
     public void initFiles() {

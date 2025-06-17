@@ -42,7 +42,9 @@ public class ClanManager {
             return false;
         if (!PluginDataManager.getPlayerDatabase().containsKey(player.getName()))
             return false;
-        return PluginDataManager.getPlayerDatabase(player.getName()).getClan() != null;
+        if (PluginDataManager.getPlayerDatabase(player.getName()).getClan() == null)
+            return false;
+        return PluginDataManager.getClanDatabaseByPlayerName(player.getName()) != null;
     }
 
     public static void alertClan(String clanName, String message) {

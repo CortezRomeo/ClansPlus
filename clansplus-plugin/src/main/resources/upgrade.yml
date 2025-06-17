@@ -7,27 +7,28 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-# currency-type bao gồm WARPOINT, VAULT, PLAYERPOINTS
-# Vui lòng đảm bảo máy chủ hỗ trợ Vault và PlayerPoints trước khi config.
-# Dòng else trong khối price dùng để trả về giá trị đó nếu giá trị tiếp theo nằm ngoài các số trong danh sách.
+# currency-type includes WARPOINT, VAULT, PLAYERPOINTS
+# Please ensure the server supports Vault and PlayerPoints before configuring.
+# The 'else' line in the price block is used to return this value if the given level is not found in the list.
 
 upgrade:
   max-members:
     # currency-type: WARPOINT, VAULT, PLAYERPOINTS
     currency-type: WARPOINT
     # max member: cost
-    # có thể thêm hoặc bớt.
+    # can be added or removed.
     price:
       6: 10
       7: 20
       8: 30
       9: 40
       10: 50
-      # Trả về kết quả này khi giá trị nằm ngoài các số ở trên.
-      # Không xóa dòng này.
+      # This value is returned when the input is not listed above.
+      # Do not delete this line.
       else: 100
-  # Ở mục "price", các số đầu tiên chính là cấp độ của skill và đằng sau là giá. Có thể thêm hoặc bớt nhưng không
-  # thể để trống. Giá trị cuối cùng được config chính là max level.
+  # In the "price" section, the initial numbers represent the skill level and the value after the colon is the cost.
+  # You can add or remove levels, but this section cannot be left empty.
+  # The last level configured is the max level.
   plugin-skills:
     # currency-type: WARPOINT, VAULT, PLAYERPOINTS
     critical_hit:

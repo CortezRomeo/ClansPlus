@@ -55,17 +55,24 @@ public class Create extends SubjectManager {
             }
         }
 
+        List<String> prohibitedCharacters = new ArrayList<>(Settings.CLAN_SETTING_PROHIBITED_CHARACTER);
+
+        // Space and & should not be in the clan name
+        prohibitedCharacters.add(" ");
+        prohibitedCharacters.add("&");
+
+        // Because of windows limited, these characters cannot be contained in the clan name
         if (ClansPlus.databaseType == DatabaseType.YAML) {
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("\\");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("/");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add(":");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("*");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("?");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("<");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add(">");
-            Settings.CLAN_SETTING_PROHIBITED_CHARACTER.add("|");
+            prohibitedCharacters.add("\\");
+            prohibitedCharacters.add("/");
+            prohibitedCharacters.add(":");
+            prohibitedCharacters.add("*");
+            prohibitedCharacters.add("?");
+            prohibitedCharacters.add("<");
+            prohibitedCharacters.add(">");
+            prohibitedCharacters.add("|");
         }
-        for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
+        for (String prohibitedCharacter : prohibitedCharacters) {
             if (clanName.contains(prohibitedCharacter)) {
                 MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
                 return false;

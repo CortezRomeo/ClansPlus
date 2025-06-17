@@ -154,7 +154,7 @@ public class PluginDataManager {
             DatabaseType oldDatabaseType = ClansPlus.databaseType;
             if (commandSender != null)
                 commandSender.sendMessage("Đang chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + "...");
-            ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
+            ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
                 PluginDataStorage.disableStorage();
                 PluginDataStorage.init(toDatabaseType);
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {
@@ -343,7 +343,7 @@ public class PluginDataManager {
     public static void backupAll(String backupFileName) {
         String backupPath = ClansPlus.plugin.getDataFolder() + "\\backup\\";
         DatabaseType databaseType = ClansPlus.databaseType;
-        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Bắt đầu back up dữ liệu...");
+        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Starting backing up database...");
 
         // Save database before backing up
         saveAllDatabase();
@@ -386,7 +386,7 @@ public class PluginDataManager {
             }
         } else if (ClansPlus.databaseType == DatabaseType.H2) {
             if (PluginDataH2Storage.getConnection() == null) {
-                MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Không thể backup vì H2 chưa được kết nối!");
+                MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Cannot back up because H2 is not connected!");
                 return;
             }
             try {
@@ -397,6 +397,6 @@ public class PluginDataManager {
                 exception.printStackTrace();
             }
         }
-        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Backup thành công.");
+        MessageUtil.debug("BACKUP (DATABASE: " + databaseType + ")", "Backup completed.");
     }
 }

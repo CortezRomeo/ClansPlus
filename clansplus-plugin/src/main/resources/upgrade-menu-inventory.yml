@@ -7,22 +7,22 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-#  Lưu ý:
-#  * Có hỗ trợ hex color
-#  * Có 3 type chính, đó là:
-#    + material: value chỉnh thành MATERIAL của block
-#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
-#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
-#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
-#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
-#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
-#    + customhead: Đọc phần ở dưới
-#      + Cách sử dụng custom-head:
-#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
-#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
-#                  dán nó vào phần "value:" của item bạn cần
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
 
-title: '&0Nâng cấp'
+title: '&0Upgrade'
 rows: 4
 items:
   border:
@@ -39,7 +39,7 @@ items:
     lore:
       - ''
   close:
-    name: '&cĐóng'
+    name: '&cClose'
     slot: 31
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
@@ -50,9 +50,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để đóng'
+      - '&eClick here to close'
   back:
-    name: '&eTrở về'
+    name: '&eGo Back'
     slot: 30
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
@@ -63,9 +63,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để trở về'
+      - '&eClick here to go back'
   upgradeMaxMember:
-    name: '&bNâng cấp số lượng thành viên tối đa'
+    name: '&bUpgrade Max Member Capacity'
     slot: 11
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzVjNWY1NTE4MzRhNTYzZGQ5N2JiNDcwMGJkZjQ4MTk3YTNiY2QwOTc0YTJjYzI2NzMyOWI0YTU5ZDcyYzY3OSJ9fX0=
@@ -77,14 +77,14 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fTổng thành viên hiện tại đang có: &a%totalMembers%'
-      - '&fNâng cấp thành viên tối đa lên &2%newMaxMembers%'
+      - '&fCurrent total members: &a%totalMembers%'
+      - '&fUpgrade max members to &2%newMaxMembers%'
       - ''
-      - '&fYêu cầu: %currencySymbol%%price% %currencyName%'
+      - '&fCost: %currencySymbol%%price% %currencyName%'
       - ''
-      - '&eNhấn vào đây để nâng cấp'
+      - '&eClick here to upgrade'
   skillsMenu:
-    name: '&dQuản lý kỹ năng'
+    name: '&dSkill Management'
     slot: 15
     type: material
     value: SHIELD
@@ -96,6 +96,6 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fQuản lý và nâng cấp kỹ năng trong bang hội.'
+      - '&fManage and upgrade skills in the clan.'
       - ''
-      - '&eNhấn vào đây để xem'
+      - '&eClick here to view'

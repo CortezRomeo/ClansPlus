@@ -1,7 +1,10 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
+import com.cortezromeo.clansplus.api.enums.Rank;
+import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.UpgradeManager;
@@ -76,6 +79,16 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("back"))
             new ClanMenuInventory(getOwner()).open();
         if (itemCustomData.equals("upgradeMaxMember")) {
+
+            // check rank
+            Rank upgradeRequiredrank = Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.UPGRADE);
+            if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+                upgradeRequiredrank = PluginDataManager.getClanDatabase(playerClanData.getName()).getSubjectPermission().get(Subject.UPGRADE);
+            if (!ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
+                MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
+                return;
+            }
+
             CurrencyType upgradeMaxMembersCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-members.currency-type").toUpperCase());
             int newMaxMembers = playerClanData.getMaxMembers() + 1;
             long value = UpgradeFile.get().getLong("upgrade.max-members.price." + newMaxMembers);
@@ -94,8 +107,7 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
-
+        ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
                         fileConfiguration.getString("items.border.value"),

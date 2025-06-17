@@ -7,22 +7,22 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-#  Lưu ý:
-#  * Có hỗ trợ hex color
-#  * Có 3 type chính, đó là:
-#    + material: value chỉnh thành MATERIAL của block
-#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
-#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
-#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
-#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
-#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
-#    + customhead: Đọc phần ở dưới
-#      + Cách sử dụng custom-head:
-#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
-#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
-#                  dán nó vào phần "value:" của item bạn cần
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
 
-title: '&0Chỉnh icon | CUSTOM HEAD%search%'
+title: '&0Edit Icon | CUSTOM HEAD%search%'
 title-placeholders:
   search: ' &0(&e%search%&0)'
 rows: 6
@@ -41,7 +41,7 @@ items:
     lore:
       - ''
   nextPage:
-    name: '&aTrang sau'
+    name: '&aNext Page'
     slot: 8
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
@@ -52,9 +52,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&7Sang trang %nextPage%'
+      - '&7To page %nextPage%'
   prevPage:
-    name: '&aTrang trước'
+    name: '&aPrevious Page'
     slot: 0
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
@@ -65,9 +65,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&7Về trang %prevPage%'
+      - '&7Back to page %prevPage%'
   search:
-    name: '&6Tìm kiếm'
+    name: '&6Search'
     slot: 6
     type: material
     value: WRITABLE_BOOK
@@ -78,10 +78,10 @@ items:
       volume: 1
       pitch: 1
     lore:
-      - '&eNhấn vào đây để tìm kiếm'
-      - '&eChuột-Phải để xóa danh sách tìm kiếm'
+      - '&eClick here to search'
+      - '&eRight-click to clear search list'
   close:
-    name: '&cĐóng'
+    name: '&cClose'
     slot: 4
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
@@ -92,9 +92,9 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để đóng'
+      - '&eClick here to close'
   back:
-    name: '&eTrở về'
+    name: '&eGo Back'
     slot: 3
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
@@ -105,7 +105,7 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để trở về'
+      - '&eClick here to go back'
   customHead:
     name: '&b%name%'
     click-sound:
@@ -115,11 +115,11 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+      - '&fData is fetched from &cminecraft-heads.com&f.'
       - ''
-      - '&eNhấn vào đây để chỉnh thành icon bang hội'
+      - '&eClick here to set as clan icon'
   sort:
-    name: '&bSắp xếp'
+    name: '&bSort'
     slot: 5
     type: material
     value: OAK_SIGN
@@ -132,181 +132,181 @@ items:
     lore:
       ALPHABET:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&b⇨ Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&b⇨ Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       ANIMALS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&b⇨ Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&b⇨ Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       MONSTERS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&b⇨ Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&b⇨ Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       BLOCKS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&b⇨ Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&b⇨ Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       DECORATION:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&b⇨ Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&b⇨ Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       FOOD_DRINKS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&b⇨ Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&b⇨ Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       HUMANOID:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&b⇨ Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&b⇨ Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       HUMANS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&b⇨ Con người'
-        - '&7Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&b⇨ Humans'
+        - '&7Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       PLANTS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&b⇨ Thực vật'
-        - '&7Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&b⇨ Plants'
+        - '&7Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'
       MISCELLANEOUS:
         - ''
-        - '&fSắp xếp theo từng giá trị riêng biệt.'
+        - '&fSort by each individual value.'
         - ''
-        - '&fDữ liệu được lấy từ &cminecraft-heads.com&f.'
+        - '&fData is fetched from &cminecraft-heads.com&f.'
         - ''
-        - '&7Bảng chữ cái'
-        - '&7Động vật'
-        - '&7Quái vật'
-        - '&7Khối'
-        - '&7Trang trí'
-        - '&7Đồ ăn và thức uống'
-        - '&7Hình nhân'
-        - '&7Con người'
-        - '&7Thực vật'
-        - '&b⇨ Hỗn hợp'
+        - '&7Alphabet'
+        - '&7Animals'
+        - '&7Monsters'
+        - '&7Blocks'
+        - '&7Decoration'
+        - '&7Food & Drinks'
+        - '&7Humanoids'
+        - '&7Humans'
+        - '&7Plants'
+        - '&b⇨ Miscellaneous'
         - ''
-        - '&eNhấn vào đây để thay đổi'
+        - '&eClick here to change'

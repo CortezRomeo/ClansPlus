@@ -7,22 +7,22 @@
 #
 # A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
 #
-#  Lưu ý:
-#  * Có hỗ trợ hex color
-#  * Có 3 type chính, đó là:
-#    + material: value chỉnh thành MATERIAL của block
-#      > Theo các phiên bản bé hơn 1.13, bạn có thể điền số trong phần 'value:' và 'data:' của item đó
-#          Ví dụ: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
-#      > Theo các phiên bản lớn hơn 1.12.2, bạn có thể điền thẳng tên item đó (Phần 'data:' sẽ không còn cần thiết)
-#          Ví dụ: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
-#    + playerhead: dành cho item "bet-player:" để hiện thị đầu người hơi
-#    + customhead: Đọc phần ở dưới
-#      + Cách sử dụng custom-head:
-#          Bước 1: Truy cập vào một custom-head mà bạn cần ở web có link https://minecraft-heads.com/custom-heads/
-#          Bước 2: Kéo xuống dưới cùng bạn sẽ thấy có một mục là "Other", Copy phần "Value:" và
-#                  dán nó vào phần "value:" của item bạn cần
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
 
-title: '&0Bang hội &#7526ad%formatClanName%'
+title: '&0Clan &#7526ad%formatClanName%'
 rows: 6
 items:
   border:
@@ -48,7 +48,7 @@ items:
     lore:
       - ''
   close:
-    name: '&cĐóng'
+    name: '&cClose'
     slot: 49
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
@@ -59,7 +59,7 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây để đóng'
+      - '&eClick here to close'
   clanInfo:
     name: '&#3498eb%formatClanName%'
     slot: 19
@@ -69,13 +69,13 @@ items:
       - ''
       - '&f%message%'
       - ''
-      - '&fĐiểm: &#d612e0%score%'
+      - '&fPoints: &#d612e0%score%'
       - '&fWar Point: &#e0122a%warPoint%'
-      - '&fLãnh đạo: &#e0cf12%owner%'
-      - '&fThành viên: &#31e012%memberSize%&f/&#127502%maxMembers%'
-      - '&fSố lượng đồng minh: &#28c9d1%allySize%'
+      - '&fLeader: &#e0cf12%owner%'
+      - '&fMembers: &#31e012%memberSize%&f/&#127502%maxMembers%'
+      - '&fAllies: &#28c9d1%allySize%'
   members:
-    name: '&#31e012Thành viên'
+    name: '&#31e012Members'
     slot: 12
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmU2M2UzYmMwZDBhMGY1ZDk3NGMwYTlhMGUyYTBkYjUxYWMzOTFhZmZhMmJmYmY3OGQxNmQyOWM4NDA1Y2ZjYSJ9fX0=
@@ -87,14 +87,13 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fThành viên là những người chơi có cùng trong'
-      - '&fmột bang hội với bạn.'
+      - '&fMembers are players in the same clan as you.'
       - ''
-      - '&fTổng số thành viên: &#31e012%totalMembers%'
+      - '&fTotal members: &#31e012%totalMembers%'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
+      - '&eClick here to manage'
   allies:
-    name: '&#28c9d1Đồng minh'
+    name: '&#28c9d1Allies'
     slot: 13
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
@@ -106,15 +105,14 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fĐồng minh là những bang hội cùng phe với'
-      - '&fbạn. Bạn không thể gây sát thương lên những'
-      - '&fngười trong bang hội đồng minh.'
+      - '&fAllies are friendly clans.'
+      - '&fYou cannot damage players in allied clans.'
       - ''
-      - '&fTổng số đồng minh: &#28c9d1%totalAllies%'
+      - '&fTotal allies: &#28c9d1%totalAllies%'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
+      - '&eClick here to manage'
   clanList:
-    name: '&#3498ebDanh sách bang hội'
+    name: '&#3498ebClan List'
     slot: 14
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJlYmJkYjE4ZDc0NzI4MWI1NDYyZjg1N2VlOTg0Njc1YTM5ZDVhMDI3NDQ0NmEyMmY2NjI2NGE1M2QyYjAzNCJ9fX0=
@@ -126,13 +124,13 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fHiển thị tất cả thông tin bang hội có trong máy chủ.'
+      - '&fDisplays all clans on the server.'
       - ''
-      - '&fTổng số bang hội: &e%totalClans%'
+      - '&fTotal clans: &e%totalClans%'
       - ''
-      - '&eNhấn vào đây để xem'
+      - '&eClick here to view'
   upgrade:
-    name: '&eNâng cấp'
+    name: '&eUpgrade'
     slot: 15
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ2MjhhY2U3YzNhZmM2MWE0NzZkYzE0NDg5M2FhYTY0MmJhOTc2ZDk1MmI1MWVjZTI2YWJhZmI4OTZiOCJ9fX0=
@@ -144,11 +142,11 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fNâng cấp các chỉ số cơ bản của bang hội.'
+      - '&fUpgrade your clan''s core stats.'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
+      - '&eClick here to manage'
   events:
-    name: '&eSự kiện'
+    name: '&eEvents'
     slot: 16
     type: material
     value: IRON_SWORD
@@ -160,12 +158,12 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fSự kiện xảy ra vào khung giờ cụ thể để các'
-      - '&fbang hội có thể tham gia nhầm kiếm điểm.'
+      - '&fEvents happen at specific times'
+      - '&fallowing clans to participate and earn points.'
       - ''
-      - '&eNhấn vào đây để xem'
+      - '&eClick here to view'
   settings:
-    name: '&eCài đặt'
+    name: '&eSettings'
     slot: 21
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTg5ZjFlODc2NGJlZWQ1ZTMzYTY4YjYxOTBhMDM0ODZiMWI0YjExYTNhNTkwNjg4Yzc1YTg5N2I5ZDEwZDk1In19fQ==
@@ -177,11 +175,11 @@ items:
       pitch: 2
     lore:
       - ''
-      - '&fCài đặt các thông số cơ bản của bang hội.'
+      - '&fConfigure your clan''s basic settings.'
       - ''
-      - '&eNhấn vào đây để tùy chỉnh'
+      - '&eClick here to manage'
   spawn:
-    name: '&eSpawn bang hội'
+    name: '&eClan Spawn'
     slot: 22
     type: material
     value: RED_BED
@@ -194,19 +192,19 @@ items:
     lore:
       invalid-spawn-point:
         - ''
-        - '&cBang hội này chưa có điểm spawn!'
+        - '&cThis clan does not have a spawn point!'
         - ''
-        - '&4Không thể dịch chuyển'
+        - '&4Teleportation unavailable'
       valid-spawn-point:
         - ''
-        - '&fThế giới: &e%worldName%'
+        - '&fWorld: &e%worldName%'
         - '&fX: &c%x%'
         - '&fY: &a%y%'
         - '&fZ: &b%z%'
         - ''
-        - '&eNhấn vào đây để dịch chuyển'
+        - '&eClick here to teleport'
   leave:
-    name: '&cRời bang hội'
+    name: '&cLeave Clan'
     slot: 50
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=
@@ -217,4 +215,4 @@ items:
       volume: 1
       pitch: 2
     lore:
-      - '&eNhấn vào đây xác minh'
+      - '&eClick here to confirm'

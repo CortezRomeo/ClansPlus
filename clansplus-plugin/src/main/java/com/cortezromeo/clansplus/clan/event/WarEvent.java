@@ -159,18 +159,18 @@ public class WarEvent {
         }
 
         try {
-            if (ClansPlus.getDiscordSupport() != null)
+            if (ClansPlus.support.getDiscordSupport() != null)
                 // send discord message
-                ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventStartingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-starting.json", EventManager.getWarEvent()));
+                ClansPlus.support.getDiscordSupport().sendMessage(ClansPlus.support.getDiscordSupport().getWarEventStartingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-starting.json", EventManager.getWarEvent()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
 
-        wrappedTask = ClansPlus.plugin.foliaLib.getScheduler().runTimerAsync(() -> {
+        wrappedTask = ClansPlus.support.getFoliaLib().getScheduler().runTimerAsync(() -> {
             if (TIMELEFT > 0) {
                 // update boss bar
                 for (Player player : Bukkit.getOnlinePlayers())
-                    ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> createBossBar(player));
+                    ClansPlus.support.getFoliaLib().getScheduler().runAtEntity(player, task -> createBossBar(player));
                 TIMELEFT--;
             }
             // ending event
@@ -237,8 +237,8 @@ public class WarEvent {
 
         // send discord message
         try {
-            if (ClansPlus.getDiscordSupport() != null)
-                ClansPlus.getDiscordSupport().sendMessage(ClansPlus.getDiscordSupport().getWarEventEndingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-ending.json", EventManager.getWarEvent()));
+            if (ClansPlus.support.getDiscordSupport() != null)
+                ClansPlus.support.getDiscordSupport().sendMessage(ClansPlus.support.getDiscordSupport().getWarEventEndingMessage(ClansPlus.plugin.getDataFolder() + "/discordsrv-warevent-ending.json", EventManager.getWarEvent()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -339,6 +339,9 @@ public class WarEvent {
 
         IClanData damagerClanData = PluginDataManager.getClanDatabaseByPlayerName(damager.getName());
 
+        if (damagerClanData == null)
+            return;
+
         SkillData dodgeSkillData = SkillManager.getSkillData().get(SkillManager.getSkillID(PluginSkill.DODGE));
         if (dodgeSkillData != null) {
             if (dodgeSkillData.onDamage(dodgeSkillData, event)) {
@@ -431,18 +434,15 @@ public class WarEvent {
 
         int scoreAdded = 0;
         boolean isMythicMobsMob = false;
-        if (ClansPlus.isMythicMobsSupport()) {
+        if (ClansPlus.support.isMythicMobsSupported()) {
             try {
                 if (MythicBukkit.inst().getMobManager().isMythicMob(entityVictim)) {
                     ActiveMob mob = MythicBukkit.inst().getMobManager().getMythicMobInstance(entityVictim);
                     String mobName = mob.getMobType();
-                    MessageUtil.devMessage(mobName);
                     if (SCORE_MYTHICMOBS_MOBS.containsKey(mobName)) {
                         scoreAdded = SCORE_MYTHICMOBS_MOBS.get(mobName);
                         isMythicMobsMob = true;
-                        MessageUtil.devMessage("1");
-                    } else
-                        MessageUtil.devMessage("2");
+                    }
                 }
             } catch (Exception exception) {
                 MessageUtil.throwErrorMessage("[MythicMobs] Lối khi sử dụng API của mythicMobs! (" + exception.getMessage() + ")");

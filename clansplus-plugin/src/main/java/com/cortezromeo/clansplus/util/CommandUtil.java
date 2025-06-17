@@ -10,7 +10,7 @@ public class CommandUtil {
         if (command == null || command.equals(""))
             return;
         String MATCH = "(?ium)^(player:|op:|console:|)(.*)$";
-        ClansPlus.plugin.foliaLib.getScheduler().runAtEntity(player, task -> {
+        ClansPlus.support.getFoliaLib().getScheduler().runAtEntity(player, task -> {
             String type = command.replaceAll(MATCH, "$1").replace(":", "").toLowerCase();
             String cmd = command.replaceAll(MATCH, "$2").replaceAll("(?ium)([{]Player[}])", player == null ? "" : player.getName());
             switch (type) {

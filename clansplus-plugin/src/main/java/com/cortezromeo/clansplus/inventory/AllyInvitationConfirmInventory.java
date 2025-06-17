@@ -120,8 +120,7 @@ public class AllyInvitationConfirmInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
-
+        ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
                 ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
                         fileConfiguration.getString("items.border.value"),

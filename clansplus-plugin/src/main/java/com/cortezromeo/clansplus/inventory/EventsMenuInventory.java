@@ -43,7 +43,7 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
 
         if (wrappedTask == null) {
 
-            ClansPlus.plugin.foliaLib.getScheduler().runTimerAsync(task -> {
+            ClansPlus.support.getFoliaLib().getScheduler().runTimerAsync(task -> {
                 wrappedTask = task;
 
                 if (getInventory() == null || !getInventory().getViewers().contains(getOwner())) {
@@ -93,7 +93,7 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
 
     @Override
     public void setMenuItems() {
-        ClansPlus.plugin.foliaLib.getScheduler().runAsync(task -> {
+        ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             int warEventItemSlot = fileConfiguration.getInt("items.warEvent.slot");

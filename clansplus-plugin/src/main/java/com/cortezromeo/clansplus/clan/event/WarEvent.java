@@ -136,6 +136,7 @@ public class WarEvent {
         ENDING_COMMANDS = eventFileConfig.getStringList(eventPath + "commands.ending-commands");
     }
 
+    // start the event
     public void runEvent(boolean checkPlayerSize) {
         if (STARTING)
             return;
@@ -312,11 +313,19 @@ public class WarEvent {
     public void onJoin(PlayerJoinEvent event) {
         if (!PLAYER_JOIN_NOTIFICATION_ENABLED)
             return;
-        sendEventStatusMessage(event.getPlayer(), false);
+        Player player = event.getPlayer();
+        sendEventStatusMessage(player, false);
+
+        // if the event already started, create a boss bar for the player
+        if (isStarting())
+            createBossBar(player);
     }
 
     public void onDamage(EntityDamageByEntityEvent event) {
         if (!isStarting())
+            return;
+
+        if (event.isCancelled())
             return;
 
         Entity entityDamager = event.getDamager();

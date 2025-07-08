@@ -86,4 +86,8 @@ public interface IClanData {
 
     void setDiscordJoinLink(String discordJoinLink);
 
+    HashMap<Integer, String> getInventory();
+
+    void setInventory(HashMap<Integer, String> inventory);
+
 }

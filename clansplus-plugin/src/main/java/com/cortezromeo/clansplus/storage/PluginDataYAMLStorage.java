@@ -57,6 +57,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
+        HashMap<Integer, String> inventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         ClanData clanData = new ClanData(
@@ -78,7 +79,8 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 permissionDefault,
                 allyInvitation,
                 0,
-                null);
+                null,
+                inventory);
 
         if (!storage.contains("data"))
             return clanData;
@@ -105,7 +107,6 @@ public class PluginDataYAMLStorage implements PluginStorage {
             storage.set("data.thanh_vien_toi_da", null);
             storage.set("data.thanh_vien", null);
 
-            // TODO <DATA FIX 3.4> Old database does not have icon type
             if (storage.getString("data.banghoiicon") != null) {
                 String oldIconValue = storage.getString("data.banghoiicon").toUpperCase();
                 try {
@@ -142,7 +143,6 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
         clanData.setAllies(storage.getStringList("data.allies"));
 
-        // TODO <DATA FIX 3.4> All managers from the list will have rank MANAGER, delete managers list
         if (storage.getString("data.managers") != null) {
             for (String manager : storage.getStringList("data.managers"))
                 ClanManager.managersFromOldData.put(manager, clanName);
@@ -226,6 +226,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.ally-invitation", clanData.getAllyInvitation());
         storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
         storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
+        storage.set("data.inventory", clanData.getInventory());
         try {
             storage.save(file);
         } catch (IOException e) {

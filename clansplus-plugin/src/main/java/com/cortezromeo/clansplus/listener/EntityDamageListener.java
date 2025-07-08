@@ -67,13 +67,18 @@ public class EntityDamageListener implements Listener {
     }
 
     @EventHandler
-    public void onArrow(EntityDamageByEntityEvent event) {
+    public void onShooting(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
 
         if (event.getEntity() == null || damager == null)
             return;
 
         if (damager instanceof Projectile projectile) {
+
+            // I don't know why but the end crystal cannot be cast to class damageable
+            if (projectile.getType().equals(EntityType.END_CRYSTAL))
+                return;
+
             if (projectile.getShooter() instanceof Player shooter) {
                 Damageable damageableVictim = (Damageable) event.getEntity();
                 if (damageableVictim instanceof Player victim) {

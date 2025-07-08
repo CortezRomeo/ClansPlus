@@ -26,8 +26,9 @@ public class ItemUtil {
             material.set(ClansPlus.nms.getHeadItemFromBase64(value));
         if (type.equalsIgnoreCase("playerhead"))
             material.set(ClansPlus.nms.getHeadItemFromPlayerName(value));
-        if (type.equalsIgnoreCase("material"))
+        if (type.equalsIgnoreCase("material")) {
             material.set(ClansPlus.nms.createItemStack(value, 1, customModelData, glow));
+        }
 
         ItemMeta materialMeta = material.get().getItemMeta();
 

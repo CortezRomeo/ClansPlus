@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.clan.SubjectManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -57,6 +58,9 @@ public class Kick extends SubjectManager {
         PluginDataManager.clearPlayerDatabase(targetName);
         playerClanData.getMembers().remove(targetName);
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
+
+        EventManager.getWarEvent().getPlayerDamagesCaused().remove(targetName);
+        EventManager.getWarEvent().getPlayerDamagesCollected().remove(targetName);
 
         MessageUtil.sendMessage(player, Messages.TARGET_REMOVAL_SUCCESS.replace("%player%", targetName));
         MessageUtil.sendMessage(target, Messages.KICKED_FROM_CLAN.replace("%clan%", playerClanData.getName()).replace("%player%", playerName));

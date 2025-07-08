@@ -16,11 +16,11 @@ public class Support {
     public Economy vaultEconomyAPI;
     public DiscordSupport discordSupport;
     public FoliaLib foliaLib;
-    boolean placeholderAPISupported = false;
-    boolean foliaLibSupported = false;
-    boolean playerPointsSupported = false;
-    boolean mythicMobsSupported = false;
-    boolean vaultSupported = false;
+    public boolean placeholderAPISupported = false;
+    public boolean foliaLibSupported = false;
+    public boolean playerPointsSupported = false;
+    public boolean mythicMobsSupported = false;
+    public boolean vaultSupported = false;
 
     public boolean isPlaceholderAPISupported() {
       return placeholderAPISupported;

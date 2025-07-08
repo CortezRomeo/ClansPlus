@@ -159,9 +159,12 @@ messages:
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'
     set-custom-name: '%prefix%&#eaff00&l| &fPlease enter the custom name in the chat box.'
     set-message: '%prefix%&#eaff00&l| &fPlease enter the announcement in the chat box.'
-    inventory-list-search: '%prefix%&#eaff00&l| &fPlease enter the keyword to search in the chat box.'
     cancel-using-chat-box: '&7Type &e%word%&7 to cancel.'
     cancel-using-chat-box-success: '&aSuccessfully cancelled chat box input.'
+    time-out: '&cTime ran out!'
+  using-sign-input:
+    inventory-list-search: '%prefix%&#eaff00&l| &fPlease enter what you want to search in the sign. You have &e%seconds% seconds&f remaining.'
+    time-out: '&cTime ran out!'
   clan-broadcast:
     prefix: '&#3498eb&lCLAN &f(%formatClanName%&r) '
     invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f sent a clan invitation to &e%target%&f.'

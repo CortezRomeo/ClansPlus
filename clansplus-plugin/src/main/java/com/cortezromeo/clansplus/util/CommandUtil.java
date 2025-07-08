@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class CommandUtil {
-
     public static void dispatchCommand(Player player, String command) {
         if (command == null || command.equals(""))
             return;
@@ -35,7 +34,6 @@ public class CommandUtil {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
                     break;
             }
-
         });
     }
 

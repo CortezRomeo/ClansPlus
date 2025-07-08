@@ -124,6 +124,20 @@ clan-settings:
     # Time allowed to accept the invite.
     time-to-accept: 30
 
+  # Settings for adjusting the delaying of sending messages
+  messages-settings:
+    on-join:
+      # Using to send the status of current war event
+      war-event:
+        enabled: true
+        # Delay for ... seconds
+        delay: 1
+      # Using to send the player's clan broadcast
+      clan-broadcast:
+        enabled: true
+        # Delay for ... seconds
+        delay: 2
+
   # Settings for customizing clan name.
   clan-name-settings:
     # Prohibited names (applies to both clan and custom names).
@@ -154,8 +168,13 @@ clan-settings:
 
 # Chat settings
 chat-settings:
-  # Use the word below to cancel chat interaction
+  # Use the word below to cancel chat interaction.
   stop-using-chat-word: '?cancel'
+
+# Sign-input settings
+sign-input-settings:
+  # Close player's sign using to serach after the time runs out.
+  time-out: 15
 
 # Vanish settings
 # Supports SuperVanish, PremiumVanish, EssentialsX, VanishNoPacket, and other vanish-supporting plugins

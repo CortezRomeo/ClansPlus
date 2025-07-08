@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -25,8 +26,10 @@ public class PlayerJoinListener implements Listener {
             PluginDataManager.loadPlayerDatabase(player.getName());
             PluginDataManager.getPlayerDatabase(player.getName()).setLastActivated(new Date().getTime());
 
-            ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 30);
-            ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 40);
+            if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_ENABLED)
+                ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY);
+            if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED)
+                ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY);
         });
     }
 

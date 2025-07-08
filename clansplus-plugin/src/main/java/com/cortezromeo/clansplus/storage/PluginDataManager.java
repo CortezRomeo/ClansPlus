@@ -7,6 +7,7 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -127,6 +128,8 @@ public class PluginDataManager {
         getPlayerDatabase(playerName).setClan(null);
         getPlayerDatabase(playerName).setRank(null);
         getPlayerDatabase(playerName).setJoinDate(0);
+        EventManager.getWarEvent().getPlayerDamagesCaused().remove(playerName);
+        EventManager.getWarEvent().getPlayerDamagesCollected().remove(playerName);
 
 /*        if (playerClanName != null && !playerClanName.equalsIgnoreCase("")) {
             getClanDatabase(playerClanName).getMembers().remove(playerName);
@@ -146,6 +149,7 @@ public class PluginDataManager {
                 clearPlayerDatabase(memberName);
 
         PluginDataManager.getClanDatabase().remove(clanName);
+        EventManager.getWarEvent().getClanScoreCollected().remove(clanName);
         return PluginDataStorage.deleteClanData(clanName);
     }
 

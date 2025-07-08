@@ -159,9 +159,12 @@ messages:
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
     set-custom-name: '%prefix%&#eaff00&l| &fVui lòng nhập tên custom vào ô chat.'
     set-message: '%prefix%&#eaff00&l| &fVui lòng nhập thông báo vào ô chat.'
-    inventory-list-search: '%prefix%&#eaff00&l| &fVui lòng nhập ký tự cần tìm kiếm vào ô chat.'
     cancel-using-chat-box: '&7Sử dụng &e%word%&7 để dừng thao tác.'
     cancel-using-chat-box-success: '&aHủy sử dụng ô chat thành công.'
+    time-out: '&cĐã hết thời gian để nhập!'
+  using-sign-input:
+    inventory-list-search: '%prefix%&#eaff00&l| &fVui lòng nhập thứ bạn cần tìm kiếm vào bảng. Bạn có &e%seconds% giây&f để nhập.'
+    time-out: '&cĐã hết thời gian để nhập!'
   clan-broadcast:
     prefix: '&#3498eb&lBANG HỘI &f(%formatClanName%&r) '
     invite-notification: '%prefix%&#35d11d&l| &r%rank%&e &e%player%&f đã gửi lời mời gia nhập bang hội tới &e%target%&f.'

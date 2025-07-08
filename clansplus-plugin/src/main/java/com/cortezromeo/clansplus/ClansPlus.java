@@ -66,10 +66,10 @@ public class ClansPlus extends JavaPlugin {
         initDatabase();
         PluginDataManager.loadAllDatabase();
         initCommands();
-        initListener();
         initSkills();
         support = new Support();
         support.setupSupports();
+        initListener();
         EventManager.getWarEvent();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
         eventTask = new EventTask();
@@ -561,8 +561,12 @@ public class ClansPlus extends JavaPlugin {
         new PlayerJoinListener();
         new InventoryClickListener();
         new EntityDamageListener();
-        new AsyncPlayerChatListener();
-        new PlayerChatListener();
+        if (support.getFoliaLib().isPaper() || support.getFoliaLib().isFolia()) {
+            new PaperAsyncChatListener();
+            log("&e[PAPER OPTIMIZATION] USING PAPER ASYNC CHAT.");
+        } else
+            new AsyncPlayerChatListener();
+        new SignChangeListener();
         new PlayerQuitListener();
         new PlayerMovementListener();
         new PlayerDeathListener();
@@ -611,7 +615,7 @@ public class ClansPlus extends JavaPlugin {
                         player.closeInventory();
                 }
         } catch (IncompatibleClassChangeError exception) {
-            exception.printStackTrace();
+            // ignore it
         }
 
         log("&f--------------------------------");

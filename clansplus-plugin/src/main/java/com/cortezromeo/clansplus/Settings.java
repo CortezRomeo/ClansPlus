@@ -33,6 +33,10 @@ public class Settings {
     public static int CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT;
     public static String CLAN_SETTING_ICON_DEFAULT_TYPE;
     public static String CLAN_SETTING_ICON_DEFAULT_VALUE;
+    public static boolean CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_ENABLED;
+    public static long CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY;
+    public static boolean CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED;
+    public static long CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY;
     public static HashMap<Integer, Integer> CLAN_SETTING_SKILL_DEFAULT = new HashMap<>();
     public static List<String> CLAN_SETTING_PROHIBITED_NAME = new ArrayList<>();
     public static List<String> CLAN_SETTING_PROHIBITED_CHARACTER = new ArrayList<>();
@@ -47,6 +51,8 @@ public class Settings {
     public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
     public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
     public static String CHAT_SETTING_STOP_USING_CHAT_WORD;
+    public static int CHAT_SETTING_TIME_OUT;
+    public static int SIGN_INPUT_SETTINGS_TIME_OUT;
     public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
 
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
@@ -79,6 +85,10 @@ public class Settings {
         CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT = configuration.getInt("clan-settings.creating-clan-settings.maximum-member-default");
         CLAN_SETTING_ICON_DEFAULT_TYPE = configuration.getString("clan-settings.creating-clan-settings.icon-default.type");
         CLAN_SETTING_ICON_DEFAULT_VALUE = configuration.getString("clan-settings.creating-clan-settings.icon-default.value");
+        CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_ENABLED = configuration.getBoolean("clan-settings.on-join.war-event.enabled");
+        CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY = configuration.getLong("clan-settings.on-join.war-event.delay");
+        CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED = configuration.getBoolean("clan-settings.on-join.clan-broadcast.enabled");
+        CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY = configuration.getLong("clan-settings.on-join.clan-broadcast.enabled");
         if (!CLAN_SETTING_SKILL_DEFAULT.isEmpty())
             CLAN_SETTING_SKILL_DEFAULT.clear();
         for (String skillIDString : configuration.getConfigurationSection("clan-settings.creating-clan-settings.skill-level-default").getKeys(false)) {
@@ -110,6 +120,8 @@ public class Settings {
         CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
         CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
         CHAT_SETTING_STOP_USING_CHAT_WORD = configuration.getString("chat-settings.stop-using-chat-word");
+        CHAT_SETTING_TIME_OUT = configuration.getInt("chat-settings.time-out");
+        SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");
         VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration.getBoolean("vanish-settings.hide-vanish-player.enabled");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");

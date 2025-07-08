@@ -116,3 +116,9 @@ items:
     lore:
       - ''
       - '&eClick here to set as clan icon'
+  unavailableMaterial:
+    name: '&cN/A'
+    type: material
+    value: BARRIER
+    lore:
+      - '&4This item is not available!'

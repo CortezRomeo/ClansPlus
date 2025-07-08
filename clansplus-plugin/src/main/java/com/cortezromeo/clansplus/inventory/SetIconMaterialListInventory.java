@@ -140,14 +140,26 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
                 if (index >= materials.size())
                     break;
                 if (materials.get(index) != null) {
-                    ItemStack materialItem = ItemUtil.getItem(
-                            "material",
-                            materials.get(index),
-                            0,
-                            fileConfiguration.getString("items.material.name"),
-                            fileConfiguration.getStringList("items.material.lore"), false);
-                    ItemStack itemStack = ClansPlus.nms.addCustomData(materialItem, "value=" + materials.get(index));
-                    inventory.addItem(itemStack);
+                    try {
+                        ItemStack materialItem = ItemUtil.getItem(
+                                "material",
+                                materials.get(index),
+                                0,
+                                fileConfiguration.getString("items.material.name"),
+                                fileConfiguration.getStringList("items.material.lore"), false);
+                        ItemStack itemStack = ClansPlus.nms.addCustomData(materialItem, "value=" + materials.get(index));
+                        inventory.addItem(itemStack);
+                    } catch (IllegalArgumentException exception) {
+                        inventory.addItem(ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.unavailableMaterial.type"),
+                                fileConfiguration.getString("items.unavailableMaterial.value"),
+                                0,
+                                fileConfiguration.getString("items.unavailableMaterial.name"),
+                                fileConfiguration.getStringList("items.unavailableMaterial.lore"),
+                                false),
+                                String.valueOf(Math.random() // random custom data to avoid items being duplicated
+                                )));
+                        // ignore, some argument is not an item to be added to the inventory.
+                    }
                 }
             }
         });

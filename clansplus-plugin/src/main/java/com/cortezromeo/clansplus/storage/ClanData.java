@@ -30,10 +30,11 @@ public class ClanData implements IClanData {
     private List<String> allyInvitation;
     private long discordChannelID;
     private String discordJoinLink;
+    private HashMap<Integer, String> inventory;
 
     public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate,
                     IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
-                    List<String> allyInvitation, long discordChannelID, String discordJoinLink) {
+                    List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, String> inventory) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;
@@ -53,6 +54,7 @@ public class ClanData implements IClanData {
         this.allyInvitation = allyInvitation;
         this.discordChannelID = discordChannelID;
         this.discordJoinLink = discordJoinLink;
+        this.inventory = inventory;
     }
 
     @Override
@@ -243,5 +245,15 @@ public class ClanData implements IClanData {
     @Override
     public void setDiscordJoinLink(String discordJoinLink) {
         this.discordJoinLink = discordJoinLink;
+    }
+
+    @Override
+    public HashMap<Integer, String> getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public void setInventory(HashMap<Integer, String> inventory) {
+        this.inventory = inventory;
     }
 }

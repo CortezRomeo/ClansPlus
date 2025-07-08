@@ -91,6 +91,7 @@ public class Create extends SubjectManager {
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
+        HashMap<Integer, String> inventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
@@ -115,7 +116,8 @@ public class Create extends SubjectManager {
                 permissionDefault,
                 allyInvitation,
                 0,
-                null);
+                null,
+                inventory);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 

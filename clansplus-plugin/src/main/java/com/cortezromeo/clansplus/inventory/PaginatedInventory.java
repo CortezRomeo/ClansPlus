@@ -1,12 +1,13 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
-import com.cortezromeo.clansplus.listener.PlayerChatListener;
+import com.cortezromeo.clansplus.listener.SignChangeListener;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -24,9 +25,10 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         super(owner);
     }
 
-    public void onSearch(PlayerChatEvent event) {
+    public void onSearch(SignChangeEvent event) {
         event.setCancelled(true);
-        setSearch(event.getMessage());
+        TextComponent textComponent = (TextComponent)  event.line(1);
+        setSearch(textComponent.content());
         setPage(0);
         open();
     }
@@ -44,11 +46,11 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             if (event.getClick().isRightClick()) {
                 search = null;
                 setPage(0);
-                PlayerChatListener.removeSearchPlayerQuery(getOwner());
+                SignChangeListener.removeSearchPlayerQuery(getOwner());
                 open();
             } else {
                 getOwner().closeInventory();
-                PlayerChatListener.addSearchPlayerQuery(getOwner(), this);
+                SignChangeListener.addSearchPlayerQuery(getOwner(), this);
             }
         }
     }

@@ -13,6 +13,9 @@ import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SetIcon extends SubjectManager {
 
@@ -54,13 +57,18 @@ public class SetIcon extends SubjectManager {
                 Material material = xMaterial.get();
                 if (material == null || material.equals(Material.AIR)) {
                     MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
-                    MessageUtil.sendMessage(player, "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html");
                     return false;
                 }
             } catch (Exception exception) {
                 MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
                 return false;
             }
+        }
+        try {
+            new AtomicReference<>(new ItemStack(Material.valueOf(value)));
+        } catch (IllegalArgumentException exception) {
+            MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
+            return false;
         }
 
         playerClanData.setIconType(iconType);

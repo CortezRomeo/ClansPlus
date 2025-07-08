@@ -276,7 +276,7 @@ clansPlusAPI.getPluginDataManager().saveClanDatabaseToStorage(clanName, clanData
 
 ## Contact
 
-[![Discord Server](https://discord.com/api/guilds/1187827789664096267/widget.png?style=banner3)](https://discord.gg/XdJfN2X)
+[![Discord Server](https://discord.com/api/guilds/1187827789664096267/widget.png?style=banner3)](https://discord.gg/NWbTVddmBM)
 
 ## 3rd party libraries
 

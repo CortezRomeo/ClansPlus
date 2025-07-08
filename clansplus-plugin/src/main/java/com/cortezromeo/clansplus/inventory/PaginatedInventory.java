@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.listener.SignChangeListener;
 import com.cortezromeo.clansplus.util.ItemUtil;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -27,8 +28,11 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
 
     public void onSearch(SignChangeEvent event) {
         event.setCancelled(true);
-        TextComponent textComponent = (TextComponent)  event.line(1);
-        setSearch(textComponent.content());
+        String signLine1 = ((TextComponent) event.line(0)).content();
+        String signLine2 = ((TextComponent) event.line(1)).content();
+        String signLine3 = ((TextComponent) event.line(2)).content();
+        String signLine4 = ((TextComponent) event.line(3)).content();
+        setSearch(new StringBuilder().append(signLine1).append(signLine2).append(signLine3).append(signLine4).toString());
         setPage(0);
         open();
     }

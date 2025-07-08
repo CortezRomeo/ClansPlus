@@ -62,6 +62,8 @@ You might need these plugins to utilize my plugin resources totally.
 - [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/)
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
 - [VaultUnlocked](https://www.spigotmc.org/resources/vaultunlocked.117277/) - For Folia Servers - A replacement for Vault
+> [!CAUTION]
+> If your server software is folia, using vault will cause error. I would recommend to use VaultUnlocked to replace Vault and use BetterEconomy to replace any economy plugin.
 
 ## Commands & subcommands & permissions
 - /clansplus

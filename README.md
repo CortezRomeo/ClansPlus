@@ -63,6 +63,51 @@ You might need these plugins to utilize my plugin resources totally.
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
 - [VaultUnlocked](https://www.spigotmc.org/resources/vaultunlocked.117277/) - For Folia Servers - A replacement for Vault
 
+## Commands & subcommands & permissions
+- /clansplus
+    - The main clan command for all players to use
+        - create
+        - accept
+        - reject
+        - leave
+        - spawn
+        - list
+        - menu
+        - chat
+        - pvp
+        - event
+        - info
+        - setting
+        - upgrade
+        - invite
+        - kick
+        - setspawn `clanplus.setspawn`
+        - seticon `clanplus.seticon`
+        - setpermission `clanplus.setpermission`
+        - setowner
+        - setmanager
+        - removemanager
+        - requestally
+        - setcustomname `clanplus.setcustomname`
+        - setmessage `clanplus.setmessage`
+        - disband
+> [!IMPORTANT]  
+> Each clan will have its own permission for its members to use. For instance, owners of clans can allow their managers to set clan's message but can also allow their members to invite or kick somebody.
+
+> [!NOTE]  
+> Only owners can disband their clans and set permission for their own clans. 
+- /clansplusadmin `clanplus.admin`
+    - For the administrators to use to adjust clans stats or reload plugin.
+        - reload
+        - transferPluginDatabaseType
+        - setClanData
+        - setClanSkillData
+        - setPlayerData
+        - event
+        - backup
+        - delete
+        - chatspy
+        - clanresetall
 ## Update history
 <details>
 <summary>2.0</summary>

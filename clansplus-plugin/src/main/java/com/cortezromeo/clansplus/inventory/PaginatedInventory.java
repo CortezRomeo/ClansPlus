@@ -3,7 +3,6 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.listener.SignChangeListener;
 import com.cortezromeo.clansplus.util.ItemUtil;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

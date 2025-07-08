@@ -1,4 +1,4 @@
-![logo](https://i.imgur.com/fK4D1sm.png)
+![logo](https://i.imgur.com/9t2WM27.png)
 
 # Description
 
@@ -63,6 +63,93 @@ You might need these plugins to utilize my plugin resources totally.
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
 - [VaultUnlocked](https://www.spigotmc.org/resources/vaultunlocked.117277/) - For Folia Servers - A replacement for Vault
 
+## Update history
+<details>
+<summary>2.0</summary>
+
+    - Fixed: Console spam when shutting down the server.
+    - Fixed: Bossbar for clan war events not showing to players who just joined the server.
+    - Fixed: Clan war score history was retained even when players left the clan or the clan was deleted. This fix also resolves related bugs such as data errors and score bugs.
+    - Fixed: Items in the icon type material menu not displaying properly and causing console spam. Unavailable items will now display as "N/A" and can be customized in the inventory config.
+    - Fixed: Console spam when players use END_CRYSTAL.
+	- Optimization: Switched to Paper's async chat system to optimize features using chat boxes.
+    - Feature Added: Option to toggle join notifications, including clan war and player clan announcements.
+    - Feature Added: Configurable delay for the two notifications above when a player joins the server.
+    - Command Added: /clanadmin clanresetall (type) to reset all clan stats including score, war points, and warnings.
+    - Behavior Change: Due to Folia API limitations, chat box input for inventory list searches has been replaced with a sign-based input method and player timeout.
+    - Localization: Prepared "inventory" data for setup, but not yet implemented due to complexity (update time is uncertain 😦).
+    - Optimization: Further code refactoring and cleanup in several areas.
+    - Hot fix 1: Fixed sign input does not work properly
+    - Hot fix 2: Fixed event to handle player shooting not working properly
+</details>
+<details>
+<summary>1.9</summary>
+
+	- Fixed: Players using the default clan name can still use spaces and the & character.
+    - Fixed: Several issues that caused excessive console spam.
+    - Fixed: Menu errors in the latest Minecraft server versions.
+    - Fixed: Server crashes or lag caused by using Discord webhooks.
+    - Fixed: Clan members (non-leaders) were able to upgrade clan slots.
+    - Fixed: /clan deny could not be used to reject invitations.
+    - Optimization: Refactored and optimized code in several areas.
+    - Localization: Translated some parts of the plugin/interface to English.
+</details>
+<details>
+<summary>1.8</summary>
+
+    - Support for Folia (Folia on PaperMC) (Related PR) (Thanks to @TypicalShavonne)
+    - Restored support for some particles
+    - Utilized async teleportation, which makes teleporting smoother and reduces server lag
+    - Added English (en) language file
+    - Support for SuperVanish and other vanish plugins: Players who are vanished will no longer appear in the invite list and will be shown as OFFLINE in the member list if they are vanished. Added an option in config.yml to toggle this feature (vanish-settings)
+    - Fixed: Stats from previous clan wars no longer carry over into new clan wars
+    - Fixed: Players using ender pearls or other throwable items (except arrows) could previously damage clan members — this is now resolved
+    - Fixed: A display bug where transferring manager role incorrectly said "leader role transferred"
+    - Fixed: The %by% placeholder not working when transferring the manager role
+</details>
+<details>
+<summary>1.7</summary>
+
+    - Fixed the %rank% placeholder not working when upgrading clans
+    - Added /clan upgrade point button in the upgrade interface
+    - Added a config option to disable using chat boxes with a keyword
+    - Fixed PlaceholderAPI being spammed: https://mclo.gs/MZzRTyy
+    - Fixed error: https://mclo.gs/Z6LN5Ka (from @tepriu)
+    - Fixed issue where creating a clan did not cost money
+    - Fixed several other minor bugs
+</details>
+<details>
+<summary>1.6</summary>
+
+    - Added clanplus.setspawn permission to allow setting the clan spawn.
+    - Added a blacklist for worlds when setting spawn (configurable in the config file).
+    - Players will not be able to set spawn in worlds that are blacklisted.
+    - If a player had set a spawn in a blacklisted world before this update, they will not be able to teleport to that world.
+    - Fixed a bug where players could shoot and damage members of their own clan or allied clans with a bow, even if PvP was disabled for them (Thanks to @henshino)
+    - Added PlaceholderAPI support for clan ranking placeholders:
+    - %clanplus_top_score_name_<top>% – Gets the name of the clan in the top rank.
+    - %clanplus_top_score_value_<top>% – Gets the score of the clan in the top rank.
+</details>
+<details>
+<summary>1.5</summary>
+
+    - No longer supporting DiscordSRV for sending messages on Discord; instead, Discord Webhook will be used to send messages.
+</details>
+<details>
+<summary>1.4</summary>
+
+	- Fixed an error that causes money is not given for floodgate player
+    - Fixed the issue where faction war did not grant points for mobs and MythicMobs.
+    - Fixed the issue where the console was spammed, and the faction war event could not be ended using a command or when the time ran out (Error log) (Reported by @henshino).
+    - Fixed the issue where the console was spammed during combat when a faction war event was active (Error log) (Reported by @henshino).
+    - Added support for all the latest Minecraft versions and updated the API.
+    - Added new permissions:
+    - clanplus.setpermission - Customize faction permissions.
+    - clanplus.setmessage - Customize faction messages.
+    - clanplus.seticon - Customize faction icons.
+    - clanplus.setcustomname - Customize faction custom names.
+</details>
+
 ## API Usage
 
 Setting up maven:
@@ -90,32 +177,32 @@ Checking if ClanPlus in on the server:
 
 @Override
 public void onEnable() {
-    if (Bukkit.getPluginManager().getPlugin("ClanPlus") == null) {
-        getLogger().severe("ClanPlus is not in the server!");
+    if (Bukkit.getPluginManager().getPlugin("ClansPlus") == null) {
+        getLogger().severe("ClansPlus is not in the server!");
         Bukkit.getPluginManager().disablePlugin(this);
         return;
     }
 }
 ```
 
-Initializing ClanPlus's API:
+Initializing ClansPlus's API:
 
 ```java
-ClanPlus clanPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
+ClanPlus clansPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
 ```
 
 Example of using the API:
 
 ```java
 // Initialize plugin API.
-ClanPlus clanPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
+ClanPlus clansPlusAPI = Bukkit.getServicesManager().getRegistration(ClanPlus.class).getProvider();
 
 // Get clan name and clan data.
 String clanName = "HelloClan";
 
 // If clan does not exist, create a new clan.
-if(!clanPlusAPI.getPluginDataManager().getClanDatabase().containsKey(clanName))
-        clanPlusAPI.getPluginDataManager().
+if(!clansPlusAPI.getPluginDataManager().getClanDatabase().containsKey(clanName))
+        clansPlusAPI.getPluginDataManager().
 
 loadClanDatabase(clanName);
 
@@ -123,10 +210,10 @@ IClanData clanData = clanPlusAPI.getPluginDataManager().getClanDatabase(clanName
 
 // Add a player to a clan.
 String playerName = "Cortez_Romeo";
-clanPlusAPI.getClanManager().addPlayerToAClan(playerName, clanName, false);
+clansPlusAPI.getClanManager().addPlayerToAClan(playerName, clanName, false);
 
 // Promote this player to leader of the clan.
-clanPlusAPI.getPluginDataManager().getPlayerDatabase(playerName).setRank(Rank.LEADER);
+clansPlusAPI.getPluginDataManager().getPlayerDatabase(playerName).setRank(Rank.LEADER);
 clanData.setOwner(playerName);
 
 // Adjust clan's database
@@ -134,10 +221,10 @@ clanData.setMessage("This is the first message of this clan!");
 clanData.setCustomName("&bSuper Clan");
 
 // One of the stuffs you can do with clan manager.
-clanPlusAPI.getClanManager().alertClan(clanName, "Have a good day!");
+clansPlusAPI.getClanManager().alertClan(clanName, "Have a good day!");
 
 // Save database
-clanPlusAPI.getPluginDataManager().saveClanDatabaseToStorage(clanName, clanData);
+clansPlusAPI.getPluginDataManager().saveClanDatabaseToStorage(clanName, clanData);
 ```
 
 ## Contact

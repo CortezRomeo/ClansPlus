@@ -74,10 +74,13 @@ public class EntityDamageListener implements Listener {
             return;
 
         if (damager instanceof Projectile projectile) {
-
-            // I don't know why but the end crystal cannot be cast to class damageable
-            if (projectile.getType().equals(EntityType.END_CRYSTAL))
-                return;
+            try {
+                // I don't know why but the end crystal cannot be cast to class damageable
+                if (damager instanceof EnderCrystal)
+                    return;
+            } catch (Exception exception) {
+                // ignore this
+            }
 
             if (projectile.getShooter() instanceof Player shooter) {
                 Damageable damageableVictim = (Damageable) event.getEntity();

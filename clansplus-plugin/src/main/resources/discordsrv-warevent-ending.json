@@ -1,6 +1,6 @@
 {
-  "title": "SỰ KIỆN BANG HỘI WAR",
-  "description": "Sự kiện đã kết thúc",
+  "title": "CLAN WAR EVENT",
+  "description": "The event has ended",
   "thumbnail": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/43/JAPPA_Piglin_Brute.png/",
   "color": 16738880,
   "maxtop": 3,
@@ -12,9 +12,9 @@
       "inline": false
     },
     {
-      "name": "> **TOP 3 BANG HỘI**",
+      "name": "> **TOP 3 CLANS**",
       "fieldtype": "normal",
-      "value": "Bang hội kiếm được nhiều điểm nhất",
+      "value": "Clans with the highest scores",
       "inline": false
     },
     {
@@ -42,9 +42,9 @@
       "inline": false
     },
     {
-      "name": "> **TOP 3 SÁT THƯƠNG CAO NHẤT**",
+      "name": "> **TOP 3 HIGHEST DAMAGE**",
       "fieldtype": "normal",
-      "value": "Người chơi gây nhiều sát thương nhất",
+      "value": "Players who dealt the most damage",
       "inline": false
     },
     {
@@ -72,19 +72,19 @@
       "inline": false
     },
     {
-      "name": "Tổng sát thương",
+      "name": "Total Damage Dealt",
       "fieldtype": "normal",
       "value": "%totalDamagesCaused%",
       "inline": true
     },
     {
-      "name": "Tổng chống chịu",
+      "name": "Total Damage Taken",
       "fieldtype": "normal",
       "value": "%totalDamagesCollected%",
       "inline": true
     },
     {
-      "name": "Tổng điểm thu được",
+      "name": "Total Score Collected",
       "fieldtype": "normal",
       "value": "%totalScoreCollected%",
       "inline": true
@@ -94,7 +94,7 @@
     "unknown": "N/A"
   },
   "footer": {
-    "text": "Thông báo bang hội",
+    "text": "Clan Notification",
     "icon_url": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/ef/Dolphin%27s_Grace_JE1.png/"
   }
 }

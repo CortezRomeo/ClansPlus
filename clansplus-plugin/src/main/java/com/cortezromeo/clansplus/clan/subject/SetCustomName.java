@@ -42,7 +42,9 @@ public class SetCustomName extends SubjectManager {
             return false;
         }
 
-        if (PluginDataManager.getClanDatabase().containsKey(ClansPlus.nms.stripColor(customName))) {
+        String clanCustomNameStripColor = ClansPlus.nms.stripColor(customName);
+
+        if (PluginDataManager.getClanDatabase().containsKey(clanCustomNameStripColor)) {
             MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
             return false;
         }
@@ -55,18 +57,20 @@ public class SetCustomName extends SubjectManager {
                         return false;
                     }
 
-        if (customName.length() < Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH) {
+        MessageUtil.devMessage(player, clanCustomNameStripColor.length() + "");
+
+        if (clanCustomNameStripColor.length() < Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH) {
             MessageUtil.sendMessage(player, Messages.ILLEGAL_MINIMUM_CLAN_LENGTH.replace("%minimumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH)));
             return false;
         }
 
-        if (customName.length() > Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH) {
+        if (clanCustomNameStripColor.length() > Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH) {
             MessageUtil.sendMessage(player, Messages.ILLEGAL_MAXIMUM_CLAN_LENGTH.replace("%maximumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH)));
             return false;
         }
 
         for (String prohibitedClanName : Settings.CLAN_SETTING_PROHIBITED_NAME) {
-            if (customName.equalsIgnoreCase(prohibitedClanName)) {
+            if (clanCustomNameStripColor.equalsIgnoreCase(prohibitedClanName)) {
                 MessageUtil.sendMessage(player, Messages.PROHIBITED_CLAN_NAME.replace("%clanName%", customName));
                 return false;
             }
@@ -75,7 +79,7 @@ public class SetCustomName extends SubjectManager {
         for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
             if (prohibitedCharacter.equals("&"))
                 continue;
-            if (customName.contains(prohibitedCharacter)) {
+            if (clanCustomNameStripColor.contains(prohibitedCharacter)) {
                 MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
                 return false;
             }

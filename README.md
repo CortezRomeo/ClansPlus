@@ -112,6 +112,12 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.1</summary>
+
+    - Fixed: Fixed miscalculating the length of custom name when player use gradient.
+    - Fixed: Fixed clanadmin command cannot use space to set clan's custom name and message.
+</details>
+<details>
 <summary>2.0</summary>
 
     - Fixed: Console spam when shutting down the server.

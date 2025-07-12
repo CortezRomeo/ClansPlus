@@ -314,7 +314,12 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                             sender.sendMessage("Reset " + clanName + " " + clanDataType);
                             return false;
                         }
-                        String value = args[4];
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 4; i < args.length; i++)
+                            builder.append(args[i]).append(" ");
+                        builder.deleteCharAt(builder.length() - 1);
+                        String value  = builder.toString();
+
                         if (args[3].equalsIgnoreCase("set")) {
                             clanData.setCustomName(value);
                             sender.sendMessage("Set " + clanName + " " + value + " " + clanDataType);
@@ -329,7 +334,12 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                             sender.sendMessage("Reset " + clanName + " " + clanDataType);
                             return false;
                         }
-                        String value = args[4];
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 4; i < args.length; i++)
+                            builder.append(args[i]).append(" ");
+                        builder.deleteCharAt(builder.length() - 1);
+                        String value  = builder.toString();
+
                         if (args[3].equalsIgnoreCase("set")) {
                             clanData.setMessage(value);
                             sender.sendMessage("Set " + clanName + " " + value + " " + clanDataType);

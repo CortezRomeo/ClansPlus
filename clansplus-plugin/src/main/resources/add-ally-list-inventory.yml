@@ -93,6 +93,8 @@ items:
       pitch: 2
     lore:
       - '&eClick here to close'
+  clan:
+    name: '&#3498eb%formatClanName%'
   back:
     name: '&eGo Back'
     slot: 3
@@ -106,5 +108,31 @@ items:
       pitch: 2
     lore:
       - '&eClick here to go back'
-  clan:
-    name: '&#3498eb%formatClanName%'
+  sort:
+    name: '&bSort'
+    slot: 5
+    type: material
+    value: OAK_SIGN
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 1
+    lore:
+      ALL:
+        - ''
+        - '&fSort by specific criteria.'
+        - ''
+        - '&b⇨ All clans'
+        - '&7Clans with pending requesting'
+        - ''
+        - '&eClick here to change'
+      REQUESTING:
+        - ''
+        - '&fSort by specific criteria.'
+        - ''
+        - '&7All clans'
+        - '&b⇨ Clans with pending requesting'
+        - ''
+        - '&eClick here to change'

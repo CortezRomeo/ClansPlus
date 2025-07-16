@@ -107,7 +107,7 @@ public class Create extends SubjectManager {
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 dateLong,
-                IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
+                ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
                 members,
                 null,

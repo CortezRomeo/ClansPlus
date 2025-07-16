@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.util;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
@@ -19,14 +20,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ItemUtil {
 
-    public static ItemStack getItem(String type, String value, int customModelData, String name, List<String> lore, boolean glow) {
+    public static ItemStack getItem(ItemType itemType, String value, int customModelData, String name, List<String> lore, boolean glow) {
         AtomicReference<ItemStack> material = new AtomicReference<>(new ItemStack(Material.BEDROCK));
 
-        if (type.equalsIgnoreCase("customhead"))
+        if (itemType.equals(ItemType.CUSTOMHEAD))
             material.set(ClansPlus.nms.getHeadItemFromBase64(value));
-        if (type.equalsIgnoreCase("playerhead"))
+        if (itemType.equals(ItemType.PLAYERHEAD))
             material.set(ClansPlus.nms.getHeadItemFromPlayerName(value));
-        if (type.equalsIgnoreCase("material")) {
+        if (itemType.equals(ItemType.MATERIAL)) {
             material.set(ClansPlus.nms.createItemStack(value, 1, customModelData, glow));
         }
 
@@ -103,5 +104,4 @@ public class ItemUtil {
         modItem.setItemMeta(itemMeta);
         return modItem;
     }
-
 }

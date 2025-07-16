@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.file.inventory.AlliesMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -80,7 +81,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -89,7 +91,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -97,7 +100,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -105,7 +109,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack addAllyItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.addAlly.type"),
+            ItemStack addAllyItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.addAlly.type").toUpperCase()),
                     fileConfiguration.getString("items.addAlly.value"),
                     fileConfiguration.getInt("items.addAlly.customModelData"),
                     fileConfiguration.getString("items.addAlly.name"),
@@ -119,7 +124,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
                 lore = lore.replace("%totalAllyInvitations%", String.valueOf(totalAllyInvitations));
                 allyInvitationLore.add(lore);
             }
-            ItemStack allyInvitationItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyInvitation.type"),
+            ItemStack allyInvitationItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.allyInvitation.type").toUpperCase()),
                     fileConfiguration.getString("items.allyInvitation.value"),
                     fileConfiguration.getInt("items.allyInvitation.customModelData"),
                     fileConfiguration.getString("items.allyInvitation.name"),
@@ -127,7 +133,8 @@ public class AlliesMenuInventory extends ClanPlusInventoryBase {
             int allyInvitationItemSlot = fileConfiguration.getInt("items.allyInvitation.slot");
             inventory.setItem(allyInvitationItemSlot, allyInvitationItem);
 
-            ItemStack allyListItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.allyList.type"),
+            ItemStack allyListItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.allyList.type").toUpperCase()),
                     fileConfiguration.getString("items.allyList.value"),
                     fileConfiguration.getInt("items.allyList.customModelData"),
                     fileConfiguration.getString("items.allyList.name"),

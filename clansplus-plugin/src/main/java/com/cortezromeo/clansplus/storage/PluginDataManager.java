@@ -156,8 +156,10 @@ public class PluginDataManager {
     public static void transferDatabase(CommandSender commandSender, DatabaseType toDatabaseType) {
         if (ClansPlus.databaseType != toDatabaseType) {
             DatabaseType oldDatabaseType = ClansPlus.databaseType;
-            if (commandSender != null)
-                commandSender.sendMessage("Đang chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + "...");
+            if (commandSender != null) {
+                commandSender.sendMessage("Transferring database from " + oldDatabaseType + " to " + toDatabaseType + "...");
+                commandSender.sendMessage("DO NOT SHUT DOWN THE SERVER");
+            }
             ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
                 PluginDataStorage.disableStorage();
                 PluginDataStorage.init(toDatabaseType);
@@ -176,7 +178,7 @@ public class PluginDataManager {
                 // config.yml
                 ClansPlus.plugin.saveDefaultConfig();
                 File configFile = new File(ClansPlus.plugin.getDataFolder(), "config.yml");
-                ClansPlus.plugin.getConfig().set("database.type", toDatabaseType.toString().toUpperCase());
+                ClansPlus.plugin.getConfig().set("database.type", toDatabaseType.toString());
                 try {
                     ClansPlus.plugin.getConfig().save(configFile);
                 } catch (Exception exception) {
@@ -190,7 +192,7 @@ public class PluginDataManager {
                 ClansPlus.plugin.reloadConfig();
 
                 if (commandSender != null)
-                    commandSender.sendMessage("Đã chuyển đổi dữ liệu từ " + oldDatabaseType + " sang " + toDatabaseType + " thành công.");
+                    commandSender.sendMessage("Transferred database type from " + oldDatabaseType + " to " + toDatabaseType + " completely!");
             });
         }
     }

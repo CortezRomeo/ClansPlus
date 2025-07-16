@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
 import com.cortezromeo.clansplus.file.inventory.SetIconMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
@@ -75,7 +76,8 @@ public class SetIconMenuInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -84,7 +86,8 @@ public class SetIconMenuInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -92,7 +95,8 @@ public class SetIconMenuInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -100,7 +104,8 @@ public class SetIconMenuInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack materialItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.material.type"),
+            ItemStack materialItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.material.type").toUpperCase()),
                     fileConfiguration.getString("items.material.value"),
                     fileConfiguration.getInt("items.material.customModelData"),
                     fileConfiguration.getString("items.material.name"),
@@ -108,7 +113,8 @@ public class SetIconMenuInventory extends ClanPlusInventoryBase {
             int materialItemSlot = fileConfiguration.getInt("items.material.slot");
             inventory.setItem(materialItemSlot, materialItem);
 
-            ItemStack customHeadItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.customHead.type"),
+            ItemStack customHeadItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.customHead.type").toUpperCase()),
                     fileConfiguration.getString("items.customHead.value"),
                     fileConfiguration.getInt("items.customHead.customModelData"),
                     fileConfiguration.getString("items.customHead.name"),

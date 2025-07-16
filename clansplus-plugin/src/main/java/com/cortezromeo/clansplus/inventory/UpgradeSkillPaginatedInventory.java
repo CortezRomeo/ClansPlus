@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -23,7 +24,8 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
 
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         if (fileConfiguration.getBoolean("items.border.enabled")) {
-            ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+            ItemStack borderItem = ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                     fileConfiguration.getString("items.border.value"),
                     fileConfiguration.getInt("items.border.customModelData"),
                     fileConfiguration.getString("items.border.name"),
@@ -32,7 +34,8 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
                 inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
         }
 
-        ItemStack invalidSkillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.invalidSkillLevel.type"),
+        ItemStack invalidSkillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.invalidSkillLevel.type").toUpperCase()),
                 fileConfiguration.getString("items.invalidSkillLevel.value"),
                 fileConfiguration.getInt("items.invalidSkillLevel.customModelData"),
                 fileConfiguration.getString("items.invalidSkillLevel.name"),
@@ -40,21 +43,24 @@ public abstract class UpgradeSkillPaginatedInventory extends ClanPlusInventoryBa
         for (int invalidSkillItemLevelSlot : getSkillTrack())
             inventory.setItem(invalidSkillItemLevelSlot, invalidSkillLevelItem);
 
-        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                 fileConfiguration.getString("items.close.value"),
                 fileConfiguration.getInt("items.close.customModelData"),
                 fileConfiguration.getString("items.close.name"),
                 fileConfiguration.getStringList("items.close.lore"), false), "close");
         int closeItemSlot = fileConfiguration.getInt("items.close.slot");
 
-        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.prevPage.type"),
+        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.prevPage.type").toUpperCase()),
                 fileConfiguration.getString("items.prevPage.value"),
                 fileConfiguration.getInt("items.prevPage.customModelData"),
                 fileConfiguration.getString("items.prevPage.name"),
                 fileConfiguration.getStringList("items.prevPage.lore"), false), "prevPage");
         int prevPageItemSlot = fileConfiguration.getInt("items.prevPage.slot");
 
-        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.nextPage.type"),
+        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.nextPage.type").toUpperCase()),
                 fileConfiguration.getString("items.nextPage.value"),
                 fileConfiguration.getInt("items.nextPage.customModelData"),
                 fileConfiguration.getString("items.nextPage.name"),

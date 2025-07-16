@@ -112,6 +112,14 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.2</summary>
+
+    - Support 1.21.6, and 1.21.7 (These 2 newest version are very unstable and may occur errors)
+    - Fixed: Fixed an error pops up whenever an unknown/unsuporrted entity fired at players.
+    - Fixed: Sort Item missing in add ally inventory config file led to occur an error to load the item.
+    - Optimization: Item type
+</details>
+<details>
 <summary>2.1</summary>
 
     - Fixed: Fixed miscalculating the length of custom name when player use gradient.

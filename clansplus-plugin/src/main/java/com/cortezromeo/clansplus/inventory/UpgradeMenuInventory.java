@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -109,7 +110,8 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -118,7 +120,8 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -126,7 +129,8 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -150,7 +154,8 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
                 }
                 upgradeMaxMemberItemLore.add(lore);
             }
-            ItemStack upgradeMaxMemberItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.upgradeMaxMember.type"),
+            ItemStack upgradeMaxMemberItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.upgradeMaxMember.type").toUpperCase()),
                     fileConfiguration.getString("items.upgradeMaxMember.value"),
                     fileConfiguration.getInt("items.upgradeMaxMember.customModelData"),
                     fileConfiguration.getString("items.upgradeMaxMember.name"),
@@ -158,7 +163,8 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
             int upgradeMaxMemberItemSlot = fileConfiguration.getInt("items.upgradeMaxMember.slot");
             inventory.setItem(upgradeMaxMemberItemSlot, upgradeMaxMemberItem);
 
-            ItemStack skillsMenuItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.skillsMenu.type"),
+            ItemStack skillsMenuItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.skillsMenu.type").toUpperCase()),
                     fileConfiguration.getString("items.skillsMenu.value"),
                     fileConfiguration.getInt("items.skillsMenu.customModelData"),
                     fileConfiguration.getString("items.skillsMenu.name"),

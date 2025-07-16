@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.clan.EventManager;
 import com.cortezromeo.clansplus.file.inventory.EventsMenuInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
@@ -98,7 +99,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             int warEventItemSlot = fileConfiguration.getInt("items.warEvent.slot");
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -116,7 +118,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
             }
 
             if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getClan() != null) {
-                ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+                ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                         fileConfiguration.getString("items.back.value"),
                         fileConfiguration.getInt("items.back.customModelData"),
                         fileConfiguration.getString("items.back.name"),
@@ -124,7 +127,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
                 inventory.setItem(backItemSlot, backItem);
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -151,7 +155,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
                 }
                 warEventItemLore.add(lore);
             }
-            ItemStack warEventItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.warEvent.type"),
+            ItemStack warEventItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.warEvent.type").toUpperCase()),
                     fileConfiguration.getString("items.warEvent.value"),
                     fileConfiguration.getInt("items.warEvent.customModelData"),
                     fileConfiguration.getString("items.warEvent.name"),

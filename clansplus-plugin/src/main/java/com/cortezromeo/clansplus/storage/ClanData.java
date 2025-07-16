@@ -1,6 +1,6 @@
 package com.cortezromeo.clansplus.storage;
 
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -20,7 +20,7 @@ public class ClanData implements IClanData {
     private int warning;
     private int maxMembers;
     private long createdDate;
-    private IconType iconType;
+    private ItemType itemType;
     private String iconValue;
     private List<String> members;
     private Location spawnPoint;
@@ -33,7 +33,7 @@ public class ClanData implements IClanData {
     private HashMap<Integer, String> inventory;
 
     public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate,
-                    IconType iconType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
+                    ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
                     List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, String> inventory) {
         this.name = name;
         this.customName = customName;
@@ -44,7 +44,7 @@ public class ClanData implements IClanData {
         this.warning = warning;
         this.maxMembers = maxMembers;
         this.createdDate = createdDate;
-        this.iconType = iconType;
+        this.itemType = itemType;
         this.iconValue = iconValue;
         this.members = members;
         this.spawnPoint = spawnPoint;
@@ -158,13 +158,13 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public IconType getIconType() {
-        return iconType;
+    public ItemType getIconType() {
+        return itemType;
     }
 
     @Override
-    public void setIconType(IconType iconType) {
-        this.iconType = iconType;
+    public void setIconType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
     @Override

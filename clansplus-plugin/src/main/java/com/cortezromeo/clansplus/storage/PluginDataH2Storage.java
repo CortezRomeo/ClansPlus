@@ -2,7 +2,7 @@ package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -207,7 +207,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 new Date().getTime(),
-                IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
+                ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
                 members,
                 null,
@@ -237,7 +237,7 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setWarning(resultSet.getInt("WARNING"));
                 clanData.setMaxMembers(resultSet.getInt("MAXMEMBERS"));
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
-                clanData.setIconType(IconType.valueOf(resultSet.getString("ICONTYPE")));
+                clanData.setIconType(ItemType.valueOf(resultSet.getString("ICONTYPE").toUpperCase()));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
                 clanData.setMembers(gson.fromJson(resultSet.getString("MEMBERS"), new TypeToken<List<String>>() {}.getType()));
                 if (resultSet.getString("SPAWNPOINTWORLD") != null)

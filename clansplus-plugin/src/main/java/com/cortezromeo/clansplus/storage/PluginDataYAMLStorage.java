@@ -2,7 +2,7 @@ package com.cortezromeo.clansplus.storage;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -70,7 +70,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 new Date().getTime(),
-                IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE),
+                ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
                 members,
                 null,
@@ -112,14 +112,14 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 try {
                     XMaterial xMaterial = XMaterial.valueOf(oldIconValue);
                     if (xMaterial.get() != null) {
-                        clanData.setIconType(IconType.MATERIAL);
+                        clanData.setIconType(ItemType.MATERIAL);
                         clanData.setIconValue(oldIconValue);
                     } else {
-                        clanData.setIconType(IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE));
+                        clanData.setIconType(ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()));
                         clanData.setIconValue(Settings.CLAN_SETTING_ICON_DEFAULT_VALUE);
                     }
                 } catch (Exception exception) {
-                    clanData.setIconType(IconType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE));
+                    clanData.setIconType(ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()));
                     clanData.setIconValue(Settings.CLAN_SETTING_ICON_DEFAULT_VALUE);
                 }
                 storage.set("data.banghoiicon", null);
@@ -154,7 +154,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
         String iconType = storage.getString("data.icon.type");
         if (iconType != null) {
-            clanData.setIconType(IconType.valueOf(storage.getString("data.icon.type")));
+            clanData.setIconType(ItemType.valueOf(storage.getString("data.icon.type").toUpperCase()));
             clanData.setIconValue(storage.getString("data.icon.value"));
         }
 

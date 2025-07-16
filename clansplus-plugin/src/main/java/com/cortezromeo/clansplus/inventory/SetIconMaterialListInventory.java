@@ -2,7 +2,7 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.clan.subject.SetIcon;
 import com.cortezromeo.clansplus.file.inventory.SetIconMaterialListInventoryFile;
@@ -92,7 +92,7 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
             new SetIconMenuInventory(getOwner()).open();
         if (itemCustomData.contains("value=")) {
             playClickSound(fileConfiguration, "material");
-            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), IconType.MATERIAL, itemCustomData.replace("value=", "")).execute();
+            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), ItemType.MATERIAL, itemCustomData.replace("value=", "")).execute();
         }
     }
 
@@ -100,7 +100,8 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -142,7 +143,7 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
                 if (materials.get(index) != null) {
                     try {
                         ItemStack materialItem = ItemUtil.getItem(
-                                "material",
+                                ItemType.MATERIAL,
                                 materials.get(index),
                                 0,
                                 fileConfiguration.getString("items.material.name"),
@@ -150,7 +151,8 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
                         ItemStack itemStack = ClansPlus.nms.addCustomData(materialItem, "value=" + materials.get(index));
                         inventory.addItem(itemStack);
                     } catch (IllegalArgumentException exception) {
-                        inventory.addItem(ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.unavailableMaterial.type"),
+                        inventory.addItem(ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                                ItemType.valueOf(fileConfiguration.getString("items.unavailableMaterial.type").toUpperCase()),
                                 fileConfiguration.getString("items.unavailableMaterial.value"),
                                 0,
                                 fileConfiguration.getString("items.unavailableMaterial.name"),

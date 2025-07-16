@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.SkillManager;
 import com.cortezromeo.clansplus.clan.skill.PluginSkill;
@@ -94,7 +95,8 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -103,7 +105,8 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -111,7 +114,8 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -133,7 +137,8 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
                     lore = lore.replace("%maxLevel%", String.valueOf(skillMaxLevel));
                     pluginSkillItemLore.add(lore);
                 }
-                ItemStack pluginSkillItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(skillFile.getString("plugin-skills." + pluginSkillName + ".display.type"),
+                ItemStack pluginSkillItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                        ItemType.valueOf(skillFile.getString("plugin-skills." + pluginSkillName + ".display.type").toUpperCase()),
                         skillFile.getString("plugin-skills." + pluginSkillName + ".display.value"),
                         fileConfiguration.getInt("items." + pluginSkillName + ".customModelData"),
                         fileConfiguration.getString("items." + pluginSkillName + ".name").replace("%skillName%", skillFile.getString("plugin-skills." + pluginSkillName + ".name")),

@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.listener.SignChangeListener;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import net.kyori.adventure.text.TextComponent;
@@ -61,7 +62,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
     public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
         isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
         if (isUsingBorder) {
-            ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+            ItemStack borderItem = ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                     fileConfiguration.getString("items.border.value"),
                     fileConfiguration.getInt("items.border.customModelData"),
                     fileConfiguration.getString("items.border.name"),
@@ -91,7 +93,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             }
         }
 
-        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+        ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                 fileConfiguration.getString("items.close.value"),
                 fileConfiguration.getInt("items.close.customModelData"),
                 fileConfiguration.getString("items.close.name"),
@@ -103,7 +106,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             closeItemSlot = 8;
         closeItemSlot = (getSlots() - 9) + closeItemSlot;
 
-        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.prevPage.type"),
+        ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.prevPage.type").toUpperCase()),
                 fileConfiguration.getString("items.prevPage.value"),
                 fileConfiguration.getInt("items.prevPage.customModelData"),
                 fileConfiguration.getString("items.prevPage.name"),
@@ -115,7 +119,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             prevPageItemSlot = 8;
         prevPageItemSlot = (getSlots() - 9) + prevPageItemSlot;
 
-        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.nextPage.type"),
+        ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.nextPage.type").toUpperCase()),
                 fileConfiguration.getString("items.nextPage.value"),
                 fileConfiguration.getInt("items.nextPage.customModelData"),
                 fileConfiguration.getString("items.nextPage.name"),
@@ -127,7 +132,8 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
             nextPageItemSlot = 8;
         nextPageItemSlot = (getSlots() - 9) + nextPageItemSlot;
 
-        ItemStack searchItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.search.type"),
+        ItemStack searchItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                ItemType.valueOf(fileConfiguration.getString("items.search.type").toUpperCase()),
                 fileConfiguration.getString("items.search.value"),
                 fileConfiguration.getInt("items.search.customModelData"),
                 fileConfiguration.getString("items.search.name"),

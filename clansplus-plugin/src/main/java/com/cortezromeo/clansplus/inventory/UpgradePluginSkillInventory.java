@@ -3,6 +3,7 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.CurrencyType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
@@ -156,7 +157,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             super.addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -181,7 +183,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                 lore = lore.replace("%maxLevel%", String.valueOf(skillMaxLevel));
                 skillReviewItemLore.add(lore);
             }
-            ItemStack skillReviewItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(skillFile.getString("plugin-skills." + skillName + ".display.type"),
+            ItemStack skillReviewItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(skillFile.getString("plugin-skills." + skillName + ".display.type").toUpperCase()),
                     skillFile.getString("plugin-skills." + skillName + ".display.value"),
                     fileConfiguration.getInt("items.skillReview.customModelData"),
                     fileConfiguration.getString("items.skillReview.name").replace("%skillName%", skillFile.getString("plugin-skills." + skillName + ".name")),
@@ -214,7 +217,8 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                         } else
                             for (String lore : fileConfiguration.getStringList(skillConfigPath + "lore"))
                                 skillLLevelItemLore.add(addSkillLevelItemPlaceholders(skillLevel, skillID, skillCurrencyType, lore));
-                        ItemStack skillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString(skillConfigPath + "type"),
+                        ItemStack skillLevelItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                                ItemType.valueOf(fileConfiguration.getString(skillConfigPath + "type").toUpperCase()),
                                 fileConfiguration.getString(skillConfigPath + "value"),
                                 fileConfiguration.getInt(skillConfigPath + "customModelData"),
                                 fileConfiguration.getString(skillConfigPath + "name").replace("%level%", String.valueOf(skillLevel)),

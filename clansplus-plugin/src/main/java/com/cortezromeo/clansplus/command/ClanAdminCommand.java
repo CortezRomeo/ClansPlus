@@ -3,7 +3,7 @@ package com.cortezromeo.clansplus.command;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.DatabaseType;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -252,9 +252,9 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
 
                     // Icon
                     if (clanDataType == ClanDataType.icon) {
-                        IconType iconType;
+                        ItemType itemType;
                         try {
-                            iconType = IconType.valueOf(args[4].toUpperCase());
+                            itemType = ItemType.valueOf(args[4].toUpperCase());
                         } catch (Exception exception) {
                             sender.sendMessage("Icon type is not available!");
                             return false;
@@ -266,7 +266,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                 return false;
                             }
 
-                            if (iconType == IconType.MATERIAL) {
+                            if (itemType == ItemType.MATERIAL) {
                                 try {
                                     XMaterial xMaterial = XMaterial.valueOf(iconValue);
                                     Material material = xMaterial.get();
@@ -280,10 +280,10 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                     return false;
                                 }
                             }
-                            PluginDataManager.getClanDatabase(clanName).setIconType(iconType);
+                            PluginDataManager.getClanDatabase(clanName).setIconType(itemType);
                             PluginDataManager.getClanDatabase(clanName).setIconValue(iconValue);
                             sender.sendMessage("Set icon for " + clanName + " to:");
-                            sender.sendMessage("Icon type: " + iconType);
+                            sender.sendMessage("Icon type: " + itemType);
                             sender.sendMessage("Icon value: " + iconValue);
                         } catch (Exception exception) {
                             sender.sendMessage("Please type available icon value!");
@@ -956,8 +956,8 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                         }
                     }
                     if (args[2].equalsIgnoreCase("icon")) {
-                        for (IconType iconType : IconType.values()) {
-                            commands.add(iconType.toString().toUpperCase());
+                        for (ItemType itemType : ItemType.values()) {
+                            commands.add(itemType.toString().toUpperCase());
                         }
                     }
                 }
@@ -987,8 +987,8 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     }
                     if (args[2].equalsIgnoreCase("icon")) {
                         try {
-                            IconType iconType = IconType.valueOf(args[4].toUpperCase());
-                            if (iconType.equals(IconType.MATERIAL)) {
+                            ItemType itemType = ItemType.valueOf(args[4].toUpperCase());
+                            if (itemType.equals(ItemType.MATERIAL)) {
                                 for (Material material : Material.values()) {
                                     if (material == Material.AIR)
                                         continue;

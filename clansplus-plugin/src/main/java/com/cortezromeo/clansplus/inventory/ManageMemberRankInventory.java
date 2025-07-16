@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -103,7 +104,8 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -112,7 +114,8 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -120,7 +123,8 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -135,7 +139,8 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
                         : fileConfiguration.getString("items.setOwner.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
                 setOwnerItemLore.add(lore);
             }
-            ItemStack setOwnerItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.setOwner.type"),
+            ItemStack setOwnerItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.setOwner.type").toUpperCase()),
                     fileConfiguration.getString("items.setOwner.value"),
                     fileConfiguration.getInt("items.setOwner.customModelData"),
                     fileConfiguration.getString("items.setOwner.name"),
@@ -154,7 +159,8 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
                         : fileConfiguration.getString("items.setManager" + getPlayerRankPath + "placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(clanSubjectPermission.get(isPlayerAManager ? Subject.REMOVEMANAGER : Subject.SETMANAGER))));
                 setManagerItemLore.add(lore);
             }
-            ItemStack setManagerItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".type"),
+            ItemStack setManagerItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".type").toUpperCase()),
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".value"),
                     fileConfiguration.getInt("items.setManager." + getPlayerRankPath + ".customModelData"),
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".name"),

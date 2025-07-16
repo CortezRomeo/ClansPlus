@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -115,7 +116,8 @@ public class AddAllyListInventory extends PaginatedInventory {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -128,7 +130,8 @@ public class AddAllyListInventory extends PaginatedInventory {
             backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sort.type"),
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
                     fileConfiguration.getString("items.sort.value"),
                     fileConfiguration.getInt("items.sort.customModelData"),
                     fileConfiguration.getString("items.sort.name"),
@@ -184,7 +187,7 @@ public class AddAllyListInventory extends PaginatedInventory {
                     IClanData clanData = PluginDataManager.getClanDatabase(clanName);
                     ArrayList<String> clanItemLore = new ArrayList<>();
                     ItemStack clanItem = ItemUtil.getItem(
-                            clanData.getIconType().toString(),
+                            clanData.getIconType(),
                             clanData.getIconValue(),
                             0,
                             fileConfiguration.getString("items.clan.name"),

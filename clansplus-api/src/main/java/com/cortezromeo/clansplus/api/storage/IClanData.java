@@ -1,6 +1,6 @@
 package com.cortezromeo.clansplus.api.storage;
 
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import org.bukkit.Location;
@@ -50,9 +50,9 @@ public interface IClanData {
 
     void setCreatedDate(long createdDate);
 
-    IconType getIconType();
+    ItemType getIconType();
 
-    void setIconType(IconType iconType);
+    void setIconType(ItemType itemType);
 
     String getIconValue();
 

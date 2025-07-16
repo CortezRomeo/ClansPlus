@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.file.inventory.ClanListInventoryFile;
@@ -109,7 +110,8 @@ public class ClanListInventory extends PaginatedInventory {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
             if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getClan() != null) {
-                ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+                ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                         fileConfiguration.getString("items.back.value"),
                         fileConfiguration.getInt("items.back.customModelData"),
                         fileConfiguration.getString("items.back.name"),
@@ -124,7 +126,8 @@ public class ClanListInventory extends PaginatedInventory {
             }
 
             ItemStack clanListInfoItem = ClansPlus.nms.addCustomData(
-                    getClanInfoItemStack(ItemUtil.getItem(fileConfiguration.getString("items.clanListInfo.type"),
+                    getClanInfoItemStack(ItemUtil.getItem(
+                            ItemType.valueOf(fileConfiguration.getString("items.clanListInfo.type").toUpperCase()),
                             fileConfiguration.getString("items.clanListInfo.value"),
                             fileConfiguration.getInt("items.clanListInfo.customModelData"),
                             fileConfiguration.getString("items.clanListInfo.name"),
@@ -138,7 +141,8 @@ public class ClanListInventory extends PaginatedInventory {
             clanListInfoSlot = (getSlots() - 9) + clanListInfoSlot;
             inventory.setItem(clanListInfoSlot, clanListInfoItem);
 
-            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sort.type"),
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
                     fileConfiguration.getString("items.sort.value"),
                     fileConfiguration.getInt("items.sort.customModelData"),
                     fileConfiguration.getString("items.sort.name"),
@@ -184,7 +188,7 @@ public class ClanListInventory extends PaginatedInventory {
                     String clanName = clans.get(index);
                     IClanData clanData = PluginDataManager.getClanDatabase(clanName);
                     ItemStack clanItem = ItemUtil.getItem(
-                            clanData.getIconType().toString(),
+                            clanData.getIconType(),
                             clanData.getIconValue(),
                             0,
                             fileConfiguration.getString("items.clan.name"),

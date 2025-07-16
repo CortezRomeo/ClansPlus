@@ -2,7 +2,7 @@ package com.cortezromeo.clansplus.command;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -243,15 +243,15 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
         }
 
         if (args[0].equalsIgnoreCase("seticon")) {
-            IconType iconType;
+            ItemType itemType;
             try {
-                iconType = IconType.valueOf(args[1].toUpperCase());
+                itemType = ItemType.valueOf(args[1].toUpperCase());
             } catch (Exception exception) {
                 MessageUtil.sendMessage(player, Messages.INVALID_ICON_TYPE);
                 return false;
             }
 
-            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), player, player.getName(), iconType, args[2]).execute();
+            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), player, player.getName(), itemType, args[2]).execute();
             return false;
         }
 
@@ -437,8 +437,8 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 }
 
                 if (args[0].equalsIgnoreCase("seticon") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.SETICON))) {
-                    for (IconType iconType : IconType.values())
-                        commands.add(iconType.toString().toUpperCase());
+                    for (ItemType itemType : ItemType.values())
+                        commands.add(itemType.toString().toUpperCase());
                 }
 
                 if (args[0].equalsIgnoreCase("setowner") && ClanManager.isPlayerRankSatisfied(playerName, Rank.LEADER)) {

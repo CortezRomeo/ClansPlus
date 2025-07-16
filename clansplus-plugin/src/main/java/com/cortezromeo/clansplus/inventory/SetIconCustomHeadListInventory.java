@@ -2,7 +2,7 @@ package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.clan.subject.SetIcon;
 import com.cortezromeo.clansplus.enums.CustomHeadCategory;
@@ -121,7 +121,7 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
         }
         if (itemCustomData.contains("value=")) {
             playClickSound(fileConfiguration, "customHead");
-            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), IconType.CUSTOMHEAD, itemCustomData.replace("value=", "")).execute();
+            new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), ItemType.CUSTOMHEAD, itemCustomData.replace("value=", "")).execute();
         }
     }
 
@@ -129,7 +129,8 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -142,7 +143,8 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
             backItemSlot = (getSlots() - 9) + backItemSlot;
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.sort.type"),
+            ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
                     fileConfiguration.getString("items.sort.value"),
                     fileConfiguration.getInt("items.sort.customModelData"),
                     fileConfiguration.getString("items.sort.name"),
@@ -185,7 +187,7 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
                     String customHeadValue = customheads.get(index).getValue();
                     ArrayList<String> customHeadItemLore = new ArrayList<>();
                     ItemStack customHeadItem = ItemUtil.getItem(
-                            "customhead",
+                            ItemType.CUSTOMHEAD,
                             customHeadValue,
                             0,
                             fileConfiguration.getString("items.customHead.name").replace("%name%", customHeadName),

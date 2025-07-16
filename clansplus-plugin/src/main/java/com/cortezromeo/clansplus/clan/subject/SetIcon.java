@@ -1,7 +1,7 @@
 package com.cortezromeo.clansplus.clan.subject;
 
 import com.cortezromeo.clansplus.Settings;
-import com.cortezromeo.clansplus.api.enums.IconType;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
@@ -19,12 +19,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class SetIcon extends SubjectManager {
 
-    private IconType iconType;
+    private ItemType itemType;
     private String value;
 
-    public SetIcon(Rank rank, Player player, String playerName, IconType type, String value) {
+    public SetIcon(Rank rank, Player player, String playerName, ItemType type, String value) {
         super(rank, player, playerName, null, null);
-        this.iconType = type;
+        this.itemType = type;
         this.value = value;
     }
 
@@ -51,7 +51,7 @@ public class SetIcon extends SubjectManager {
 
         IClanData playerClanData = getPlayerClanData();
 
-        if (iconType == IconType.MATERIAL) {
+        if (itemType == ItemType.MATERIAL) {
             try {
                 XMaterial xMaterial = XMaterial.valueOf(value);
                 Material material = xMaterial.get();
@@ -71,12 +71,12 @@ public class SetIcon extends SubjectManager {
             return false;
         }
 
-        playerClanData.setIconType(iconType);
+        playerClanData.setIconType(itemType);
         playerClanData.setIconValue(value);
 
         PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
-        MessageUtil.sendMessage(player, Messages.SET_ICON_SUCCESS.replace("%value%", value).replace("%type%", iconType.toString()));
-        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_ICON.replace("%player%", playerName).replace("%value%", value).replace("%type%", iconType.toString()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+        MessageUtil.sendMessage(player, Messages.SET_ICON_SUCCESS.replace("%value%", value).replace("%type%", itemType.toString()));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_ICON.replace("%player%", playerName).replace("%value%", value).replace("%type%", itemType.toString()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
         return true;
     }
 }

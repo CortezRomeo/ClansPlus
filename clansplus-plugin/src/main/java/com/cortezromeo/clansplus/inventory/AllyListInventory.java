@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.file.inventory.AllyListInventoryFile;
@@ -129,7 +130,8 @@ public class AllyListInventory extends PaginatedInventory {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -169,7 +171,7 @@ public class AllyListInventory extends PaginatedInventory {
                     String clanName = allies.get(index);
                     IClanData clanData = PluginDataManager.getClanDatabase(clanName);
                     ItemStack clanItem = ItemUtil.getItem(
-                            clanData.getIconType().toString(),
+                            clanData.getIconType(),
                             clanData.getIconValue(),
                             0,
                             fileConfiguration.getString("items.clan.name"),

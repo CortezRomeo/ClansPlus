@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.Disband;
@@ -91,7 +92,8 @@ public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
             if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(fileConfiguration.getString("items.border.type"),
+                ItemStack borderItem = ItemUtil.getItem(
+                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
                         fileConfiguration.getString("items.border.value"),
                         fileConfiguration.getInt("items.border.customModelData"),
                         fileConfiguration.getString("items.border.name"),
@@ -100,7 +102,8 @@ public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
                     inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
             }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.close.type"),
+            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
                     fileConfiguration.getString("items.close.value"),
                     fileConfiguration.getInt("items.close.customModelData"),
                     fileConfiguration.getString("items.close.name"),
@@ -108,7 +111,8 @@ public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
             int closeItemSlot = fileConfiguration.getInt("items.close.slot");
             inventory.setItem(closeItemSlot, closeItem);
 
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.back.type"),
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
                     fileConfiguration.getString("items.back.value"),
                     fileConfiguration.getInt("items.back.customModelData"),
                     fileConfiguration.getString("items.back.name"),
@@ -116,7 +120,8 @@ public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
             int backItemSlot = fileConfiguration.getInt("items.back.slot");
             inventory.setItem(backItemSlot, backItem);
 
-            ItemStack confirmItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.confirm.type"),
+            ItemStack confirmItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.confirm.type").toUpperCase()),
                     fileConfiguration.getString("items.confirm.value"),
                     fileConfiguration.getInt("items.confirm.customModelData"),
                     fileConfiguration.getString("items.confirm.name"),
@@ -124,7 +129,8 @@ public class DisbandConfirmationInventory extends ClanPlusInventoryBase {
             int confirmItemSlot = fileConfiguration.getInt("items.confirm.slot");
             inventory.setItem(confirmItemSlot, confirmItem);
 
-            ItemStack declineItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(fileConfiguration.getString("items.decline.type"),
+            ItemStack declineItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.decline.type").toUpperCase()),
                     fileConfiguration.getString("items.decline.value"),
                     fileConfiguration.getInt("items.decline.customModelData"),
                     fileConfiguration.getString("items.decline.name"),

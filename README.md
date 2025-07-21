@@ -115,7 +115,7 @@ You might need these plugins to utilize my plugin resources totally.
 <summary>2.3</summary>
 
     - Fixed: Fixed an error related to sign input.
-    - Fixed: Fixed an error that causes the sort item i add member inventory to be loaded.
+    - Fixed: Fixed an error that causes the sort item in add member inventory to be loaded.
     - Added: Added a setting in config.yml to disable clan spawn.
 </details>
 <details>

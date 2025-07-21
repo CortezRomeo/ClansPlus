@@ -108,6 +108,7 @@ public class Messages {
     public static String CLAN_SPAWN_BLACK_LIST_WORLD;
     public static String LAST_PAGE;
     public static String FEATURE_IN_PROGRESS;
+    public static String FEATURE_DISABLED;
     public static String USING_CHAT_BOX_CLAN_CHAT;
     public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -259,6 +260,7 @@ public class Messages {
         CLAN_SPAWN_BLACK_LIST_WORLD = fileConfiguration.getString("messages.clan-spawn-black-list-world");
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         FEATURE_IN_PROGRESS = fileConfiguration.getString("messages.feature-in-progress");
+        FEATURE_DISABLED = fileConfiguration.getString("messages.feature-disabled");
         USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");

@@ -129,7 +129,7 @@ public class AddMemberListInventory extends PaginatedInventory {
             inventory.setItem(backItemSlot, backItem);
 
             ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.sort.type")),
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
                     fileConfiguration.getString("items.sort.value"),
                     fileConfiguration.getInt("items.sort.customModelData"),
                     fileConfiguration.getString("items.sort.name"),

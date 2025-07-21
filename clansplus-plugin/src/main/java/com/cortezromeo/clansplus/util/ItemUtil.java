@@ -38,11 +38,12 @@ public class ItemUtil {
 
         materialMeta.setDisplayName(ClansPlus.nms.addColor(name));
 
-        List<String> newList = new ArrayList<>();
-
-        for (String string : lore)
-            newList.add(ClansPlus.nms.addColor(string));
-        materialMeta.setLore(newList);
+        if (lore != null) {
+            List<String> newLore = new ArrayList<>();
+            for (String string : lore)
+                newLore.add(ClansPlus.nms.addColor(string));
+            materialMeta.setLore(newLore);
+        }
 
         material.get().setItemMeta(materialMeta);
         return material.get();

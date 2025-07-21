@@ -193,19 +193,21 @@ public class AddAllyListInventory extends PaginatedInventory {
                             fileConfiguration.getString("items.clan.name"),
                             fileConfiguration.getStringList("items.clan.lore"), false);
                     ItemMeta clanItemItemMeta = clanItem.getItemMeta();
-                    for (String lore : clanItemItemMeta.getLore()) {
-                        if (clanData.getAllyInvitation().contains(playerClanData.getName()))
-                            lore = lore.replace("%checkRelation%", fileConfiguration.getString("items.clan.placeholders.checkRelation.requesting"));
-                        else
-                            lore = lore.replace("%checkRelation%", playerClanData.getAllies().contains(clanName) ? fileConfiguration.getString("items.clan.placeholders.checkRelation.true") : fileConfiguration.getString("items.clan.placeholders.checkRelation.false"));
-                        lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), requiredRank) ? fileConfiguration.getString("items.clan.placeholders.checkPermission.true")
-                                : fileConfiguration.getString("items.clan.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(requiredRank)));
-                        clanItemLore.add(lore);
+                    if (clanItemItemMeta.getLore() != null) {
+                        for (String lore : clanItemItemMeta.getLore()) {
+                            if (clanData.getAllyInvitation().contains(playerClanData.getName()))
+                                lore = lore.replace("%checkRelation%", fileConfiguration.getString("items.clan.placeholders.checkRelation.requesting"));
+                            else
+                                lore = lore.replace("%checkRelation%", playerClanData.getAllies().contains(clanName) ? fileConfiguration.getString("items.clan.placeholders.checkRelation.true") : fileConfiguration.getString("items.clan.placeholders.checkRelation.false"));
+                            lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), requiredRank) ? fileConfiguration.getString("items.clan.placeholders.checkPermission.true")
+                                    : fileConfiguration.getString("items.clan.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(requiredRank)));
+                            clanItemLore.add(lore);
+                        }
+                        clanItemItemMeta.setLore(clanItemLore);
+                        clanItem.setItemMeta(clanItemItemMeta);
+                        ItemStack itemStack = ClansPlus.nms.addCustomData(ItemUtil.getClanItemStack(clanItem, clanData), "request=" + clanName);
+                        inventory.addItem(itemStack);
                     }
-                    clanItemItemMeta.setLore(clanItemLore);
-                    clanItem.setItemMeta(clanItemItemMeta);
-                    ItemStack itemStack = ClansPlus.nms.addCustomData(ItemUtil.getClanItemStack(clanItem, clanData), "request=" + clanName);
-                    inventory.addItem(itemStack);
                 }
             }
         });

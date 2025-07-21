@@ -30,6 +30,11 @@ public class Spawn extends SubjectManager {
         if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
             setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SPAWN));
 
+        if (!Settings.CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED) {
+            MessageUtil.sendMessage(player, Messages.FEATURE_DISABLED);
+            return false;
+        }
+
         if (!isPlayerRankSatisfied()) {
             MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
             return false;
@@ -48,12 +53,12 @@ public class Spawn extends SubjectManager {
                 return false;
             }
 
-        if (Settings.CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED) {
+        if (Settings.CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED) {
             if (PlayerMovementListener.spawnCountDownPlayers.contains(player))
                 return false;
             PlayerMovementListener.spawnCountDownPlayers.add(player);
 
-            AtomicInteger countDownSeconds = new AtomicInteger(Settings.CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS);
+            AtomicInteger countDownSeconds = new AtomicInteger(Settings.CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS);
             MessageUtil.sendMessage(player, Messages.SPAWN_POINT_COUNT_DOWN.replace("%seconds%", String.valueOf(countDownSeconds.get())));
             ClansPlus.support.getFoliaLib().getScheduler().runAtEntityTimer(player, task -> {
                 if (!PlayerMovementListener.spawnCountDownPlayers.contains(player)) {

@@ -56,7 +56,7 @@ public class CrossVersionSupport extends VersionSupport {
                         item.setItemMeta(itemMeta);
                     }
                     if (glow) {
-                        itemMeta.addEnchant(XEnchantment.UNBREAKING.getEnchant(), 1, false);
+                        itemMeta.addEnchant(XEnchantment.UNBREAKING.get(), 1, false);
                         XItemFlag.HIDE_ENCHANTS.set(itemMeta);
                         item.setItemMeta(itemMeta);
                     }

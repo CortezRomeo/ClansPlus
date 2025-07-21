@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class SignChangeListener implements Listener {
 
-    private static final HashMap<Player, PlayerSignDatabase> searchingQueryInventoryList = new HashMap<>();
+    private static final HashMap<String, PlayerSignDatabase> searchingQueryInventoryList = new HashMap<>();
 
     public SignChangeListener() {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
@@ -40,28 +40,32 @@ public class SignChangeListener implements Listener {
                 }
             }
         }, 1);
-        searchingQueryInventoryList.put(player, new PlayerSignDatabase(block, inventoryHolder, new TimeOutTask(player)));
+        searchingQueryInventoryList.put(player.getName(), new PlayerSignDatabase(block, inventoryHolder, new TimeOutTask(player)));
         MessageUtil.sendMessage(player, Messages.USING_SIGN_INPUT_INVENTORY_LIST_SEARCH.replace("%seconds%", String.valueOf(Settings.SIGN_INPUT_SETTINGS_TIME_OUT)));
     }
 
-    private static PlayerSignDatabase getPlayerSignDatabase(Player player) {
-        if (searchingQueryInventoryList.containsKey(player))
-            return searchingQueryInventoryList.get(player);
+    private static PlayerSignDatabase getPlayerSignDatabase(String playerName) {
+        if (Bukkit.getPlayer(playerName) == null)
+            return null;
+        if (searchingQueryInventoryList.containsKey(playerName))
+            return searchingQueryInventoryList.get(playerName);
         return null;
     }
 
     public static void removeSearchPlayerQuery(Player player) {
-        getPlayerSignDatabase(player).getBlock().setType(Material.AIR);
-        getPlayerSignDatabase(player).getTimeOutTask().cancel();
-        searchingQueryInventoryList.remove(player);
+        if (player != null) {
+            getPlayerSignDatabase(player.getName()).getBlock().setType(Material.AIR);
+            getPlayerSignDatabase(player.getName()).getTimeOutTask().cancel();
+            searchingQueryInventoryList.remove(player);
+        }
     }
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
 
-        if (getPlayerSignDatabase(player) != null) {
-            InventoryHolder holder = getPlayerSignDatabase(player).getInventoryHolder().getInventory().getHolder();
+        if (getPlayerSignDatabase(player.getName()) != null) {
+            InventoryHolder holder = getPlayerSignDatabase(player.getName()).getInventoryHolder().getInventory().getHolder();
             if (holder instanceof PaginatedInventory)
                 ((PaginatedInventory) holder).onSearch(event);
             removeSearchPlayerQuery(player);
@@ -109,7 +113,7 @@ public class SignChangeListener implements Listener {
             if (timeOutTask.isCancelled() || cancelled)
                 return;
 
-            if (getPlayerSignDatabase(player) != null) {
+            if (getPlayerSignDatabase(player.getName()) != null) {
                 if (player == null)
                     return;
 

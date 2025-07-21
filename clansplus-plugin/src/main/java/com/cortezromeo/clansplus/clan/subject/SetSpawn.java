@@ -28,6 +28,11 @@ public class SetSpawn extends SubjectManager {
         if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
             setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETSPAWN));
 
+        if (!Settings.CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED) {
+            MessageUtil.sendMessage(player, Messages.FEATURE_DISABLED);
+            return false;
+        }
+
         String commandPermission = "clanplus.setspawn";
         if (!player.hasPermission(commandPermission)) {
             MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));

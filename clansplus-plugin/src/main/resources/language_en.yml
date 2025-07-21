@@ -154,6 +154,7 @@ messages:
   clan-spawn-black-list-world: '%prefix%&#d12f1d&l| &fCannot teleport to this world. Ask a leader to change the spawn.'
   last-page: '%prefix%&#d12f1d&l| &fYou are on the last page.'
   feature-in-progress: '%prefix%&#d12f1d&l| &fFeature is still in development, please check back later...'
+  feature-disabled: '%prefix%&#d12f1d&l| &fThis feature is disabled by the administrators.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'

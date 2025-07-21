@@ -114,10 +114,12 @@ clan-settings:
         - blacklistworld1
         - blacklistworld2
 
-  # Delay time before teleporting to clan spawn.
-  spawn-countdown:
+  # Settings for clan spawn
+  spawn-settings:
     enabled: true
-    seconds: 5
+    countdown:
+      enabled: true
+      seconds: 5
 
   # Settings for inviting players to the clan.
   invite-settings:

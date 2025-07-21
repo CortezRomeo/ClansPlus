@@ -112,6 +112,14 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.3</summary>
+
+    - Fixed: Fixed an error related to sign input.
+    - Fixed: Fixed an error that causes the sort item i add member inventory to be loaded.
+    - Added: Added a setting in config.yml to disable clan spawn.
+</details>
+<details>
+<details>
 <summary>2.2</summary>
 
     - Support 1.21.6, and 1.21.7 (These 2 newest version are very unstable and may occur errors)

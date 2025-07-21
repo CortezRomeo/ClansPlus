@@ -154,6 +154,7 @@ messages:
   clan-spawn-black-list-world: '%prefix%&#d12f1d&l| &fBạn không thể dịch chuyển tới thế giới này, vui lòng bảo lãnh đạo bang thay đổi spawn sang thế giới khác.'
   last-page: '%prefix%&#d12f1d&l| &fBạn đang ở trang cuối rồi.'
   feature-in-progress: '%prefix%&#d12f1d&l| &fTính năng vẫn chưa được hoàn thiện, vui lòng trở lại sau...'
+  feature-disabled: '%prefix%&#d12f1d&l| &fTính năng này đã bị vô hiệu hóa bởi admin.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'

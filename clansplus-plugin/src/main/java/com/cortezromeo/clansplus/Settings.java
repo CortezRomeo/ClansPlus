@@ -48,8 +48,9 @@ public class Settings {
     public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
     public static boolean CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED;
     public static List<String> CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS;
-    public static boolean CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED;
-    public static int CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS;
+    public static boolean CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED;
+    public static boolean CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED;
+    public static int CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS;
     public static String CHAT_SETTING_STOP_USING_CHAT_WORD;
     public static int CHAT_SETTING_TIME_OUT;
     public static int SIGN_INPUT_SETTINGS_TIME_OUT;
@@ -117,8 +118,9 @@ public class Settings {
         CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration.getBoolean("clan-settings.permission-default-forced");
         CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED = configuration.getBoolean("clan-settings.set-spawn-settings.blacklist-worlds.enabled");
         CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS = configuration.getStringList("clan-settings.set-spawn-settings.blacklist-worlds.worlds");
-        CLAN_SETTING_SPAWN_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-countdown.enabled");
-        CLAN_SETTING_SPAWN_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-countdown.seconds");
+        CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED = configuration.getBoolean("clan-settings.spawn-settings.enabled");
+        CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED = configuration.getBoolean("clan-settings.spawn-settings.countdown.enabled");
+        CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS = configuration.getInt("clan-settings.spawn-settings.countdown.seconds");
         CHAT_SETTING_STOP_USING_CHAT_WORD = configuration.getString("chat-settings.stop-using-chat-word");
         CHAT_SETTING_TIME_OUT = configuration.getInt("chat-settings.time-out");
         SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");

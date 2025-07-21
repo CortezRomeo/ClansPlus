@@ -119,7 +119,6 @@ You might need these plugins to utilize my plugin resources totally.
     - Added: Added a setting in config.yml to disable clan spawn.
 </details>
 <details>
-<details>
 <summary>2.2</summary>
 
     - Support 1.21.6, and 1.21.7 (These 2 newest version are very unstable and may occur errors)

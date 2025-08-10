@@ -109,6 +109,9 @@ public class Messages {
     public static String LAST_PAGE;
     public static String FEATURE_IN_PROGRESS;
     public static String FEATURE_DISABLED;
+    public static String INVALID_LOCATION;
+    public static String INVENTORY_LOCKED;
+    public static String INVENTORY_NUMBER_EXCEED_LIMIT;
     public static String USING_CHAT_BOX_CLAN_CHAT;
     public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -261,6 +264,9 @@ public class Messages {
         LAST_PAGE = fileConfiguration.getString("messages.last-page");
         FEATURE_IN_PROGRESS = fileConfiguration.getString("messages.feature-in-progress");
         FEATURE_DISABLED = fileConfiguration.getString("messages.feature-disabled");
+        INVALID_LOCATION = fileConfiguration.getString("messages.invalid-location");
+        INVENTORY_LOCKED = fileConfiguration.getString("messages.inventory-locked");
+        INVENTORY_NUMBER_EXCEED_LIMIT = fileConfiguration.getString("messages.inventory-number-exceed-limit");
         USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");

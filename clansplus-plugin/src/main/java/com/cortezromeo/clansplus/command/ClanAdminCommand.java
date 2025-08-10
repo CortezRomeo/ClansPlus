@@ -18,6 +18,8 @@ import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
+import com.cortezromeo.clansplus.inventory.StorageListInventory;
+import com.cortezromeo.clansplus.language.English;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
@@ -59,6 +61,14 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         }
 
         if (args.length == 1) {
+
+            // TODO: DELETE THIS
+            if (args[0].equalsIgnoreCase("test2")) {
+                Player player = (Player) sender;
+                new StorageListInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName()).open();
+                return false;
+            }
+
             if (args[0].equalsIgnoreCase("reload")) {
                 long time = System.currentTimeMillis();
 
@@ -96,6 +106,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 Settings.setupValue();
 
                 Vietnamese.reload();
+                English.reload();
                 Messages.setupValue(Settings.LANGUAGE);
 
                 CriticalHitSkill.registerSkill();
@@ -318,7 +329,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                         for (int i = 4; i < args.length; i++)
                             builder.append(args[i]).append(" ");
                         builder.deleteCharAt(builder.length() - 1);
-                        String value  = builder.toString();
+                        String value = builder.toString();
 
                         if (args[3].equalsIgnoreCase("set")) {
                             clanData.setCustomName(value);
@@ -338,7 +349,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                         for (int i = 4; i < args.length; i++)
                             builder.append(args[i]).append(" ");
                         builder.deleteCharAt(builder.length() - 1);
-                        String value  = builder.toString();
+                        String value = builder.toString();
 
                         if (args[3].equalsIgnoreCase("set")) {
                             clanData.setMessage(value);
@@ -565,22 +576,21 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 }
 
                 ClansPlus.support.getFoliaLib().getScheduler().runAsync(wrappedTask -> {
-                   if (PluginDataManager.getClanDatabase().isEmpty()) {
-                       sender.sendMessage("There is no clans to reset all.");
-                       return;
-                   }
+                    if (PluginDataManager.getClanDatabase().isEmpty()) {
+                        sender.sendMessage("There is no clans to reset all.");
+                        return;
+                    }
 
-                   int clanSize = PluginDataManager.getClanDatabase().size();
-                   sender.sendMessage("Starting to reset " + args[1] + " of " + clanSize + " clans...");
-                   for (String clanName : PluginDataManager.getClanDatabase().keySet()) {
-                       if (args[1].equalsIgnoreCase("score"))
-                           PluginDataManager.getClanDatabase(clanName).setScore(0);
-                       if (args[1].equalsIgnoreCase("warpoint"))
-                           PluginDataManager.getClanDatabase(clanName).setWarPoint(0);
-                       if (args[1].equalsIgnoreCase("warning"))
-                           PluginDataManager.getClanDatabase(clanName).setWarning(0);
-                   }
-                   sender.sendMessage("Reset successfully " + args[1] + " of " + clanSize + " clans.");
+                    int clanSize = PluginDataManager.getClanDatabase().size();
+                    sender.sendMessage("Starting to reset " + args[1] + " of " + clanSize + " clans...");
+                    for (String clanName : PluginDataManager.getClanDatabase().keySet()) {
+                        if (args[1].equalsIgnoreCase("score")) PluginDataManager.getClanDatabase(clanName).setScore(0);
+                        if (args[1].equalsIgnoreCase("warpoint"))
+                            PluginDataManager.getClanDatabase(clanName).setWarPoint(0);
+                        if (args[1].equalsIgnoreCase("warning"))
+                            PluginDataManager.getClanDatabase(clanName).setWarning(0);
+                    }
+                    sender.sendMessage("Reset successfully " + args[1] + " of " + clanSize + " clans.");
                 });
                 return false;
             }
@@ -605,8 +615,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                 sender.sendMessage("Successfully changed the remaining time of the war event to " + newTimeLeft);
                                 sender.sendMessage("Note: The time will not change if the event is not currently running.");
 
-                                if (newTimeLeft < 0)
-                                    newTimeLeft = 1;
+                                if (newTimeLeft < 0) newTimeLeft = 1;
 
                                 EventManager.getWarEvent().setTimeLeft(newTimeLeft);
                                 return false;
@@ -815,7 +824,8 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         sender.sendMessage("/clanadmin transferPluginDatabaseType <type>");
         sender.sendMessage("/clanadmin backup (custom file name)");
         sender.sendMessage("/clanadmin setClanData <clan name> <type> <give/add/set/remove/reset> <value>");
-        sender.sendMessage(ChatColor.AQUA + "Types: score, warpoint, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies");        sender.sendMessage("/clanadmin setClanSkillData <clan name> <skill id> <skill level>");
+        sender.sendMessage(ChatColor.AQUA + "Types: score, warpoint, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies");
+        sender.sendMessage("/clanadmin setClanSkillData <clan name> <skill id> <skill level>");
         sender.sendMessage("/clanadmin setPlayerData <player name> <type> <set/reset> <value>");
         sender.sendMessage(ChatColor.AQUA + "Types: clanname, rank, joindate, scorecollected, lastactivated");
         sender.sendMessage("/clanadmin clanResetAll <type>");
@@ -871,8 +881,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 commands.add("warpoint");
                 commands.add("warning");
             }
-            if (args[0].equalsIgnoreCase("event"))
-                commands.add("war");
+            if (args[0].equalsIgnoreCase("event")) commands.add("war");
             if (args[0].equalsIgnoreCase("transferPluginDatabaseType")) {
                 if (!transferDataCommandNotifying.contains(sender)) {
                     sender.sendMessage("-----------------------");
@@ -923,16 +932,13 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     commands.add("set");
                     if (!type.equalsIgnoreCase("members") && !type.equalsIgnoreCase("allies")) {
                         commands.add("reset");
-                        if (type.equalsIgnoreCase("createddate"))
-                            commands.remove("reset");
+                        if (type.equalsIgnoreCase("createddate")) commands.remove("reset");
                     } else {
                         commands.add("add");
                         commands.add("remove");
                         commands.remove("set");
                     }
-                    if (type.equalsIgnoreCase("score")
-                            || type.equalsIgnoreCase("warpoint")
-                            || type.equalsIgnoreCase("warning")) {
+                    if (type.equalsIgnoreCase("score") || type.equalsIgnoreCase("warpoint") || type.equalsIgnoreCase("warning")) {
                         commands.add("give");
                         commands.add("remove");
                     }
@@ -990,8 +996,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                             ItemType itemType = ItemType.valueOf(args[4].toUpperCase());
                             if (itemType.equals(ItemType.MATERIAL)) {
                                 for (Material material : Material.values()) {
-                                    if (material == Material.AIR)
-                                        continue;
+                                    if (material == Material.AIR) continue;
                                     commands.add(material.toString().toUpperCase());
                                 }
                             }

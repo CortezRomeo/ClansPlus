@@ -46,8 +46,7 @@ public class UpgradeManager {
                 return false;
             }
             if (ClansPlus.support.getVault().getBalance(player) >= value) {
-                if (take)
-                    ClansPlus.support.getVault().withdrawPlayer(player, value);
+                if (take) ClansPlus.support.getVault().withdrawPlayer(player, value);
                 return true;
             }
         }
@@ -58,8 +57,7 @@ public class UpgradeManager {
                 return false;
             }
             if (ClansPlus.support.getPlayerPointsAPI().look(player.getUniqueId()) >= value) {
-                if (take)
-                    ClansPlus.support.getPlayerPointsAPI().take(player.getUniqueId(), (int) value);
+                if (take) ClansPlus.support.getPlayerPointsAPI().take(player.getUniqueId(), (int) value);
                 return true;
             }
         }

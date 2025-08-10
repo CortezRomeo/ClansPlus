@@ -21,7 +21,7 @@ public class ChatListenerHandle {
     public static List<Player> setMessage = new ArrayList<>();
 
     public static boolean handlePlayerChat(Player player, String message) {
-        if(createClan.contains(player) || setCustomName.contains(player) || setMessage.contains(player))
+        if (createClan.contains(player) || setCustomName.contains(player) || setMessage.contains(player))
             if (message.equals(Settings.CHAT_SETTING_STOP_USING_CHAT_WORD)) {
                 createClan.remove(player);
                 setCustomName.remove(player);

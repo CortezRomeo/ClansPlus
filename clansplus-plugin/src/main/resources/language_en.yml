@@ -155,6 +155,9 @@ messages:
   last-page: '%prefix%&#d12f1d&l| &fYou are on the last page.'
   feature-in-progress: '%prefix%&#d12f1d&l| &fFeature is still in development, please check back later...'
   feature-disabled: '%prefix%&#d12f1d&l| &fThis feature is disabled by the administrators.'
+  invalid-location: '%prefix%&#d12f1d&l| &fCannot do that here! Try to move to a better location.'
+  inventory-locked: '%prefix%&#d12f1d&l| &fYour clan has not unlocked inventory #%storageNumber% yet!'
+  inventory-number-exceed-limit: '%prefix%&#d12f1d&l| &fYou cannot open an inventory that has its number higher than %maxInventoryNumber%&f.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'

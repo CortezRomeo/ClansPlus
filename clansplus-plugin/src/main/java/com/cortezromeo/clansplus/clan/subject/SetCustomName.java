@@ -57,8 +57,6 @@ public class SetCustomName extends SubjectManager {
                         return false;
                     }
 
-        MessageUtil.devMessage(player, clanCustomNameStripColor.length() + "");
-
         if (clanCustomNameStripColor.length() < Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH) {
             MessageUtil.sendMessage(player, Messages.ILLEGAL_MINIMUM_CLAN_LENGTH.replace("%minimumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH)));
             return false;

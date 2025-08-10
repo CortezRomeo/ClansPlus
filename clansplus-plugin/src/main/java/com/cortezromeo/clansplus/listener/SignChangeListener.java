@@ -31,6 +31,10 @@ public class SignChangeListener implements Listener {
     public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
         Location loc = player.getLocation().add(0, 1, 0);
         Block block = loc.getBlock();
+        if (block.getType() != Material.AIR) {
+            MessageUtil.sendMessage(player, Messages.INVALID_LOCATION);
+            return;
+        }
         block.setType(Material.OAK_SIGN);
         player.openSign((Sign) block.getState(), Side.FRONT);
         ClansPlus.support.getFoliaLib().getScheduler().runLater(wrappedTask -> {
@@ -45,17 +49,18 @@ public class SignChangeListener implements Listener {
     }
 
     private static PlayerSignDatabase getPlayerSignDatabase(String playerName) {
-        if (Bukkit.getPlayer(playerName) == null)
-            return null;
-        if (searchingQueryInventoryList.containsKey(playerName))
-            return searchingQueryInventoryList.get(playerName);
+        if (Bukkit.getPlayer(playerName) == null) return null;
+        if (searchingQueryInventoryList.containsKey(playerName)) return searchingQueryInventoryList.get(playerName);
         return null;
     }
 
     public static void removeSearchPlayerQuery(Player player) {
         if (player != null) {
-            getPlayerSignDatabase(player.getName()).getBlock().setType(Material.AIR);
-            getPlayerSignDatabase(player.getName()).getTimeOutTask().cancel();
+            PlayerSignDatabase playerSignDatabase = getPlayerSignDatabase(player.getName());
+            if (playerSignDatabase != null) {
+                getPlayerSignDatabase(player.getName()).getBlock().setType(Material.AIR);
+                getPlayerSignDatabase(player.getName()).getTimeOutTask().cancel();
+            }
             searchingQueryInventoryList.remove(player);
         }
     }
@@ -66,8 +71,7 @@ public class SignChangeListener implements Listener {
 
         if (getPlayerSignDatabase(player.getName()) != null) {
             InventoryHolder holder = getPlayerSignDatabase(player.getName()).getInventoryHolder().getInventory().getHolder();
-            if (holder instanceof PaginatedInventory)
-                ((PaginatedInventory) holder).onSearch(event);
+            if (holder instanceof PaginatedInventory) ((PaginatedInventory) holder).onSearch(event);
             removeSearchPlayerQuery(player);
         }
     }
@@ -105,17 +109,15 @@ public class SignChangeListener implements Listener {
 
         public TimeOutTask(Player player) {
             this.player = player;
-            this.timeOutTask = ClansPlus.support.getFoliaLib().getScheduler().runAtLocationLater(player.getLocation(), this,  20L * (long) Settings.SIGN_INPUT_SETTINGS_TIME_OUT);
+            this.timeOutTask = ClansPlus.support.getFoliaLib().getScheduler().runAtLocationLater(player.getLocation(), this, 20L * (long) Settings.SIGN_INPUT_SETTINGS_TIME_OUT);
         }
 
         @Override
         public void run() {
-            if (timeOutTask.isCancelled() || cancelled)
-                return;
+            if (timeOutTask.isCancelled() || cancelled) return;
 
             if (getPlayerSignDatabase(player.getName()) != null) {
-                if (player == null)
-                    return;
+                if (player == null) return;
 
                 MessageUtil.sendMessage(player, Messages.USING_SIGN_INPUT_TIME_OUT);
                 removeSearchPlayerQuery(player);

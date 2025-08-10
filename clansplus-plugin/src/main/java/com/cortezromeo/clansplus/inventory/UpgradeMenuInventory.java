@@ -57,16 +57,14 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -87,7 +85,7 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
                 upgradeRequiredrank = PluginDataManager.getClanDatabase(playerClanData.getName()).getSubjectPermission().get(Subject.UPGRADE);
             if (!ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
                 MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
-                return;
+                return true;
             }
 
             CurrencyType upgradeMaxMembersCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-members.currency-type").toUpperCase());
@@ -104,39 +102,15 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
         }
         if (itemCustomData.equals("skillsMenu"))
             new SkillsMenuInventory(getOwner(), playerClanData.getName(), false).open();
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
-                        fileConfiguration.getString("items.border.value"),
-                        fileConfiguration.getInt("items.border.customModelData"),
-                        fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"), false);
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
-            }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
-                    fileConfiguration.getString("items.close.value"),
-                    fileConfiguration.getInt("items.close.customModelData"),
-                    fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore"), false), "close");
-            int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-            inventory.setItem(closeItemSlot, closeItem);
-
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            inventory.setItem(backItemSlot, backItem);
+            addBasicButton(fileConfiguration, true);
 
             List<String> upgradeMaxMemberItemLore = new ArrayList<>();
             IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());

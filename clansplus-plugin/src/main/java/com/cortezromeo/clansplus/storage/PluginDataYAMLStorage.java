@@ -8,11 +8,15 @@ import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
 import com.cortezromeo.clansplus.clan.ClanManager;
+import com.cortezromeo.clansplus.inventory.ClanStorageInventory;
 import com.cortezromeo.clansplus.util.FileNameUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,33 +61,12 @@ public class PluginDataYAMLStorage implements PluginStorage {
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
-        HashMap<Integer, String> inventory = new HashMap<>();
+        HashMap<Integer, Inventory> newInventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
-        ClanData clanData = new ClanData(
-                clanName,
-                null,
-                null,
-                null,
-                0,
-                0,
-                0,
-                Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
-                new Date().getTime(),
-                ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
-                Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
-                members,
-                null,
-                allies,
-                skillLevel,
-                permissionDefault,
-                allyInvitation,
-                0,
-                null,
-                inventory);
+        ClanData clanData = new ClanData(clanName, null, null, null, 0, 0, 0, Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT, new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()), Settings.CLAN_SETTING_ICON_DEFAULT_VALUE, members, null, allies, skillLevel, permissionDefault, allyInvitation, 0, null, newInventory, Settings.CLAN_SETTINGS_MAX_INVENTORY_DEFAULT);
 
-        if (!storage.contains("data"))
-            return clanData;
+        if (!storage.contains("data")) return clanData;
 
         // old data before version 3.4
         if (storage.getString("data.ten") != null) {
@@ -131,6 +114,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 e.printStackTrace();
             }
         } else {
+            // do not add any new column here!
             clanData.setName(storage.getString("data.name"));
             clanData.setCustomName(storage.getString("data.custom-name"));
             clanData.setOwner(storage.getString("data.owner"));
@@ -180,16 +164,41 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 newPermissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
             clanData.setSubjectPermission(newPermissionDefault);
         } else {
-            for (String subjectName : storage.getConfigurationSection("data.permission").getKeys(false)) {
-                Subject subject = Subject.valueOf(subjectName);
-                Rank rank = Rank.valueOf(storage.getString("data.permission." + subjectName));
-                clanData.getSubjectPermission().put(subject, rank);
+            if (storage.getConfigurationSection("data.permission") != null) {
+                for (String subjectName : storage.getConfigurationSection("data.permission").getKeys(false)) {
+                    Subject subject = Subject.valueOf(subjectName);
+                    Rank rank = Rank.valueOf(storage.getString("data.permission." + subjectName));
+                    clanData.getSubjectPermission().put(subject, rank);
+                }
             }
         }
 
         clanData.setAllyInvitation(storage.getStringList("data.ally-invitation"));
         clanData.setDiscordChannelID(storage.getLong("data.discord.channel-id"));
         clanData.setDiscordJoinLink(storage.getString("data.discord.join-link"));
+        clanData.setMaxInventory(storage.getInt("data.max-inventory"));
+
+        HashMap<Integer, Inventory> clanInventory = new HashMap<>();
+        if (storage.getConfigurationSection("data.inventory") != null) {
+            for (String inventoryNumber : storage.getConfigurationSection("data.inventory").getKeys(false)) {
+                ClanStorageInventory clanStorageInventory = new ClanStorageInventory(Integer.parseInt(inventoryNumber));
+                clanStorageInventory.setClanName(clanName);
+                Inventory specificInventory = clanStorageInventory.getInventory();
+
+                for (String slotNumber : storage.getConfigurationSection("data.inventory." + inventoryNumber).getKeys(false)) {
+                    try {
+                        ItemStack itemStack = StringUtil.stacksFromBase64(storage.getString("data.inventory." + inventoryNumber + "." + slotNumber))[0];
+                        if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                            continue;
+                        specificInventory.setItem(Integer.parseInt(slotNumber), itemStack);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                clanInventory.put(Integer.parseInt(inventoryNumber), specificInventory);
+            }
+        }
+        clanData.setInventoryHashMap(clanInventory);
 
         return clanData;
     }
@@ -226,7 +235,24 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.ally-invitation", clanData.getAllyInvitation());
         storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
         storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
-        storage.set("data.inventory", clanData.getInventory());
+        storage.set("data.max-inventory", clanData.getMaxInventory());
+
+        if (!clanData.getInventoryHashMap().isEmpty()) {
+            for (int inventoryNumber : clanData.getInventoryHashMap().keySet()) {
+                Inventory inventoryContents = clanData.getInventoryHashMap().get(inventoryNumber);
+
+                // count from -1 because slot number always starts with 0
+                int slotNumber = -1;
+                for (ItemStack itemStack : inventoryContents.getContents()) {
+                    slotNumber++;
+                    if (itemStack == null) continue;
+                    if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                        continue;
+                    storage.set("data.inventory." + inventoryNumber + "." + slotNumber, StringUtil.toBase64(itemStack));
+                }
+            }
+        }
+
         try {
             storage.save(file);
         } catch (IOException e) {
@@ -239,16 +265,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
         File playerFile = getPlayerFile(playerName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(playerFile);
 
-        PlayerData playerData = new PlayerData(playerName,
-                (Bukkit.getPlayer(playerName) != null ? Bukkit.getPlayer(playerName).getUniqueId().toString() : null),
-                null,
-                null,
-                0,
-                0,
-                new Date().getTime());
+        PlayerData playerData = new PlayerData(playerName, (Bukkit.getPlayer(playerName) != null ? Bukkit.getPlayer(playerName).getUniqueId().toString() : null), null, null, 0, 0, new Date().getTime());
 
-        if (!storage.contains("data"))
-            return playerData;
+        if (!storage.contains("data")) return playerData;
 
         if (storage.getString("data.chuc_vu") != null || storage.getString("data.bang_hoi") != null) {
             PluginDataManager.fixMembersOldData = true;
@@ -280,8 +299,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
             if (storage.getString("data.UUID") == null) {
                 if (Bukkit.getPlayer(playerName) != null)
                     playerData.setUUID(storage.getString(Bukkit.getPlayer(playerName).getUniqueId().toString()));
-            } else
-                playerData.setUUID(storage.getString("data.UUID"));
+            } else playerData.setUUID(storage.getString("data.UUID"));
             playerData.setClan(storage.getString("data.clan"));
             playerData.setJoinDate(storage.getLong("data.join-date"));
             playerData.setScoreCollected(storage.getInt("data.score-collected"));
@@ -319,8 +337,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
     @Override
     public boolean deleteClanData(String clanName) {
         File clanFile = new File(ClansPlus.plugin.getDataFolder() + "/banghoiData/" + clanName + ".yml");
-        if (!clanFile.exists())
-            return true;
+        if (!clanFile.exists()) return true;
 
         try {
             return clanFile.delete();
@@ -336,8 +353,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         File[] listOfFilesClan = clanFolder.listFiles();
         List<String> clans = new ArrayList<>();
 
-        if (listOfFilesClan == null)
-            return clans;
+        if (listOfFilesClan == null) return clans;
 
         for (File file : listOfFilesClan) {
             try {
@@ -358,8 +374,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         File[] listOfFilesPlayer = playerFolder.listFiles();
         List<String> players = new ArrayList<>();
 
-        if (listOfFilesPlayer == null)
-            return players;
+        if (listOfFilesPlayer == null) return players;
 
         for (File file : listOfFilesPlayer) {
             try {

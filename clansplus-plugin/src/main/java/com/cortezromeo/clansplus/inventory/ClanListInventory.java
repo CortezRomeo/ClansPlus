@@ -53,16 +53,13 @@ public class ClanListInventory extends PaginatedInventory {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        super.handleMenu(event);
         playClickSound(fileConfiguration, itemCustomData);
 
         if (itemCustomData.equals("prevPage")) {
@@ -103,27 +100,15 @@ public class ClanListInventory extends PaginatedInventory {
             itemCustomData = itemCustomData.replace("clan=", "");
             new ViewClanInformationInventory(getOwner(), itemCustomData).open();
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            addPaginatedMenuItems(fileConfiguration);
-            if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getClan() != null) {
-                ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                        fileConfiguration.getString("items.back.value"),
-                        fileConfiguration.getInt("items.back.customModelData"),
-                        fileConfiguration.getString("items.back.name"),
-                        fileConfiguration.getStringList("items.back.lore"), false), "back");
-                int backItemSlot = fileConfiguration.getInt("items.back.slot");
-                if (backItemSlot < 0)
-                    backItemSlot = 0;
-                if (backItemSlot > 8)
-                    backItemSlot = 8;
-                backItemSlot = (getSlots() - 9) + backItemSlot;
-                inventory.setItem(backItemSlot, backItem);
-            }
+
+            addPaginatedMenuItems(fileConfiguration, true);
 
             ItemStack clanListInfoItem = ClansPlus.nms.addCustomData(
                     getClanInfoItemStack(ItemUtil.getItem(

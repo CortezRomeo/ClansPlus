@@ -51,14 +51,12 @@ public class CriticalHitSkill {
     }
 
     public static boolean onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
-        if (!skillData.isEnabled())
-            return false;
+        if (!skillData.isEnabled()) return false;
 
         Player damager = (Player) event.getDamager();
         IClanData damagerClanData = PluginDataManager.getClanDatabaseByPlayerName(damager.getName());
 
-        if (damagerClanData == null)
-            return false;
+        if (damagerClanData == null) return false;
 
         int skillLevel = damagerClanData.getSkillLevel().get(skillData.getId());
 

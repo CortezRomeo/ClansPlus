@@ -8,10 +8,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class AddMemberListInventoryFile {
+public class ClanStorageInventoryFile {
     private static File file;
     private static FileConfiguration fileConfiguration;
-    private static final String fileName = "add-member-list-inventory.yml";
+    private static final String fileName = "clan-storage-inventory.yml";
 
     public static void setupFile() {
         createFileAndDir();

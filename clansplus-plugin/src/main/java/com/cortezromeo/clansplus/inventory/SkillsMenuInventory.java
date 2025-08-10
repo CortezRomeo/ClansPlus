@@ -53,15 +53,13 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -74,13 +72,13 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("back")) {
             if (fromViewClan) {
                 new ViewClanInformationInventory(getOwner(), clanName).open();
-                return;
+                return true;
             }
             IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
                     new UpgradeMenuInventory(getOwner()).open();
-                    return;
+                    return true;
                 }
             }
             new ViewClanInformationInventory(getOwner(), clanName).open();
@@ -89,39 +87,15 @@ public class SkillsMenuInventory extends ClanPlusInventoryBase {
             itemCustomData = itemCustomData.replace("pluginskill=", "");
             new UpgradePluginSkillInventory(getOwner(), clanName, PluginSkill.valueOf(itemCustomData.toUpperCase()), fromViewClan).open();
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
-                        fileConfiguration.getString("items.border.value"),
-                        fileConfiguration.getInt("items.border.customModelData"),
-                        fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"), false);
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
-            }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
-                    fileConfiguration.getString("items.close.value"),
-                    fileConfiguration.getInt("items.close.customModelData"),
-                    fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore"), false), "close");
-            int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-            inventory.setItem(closeItemSlot, closeItem);
-
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            inventory.setItem(backItemSlot, backItem);
+            addBasicButton(fileConfiguration, true);
 
             FileConfiguration skillFile = SkillsFile.get();
             for (PluginSkill pluginSkill : PluginSkill.values()) {

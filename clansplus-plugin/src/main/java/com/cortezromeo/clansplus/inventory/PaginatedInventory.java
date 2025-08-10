@@ -38,15 +38,15 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
+    public boolean handleMenu(InventoryClickEvent event) {
+        event.setCancelled(true);
         if (event.getCurrentItem() == null)
-            return;
+            return false;
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
         if (itemCustomData.equals("search")) {
-            event.setCancelled(true);
             if (event.getClick().isRightClick()) {
                 search = null;
                 setPage(0);
@@ -57,9 +57,11 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
                 SignChangeListener.addSearchPlayerQuery(getOwner(), this);
             }
         }
+
+        return true;
     }
 
-    public void addPaginatedMenuItems(FileConfiguration fileConfiguration) {
+    public void addPaginatedMenuItems(FileConfiguration fileConfiguration, boolean backButton) {
         isUsingBorder = fileConfiguration.getBoolean("items.border.enabled");
         if (isUsingBorder) {
             ItemStack borderItem = ItemUtil.getItem(
@@ -105,6 +107,22 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         if (closeItemSlot > 8)
             closeItemSlot = 8;
         closeItemSlot = (getSlots() - 9) + closeItemSlot;
+
+        if (backButton) {
+            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
+                    fileConfiguration.getString("items.back.value"),
+                    fileConfiguration.getInt("items.back.customModelData"),
+                    fileConfiguration.getString("items.back.name"),
+                    fileConfiguration.getStringList("items.back.lore"), false), "back");
+            int backItemSlot = fileConfiguration.getInt("items.back.slot");
+            if (backItemSlot < 0)
+                backItemSlot = 0;
+            if (backItemSlot > 8)
+                backItemSlot = 8;
+            backItemSlot = (getSlots() - 9) + backItemSlot;
+            inventory.setItem(backItemSlot, backItem);
+        }
 
         ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
                 ItemType.valueOf(fileConfiguration.getString("items.prevPage.type").toUpperCase()),
@@ -152,7 +170,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         inventory.setItem(nextPageItemSlot, getPageItemStack(nextItem));
     }
 
-    private @NotNull ItemStack getPageItemStack(ItemStack itemStack) {
+    @NotNull ItemStack getPageItemStack(ItemStack itemStack) {
         ItemStack modItem = new ItemStack(itemStack);
         ItemMeta itemMeta = modItem.getItemMeta();
 

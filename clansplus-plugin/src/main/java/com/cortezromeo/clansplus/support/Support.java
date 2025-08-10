@@ -23,7 +23,7 @@ public class Support {
     public boolean vaultSupported = false;
 
     public boolean isPlaceholderAPISupported() {
-      return placeholderAPISupported;
+        return placeholderAPISupported;
     }
 
     public boolean isPlayerPointsSupported() {
@@ -73,8 +73,7 @@ public class Support {
         }
 
         // MythicMobs
-        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null)
-            mythicMobsSupported = true;
+        if (Bukkit.getServer().getPluginManager().getPlugin("MythicMobs") != null) mythicMobsSupported = true;
 
         // discordWebhook
         discordSupport = new DiscordSupport(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
@@ -85,8 +84,7 @@ public class Support {
     }
 
     public boolean setupVault() {
-        if (ClansPlus.plugin.getServer().getPluginManager().getPlugin("Vault") == null)
-            return false;
+        if (ClansPlus.plugin.getServer().getPluginManager().getPlugin("Vault") == null) return false;
 
         RegisteredServiceProvider<Economy> rsp = ClansPlus.plugin.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
@@ -98,11 +96,10 @@ public class Support {
     }
 
     public Economy getVault() {
-        if (vaultEconomyAPI == null)
-            if (!setupVault()) {
-                MessageUtil.throwErrorMessage("KHÔNG THỂ TÌM THẤY PLUGIN VAULT");
-                return null;
-            }
+        if (vaultEconomyAPI == null) if (!setupVault()) {
+            MessageUtil.throwErrorMessage("KHÔNG THỂ TÌM THẤY PLUGIN VAULT");
+            return null;
+        }
         return vaultEconomyAPI;
     }
 

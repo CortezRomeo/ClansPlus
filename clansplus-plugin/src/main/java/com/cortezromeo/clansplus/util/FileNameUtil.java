@@ -13,8 +13,7 @@ public class FileNameUtil {
         }
 
         int extensionIndex = filename.lastIndexOf(".");
-        if (extensionIndex == -1)
-            return filename;
+        if (extensionIndex == -1) return filename;
 
         return filename.substring(0, extensionIndex);
     }

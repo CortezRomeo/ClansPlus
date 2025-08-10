@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +31,10 @@ public class ClanData implements IClanData {
     private List<String> allyInvitation;
     private long discordChannelID;
     private String discordJoinLink;
-    private HashMap<Integer, String> inventory;
+    private HashMap<Integer, Inventory> inventory;
+    private int maxInventory;
 
-    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate,
-                    ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
-                    List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, String> inventory) {
+    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate, ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission, List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, Inventory> inventory, int maxInventory) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;
@@ -55,6 +55,7 @@ public class ClanData implements IClanData {
         this.discordChannelID = discordChannelID;
         this.discordJoinLink = discordJoinLink;
         this.inventory = inventory;
+        this.maxInventory = maxInventory;
     }
 
     @Override
@@ -248,12 +249,22 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public HashMap<Integer, String> getInventory() {
+    public HashMap<Integer, Inventory> getInventoryHashMap() {
         return inventory;
     }
 
     @Override
-    public void setInventory(HashMap<Integer, String> inventory) {
+    public void setInventoryHashMap(HashMap<Integer, Inventory> inventory) {
         this.inventory = inventory;
+    }
+
+    @Override
+    public int getMaxInventory() {
+        return maxInventory;
+    }
+
+    @Override
+    public void setMaxInventory(int maxInventory) {
+        this.maxInventory = maxInventory;
     }
 }

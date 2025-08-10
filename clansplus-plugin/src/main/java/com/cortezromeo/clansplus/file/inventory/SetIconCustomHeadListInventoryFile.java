@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.file.inventory;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -10,9 +11,22 @@ import java.io.IOException;
 public class SetIconCustomHeadListInventoryFile {
     private static File file;
     private static FileConfiguration fileConfiguration;
+    private static final String fileName = "set-icon-custom-head-list-inventory.yml";
 
-    public static void setup() {
-        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/set-icon-custom-head-list-inventory.yml");
+    public static void setupFile() {
+        createFileAndDir();
+        saveDefault();
+        File addMemberListFile = new File(ClansPlus.plugin.getDataFolder() + "/inventories/" + fileName);
+        try {
+            ConfigUpdater.update(ClansPlus.plugin, fileName, addMemberListFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        reload();
+    }
+
+    private static void createFileAndDir() {
+        file = new File(ClansPlus.plugin.getDataFolder() + "/inventories/" + fileName);
 
         if (!file.exists()) {
             try {
@@ -31,7 +45,7 @@ public class SetIconCustomHeadListInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                ClansPlus.plugin.saveResource("set-icon-custom-head-list-inventory.yml", false);
+                ClansPlus.plugin.saveResource(fileName, false);
             }
         } catch (Exception e) {
             e.printStackTrace();

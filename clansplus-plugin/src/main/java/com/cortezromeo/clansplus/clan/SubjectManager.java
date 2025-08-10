@@ -25,50 +25,40 @@ public abstract class SubjectManager {
     public abstract boolean execute();
 
     public boolean isPlayerInClan() {
-        if (!PluginDataManager.getPlayerDatabase().containsKey(playerName))
-            return false;
+        if (!PluginDataManager.getPlayerDatabase().containsKey(playerName)) return false;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         return playerData.getClan() != null;
     }
 
     public boolean isTargetInClan() {
-        if (!PluginDataManager.getPlayerDatabase().containsKey(targetName))
-            return false;
+        if (!PluginDataManager.getPlayerDatabase().containsKey(targetName)) return false;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(targetName);
         return playerData.getClan() != null;
     }
 
     public boolean isTargetRankSatisfied() {
-        if (!isTargetInClan())
-            return false;
+        if (!isTargetInClan()) return false;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(targetName);
 
-        if (playerData.getRank() == null)
-            return false;
+        if (playerData.getRank() == null) return false;
 
-        if (playerData.getRank().equals(Rank.LEADER) && getRequiredRank() == Rank.MANAGER)
-            return true;
-        else
-            return playerData.getRank() == requiredRank;
+        if (playerData.getRank().equals(Rank.LEADER) && getRequiredRank() == Rank.MANAGER) return true;
+        else return playerData.getRank() == requiredRank;
     }
 
     public boolean isPlayerRankSatisfied() {
-        if (!isPlayerInClan())
-            return false;
+        if (!isPlayerInClan()) return false;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
 
-        if (playerData.getRank() == null)
-            return false;
+        if (playerData.getRank() == null) return false;
 
-        if (playerData.getRank() == Rank.LEADER)
-            return true;
+        if (playerData.getRank() == Rank.LEADER) return true;
 
-        if (playerData.getRank().equals(Rank.MANAGER) && getRequiredRank() == Rank.MEMBER)
-            return true;
+        if (playerData.getRank().equals(Rank.MANAGER) && getRequiredRank() == Rank.MEMBER) return true;
         else return playerData.getRank() == getRequiredRank();
     }
 
@@ -89,15 +79,13 @@ public abstract class SubjectManager {
     }
 
     public boolean isTargetAndPlayerInTheSameClan() {
-        if (!isTargetInClan() || !isPlayerInClan())
-            return false;
+        if (!isTargetInClan() || !isPlayerInClan()) return false;
 
         return getPlayerClanData().getName().equals(getTargetClanData().getName());
     }
 
     public IClanData getPlayerClanData() {
-        if (isPlayerInClan())
-            return PluginDataManager.getClanDatabaseByPlayerName(playerName);
+        if (isPlayerInClan()) return PluginDataManager.getClanDatabaseByPlayerName(playerName);
         return null;
     }
 
@@ -110,8 +98,7 @@ public abstract class SubjectManager {
     }
 
     public IClanData getTargetClanData() {
-        if (isTargetInClan())
-            return PluginDataManager.getClanDatabaseByPlayerName(targetName);
+        if (isTargetInClan()) return PluginDataManager.getClanDatabaseByPlayerName(targetName);
         return null;
     }
 }

@@ -23,18 +23,13 @@ public class ItemUtil {
     public static ItemStack getItem(ItemType itemType, String value, int customModelData, String name, List<String> lore, boolean glow) {
         AtomicReference<ItemStack> material = new AtomicReference<>(new ItemStack(Material.BEDROCK));
 
-        if (itemType.equals(ItemType.CUSTOMHEAD))
-            material.set(ClansPlus.nms.getHeadItemFromBase64(value));
-        if (itemType.equals(ItemType.PLAYERHEAD))
-            material.set(ClansPlus.nms.getHeadItemFromPlayerName(value));
-        if (itemType.equals(ItemType.MATERIAL)) {
-            material.set(ClansPlus.nms.createItemStack(value, 1, customModelData, glow));
-        }
+        if (itemType.equals(ItemType.CUSTOMHEAD)) material.set(ClansPlus.nms.getHeadItemFromBase64(value));
+        if (itemType.equals(ItemType.PLAYERHEAD)) material.set(ClansPlus.nms.getHeadItemFromPlayerName(value));
+        if (itemType.equals(ItemType.MATERIAL)) material.set(ClansPlus.nms.createItemStack(value, 1, customModelData, glow));
 
         ItemMeta materialMeta = material.get().getItemMeta();
 
-        if (materialMeta == null)
-            return material.get();
+        if (materialMeta == null) return material.get();
 
         materialMeta.setDisplayName(ClansPlus.nms.addColor(name));
 
@@ -59,18 +54,7 @@ public class ItemUtil {
         itemMeta.setDisplayName(ClansPlus.nms.addColor(itemName));
 
         List<String> itemLore = itemMeta.getLore();
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%score%", String.valueOf(clanData.getScore()))
-                        .replace("%warPoint%", String.valueOf(clanData.getWarPoint()))
-                        .replace("%formatClanName%", ClanManager.getFormatClanName(clanData))
-                        .replace("%clanName%", String.valueOf(clanData.getName()))
-                        .replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData)))
-                .replace("%owner%", String.valueOf(clanData.getOwner()))
-                .replace("%memberSize%", String.valueOf(clanData.getMembers().size()))
-                .replace("%maxMembers%", String.valueOf(clanData.getMaxMembers()))
-                .replace("%allySize%", String.valueOf(clanData.getAllies().size()))
-                .replace("%message%", ClanManager.getFormatClanMessage(clanData))
-                .replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()))
-                .replace("%warning%", String.valueOf(clanData.getWarning())));
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%score%", String.valueOf(clanData.getScore())).replace("%warPoint%", String.valueOf(clanData.getWarPoint())).replace("%formatClanName%", ClanManager.getFormatClanName(clanData)).replace("%clanName%", String.valueOf(clanData.getName())).replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData))).replace("%owner%", String.valueOf(clanData.getOwner())).replace("%memberSize%", String.valueOf(clanData.getMembers().size())).replace("%maxMembers%", String.valueOf(clanData.getMaxMembers())).replace("%allySize%", String.valueOf(clanData.getAllies().size())).replace("%message%", ClanManager.getFormatClanMessage(clanData)).replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate())).replace("%warning%", String.valueOf(clanData.getWarning())));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;
@@ -89,18 +73,10 @@ public class ItemUtil {
 
         Player player = Bukkit.getPlayer(playerName);
         boolean onlineStatus;
-        if (player == null)
-            onlineStatus = false;
-        else
-            onlineStatus = !PlayerUtil.isVanished(player);
+        if (player == null) onlineStatus = false;
+        else onlineStatus = !PlayerUtil.isVanished(player);
 
-        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName)
-                .replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID())
-                .replace("%rank%", ClanManager.getFormatRank(playerData.getRank()))
-                .replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()))
-                .replace("%onlineStatus%", (onlineStatus ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE))
-                .replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()))
-                .replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
+        itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%player%", playerName).replace("%uuid%", playerData.getUUID() == null ? ClansPlus.nms.addColor(Messages.UNKNOWN) : playerData.getUUID()).replace("%rank%", ClanManager.getFormatRank(playerData.getRank())).replace("%joinDate%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate())).replace("%onlineStatus%", (onlineStatus ? Messages.ONLINE_STATUS_ONLINE : Messages.ONLINE_STATUS_OFFLINE)).replace("%lastActivated%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated())).replace("%scoreCollected%", String.valueOf(playerData.getScoreCollected()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

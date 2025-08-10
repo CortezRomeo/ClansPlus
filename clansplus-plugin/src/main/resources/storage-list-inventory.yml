@@ -1,0 +1,146 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
+
+title: '&0Clan Storage'
+rows: 6
+storage-track: [ 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34 ]
+items:
+  border:
+    enabled: true
+    name: ''
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+  nextPage:
+    name: '&aNext Page'
+    slot: 26
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&7Go to page %nextPage%'
+  prevPage:
+    name: '&aPrevious Page'
+    slot: 18
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'UI_LOOM_SELECT_PATTERN'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&7Back to page %prevPage%'
+  close:
+    name: '&cClose'
+    slot: 49
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&eClick here to close'
+  back:
+    name: '&eGo Back'
+    slot: 48
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&eClick here to go back'
+  storage:
+    unlocked:
+      name: '&#42f58aStorage #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE2ZDI1OTUzZDRiOGU2MzM0OTI2ZTIwNmFjMzIzZTc3NzMzZWQ3MDQwMWZkMWE4ZWVmN2UyMzkwZTQwZGIzZCJ9fX0=
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+        volume: 1
+        pitch: 2
+      lore:
+        - ''
+        - '&eClick here to open!'
+    locked:
+      name: '&#f55d42Storage #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NjNDcwYWUyNjMxZWZkZmFmOTY3YjM2OTQxM2JjMjQ1MWNkN2EzOTQ2NWRhNzgzNmE2YzdhMTRlODc3In19fQ==
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+        volume: 1
+        pitch: 2
+      lore:
+        - ''
+        - '&7This storage is not unlocked yet!'
+        - '&7Unlock this storage using warpoint in'
+        - '&7upgrade menu.'
+        - ''
+        - '&cCannot open'

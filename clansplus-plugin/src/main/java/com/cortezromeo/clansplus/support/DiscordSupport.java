@@ -23,8 +23,7 @@ public class DiscordSupport {
 
     public void sendMessage(String message) {
         DiscordWebhook discordWebhook = new DiscordWebhook(SOFT_DEPEND_DISCORDWEBHOOK_URL);
-        if (SOFT_DEPEND_DISCORDWEBHOOK_URL == null || SOFT_DEPEND_DISCORDWEBHOOK_URL.equals(""))
-            return;
+        if (SOFT_DEPEND_DISCORDWEBHOOK_URL == null || SOFT_DEPEND_DISCORDWEBHOOK_URL.equals("")) return;
 
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(wrappedTask -> {
             discordWebhook.addEmbed(new DiscordWebhook.EmbedObject().setDescription(message));
@@ -38,8 +37,7 @@ public class DiscordSupport {
 
     public void sendMessage(DiscordWebhook.EmbedObject embedObject) {
         DiscordWebhook discordWebhook = new DiscordWebhook(SOFT_DEPEND_DISCORDWEBHOOK_URL);
-        if (SOFT_DEPEND_DISCORDWEBHOOK_URL == null || SOFT_DEPEND_DISCORDWEBHOOK_URL.equals(""))
-            return;
+        if (SOFT_DEPEND_DISCORDWEBHOOK_URL == null || SOFT_DEPEND_DISCORDWEBHOOK_URL.equals("")) return;
 
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(wrappedTask -> {
             discordWebhook.addEmbed(embedObject);
@@ -84,10 +82,8 @@ public class DiscordSupport {
             JSONObject object = jsonObject.getJSONObject("footer");
             String text = formatWarEventStartingMessage(object.getString("text"), jsonObject, warEvent);
             String icon_url = object.getString("icon_url");
-            if (icon_url == null)
-                embedObject.setFooter(text);
-            else
-                embedObject.setFooter(text, icon_url);
+            if (icon_url == null) embedObject.setFooter(text);
+            else embedObject.setFooter(text, icon_url);
         }
         return embedObject;
     }
@@ -125,10 +121,8 @@ public class DiscordSupport {
             JSONObject object = jsonObject.getJSONObject("footer");
             String text = formatWarEventEndingMessage(object.getString("text"), jsonObject, warEvent);
             String icon_url = object.getString("icon_url");
-            if (icon_url == null)
-                embedObject.setFooter(text);
-            else
-                embedObject.setFooter(text, icon_url);
+            if (icon_url == null) embedObject.setFooter(text);
+            else embedObject.setFooter(text, icon_url);
         }
         return embedObject;
     }

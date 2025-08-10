@@ -68,16 +68,14 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -107,10 +105,10 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
             new SkillsMenuInventory(getOwner(), clanName, fromViewClan).open();
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
-            return;
+            return false;
 
         if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
-            return;
+            return false;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
         if (itemCustomData.contains("upgrade=")) {
@@ -123,7 +121,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                         upgradeRequiredrank = PluginDataManager.getClanDatabase(clanName).getSubjectPermission().get(Subject.UPGRADE);
                     if (!ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
                         MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
-                        return;
+                        return false;
                     }
 
                     int levelChosen = Integer.parseInt(itemCustomData.replace("upgrade=", ""));
@@ -134,11 +132,11 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
 
                     if (levelChosen > newSkillLevel) {
                         MessageUtil.sendMessage(getOwner(), Messages.ILLEGALLY_UPGRADE_SKILL.replace("%skillLevel%", String.valueOf(newSkillLevel)));
-                        return;
+                        return false;
                     }
 
                     if (clanDataSkillLevel >= levelChosen)
-                        return;
+                        return false;
 
                     long value = UpgradeFile.get().getLong("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".price." + newSkillLevel);
                     if (UpgradeManager.checkPlayerCurrency(getOwner(), CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.plugin-skills." + pluginSkill.toString().toLowerCase() + ".currency-type").toUpperCase()), value, true)) {
@@ -146,11 +144,13 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
                         ClanManager.alertClan(clanName, Messages.CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL.replace("%player%", getOwner().getName()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank())).replace("%skillName%", SkillsFile.get().getString("plugin-skills." + pluginSkill.toString().toLowerCase() + ".name")).replace("%newLevel%", String.valueOf(newSkillLevel)));
                         super.open();
                     }
-                    return;
+                    return true;
                 }
             }
             MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
         }
+
+        return true;
     }
 
     @Override
@@ -234,11 +234,6 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         });
     }
 
-    public int transferSlot(int number) {
-        int index = number % getSkillTrack().length;
-        return getSkillTrack()[index];
-    }
-
     public String addSkillLevelItemPlaceholders(int skillLevel, int skillID, CurrencyType skillCurrencyType, String lore) {
         FileConfiguration skillConfig = SkillsFile.get();
         if (SkillManager.getSkillData().get(skillID).getRateToActivate() != null) {
@@ -266,9 +261,18 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
         return lore;
     }
 
+    public int transferSlot(int number) {
+        int index = number % getSkillTrack().length;
+        return getSkillTrack()[index];
+    }
+
     @Override
     public int[] getSkillTrack() {
         List<Integer> skillTrackList = fileConfiguration.getIntegerList("skill-track");
         return Ints.toArray(skillTrackList);
+    }
+
+    public int getMaxItemsPerPage() {
+        return getSkillTrack().length;
     }
 }

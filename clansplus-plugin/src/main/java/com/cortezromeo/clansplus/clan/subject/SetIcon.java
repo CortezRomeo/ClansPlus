@@ -53,6 +53,12 @@ public class SetIcon extends SubjectManager {
 
         if (itemType == ItemType.MATERIAL) {
             try {
+                new AtomicReference<>(new ItemStack(Material.valueOf(value)));
+            } catch (IllegalArgumentException exception) {
+                MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
+                return false;
+            }
+            try {
                 XMaterial xMaterial = XMaterial.valueOf(value);
                 Material material = xMaterial.get();
                 if (material == null || material.equals(Material.AIR)) {
@@ -63,12 +69,6 @@ public class SetIcon extends SubjectManager {
                 MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
                 return false;
             }
-        }
-        try {
-            new AtomicReference<>(new ItemStack(Material.valueOf(value)));
-        } catch (IllegalArgumentException exception) {
-            MessageUtil.sendMessage(player, Messages.INVALID_ICON_VALUE);
-            return false;
         }
 
         playerClanData.setIconType(itemType);

@@ -58,18 +58,16 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
 
         // how can they get here?
         if (playerClanData == null || !PluginDataManager.getClanDatabase().containsKey(allyName)) {
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -87,39 +85,15 @@ public class ManageAllyInventory extends ClanPlusInventoryBase {
             if (new RemoveAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), getOwner(), getOwner().getName(), itemCustomData).execute())
                 new AllyListInventory(getOwner(), playerClanData.getName(), false).open();
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
-                        fileConfiguration.getString("items.border.value"),
-                        fileConfiguration.getInt("items.border.customModelData"),
-                        fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"), false);
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
-            }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
-                    fileConfiguration.getString("items.close.value"),
-                    fileConfiguration.getInt("items.close.customModelData"),
-                    fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore"), false), "close");
-            int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-            inventory.setItem(closeItemSlot, closeItem);
-
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            inventory.setItem(backItemSlot, backItem);
+            addBasicButton(fileConfiguration, true);
 
             IClanData allyClanData = PluginDataManager.getClanDatabase(allyName);
 

@@ -29,8 +29,7 @@ public class EntityDamageListener implements Listener {
         Player damager = (Player) event.getDamager();
         Player entity = (Player) event.getEntity();
 
-        if (!ClanManager.isPlayerInClan(damager) || !ClanManager.isPlayerInClan(entity))
-            return;
+        if (!ClanManager.isPlayerInClan(damager) || !ClanManager.isPlayerInClan(entity)) return;
 
         EventManager.getWarEvent().onDamage(event);
 
@@ -38,20 +37,15 @@ public class EntityDamageListener implements Listener {
 
         String victimClanName = PluginDataManager.getPlayerDatabase(entity.getName()).getClan();
         if (PluginDataManager.getPlayerDatabase(damager.getName()).getClan().equals(victimClanName)) {
-            if (!ClanManager.getPlayerTogglingPvP().contains(damager))
-                checkEvent = 1;
-            if (!ClanManager.getPlayerTogglingPvP().contains(entity))
-                checkEvent = 2;
+            if (!ClanManager.getPlayerTogglingPvP().contains(damager)) checkEvent = 1;
+            if (!ClanManager.getPlayerTogglingPvP().contains(entity)) checkEvent = 2;
         } else {
             // check if entity's clan is an ally of damager's clan
             List<String> damagerClanAllies = PluginDataManager.getClanDatabaseByPlayerName(damager.getName()).getAllies();
-            if (damagerClanAllies.isEmpty())
-                return;
+            if (damagerClanAllies.isEmpty()) return;
             if (damagerClanAllies.contains(victimClanName)) {
-                if (!ClanManager.getPlayerTogglingPvP().contains(damager))
-                    checkEvent = 1;
-                if (!ClanManager.getPlayerTogglingPvP().contains(entity))
-                    checkEvent = 2;
+                if (!ClanManager.getPlayerTogglingPvP().contains(damager)) checkEvent = 1;
+                if (!ClanManager.getPlayerTogglingPvP().contains(entity)) checkEvent = 2;
             }
         }
 
@@ -70,8 +64,7 @@ public class EntityDamageListener implements Listener {
     public void onShooting(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
 
-        if (event.getEntity() == null || damager == null)
-            return;
+        if (event.getEntity() == null || damager == null) return;
 
         try {
             if (damager instanceof Projectile projectile) {
@@ -79,27 +72,21 @@ public class EntityDamageListener implements Listener {
                     Damageable damageableVictim = (Damageable) event.getEntity();
                     if (damageableVictim instanceof Player victim) {
 
-                        if (!ClanManager.isPlayerInClan(shooter) || !ClanManager.isPlayerInClan(victim))
-                            return;
+                        if (!ClanManager.isPlayerInClan(shooter) || !ClanManager.isPlayerInClan(victim)) return;
 
                         int checkEvent = 0;
 
                         String victimClanName = PluginDataManager.getPlayerDatabase(victim.getName()).getClan();
                         if (PluginDataManager.getPlayerDatabase(shooter.getName()).getClan().equals(victimClanName)) {
-                            if (!ClanManager.getPlayerTogglingPvP().contains(shooter))
-                                checkEvent = 1;
-                            if (!ClanManager.getPlayerTogglingPvP().contains(victim))
-                                checkEvent = 2;
+                            if (!ClanManager.getPlayerTogglingPvP().contains(shooter)) checkEvent = 1;
+                            if (!ClanManager.getPlayerTogglingPvP().contains(victim)) checkEvent = 2;
                         } else {
                             // check if entity's clan is an ally of damager's clan
                             List<String> damagerClanAllies = PluginDataManager.getClanDatabaseByPlayerName(shooter.getName()).getAllies();
-                            if (damagerClanAllies.isEmpty())
-                                return;
+                            if (damagerClanAllies.isEmpty()) return;
                             if (damagerClanAllies.contains(victimClanName)) {
-                                if (!ClanManager.getPlayerTogglingPvP().contains(shooter))
-                                    checkEvent = 1;
-                                if (!ClanManager.getPlayerTogglingPvP().contains(victim))
-                                    checkEvent = 2;
+                                if (!ClanManager.getPlayerTogglingPvP().contains(shooter)) checkEvent = 1;
+                                if (!ClanManager.getPlayerTogglingPvP().contains(victim)) checkEvent = 2;
                             }
                         }
 

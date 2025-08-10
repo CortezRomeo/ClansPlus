@@ -11,8 +11,7 @@ public class CustomHeadSupport {
 
     public static void setupCustomHeadJsonFiles() {
         File customHeadsFolder = new File(ClansPlus.plugin.getDataFolder() + "/customheads");
-        if (!customHeadsFolder.exists())
-            customHeadsFolder.mkdirs();
+        if (!customHeadsFolder.exists()) customHeadsFolder.mkdirs();
 
         for (CustomHeadCategory customHeadCategory : CustomHeadCategory.values()) {
             String customHeadCategoryString = customHeadCategory.toString().toLowerCase().replace("_", "-");

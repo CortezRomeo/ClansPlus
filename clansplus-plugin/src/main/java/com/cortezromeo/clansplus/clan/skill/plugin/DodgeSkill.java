@@ -52,15 +52,13 @@ public class DodgeSkill {
     }
 
     public static boolean onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
-        if (!skillData.isEnabled())
-            return false;
+        if (!skillData.isEnabled()) return false;
 
         Player damager = (Player) event.getDamager();
         Player victim = (Player) event.getEntity();
         IClanData victimClanData = PluginDataManager.getClanDatabaseByPlayerName(victim.getName());
 
-        if (victimClanData == null)
-            return false;
+        if (victimClanData == null) return false;
 
         int skillLevel = victimClanData.getSkillLevel().get(skillData.getId());
 

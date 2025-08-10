@@ -45,6 +45,8 @@ public class Settings {
     public static int CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH;
     public static int CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH;
     public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
+    public static int CLAN_SETTINGS_MAX_INVENTORY_DEFAULT;
+    public static List<String> CLAN_SETTINGS_CREATION_BROADCAST;
     public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
     public static boolean CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED;
     public static List<String> CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS;
@@ -55,7 +57,9 @@ public class Settings {
     public static int CHAT_SETTING_TIME_OUT;
     public static int SIGN_INPUT_SETTINGS_TIME_OUT;
     public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
-
+    public static int INVENTORY_SETTINGS_SLOTS;
+    public static int INVENTORY_SETTINGS_MAX_INVENTORY;
+    public static List<String> INVENTORY_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE;
@@ -90,8 +94,7 @@ public class Settings {
         CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY = configuration.getLong("clan-settings.on-join.war-event.delay");
         CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED = configuration.getBoolean("clan-settings.on-join.clan-broadcast.enabled");
         CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY = configuration.getLong("clan-settings.on-join.clan-broadcast.enabled");
-        if (!CLAN_SETTING_SKILL_DEFAULT.isEmpty())
-            CLAN_SETTING_SKILL_DEFAULT.clear();
+        if (!CLAN_SETTING_SKILL_DEFAULT.isEmpty()) CLAN_SETTING_SKILL_DEFAULT.clear();
         for (String skillIDString : configuration.getConfigurationSection("clan-settings.creating-clan-settings.skill-level-default").getKeys(false)) {
             try {
                 int skillID = Integer.parseInt(skillIDString);
@@ -101,20 +104,19 @@ public class Settings {
             }
         }
         CLAN_SETTING_TIME_TO_ACCEPT = configuration.getInt("clan-settings.invite-settings.time-to-accept");
-        if (!CLAN_SETTING_PROHIBITED_NAME.isEmpty())
-            CLAN_SETTING_PROHIBITED_NAME.clear();
+        if (!CLAN_SETTING_PROHIBITED_NAME.isEmpty()) CLAN_SETTING_PROHIBITED_NAME.clear();
         CLAN_SETTING_PROHIBITED_NAME.addAll(configuration.getStringList("clan-settings.clan-name-settings.prohibited-name"));
-        if (!CLAN_SETTING_PROHIBITED_CHARACTER.isEmpty())
-            CLAN_SETTING_PROHIBITED_CHARACTER.clear();
+        if (!CLAN_SETTING_PROHIBITED_CHARACTER.isEmpty()) CLAN_SETTING_PROHIBITED_CHARACTER.clear();
         CLAN_SETTING_PROHIBITED_CHARACTER.addAll(configuration.getStringList("clan-settings.clan-name-settings.prohibited-character"));
         CLAN_SETTING_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length.clan-name");
         CLAN_SETTING_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length.clan-name");
         CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.minimum-length.clan-custom-name");
         CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH = configuration.getInt("clan-settings.clan-name-settings.maximum-length.clan-custom-name");
-        if (!CLAN_SETTING_PERMISSION_DEFAULT.isEmpty())
-            CLAN_SETTING_PERMISSION_DEFAULT.clear();
+        if (!CLAN_SETTING_PERMISSION_DEFAULT.isEmpty()) CLAN_SETTING_PERMISSION_DEFAULT.clear();
         for (Subject subject : Subject.values())
             CLAN_SETTING_PERMISSION_DEFAULT.put(subject, Rank.valueOf(configuration.getString("clan-settings.creating-clan-settings.permission-default." + subject)));
+        CLAN_SETTINGS_MAX_INVENTORY_DEFAULT = configuration.getInt("clan-settings.creating-clan-settings.max-inventory-default");
+        CLAN_SETTINGS_CREATION_BROADCAST = configuration.getStringList("clan-settings.creating-clan-settings.creation-broadcast");
         CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration.getBoolean("clan-settings.permission-default-forced");
         CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED = configuration.getBoolean("clan-settings.set-spawn-settings.blacklist-worlds.enabled");
         CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS = configuration.getStringList("clan-settings.set-spawn-settings.blacklist-worlds.worlds");
@@ -125,6 +127,9 @@ public class Settings {
         CHAT_SETTING_TIME_OUT = configuration.getInt("chat-settings.time-out");
         SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");
         VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration.getBoolean("vanish-settings.hide-vanish-player.enabled");
+        INVENTORY_SETTINGS_SLOTS = configuration.getInt("inventory-settings.slots");
+        INVENTORY_SETTINGS_MAX_INVENTORY = configuration.getInt("inventory-settings.max-inventory");
+        INVENTORY_SETTINGS_BLACKLIST_MATERIAL = configuration.getStringList("inventory-settings.black-list-material");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");
         SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE = configuration.getString("soft-depends.placeholderapi.top-score-value");

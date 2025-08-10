@@ -18,8 +18,7 @@ public class PaperAsyncChatListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncChatEvent event) {
         TextComponent textComponent = (TextComponent) event.message();
-        if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), textComponent.content()))
-            event.setCancelled(true);
+        if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), textComponent.content())) event.setCancelled(true);
     }
 
 }

@@ -16,25 +16,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
 
     FileConfiguration fileConfiguration = ClanStorageInventoryFile.get();
 
-    public ClanStorageInventory(int inventoryNumber) {
-        super(inventoryNumber);
+    public ClanStorageInventory(int storageNumber) {
+        super(storageNumber);
     }
 
     @Override
     public String getMenuName() {
-        return ClansPlus.nms.addColor(fileConfiguration.getString("title").replace("%storageNumber%", String.valueOf(inventoryNumber)));
+        return ClansPlus.nms.addColor(fileConfiguration.getString("title").replace("%storageNumber%", String.valueOf(storageNumber)));
     }
 
     @Override
     public int getSlots() {
-        return Settings.INVENTORY_SETTINGS_SLOTS;
+        return Settings.STORAGE_SETTINGS_SLOTS;
     }
 
     @Override
@@ -64,38 +63,38 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
 
         if (ClansPlus.nms.getCustomData(itemStack).equals("noStorage")) {
             event.setCancelled(true);
-            if (buttonClickExecutive(event, player))
+            if (buttonClickExecutive(event, player, true))
                 return;
         }
 
         if (ClansPlus.nms.getCustomData(itemStack).equals("next")) {
             event.setCancelled(true);
 
-            if (buttonClickExecutive(event, player))
+            if (buttonClickExecutive(event, player, false))
                 return;
 
-            ClanManager.openInventory(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), inventoryNumber + 1);
+            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber + 1);
         }
 
         if (ClansPlus.nms.getCustomData(itemStack).equals("previous")) {
             event.setCancelled(true);
 
-            if (getInventoryNumber() <= 1)
+            if (getStorageNumber() <= 1)
                 return;
 
-            if (buttonClickExecutive(event, player))
+            if (buttonClickExecutive(event, player, false))
                 return;
 
-            ClanManager.openInventory(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), inventoryNumber - 1);
+            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber - 1);
         }
     }
 
-    public boolean buttonClickExecutive(InventoryClickEvent event, Player player) {
+    public boolean buttonClickExecutive(InventoryClickEvent event, Player player, boolean noStorages) {
         if (event.getClick().isRightClick()) {
-            if (event.getClick().isShiftClick()) {
+            if (event.getClick().isShiftClick() && noStorages) {
                 new UpgradeMenuInventory(player).open();
             } else
-                new StorageListInventory(player, clanName).open();
+                new StorageListInventory(player).open();
             return true;
         }
         return false;
@@ -121,7 +120,7 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
                 fileConfiguration.getString("items.next.name"),
                 fileConfiguration.getStringList("items.next.lore"), false), true), "next");
         int nextPageItemSlot = fileConfiguration.getInt("items.next.slot");
-        inventory.setItem(nextPageItemSlot, inventoryNumber >= PluginDataManager.getClanDatabase(getClanName()).getMaxInventory() ? getStorageItemStack(noStorageItem, true) : nextPageItem);
+        inventory.setItem(nextPageItemSlot, storageNumber >= PluginDataManager.getClanDatabase(getClanName()).getMaxStorage() ? getStorageItemStack(noStorageItem, true) : nextPageItem);
 
         ItemStack previousPageItem = ClansPlus.nms.addCustomData(getStorageItemStack(ItemUtil.getItem(
                 ItemType.valueOf(fileConfiguration.getString("items.previous.type").toUpperCase()),
@@ -130,15 +129,15 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
                 fileConfiguration.getString("items.previous.name"),
                 fileConfiguration.getStringList("items.previous.lore"), false), false), "previous");
         int previousPageItemSlot = fileConfiguration.getInt("items.previous.slot");
-        inventory.setItem(previousPageItemSlot, inventoryNumber <= 1 ? getStorageItemStack(noStorageItem, false) : previousPageItem);
+        inventory.setItem(previousPageItemSlot, storageNumber <= 1 ? getStorageItemStack(noStorageItem, false) : previousPageItem);
     }
 
     private @NotNull ItemStack getStorageItemStack(ItemStack itemStack, boolean nextStorage) {
         ItemStack modItem = new ItemStack(itemStack);
         ItemMeta itemMeta = modItem.getItemMeta();
 
-        int prevStorageNumber = getInventoryNumber() - 1;
-        int nextStorageNumber = getInventoryNumber() + 1;
+        int prevStorageNumber = getStorageNumber() - 1;
+        int nextStorageNumber = getStorageNumber() + 1;
         int usedSlots = getUsedSlot(nextStorage ? nextStorageNumber : prevStorageNumber);
 
         String displayName = itemMeta.getDisplayName();
@@ -149,22 +148,22 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
         List<String> itemLore = itemMeta.getLore();
         itemLore.replaceAll(string -> string
                 .replace("%usedSlots%", String.valueOf(usedSlots))
-                .replace("%clanMaxStorageNumber%", String.valueOf(PluginDataManager.getClanDatabase(getClanName()).getMaxInventory()))
-                .replace("%currentStorageNumber%", String.valueOf(inventoryNumber)));
+                .replace("%clanMaxStorageNumber%", String.valueOf(PluginDataManager.getClanDatabase(getClanName()).getMaxStorage()))
+                .replace("%currentStorageNumber%", String.valueOf(storageNumber)));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;
     }
 
-    int getUsedSlot(int inventoryNumber) {
+    int getUsedSlot(int storageNumber) {
         if (getClanName() == null)
             return 0;
 
-        if (!PluginDataManager.getClanDatabase(getClanName()).getInventoryHashMap().containsKey(inventoryNumber))
+        if (!PluginDataManager.getClanDatabase(getClanName()).getStorageHashMap().containsKey(storageNumber))
             return 0;
 
         int usedSlot = 0;
-        for (ItemStack itemStack : PluginDataManager.getClanDatabase(getClanName()).getInventoryHashMap().get(inventoryNumber).getContents()) {
+        for (ItemStack itemStack : PluginDataManager.getClanDatabase(getClanName()).getStorageHashMap().get(storageNumber).getContents()) {
             if (itemStack == null)
                 continue;
 

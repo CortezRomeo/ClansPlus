@@ -39,7 +39,6 @@ items:
       - ''
       - '&eClick to switch to previous storage'
       - '&eRight-click to return to storage list menu'
-      - '&eShift + Right-click to open upgrade menu'
   next:
     name: '&#55ff00Next storage (%nextStorageNumber%)'
     # Changing this after player already created and put items in clan inventory might cause losing items!
@@ -55,7 +54,6 @@ items:
       - ''
       - '&eClick to switch to previous storage'
       - '&eRight-click to return to storage list menu'
-      - '&eShift + Right-click to open upgrade menu'
   noStorage:
     name: '&#FF0000No storages'
     type: customhead

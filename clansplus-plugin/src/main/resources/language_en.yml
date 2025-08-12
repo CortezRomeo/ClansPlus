@@ -45,6 +45,7 @@ subject:
     CHAT: 'Clan chat'
     UPGRADE: 'Upgrade'
     MANAGEALLY: 'Manage allies'
+    OPENSTORAGE: 'Open storage'
   description:
     INVITE: 'Invite others to the clan'
     KICK: 'Kick a member out of the clan'
@@ -58,6 +59,7 @@ subject:
     CHAT: 'Enable or disable clan chat'
     UPGRADE: 'Upgrade the clan'
     MANAGEALLY: 'Send ally requests and manage allies'
+    OPENSTORAGE: 'Open and manage clan storage'
 online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
@@ -156,8 +158,9 @@ messages:
   feature-in-progress: '%prefix%&#d12f1d&l| &fFeature is still in development, please check back later...'
   feature-disabled: '%prefix%&#d12f1d&l| &fThis feature is disabled by the administrators.'
   invalid-location: '%prefix%&#d12f1d&l| &fCannot do that here! Try to move to a better location.'
-  inventory-locked: '%prefix%&#d12f1d&l| &fYour clan has not unlocked inventory #%storageNumber% yet!'
-  inventory-number-exceed-limit: '%prefix%&#d12f1d&l| &fYou cannot open an inventory that has its number higher than %maxInventoryNumber%&f.'
+  invalid-number: '%prefix%&#d12f1d&l| &fPlease enter a valid number!'
+  storage-locked: '%prefix%&#d12f1d&l| &fYour clan has not unlocked storage #%storageNumber% yet!'
+  storage-number-exceed-limit: '%prefix%&#d12f1d&l| &fYou cannot open a storage that has its number higher than %maxStorageNumber%&f.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'
@@ -186,6 +189,7 @@ messages:
     remove-ally-notification: '%prefix%&#35d11d&l| &r%rank%&e %player%&f removed clan &e%clan%&f from allies.'
     ally-removed-notification: '%prefix%&#d12f1d&l| &fThis clan was removed from the ally list of clan &e%clan%&f by &e%player%&f.'
     upgrade-max-members: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded the max number of members to &2%newMaxMembers%&f.'
+    upgrade-max-storages: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded the max number of storages to &2%newMaxStorages%&f.'
     upgrade-plugin-skill: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded %skillName%&f to level &e%newLevel%&f.'
     set-icon: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan icon to &e%value% (Type: %type%)&f.'
     set-spawn: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan spawn to (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (World: &e%world%&f).'

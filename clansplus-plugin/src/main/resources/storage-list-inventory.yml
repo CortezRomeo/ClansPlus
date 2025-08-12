@@ -113,6 +113,23 @@ items:
       pitch: 2
     lore:
       - '&eClick here to go back'
+  clanStorageInfo:
+    name: '&bClan Storage Information'
+    slot: 50
+    type: material
+    value: BOOK
+    customModelData: 0
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fClan &a%clanName%'
+      - ''
+      - '&fTotal storages owned: &b%clanMaxStorage%&f/&b%serverMaxStorage%'
+      - '&fTotal items stored: &a%itemsStored%'
   storage:
     unlocked:
       name: '&#42f58aStorage #%storageNumber%'
@@ -126,6 +143,8 @@ items:
         pitch: 2
       lore:
         - ''
+        - '&fSlots: &#aaffaa%usedSlots%&7/&#55ff0052'
+        - ''
         - '&eClick here to open!'
     locked:
       name: '&#f55d42Storage #%storageNumber%'
@@ -138,9 +157,10 @@ items:
         volume: 1
         pitch: 2
       lore:
+        - '&cThis storage is not unlocked yet!'
         - ''
-        - '&7This storage is not unlocked yet!'
-        - '&7Unlock this storage using warpoint in'
+        - '&7Unlock this storage using War Point in'
         - '&7upgrade menu.'
         - ''
         - '&cCannot open'
+        - '&eRight-click to open upgrade menu'

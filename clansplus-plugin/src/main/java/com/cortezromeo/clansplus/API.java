@@ -106,6 +106,7 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
             PluginDataManager.saveAllDatabase();
         }
     };
+
     private final ClanManagerUtil getClanManager = new ClanManagerUtil() {
         @Override
         public boolean isClanExisted(String clanName) {
@@ -200,6 +201,11 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
         @Override
         public List<Player> getPlayerUsingChatSpy() {
             return ClanManager.getPlayerUsingChatSpy();
+        }
+
+        @Override
+        public void openClanStorage(Player player, String clanName, int storageNumber) {
+            ClanManager.openClanStorage(player, clanName, storageNumber);
         }
 
         @Override

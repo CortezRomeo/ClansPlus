@@ -206,6 +206,15 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 EventManager.getWarEvent().sendEventStatusMessage(player, false);
                 return false;
             }
+            if (args[0].equalsIgnoreCase("openstorage")) {
+                try {
+                    int storageNumber = Integer.parseInt(args[1]);
+                    new OpenStorage(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.OPENSTORAGE), player, player.getName(), storageNumber).execute();
+                } catch (NumberFormatException exception) {
+                    MessageUtil.sendMessage(player, Messages.INVALID_NUMBER);
+                }
+                return false;
+            }
         }
 
         if (args.length >= 2) {
@@ -375,6 +384,11 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
 
                         commands.add(serverPlayerName);
                     }
+                }
+
+                if (args[0].equals("openstorage") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.OPENSTORAGE))) {
+                    for (int storageNumber = 1; storageNumber <= playerClanData.getMaxStorage(); storageNumber++)
+                        commands.add(String.valueOf(storageNumber));
                 }
 
                 if (args[0].equalsIgnoreCase("kick") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.KICK))) {

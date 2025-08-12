@@ -18,7 +18,6 @@ import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
-import com.cortezromeo.clansplus.inventory.StorageListInventory;
 import com.cortezromeo.clansplus.language.English;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
@@ -61,14 +60,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         }
 
         if (args.length == 1) {
-
-            // TODO: DELETE THIS
-            if (args[0].equalsIgnoreCase("test2")) {
-                Player player = (Player) sender;
-                new StorageListInventory(player, PluginDataManager.getClanDatabaseByPlayerName(player.getName()).getName()).open();
-                return false;
-            }
-
             if (args[0].equalsIgnoreCase("reload")) {
                 long time = System.currentTimeMillis();
 

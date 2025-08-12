@@ -101,10 +101,11 @@ clan-settings:
       CHAT: MEMBER
       UPGRADE: MANAGER
       MANAGEALLY: MANAGER
-    # Default available inventory for newly created clans.
-    # Player will need to upgrade their max inventory number to use more inventories.
-    # Set to 0 to not give any available inventories to new clans.
-    max-inventory-default: 1
+      OPENSTORAGE: MEMBER
+    # Default available storage for newly created clans.
+    # Player will need to upgrade their max storage number to use more inventories.
+    # Set to 0 to not give any available storages to new clans.
+    max-storage-default: 1
 
     # Send a broadcast to all the players in the server about the creation of a new clan.
     # The plugin will select a random message from one of those lines below, set to 1 line to only use 1.
@@ -199,15 +200,15 @@ vanish-settings:
   hide-vanish-player:
     enabled: true
 
-# Inventory settings
-# Modify max inventory number or other stuffs related to clan inventory here.
-inventory-settings:
-  # Changing this after player already created and put items in clan inventory might cause losing items!
+# Storage settings
+# Modify max storage number or other stuffs related to clan storage here.
+storage-settings:
+  # Changing this after player already created and put items in clan storage might cause losing items!
   slots: 54
-  # Max inventory for player to upgrade or utilize.
-  # Any inventory numbers exceed the number below won't be able to use or upgrade.
-  max-inventory: 30
-  # These materials cannot be interacted when player is opening the inventory to prevent the items are storaged in the inventory.
+  # Max storage for player to upgrade or utilize.
+  # Any storage numbers exceed the number below won't be able to use or upgrade.
+  max-storage: 30
+  # These materials cannot be interacted when player is opening the storage to prevent the items are stored in the inventory.
   black-list-material:
     - none
 

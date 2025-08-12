@@ -173,34 +173,34 @@ public class ClanManager {
         return Messages.RANK_DISPLAY_MEMBER;
     }
 
-    public static void openInventory(Player player, String clanName, int inventoryNumber) {
+    public static void openClanStorage(Player player, String clanName, int storageNumber) {
         if (!isClanExisted(clanName)) return;
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
 
-        if (inventoryNumber > clanData.getMaxInventory()) {
-            MessageUtil.sendMessage(player, Messages.INVENTORY_LOCKED.replace("%storageNumber%", String.valueOf(inventoryNumber)));
+        if (storageNumber > clanData.getMaxStorage()) {
+            MessageUtil.sendMessage(player, Messages.STORAGE_LOCKED.replace("%storageNumber%", String.valueOf(storageNumber)));
             return;
         }
 
-        if (inventoryNumber > Settings.INVENTORY_SETTINGS_MAX_INVENTORY) {
-            MessageUtil.sendMessage(player, Messages.INVENTORY_NUMBER_EXCEED_LIMIT.replace("%maxInventoryNumber%", String.valueOf(Settings.INVENTORY_SETTINGS_MAX_INVENTORY)));
+        if (storageNumber > Settings.STORAGE_SETTINGS_MAX_INVENTORY) {
+            MessageUtil.sendMessage(player, Messages.STORAGE_NUMBER_EXCEED_LIMIT.replace("%maxStorageNumber%", String.valueOf(Settings.STORAGE_SETTINGS_MAX_INVENTORY)));
             return;
         }
 
         // to prevent open an invalid inventory number lower than 1
-        if (inventoryNumber < 1) inventoryNumber = 1;
+        if (storageNumber < 1) storageNumber = 1;
 
         // create a new inventory if clan did not have this inventory beforfe
-        if (clanData.getInventoryHashMap().get(inventoryNumber) == null) {
-            HashMap<Integer, Inventory> newInventoryHashMap = clanData.getInventoryHashMap();
-            ClanStorageInventory clanStorageInventory = new ClanStorageInventory(inventoryNumber);
+        if (clanData.getStorageHashMap().get(storageNumber) == null) {
+            HashMap<Integer, Inventory> newInventoryHashMap = clanData.getStorageHashMap();
+            ClanStorageInventory clanStorageInventory = new ClanStorageInventory(storageNumber);
             clanStorageInventory.setClanName(clanName);
-            newInventoryHashMap.put(inventoryNumber, clanStorageInventory.getInventory());
-            clanData.setInventoryHashMap(newInventoryHashMap);
+            newInventoryHashMap.put(storageNumber, clanStorageInventory.getInventory());
+            clanData.setStorageHashMap(newInventoryHashMap);
         }
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
-        Inventory inventory = clanData.getInventoryHashMap().get(inventoryNumber);
+        Inventory inventory = clanData.getStorageHashMap().get(storageNumber);
         ClanPlusStorageInventoryBase inventoryHolder = (ClanPlusStorageInventoryBase) inventory.getHolder();
         inventoryHolder.setMenuItems();
         player.openInventory(inventoryHolder.getInventory());

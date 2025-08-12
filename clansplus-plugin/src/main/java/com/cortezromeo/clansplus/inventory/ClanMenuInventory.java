@@ -89,6 +89,8 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new Spawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SPAWN), getOwner(), getOwner().getName()).execute();
         if (itemCustomData.equals("leave"))
             new LeaveConfirmationInventory(getOwner()).open();
+        if (itemCustomData.equals("storage"))
+            new StorageListInventory(getOwner()).open();
 
         return true;
     }
@@ -206,7 +208,37 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
                     spawnItemLore, false), "spawn");
             int spawnItemSlot = fileConfiguration.getInt("items.spawn.slot");
             inventory.setItem(spawnItemSlot, spawnItem);
+
+            int itemsStored = 0;
+            if (!clanData.getStorageHashMap().isEmpty()) {
+                for (int clanStorageNumber : clanData.getStorageHashMap().keySet()) {
+                    for (ItemStack itemStack : clanData.getStorageHashMap().get(clanStorageNumber).getContents()) {
+                        if (itemStack == null)
+                            continue;
+
+                        if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                            continue;
+
+                        itemsStored = itemsStored + 1;
+                    }
+                }
+            }
+
+            List<String> clanStorageLore = fileConfiguration.getStringList("items.storage.lore");
+            int finalItemsStored = itemsStored;
+            clanStorageLore.replaceAll(string -> ClansPlus.nms.addColor(string
+                    .replace("%clanMaxStorage%", String.valueOf(clanData.getMaxStorage()))
+                    .replace("%serverMaxStorage%", String.valueOf(Settings.STORAGE_SETTINGS_MAX_INVENTORY))
+                    .replace("%itemsStored%", String.valueOf(finalItemsStored))));
+
+            ItemStack clanStorageItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.storage.type").toUpperCase()),
+                    fileConfiguration.getString("items.storage.value"),
+                    fileConfiguration.getInt("items.storage.customModelData"),
+                    fileConfiguration.getString("items.storage.name"),
+                    clanStorageLore, false), "storage");
+            int clanStorageItemSlot = fileConfiguration.getInt("items.storage.slot");
+            inventory.setItem(clanStorageItemSlot, clanStorageItem);
         });
     }
-
 }

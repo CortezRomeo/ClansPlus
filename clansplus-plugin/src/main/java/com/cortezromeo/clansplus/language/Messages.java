@@ -110,8 +110,9 @@ public class Messages {
     public static String FEATURE_IN_PROGRESS;
     public static String FEATURE_DISABLED;
     public static String INVALID_LOCATION;
-    public static String INVENTORY_LOCKED;
-    public static String INVENTORY_NUMBER_EXCEED_LIMIT;
+    public static String INVALID_NUMBER;
+    public static String STORAGE_LOCKED;
+    public static String STORAGE_NUMBER_EXCEED_LIMIT;
     public static String USING_CHAT_BOX_CLAN_CHAT;
     public static String USING_CHAT_BOX_CREATE_CLAN;
     public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -145,6 +146,7 @@ public class Messages {
     public static String CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION;
     public static String CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION;
     public static String CLAN_BROADCAST_UPGRADE_MAX_MEMBERS;
+    public static String CLAN_BROADCAST_UPGRADE_MAX_STORAGES;
     public static String CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL;
     public static String CLAN_BROADCAST_SET_ICON;
     public static String CLAN_BROADCAST_SET_SPAWN;
@@ -265,8 +267,9 @@ public class Messages {
         FEATURE_IN_PROGRESS = fileConfiguration.getString("messages.feature-in-progress");
         FEATURE_DISABLED = fileConfiguration.getString("messages.feature-disabled");
         INVALID_LOCATION = fileConfiguration.getString("messages.invalid-location");
-        INVENTORY_LOCKED = fileConfiguration.getString("messages.inventory-locked");
-        INVENTORY_NUMBER_EXCEED_LIMIT = fileConfiguration.getString("messages.inventory-number-exceed-limit");
+        INVALID_NUMBER = fileConfiguration.getString("messages.invalid-number");
+        STORAGE_LOCKED = fileConfiguration.getString("messages.storage-locked");
+        STORAGE_NUMBER_EXCEED_LIMIT = fileConfiguration.getString("messages.storage-number-exceed-limit");
         USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
         USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
         USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");
@@ -304,6 +307,7 @@ public class Messages {
         CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.remove-ally-notification");
         CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION = fileConfiguration.getString("messages.clan-broadcast.ally-removed-notification");
         CLAN_BROADCAST_UPGRADE_MAX_MEMBERS = fileConfiguration.getString("messages.clan-broadcast.upgrade-max-members");
+        CLAN_BROADCAST_UPGRADE_MAX_STORAGES = fileConfiguration.getString("messages.clan-broadcast.upgrade-max-storages");
         CLAN_BROADCAST_UPGRADE_PLUGIN_SKILL = fileConfiguration.getString("messages.clan-broadcast.upgrade-plugin-skill");
         CLAN_BROADCAST_SET_ICON = fileConfiguration.getString("messages.clan-broadcast.set-icon");
         CLAN_BROADCAST_SET_SPAWN = fileConfiguration.getString("messages.clan-broadcast.set-spawn");

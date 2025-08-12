@@ -116,7 +116,7 @@ public class Create extends SubjectManager {
                 0,
                 null,
                 inventory,
-                Settings.CLAN_SETTINGS_MAX_INVENTORY_DEFAULT);
+                Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 

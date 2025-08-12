@@ -64,7 +64,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         HashMap<Integer, Inventory> newInventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
-        ClanData clanData = new ClanData(clanName, null, null, null, 0, 0, 0, Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT, new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()), Settings.CLAN_SETTING_ICON_DEFAULT_VALUE, members, null, allies, skillLevel, permissionDefault, allyInvitation, 0, null, newInventory, Settings.CLAN_SETTINGS_MAX_INVENTORY_DEFAULT);
+        ClanData clanData = new ClanData(clanName, null, null, null, 0, 0, 0, Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT, new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()), Settings.CLAN_SETTING_ICON_DEFAULT_VALUE, members, null, allies, skillLevel, permissionDefault, allyInvitation, 0, null, newInventory, Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
 
         if (!storage.contains("data")) return clanData;
 
@@ -176,18 +176,23 @@ public class PluginDataYAMLStorage implements PluginStorage {
         clanData.setAllyInvitation(storage.getStringList("data.ally-invitation"));
         clanData.setDiscordChannelID(storage.getLong("data.discord.channel-id"));
         clanData.setDiscordJoinLink(storage.getString("data.discord.join-link"));
-        clanData.setMaxInventory(storage.getInt("data.max-inventory"));
 
-        HashMap<Integer, Inventory> clanInventory = new HashMap<>();
-        if (storage.getConfigurationSection("data.inventory") != null) {
-            for (String inventoryNumber : storage.getConfigurationSection("data.inventory").getKeys(false)) {
-                ClanStorageInventory clanStorageInventory = new ClanStorageInventory(Integer.parseInt(inventoryNumber));
+        // Check if the default max storage number does not equal to 0
+        if (storage.getInt("data.max-storage") == 0)
+            clanData.setMaxStorage(Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
+        else
+            clanData.setMaxStorage(storage.getInt("data.max-storage"));
+
+        HashMap<Integer, Inventory> clanStorage = new HashMap<>();
+        if (storage.getConfigurationSection("data.storage") != null) {
+            for (String storageNumber : storage.getConfigurationSection("data.storage").getKeys(false)) {
+                ClanStorageInventory clanStorageInventory = new ClanStorageInventory(Integer.parseInt(storageNumber));
                 clanStorageInventory.setClanName(clanName);
                 Inventory specificInventory = clanStorageInventory.getInventory();
 
-                for (String slotNumber : storage.getConfigurationSection("data.inventory." + inventoryNumber).getKeys(false)) {
+                for (String slotNumber : storage.getConfigurationSection("data.storage." + storageNumber).getKeys(false)) {
                     try {
-                        ItemStack itemStack = StringUtil.stacksFromBase64(storage.getString("data.inventory." + inventoryNumber + "." + slotNumber))[0];
+                        ItemStack itemStack = StringUtil.stacksFromBase64(storage.getString("data.storage." + storageNumber + "." + slotNumber))[0];
                         if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
                             continue;
                         specificInventory.setItem(Integer.parseInt(slotNumber), itemStack);
@@ -195,10 +200,10 @@ public class PluginDataYAMLStorage implements PluginStorage {
                         exception.printStackTrace();
                     }
                 }
-                clanInventory.put(Integer.parseInt(inventoryNumber), specificInventory);
+                clanStorage.put(Integer.parseInt(storageNumber), specificInventory);
             }
         }
-        clanData.setInventoryHashMap(clanInventory);
+        clanData.setStorageHashMap(clanStorage);
 
         return clanData;
     }
@@ -235,11 +240,13 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.ally-invitation", clanData.getAllyInvitation());
         storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
         storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
-        storage.set("data.max-inventory", clanData.getMaxInventory());
+        storage.set("data.max-storage", clanData.getMaxStorage());
+        if (storage.get("data.inventory") != null)
+            storage.set("data.inventory", null);
 
-        if (!clanData.getInventoryHashMap().isEmpty()) {
-            for (int inventoryNumber : clanData.getInventoryHashMap().keySet()) {
-                Inventory inventoryContents = clanData.getInventoryHashMap().get(inventoryNumber);
+        if (!clanData.getStorageHashMap().isEmpty()) {
+            for (int storageNumber : clanData.getStorageHashMap().keySet()) {
+                Inventory inventoryContents = clanData.getStorageHashMap().get(storageNumber);
 
                 // count from -1 because slot number always starts with 0
                 int slotNumber = -1;
@@ -248,7 +255,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                     if (itemStack == null) continue;
                     if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
                         continue;
-                    storage.set("data.inventory." + inventoryNumber + "." + slotNumber, StringUtil.toBase64(itemStack));
+                    storage.set("data.storage." + storageNumber + "." + slotNumber, StringUtil.toBase64(itemStack));
                 }
             }
         }

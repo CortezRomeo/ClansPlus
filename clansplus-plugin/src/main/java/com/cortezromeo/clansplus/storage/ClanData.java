@@ -31,10 +31,10 @@ public class ClanData implements IClanData {
     private List<String> allyInvitation;
     private long discordChannelID;
     private String discordJoinLink;
-    private HashMap<Integer, Inventory> inventory;
-    private int maxInventory;
+    private HashMap<Integer, Inventory> storage;
+    private int maxStorage;
 
-    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate, ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission, List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, Inventory> inventory, int maxInventory) {
+    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate, ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission, List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, Inventory> storage, int maxStorage) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;
@@ -54,8 +54,8 @@ public class ClanData implements IClanData {
         this.allyInvitation = allyInvitation;
         this.discordChannelID = discordChannelID;
         this.discordJoinLink = discordJoinLink;
-        this.inventory = inventory;
-        this.maxInventory = maxInventory;
+        this.storage = storage;
+        this.maxStorage = maxStorage;
     }
 
     @Override
@@ -249,22 +249,22 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public HashMap<Integer, Inventory> getInventoryHashMap() {
-        return inventory;
+    public HashMap<Integer, Inventory> getStorageHashMap() {
+        return storage;
     }
 
     @Override
-    public void setInventoryHashMap(HashMap<Integer, Inventory> inventory) {
-        this.inventory = inventory;
+    public void setStorageHashMap(HashMap<Integer, Inventory> inventory) {
+        this.storage = inventory;
     }
 
     @Override
-    public int getMaxInventory() {
-        return maxInventory;
+    public int getMaxStorage() {
+        return maxStorage;
     }
 
     @Override
-    public void setMaxInventory(int maxInventory) {
-        this.maxInventory = maxInventory;
+    public void setMaxStorage(int maxStorage) {
+        this.maxStorage = maxStorage;
     }
 }

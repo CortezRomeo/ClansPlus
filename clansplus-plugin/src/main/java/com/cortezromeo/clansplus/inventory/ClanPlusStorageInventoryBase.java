@@ -8,11 +8,11 @@ import org.bukkit.inventory.InventoryHolder;
 public abstract class ClanPlusStorageInventoryBase implements InventoryHolder {
 
     protected Inventory inventory;
-    protected int inventoryNumber;
+    protected int storageNumber;
     protected String clanName;
 
-    public ClanPlusStorageInventoryBase(int inventoryNumber) {
-        this.inventoryNumber = inventoryNumber;
+    public ClanPlusStorageInventoryBase(int storageNumber) {
+        this.storageNumber = storageNumber;
     }
 
     @Override
@@ -31,8 +31,8 @@ public abstract class ClanPlusStorageInventoryBase implements InventoryHolder {
         this.clanName = clanName;
     }
 
-    public int getInventoryNumber() {
-        return inventoryNumber;
+    public int getStorageNumber() {
+        return storageNumber;
     }
 
     public abstract String getMenuName();

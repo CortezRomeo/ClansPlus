@@ -12,7 +12,8 @@ public enum Subject {
     REMOVEMANAGER("Remove manager", "Remove a manager from clan"),
     CHAT("Chat", "Clan chat"),
     UPGRADE("Upgrade", "Upgrade clan"),
-    MANAGEALLY("Manage ally", "Send ally invite and manage clan's allies");
+    MANAGEALLY("Manage ally", "Send ally invite and manage clan's allies"),
+    OPENSTORAGE("Open storage", "Open and manage clan storage");
 
     private String name;
     private String description;

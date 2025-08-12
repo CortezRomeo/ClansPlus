@@ -87,12 +87,12 @@ public interface IClanData {
 
     void setDiscordJoinLink(String discordJoinLink);
 
-    HashMap<Integer, Inventory> getInventoryHashMap();
+    HashMap<Integer, Inventory> getStorageHashMap();
 
-    void setInventoryHashMap(HashMap<Integer, Inventory> inventory);
+    void setStorageHashMap(HashMap<Integer, Inventory> inventory);
 
-    int getMaxInventory();
+    int getMaxStorage();
 
-    void setMaxInventory(int maxInventory);
+    void setMaxStorage(int maxStorage);
 
 }

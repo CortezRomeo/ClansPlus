@@ -18,6 +18,7 @@ import com.cortezromeo.clansplus.file.EventsFile;
 import com.cortezromeo.clansplus.file.SkillsFile;
 import com.cortezromeo.clansplus.file.UpgradeFile;
 import com.cortezromeo.clansplus.file.inventory.*;
+import com.cortezromeo.clansplus.inventory.ClanStorageInventory;
 import com.cortezromeo.clansplus.language.English;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
@@ -32,6 +33,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -532,6 +534,42 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     return false;
                 }
             }
+            if (args[0].equalsIgnoreCase("openClanStorage")) {
+                if (!(sender instanceof Player player)) {
+                    sender.sendMessage("This command is for player only!");
+                    return false;
+                }
+                String clanName = args[1];
+                if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
+                    sender.sendMessage("Clan " + clanName + " does not exist.");
+                    return false;
+                } else {
+                    try {
+                        int storageNumber = Integer.parseInt(args[2]);
+                        IClanData clanData = PluginDataManager.getClanDatabase(clanName);
+
+                        if (clanData.getMaxStorage() < storageNumber) {
+                            sender.sendMessage("Clan " + clanName + " only has " + clanData.getMaxStorage() + " storages!");
+                            return false;
+                        }
+
+                        if (clanData.getStorageHashMap().get(storageNumber) == null) {
+                            HashMap<Integer, Inventory> newInventoryHashMap = clanData.getStorageHashMap();
+                            ClanStorageInventory clanStorageInventory = new ClanStorageInventory(storageNumber);
+                            clanStorageInventory.setClanName(clanName);
+                            newInventoryHashMap.put(storageNumber, clanStorageInventory.getInventory());
+                            clanData.setStorageHashMap(newInventoryHashMap);
+                        }
+                        PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
+
+                        player.openInventory(clanData.getStorageHashMap().get(storageNumber));
+                        return false;
+                    } catch (NumberFormatException exception) {
+                        sender.sendMessage("Please enter a valid storage number!");
+                        return false;
+                    }
+                }
+            }
             if (args[0].equalsIgnoreCase("setclanskilldata")) {
                 String clanName = args[1];
                 if (!PluginDataManager.getClanDatabase().containsKey(clanName)) {
@@ -819,6 +857,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         sender.sendMessage("/clanadmin setClanSkillData <clan name> <skill id> <skill level>");
         sender.sendMessage("/clanadmin setPlayerData <player name> <type> <set/reset> <value>");
         sender.sendMessage(ChatColor.AQUA + "Types: clanname, rank, joindate, scorecollected, lastactivated");
+        sender.sendMessage("/clanadmin openClanStorage <clan name> <storage number>");
         sender.sendMessage("/clanadmin clanResetAll <type>");
         sender.sendMessage(ChatColor.AQUA + "Types: score, warpoint, warning");
         sender.sendMessage("/clanadmin event <event> <start/end/settime> <value>");
@@ -849,6 +888,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             commands.add("setClanData");
             commands.add("setClanSkillData");
             commands.add("setPlayerData");
+            commands.add("openClanStorage");
             commands.add("event");
             commands.add("backup");
             commands.add("delete");
@@ -858,7 +898,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {
             // check clan info -> list all clan name
-            if (args[0].equalsIgnoreCase("setclandata") || args[0].equalsIgnoreCase("setClanSkillData") || args[0].equalsIgnoreCase("delete")) {
+            if (args[0].equalsIgnoreCase("setclandata") || args[0].equalsIgnoreCase("setClanSkillData") || args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("openClanStorage")) {
                 if (!PluginDataManager.getClanDatabase().isEmpty()) {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }

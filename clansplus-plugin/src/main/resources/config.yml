@@ -208,9 +208,6 @@ storage-settings:
   # Max storage for player to upgrade or utilize.
   # Any storage numbers exceed the number below won't be able to use or upgrade.
   max-storage: 30
-  # These materials cannot be interacted when player is opening the storage to prevent the items are stored in the inventory.
-  black-list-material:
-    - none
 
 # Plugins that can support the Clan plugin.
 # Includes: PlaceholderAPI.

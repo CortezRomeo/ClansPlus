@@ -128,8 +128,8 @@ items:
       - ''
       - '&fClan &a%clanName%'
       - ''
-      - '&fTotal storages owned: &b%clanMaxStorage%&f/&b%serverMaxStorage%'
-      - '&fTotal items stored: &a%itemsStored%'
+      - '&fTotal storages owned: &a%clanMaxStorage%&f/&2%serverMaxStorage%'
+      - '&fTotal items stored: &e%itemsStored%'
   storage:
     unlocked:
       name: '&#42f58aStorage #%storageNumber%'
@@ -145,7 +145,7 @@ items:
         - ''
         - '&fSlots: &#aaffaa%usedSlots%&7/&#55ff0052'
         - ''
-        - '&eClick here to open!'
+        - '%checkPermission%'
     locked:
       name: '&#f55d42Storage #%storageNumber%'
       type: customhead
@@ -164,3 +164,7 @@ items:
         - ''
         - '&cCannot open'
         - '&eRight-click to open upgrade menu'
+    placeholders:
+      checkPermission:
+        true: '&eLeft-click to open'
+        false: '&cYou must be %getRequiredRank%&c to open this storage.'

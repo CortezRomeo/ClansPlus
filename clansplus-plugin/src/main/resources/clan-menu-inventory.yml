@@ -218,8 +218,8 @@ items:
       - ''
       - '&fManage your clan storage.'
       - ''
-      - '&fTotal storages owned: &b%clanMaxStorage%&f/&b%serverMaxStorage%'
-      - '&fTotal items stored: &a%itemsStored%'
+      - '&fTotal storages owned: &a%clanMaxStorage%&f/&2%serverMaxStorage%'
+      - '&fTotal items stored: &e%itemsStored%'
       - ''
       - '&eClick here to manage'
   leave:

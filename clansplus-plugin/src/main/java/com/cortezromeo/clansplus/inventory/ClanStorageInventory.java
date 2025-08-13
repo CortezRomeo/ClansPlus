@@ -44,21 +44,23 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
         if (itemStack == null)
             return;
 
-        if (!ClanManager.isPlayerInClan(player)) {
-            player.closeInventory();
-            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
-            return;
-        }
+        if (!player.isOp() || !player.hasPermission("clanplus.admin")) {
+            if (!ClanManager.isPlayerInClan(player)) {
+                player.closeInventory();
+                MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+                return;
+            }
 
-        if (!PluginDataManager.getPlayerDatabase(player.getName()).getClan().equals(clanName)) {
-            player.closeInventory();
-            return;
-        }
+            if (!PluginDataManager.getPlayerDatabase(player.getName()).getClan().equals(clanName)) {
+                player.closeInventory();
+                return;
+            }
 
-        if (PluginDataManager.getClanDatabase(clanName) == null) {
-            player.closeInventory();
-            MessageUtil.sendMessage(player, Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
-            return;
+            if (PluginDataManager.getClanDatabase(clanName) == null) {
+                player.closeInventory();
+                MessageUtil.sendMessage(player, Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
+                return;
+            }
         }
 
         if (ClansPlus.nms.getCustomData(itemStack).equals("noStorage")) {

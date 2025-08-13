@@ -3,8 +3,10 @@ package com.cortezromeo.clansplus.inventory;
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.ItemType;
+import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
+import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.OpenStorage;
 import com.cortezromeo.clansplus.file.inventory.StorageListInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
@@ -175,12 +177,18 @@ public class StorageListInventory extends PaginatedInventory {
                     String storageType;
                     if (clanData.getMaxStorage() < storageNumber)
                         storageType = "locked.";
-                    else
+                    else {
                         storageType = "unlocked.";
+                    }
 
                     List<String> storageItemLore = fileConfiguration.getStringList(storageItemPath + storageType + "lore");
-                    storageItemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%usedSlots%", String.valueOf(getUsedSlot(storageNumber, clanData)))));
-
+                    Rank openStorageRequiredRank = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getSubjectPermission().get(Subject.OPENSTORAGE);
+                    storageItemLore.replaceAll(string -> ClansPlus.nms.addColor(string
+                            .replace("%usedSlots%", String.valueOf(getUsedSlot(storageNumber, clanData)))
+                            .replace( "%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), openStorageRequiredRank) ?
+                                    fileConfiguration.getString(storageItemPath + "placeholders.checkPermission.true") :
+                                    fileConfiguration.getString(storageItemPath + "placeholders.checkPermission.false")
+                                            .replace("%getRequiredRank%", ClanManager.getFormatRank(openStorageRequiredRank)))));
                     ItemStack storageItem = ItemUtil.getItem(
                             ItemType.valueOf(fileConfiguration.getString(storageItemPath + storageType + "type").toUpperCase()),
                             fileConfiguration.getString(storageItemPath + storageType + "value"),

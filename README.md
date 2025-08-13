@@ -16,6 +16,7 @@ newer.
 
 - A lot of options for players to manage and control their clan.
 - Automatically updating files if there is a new update.
+- Clan storages
 - Configable messages, gui, etc..
 - Supporting API.
 - Supporting GUI
@@ -57,7 +58,10 @@ You might need these plugins to utilize my plugin resources totally.
         - **%clanplus_player_format_joindate%** - Get player join date (mm/dd/yyyy)
         - **%clanplus_player_scorecollected%** - Get player score collected
         - **%clanplus_player_lastactivated%** - Get player last activated as milliseconds
-        - **%clanplus_player_format_lastactivated%** - Get player last activated (mm/dd/yyyy)
+        - **%clanplus_player_format_lastactivated%** - Get player last activated (mm/dd/yyyy
+  	- To get top clans:
+  		- **%clanplus_top_score_name_<number (start from 1)>%** - Get the name of clan score top #<number>
+	  	- **%clanplus_top_score_value_<number (start from 1)>%** - Get the value of clan score top #<number>
 
 - [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/)
 - [Vault](https://www.spigotmc.org/resources/vault.34315/)
@@ -105,6 +109,7 @@ You might need these plugins to utilize my plugin resources totally.
         - setClanData
         - setClanSkillData
         - setPlayerData
+        - openClanStorage
         - event
         - backup
         - delete

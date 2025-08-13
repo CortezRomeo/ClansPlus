@@ -22,9 +22,9 @@
 #          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
 #                  paste it into the "value:" field of the item you want
 
-title: '&0Permission Settings'
-rows: 5
-subject-track: [ 10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24 ]
+title: '&0Clan Storage'
+rows: 6
+storage-track: [ 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34 ]
 items:
   border:
     enabled: true
@@ -40,11 +40,20 @@ items:
       - 14
       - 15
       - 16
+      - 19
       - 20
       - 21
       - 22
       - 23
       - 24
+      - 25
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
     click-sound:
       enabled: false
       name: ''
@@ -54,7 +63,7 @@ items:
       - ''
   nextPage:
     name: '&aNext Page'
-    slot: 44
+    slot: 26
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
     customModelData: 0
@@ -67,7 +76,7 @@ items:
       - '&7Go to page %nextPage%'
   prevPage:
     name: '&aPrevious Page'
-    slot: 36
+    slot: 18
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
     customModelData: 0
@@ -80,7 +89,7 @@ items:
       - '&7Back to page %prevPage%'
   close:
     name: '&cClose'
-    slot: 40
+    slot: 49
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
     customModelData: 0
@@ -93,7 +102,7 @@ items:
       - '&eClick here to close'
   back:
     name: '&eGo Back'
-    slot: 39
+    slot: 48
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
     customModelData: 0
@@ -104,69 +113,58 @@ items:
       pitch: 2
     lore:
       - '&eClick here to go back'
-  reset:
-    name: '&aReset'
-    slot: 41
-    type: customhead
-    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRjMjhmZmI5MDYzZTYzMDM3YzdjOWMzYTk5OTc1MzMzMjU0OTQ2ZGRmYTAwMTg5OTYxNTE3NDBhNWM2Njg0MiJ9fX0=
+  clanStorageInfo:
+    name: '&bClan Storage Information'
+    slot: 50
+    type: material
+    value: BOOK
     customModelData: 0
     click-sound:
-      enabled: true
-      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      enabled: false
+      name: ''
       volume: 1
       pitch: 2
     lore:
       - ''
-      - '&fReset permissions to the server default.'
+      - '&fClan &a%clanName%'
       - ''
-      - '&eClick here to apply'
-  subject:
-    name: '&d%name%'
-    type:
-      LEADER: customhead
-      MANAGER: customhead
-      MEMBER: customhead
-    value:
-      LEADER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdjY2UwZjdjZDkxYjljMTYyODBiMDliMTJlNzk4Mjk0N2JhMTJhMzhlMzdkMDJhMDQ3ZDEwNTNjMzIzOWRkYyJ9fX0=
-      MANAGER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFmNTcwNTExMzBlODUwODQ4ZThlMzdlNzIxMTBhMTZmMDlkYmRhYjdkOWQ2ZTMzYTlmZWNmZDM0OGQ1YTExMCJ9fX0=
-      MEMBER: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWUzOGZhMzEzMWUyZGEwNGE4ZjhkNTA4NzJhODIzMmQ3ZDlkZWEzNDBkMDZjOTA5N2ZmYTNjYzQ4MjA4ZGYxZCJ9fX0=
-    customModelData:
-      LEADER: 0
-      MANAGER: 0
-      MEMBER: 0
-    click-sound:
-      enabled: true
-      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
-      volume: 1
-      pitch: 2
-    lore:
-      LEADER:
+      - '&fTotal storages owned: &a%clanMaxStorage%&f/&2%serverMaxStorage%'
+      - '&fTotal items stored: &e%itemsStored%'
+  storage:
+    unlocked:
+      name: '&#42f58aStorage #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE2ZDI1OTUzZDRiOGU2MzM0OTI2ZTIwNmFjMzIzZTc3NzMzZWQ3MDQwMWZkMWE4ZWVmN2UyMzkwZTQwZGIzZCJ9fX0=
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+        volume: 1
+        pitch: 2
+      lore:
         - ''
-        - '&f%description%'
+        - '&fSlots: &#aaffaa%usedSlots%&7/&#55ff0052'
         - ''
-        - '&fRoles that can use:'
-        - '&#e8e51e⇨ Leader'
-        - '&7Manager'
-        - '&7Member'
+        - '%checkPermission%'
+    locked:
+      name: '&#f55d42Storage #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NjNDcwYWUyNjMxZWZkZmFmOTY3YjM2OTQxM2JjMjQ1MWNkN2EzOTQ2NWRhNzgzNmE2YzdhMTRlODc3In19fQ==
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+        volume: 1
+        pitch: 2
+      lore:
+        - '&cThis storage is not unlocked yet!'
         - ''
-        - '&eClick to change'
-      MANAGER:
+        - '&7Unlock this storage using War Point in'
+        - '&7upgrade menu.'
         - ''
-        - '&f%description%'
-        - ''
-        - '&fRoles that can use:'
-        - '&7Leader'
-        - '&#1d98d1⇨ Manager'
-        - '&7Member'
-        - ''
-        - '&eClick to change'
-      MEMBER:
-        - ''
-        - '&f%description%'
-        - ''
-        - '&fRoles that can use:'
-        - '&7Leader'
-        - '&7Manager'
-        - '&#34eb6b⇨ Member'
-        - ''
-        - '&eClick to change'
+        - '&cCannot open'
+        - '&eRight-click to open upgrade menu'
+    placeholders:
+      checkPermission:
+        true: '&eLeft-click to open'
+        false: '&cYou must be %getRequiredRank%&c to open this storage.'

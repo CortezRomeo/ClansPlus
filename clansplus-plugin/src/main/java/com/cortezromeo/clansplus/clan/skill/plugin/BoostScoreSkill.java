@@ -41,17 +41,14 @@ public class BoostScoreSkill {
     }
 
     public static boolean onDieEvent(SkillData skillData, String killerName, String victimName, boolean isMob) {
-        if (!skillData.isEnabled())
-            return false;
+        if (!skillData.isEnabled()) return false;
 
         Player killer = Bukkit.getPlayer(killerName);
-        if (killer == null)
-            return false;
+        if (killer == null) return false;
 
         IClanData killerClanData = PluginDataManager.getClanDatabaseByPlayerName(killer.getName());
 
-        if (killerClanData == null)
-            return false;
+        if (killerClanData == null) return false;
 
         int skillLevel = killerClanData.getSkillLevel().get(skillData.getId());
 

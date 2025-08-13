@@ -56,16 +56,14 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -91,34 +89,17 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new Spawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SPAWN), getOwner(), getOwner().getName()).execute();
         if (itemCustomData.equals("leave"))
             new LeaveConfirmationInventory(getOwner()).open();
+        if (itemCustomData.equals("storage"))
+            new StorageListInventory(getOwner()).open();
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
-                        fileConfiguration.getString("items.border.value"),
-                        fileConfiguration.getInt("items.border.customModelData"),
-                        fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"), false);
-                List<String> leaveBlankSlot = fileConfiguration.getStringList("items.border.leave-blank");
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++) {
-                    if (!leaveBlankSlot.isEmpty() && leaveBlankSlot.contains(String.valueOf(itemSlot)))
-                        continue;
-                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
-                }
-            }
 
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
-                    fileConfiguration.getString("items.close.value"),
-                    fileConfiguration.getInt("items.close.customModelData"),
-                    fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore"), false), "close");
-            int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-            inventory.setItem(closeItemSlot, closeItem);
+            addBasicButton(fileConfiguration, false);
 
             IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
 
@@ -227,7 +208,37 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
                     spawnItemLore, false), "spawn");
             int spawnItemSlot = fileConfiguration.getInt("items.spawn.slot");
             inventory.setItem(spawnItemSlot, spawnItem);
+
+            int itemsStored = 0;
+            if (!clanData.getStorageHashMap().isEmpty()) {
+                for (int clanStorageNumber : clanData.getStorageHashMap().keySet()) {
+                    for (ItemStack itemStack : clanData.getStorageHashMap().get(clanStorageNumber).getContents()) {
+                        if (itemStack == null)
+                            continue;
+
+                        if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                            continue;
+
+                        itemsStored = itemsStored + 1;
+                    }
+                }
+            }
+
+            List<String> clanStorageLore = fileConfiguration.getStringList("items.storage.lore");
+            int finalItemsStored = itemsStored;
+            clanStorageLore.replaceAll(string -> ClansPlus.nms.addColor(string
+                    .replace("%clanMaxStorage%", String.valueOf(clanData.getMaxStorage()))
+                    .replace("%serverMaxStorage%", String.valueOf(Settings.STORAGE_SETTINGS_MAX_INVENTORY))
+                    .replace("%itemsStored%", String.valueOf(finalItemsStored))));
+
+            ItemStack clanStorageItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.storage.type").toUpperCase()),
+                    fileConfiguration.getString("items.storage.value"),
+                    fileConfiguration.getInt("items.storage.customModelData"),
+                    fileConfiguration.getString("items.storage.name"),
+                    clanStorageLore, false), "storage");
+            int clanStorageItemSlot = fileConfiguration.getInt("items.storage.slot");
+            inventory.setItem(clanStorageItemSlot, clanStorageItem);
         });
     }
-
 }

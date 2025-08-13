@@ -4,6 +4,7 @@ import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,8 +87,12 @@ public interface IClanData {
 
     void setDiscordJoinLink(String discordJoinLink);
 
-    HashMap<Integer, String> getInventory();
+    HashMap<Integer, Inventory> getStorageHashMap();
 
-    void setInventory(HashMap<Integer, String> inventory);
+    void setStorageHashMap(HashMap<Integer, Inventory> inventory);
+
+    int getMaxStorage();
+
+    void setMaxStorage(int maxStorage);
 
 }

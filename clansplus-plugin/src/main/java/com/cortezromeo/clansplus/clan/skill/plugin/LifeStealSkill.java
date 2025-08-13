@@ -51,14 +51,12 @@ public class LifeStealSkill {
     }
 
     public static boolean onDamageEvent(SkillData skillData, EntityDamageByEntityEvent event) {
-        if (!skillData.isEnabled())
-            return false;
+        if (!skillData.isEnabled()) return false;
 
         Player damager = (Player) event.getDamager();
         IClanData damagerClanData = PluginDataManager.getClanDatabaseByPlayerName(damager.getName());
 
-        if (damagerClanData == null)
-            return false;
+        if (damagerClanData == null) return false;
 
         int skillLevel = damagerClanData.getSkillLevel().get(skillData.getId());
 
@@ -71,8 +69,7 @@ public class LifeStealSkill {
                     double revivingHealth = CalculatorUtil.evaluate(healEvaluation.get(skillLevel).replace("%playerMaxHealth%", String.valueOf(damager.getMaxHealth())));
                     if (damager.getHealth() + revivingHealth > damager.getMaxHealth())
                         damager.setHealth(damager.getMaxHealth());
-                    else
-                        damager.setHealth(damager.getHealth() + revivingHealth);
+                    else damager.setHealth(damager.getHealth() + revivingHealth);
 
                     Location damagerLocation = damager.getLocation();
                     damagerLocation.getWorld().spawnParticle(ClansPlus.nms.getParticle("VILLAGER_HAPPY"), damagerLocation, 2);

@@ -54,22 +54,19 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        super.handleMenu(event);
         playClickSound(fileConfiguration, itemCustomData);
 
         if (itemCustomData.equals("prevPage")) {
@@ -94,25 +91,15 @@ public class SetIconMaterialListInventory extends PaginatedInventory {
             playClickSound(fileConfiguration, "material");
             new SetIcon(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SETICON), getOwner(), getOwner().getName(), ItemType.MATERIAL, itemCustomData.replace("value=", "")).execute();
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            if (backItemSlot < 0)
-                backItemSlot = 0;
-            if (backItemSlot > 8)
-                backItemSlot = 8;
-            backItemSlot = (getSlots() - 9) + backItemSlot;
-            inventory.setItem(backItemSlot, backItem);
+
+            addPaginatedMenuItems(fileConfiguration, true);
 
             if (PluginDataManager.getClanDatabase().isEmpty())
                 return;

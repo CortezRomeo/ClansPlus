@@ -13,6 +13,7 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.google.common.primitives.Ints;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,9 +24,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class SetPermissionInventory extends ClanPlusInventoryBase {
+public class SetPermissionInventory extends PaginatedInventory {
 
     FileConfiguration fileConfiguration = SetPermissionInventoryFile.get();
+    private List<Subject> subjects = new ArrayList<>();
 
     public SetPermissionInventory(Player owner) {
         super(owner);
@@ -61,21 +63,19 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         if (PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank() != Rank.LEADER) {
             MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
@@ -83,6 +83,22 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
         IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
 
         playClickSound(fileConfiguration, itemCustomData);
+
+        if (itemCustomData.equals("prevPage")) {
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
+                open();
+            }
+        }
+
+        if (itemCustomData.equals("nextPage")) {
+            if (!((index + 1) >= subjects.size())) {
+                setPage(getPage() + 1);
+                open();
+            } else {
+                MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
+            }
+        }
 
         if (itemCustomData.equals("close"))
             getOwner().closeInventory();
@@ -94,7 +110,7 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
                 newPermissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
             PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).setSubjectPermission(newPermissionDefault);
             open();
-            return;
+            return true;
         }
 
         try {
@@ -111,40 +127,16 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
                 open();
             }
         } catch (Exception exception) {
+            return false;
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            if (fileConfiguration.getBoolean("items.border.enabled")) {
-                ItemStack borderItem = ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.border.type").toUpperCase()),
-                        fileConfiguration.getString("items.border.value"),
-                        fileConfiguration.getInt("items.border.customModelData"),
-                        fileConfiguration.getString("items.border.name"),
-                        fileConfiguration.getStringList("items.border.lore"), false);
-                for (int itemSlot = 0; itemSlot < getSlots(); itemSlot++)
-                    inventory.setItem(itemSlot, ClansPlus.nms.addCustomData(borderItem, "border"));
-            }
-
-            ItemStack closeItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.close.type").toUpperCase()),
-                    fileConfiguration.getString("items.close.value"),
-                    fileConfiguration.getInt("items.close.customModelData"),
-                    fileConfiguration.getString("items.close.name"),
-                    fileConfiguration.getStringList("items.close.lore"), false), "close");
-            int closeItemSlot = fileConfiguration.getInt("items.close.slot");
-            inventory.setItem(closeItemSlot, closeItem);
-
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            inventory.setItem(backItemSlot, backItem);
+            addBasicButton(fileConfiguration, true);
 
             ItemStack restItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
                     ItemType.valueOf(fileConfiguration.getString("items.reset.type").toUpperCase()),
@@ -156,28 +148,71 @@ public class SetPermissionInventory extends ClanPlusInventoryBase {
             inventory.setItem(resetItemSlot, restItem);
 
             IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
-
             if (playerClanData == null)
                 return;
 
-            for (Subject subject : Subject.values()) {
-                Rank subjectRank = playerClanData.getSubjectPermission().get(subject);
+            ItemStack prevItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.prevPage.type").toUpperCase()),
+                    fileConfiguration.getString("items.prevPage.value"),
+                    fileConfiguration.getInt("items.prevPage.customModelData"),
+                    fileConfiguration.getString("items.prevPage.name"),
+                    fileConfiguration.getStringList("items.prevPage.lore"), false), "prevPage");
+            int prevPageItemSlot = fileConfiguration.getInt("items.prevPage.slot");
 
-                List<String> subjectItemLore = new ArrayList<>();
-                for (String lore : fileConfiguration.getStringList("items.subject.lore." + subjectRank)) {
-                    lore = lore.replace("%description%", subject.getDescription());
-                    subjectItemLore.add(lore);
+            ItemStack nextItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.nextPage.type").toUpperCase()),
+                    fileConfiguration.getString("items.nextPage.value"),
+                    fileConfiguration.getInt("items.nextPage.customModelData"),
+                    fileConfiguration.getString("items.nextPage.name"),
+                    fileConfiguration.getStringList("items.nextPage.lore"), false), "nextPage");
+            int nextPageItemSlot = fileConfiguration.getInt("items.nextPage.slot");
+
+            if (page > 0)
+                inventory.setItem(prevPageItemSlot, getPageItemStack(prevItem));
+            inventory.setItem(nextPageItemSlot, getPageItemStack(nextItem));
+
+            subjects.clear();
+            this.subjects.addAll(Arrays.asList(Subject.values()));
+
+            for (int i = 0; i < getMaxItemsPerPage(); i++) {
+                index = getMaxItemsPerPage() * getPage() + i;
+                if (index >= subjects.size())
+                    break;
+                if (subjects.get(index) != null) {
+                    Subject subject = subjects.get(index);
+
+                    Rank subjectRank = playerClanData.getSubjectPermission().get(subject);
+
+                    List<String> subjectItemLore = new ArrayList<>();
+                    for (String lore : fileConfiguration.getStringList("items.subject.lore." + subjectRank)) {
+                        lore = lore.replace("%description%", subject.getDescription());
+                        subjectItemLore.add(lore);
+                    }
+                    ItemStack subjectItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
+                            ItemType.valueOf(fileConfiguration.getString("items.subject.type." + subjectRank).toUpperCase()),
+                            fileConfiguration.getString("items.subject.value." + subjectRank),
+                            fileConfiguration.getInt("items.subject.customModelData." + subjectRank),
+                            fileConfiguration.getString("items.subject.name").replace("%name%", subject.getName()),
+                            subjectItemLore, false), subject.toString());
+                    inventory.setItem(transferSlot(i), subjectItem);
                 }
-                ItemStack subjectItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                        ItemType.valueOf(fileConfiguration.getString("items.subject.type." + subjectRank).toUpperCase()),
-                        fileConfiguration.getString("items.subject.value." + subjectRank),
-                        fileConfiguration.getInt("items.subject.customModelData." + subjectRank),
-                        fileConfiguration.getString("items.subject.name").replace("%name%", subject.getName()),
-                        subjectItemLore, false), subject.toString());
-                int subjectItemSlot = fileConfiguration.getInt("items.subject.slot." + subject);
-                inventory.setItem(subjectItemSlot, subjectItem);
             }
         });
+    }
+
+    public int transferSlot(int number) {
+        int index = number % getSubjectTrack().length;
+        return getSubjectTrack()[index];
+    }
+
+    public int[] getSubjectTrack() {
+        List<Integer> skillTrackList = fileConfiguration.getIntegerList("subject-track");
+        return Ints.toArray(skillTrackList);
+    }
+
+    @Override
+    public int getMaxItemsPerPage() {
+        return getSubjectTrack().length;
     }
 
 }

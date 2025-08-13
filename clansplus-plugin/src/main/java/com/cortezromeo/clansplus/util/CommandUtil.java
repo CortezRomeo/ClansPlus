@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 
 public class CommandUtil {
     public static void dispatchCommand(Player player, String command) {
-        if (command == null || command.equals(""))
-            return;
+        if (command == null || command.equals("")) return;
         String MATCH = "(?ium)^(player:|op:|console:|)(.*)$";
         ClansPlus.support.getFoliaLib().getScheduler().runAtEntity(player, task -> {
             String type = command.replaceAll(MATCH, "$1").replace(":", "").toLowerCase();
@@ -26,8 +25,7 @@ public class CommandUtil {
                     break;
                 case "":
                 case "player":
-                    if (player != null)
-                        player.performCommand(cmd);
+                    if (player != null) player.performCommand(cmd);
                     break;
                 case "console":
                 default:

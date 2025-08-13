@@ -60,22 +60,19 @@ public class MemberListInventory extends PaginatedInventory {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         if (PluginDataManager.getClanDatabase(clanName) == null) {
             MessageUtil.sendMessage(getOwner(), Messages.CLAN_DOES_NOT_EXIST.replace("%clan%", clanName));
             getOwner().closeInventory();
-            return;
+            return false;
         }
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
-        super.handleMenu(event);
         playClickSound(fileConfiguration, itemCustomData);
 
         if (itemCustomData.equals("prevPage")) {
@@ -100,12 +97,12 @@ public class MemberListInventory extends PaginatedInventory {
         if (itemCustomData.equals("back")) {
             if (fromViewClan) {
                 new ViewClanInformationInventory(getOwner(), clanName).open();
-                return;
+                return true;
             }
             if (playerData.getClan() != null) {
                 if (playerData.getClan().equals(clanName)) {
                     new MembersMenuInventory(getOwner()).open();
-                    return;
+                    return true;
                 }
             }
             new ViewClanInformationInventory(getOwner(), clanName).open();
@@ -123,10 +120,10 @@ public class MemberListInventory extends PaginatedInventory {
         }
 
         if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null)
-            return;
+            return false;
 
         if (!PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()).getName().equals(clanName))
-            return;
+            return false;
 
         if (itemCustomData.contains("player=")) {
             if (playerData.getClan() != null) {
@@ -134,30 +131,20 @@ public class MemberListInventory extends PaginatedInventory {
                     playClickSound(fileConfiguration, "player");
                     itemCustomData = itemCustomData.replace("player=", "");
                     new ManageMemberInventory(getOwner(), itemCustomData).open();
-                    return;
+                    return true;
                 }
             }
             MessageUtil.sendMessage(getOwner(), Messages.TARGET_CLAN_MEMBERSHIP_ERROR.replace("%player%", itemCustomData.replace("player=", "")));
         }
+
+        return true;
     }
 
     @Override
     public void setMenuItems() {
         ClansPlus.support.getFoliaLib().getScheduler().runAsync(task -> {
-            addPaginatedMenuItems(fileConfiguration);
-            ItemStack backItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.back.type").toUpperCase()),
-                    fileConfiguration.getString("items.back.value"),
-                    fileConfiguration.getInt("items.back.customModelData"),
-                    fileConfiguration.getString("items.back.name"),
-                    fileConfiguration.getStringList("items.back.lore"), false), "back");
-            int backItemSlot = fileConfiguration.getInt("items.back.slot");
-            if (backItemSlot < 0)
-                backItemSlot = 0;
-            if (backItemSlot > 8)
-                backItemSlot = 8;
-            backItemSlot = (getSlots() - 9) + backItemSlot;
-            inventory.setItem(backItemSlot, backItem);
+
+            addPaginatedMenuItems(fileConfiguration, true);
 
             ItemStack sortItem = ClansPlus.nms.addCustomData(ItemUtil.getItem(
                     ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),

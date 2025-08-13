@@ -7,11 +7,15 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import com.cortezromeo.clansplus.api.storage.IPlayerData;
+import com.cortezromeo.clansplus.inventory.ClanStorageInventory;
 import com.cortezromeo.clansplus.util.MessageUtil;
+import com.cortezromeo.clansplus.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.h2.jdbc.JdbcConnection;
 
 import java.sql.PreparedStatement;
@@ -63,17 +67,38 @@ public class PluginDataH2Storage implements PluginStorage {
                     " ALLYINVITATION TEXT, " +
                     " DISCORDCHANNELID LONG, " +
                     " DISCORDJOINLINK TEXT, " +
-                    " INVENTORY TEXT, " +
+                    " STORAGE TEXT, " +
+                    " MAXSTORAGE INT, " +
                     " PRIMARY KEY (NAME))";
 
-            // 2.0 update
-            // add INVENTORY into the table
+            // 2.4 update
+            // add STORAGE into the table
             try {
-                String alterTableUpdate = "ALTER TABLE " + clanTable + " ADD INVENTORY TEXT";
+                String alterTableUpdate = "ALTER TABLE " + clanTable + " ADD STORAGE TEXT";
                 statement.execute(alterTableUpdate);
             } catch (SQLException e) {
                 if (e.getErrorCode() != 42121) { // 42121 = column already exists in H2
-                    throw e;
+                    MessageUtil.debug("h2 create table", "Skipping creating a new column STORAGE because column already existed.");
+                }
+            }
+
+            // 2.4 update
+            // add MAX INVENTORY into the table
+            try {
+                String alterTableUpdate = "ALTER TABLE " + clanTable + " ADD MAXSTORAGE INT";
+                statement.execute(alterTableUpdate);
+            } catch (SQLException e) {
+                if (e.getErrorCode() == 42121) {
+                    MessageUtil.debug("h2 create table", "Skipping creating a new column MAXSTORAGE because column already existed.");
+                }
+            }
+
+            // remove existing column INVENTORY from the previous versions
+            try {
+                statement.execute("ALTER TABLE " + clanTable + " DROP COLUMN INVENTORY");
+            } catch (SQLException e) {
+                if (e.getErrorCode() == 42122) {
+                    MessageUtil.debug("h2 create table", "Skipping dropping column INVENTORY because column already deleted.");
                 }
             }
 
@@ -135,8 +160,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 "MAXMEMBERS, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
                 "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, " +
                 "ALLIES, SKILLLEVEL, SUBJECTPERMISSION, ALLYINVITATION, " +
-                "DISCORDCHANNELID, DISCORDJOINLINK, INVENTORY) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "DISCORDCHANNELID, DISCORDJOINLINK, STORAGE, MAXSTORAGE) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, clanName);      // NAME
             preparedStatement.setString(2, "");         // CUSTOMNAME
@@ -161,7 +186,8 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(20, "");        // ALLYINVITATION
             preparedStatement.setLong(21, 0L);        // DISCORDCHANNELID
             preparedStatement.setString(22, "");        // DISCORDJOINLINK
-            preparedStatement.setString(23, "");        // INVENTGORY
+            preparedStatement.setString(23, "");        // STORAGE
+            preparedStatement.setInt(24, 0);        // MAXSTORAGE
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -193,7 +219,7 @@ public class PluginDataH2Storage implements PluginStorage {
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
-        HashMap<Integer, String> inventory = new HashMap<>();
+        HashMap<Integer, Inventory> storage = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
 
@@ -217,7 +243,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 allyInvitation,
                 0,
                 null,
-                inventory);
+                storage,
+                Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
 
         if (!isClanDataExisted(clanName))
             return clanData;
@@ -239,16 +266,48 @@ public class PluginDataH2Storage implements PluginStorage {
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
                 clanData.setIconType(ItemType.valueOf(resultSet.getString("ICONTYPE").toUpperCase()));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
-                clanData.setMembers(gson.fromJson(resultSet.getString("MEMBERS"), new TypeToken<List<String>>() {}.getType()));
+                clanData.setMembers(gson.fromJson(resultSet.getString("MEMBERS"), new TypeToken<List<String>>() {
+                }.getType()));
                 if (resultSet.getString("SPAWNPOINTWORLD") != null)
                     clanData.setSpawnPoint(new Location(Bukkit.getWorld(resultSet.getString("SPAWNPOINTWORLD")), resultSet.getDouble("SPAWNPOINTX"), resultSet.getDouble("SPAWNPOINTY"), resultSet.getDouble("SPAWNPOINTZ")));
-                clanData.setAllies(gson.fromJson(resultSet.getString("ALLIES"), new TypeToken<List<String>>() {}.getType()));
-                clanData.setSkillLevel(gson.fromJson(resultSet.getString("SKILLLEVEL"), new TypeToken<HashMap<Integer, Integer>>() {}.getType()));
-                clanData.setSubjectPermission(gson.fromJson(resultSet.getString("SUBJECTPERMISSION"), new TypeToken<HashMap<Subject, Rank>>() {}.getType()));
-                clanData.setAllyInvitation(gson.fromJson(resultSet.getString("ALLYINVITATION"), new TypeToken<List<String>>() {}.getType()));
+                clanData.setAllies(gson.fromJson(resultSet.getString("ALLIES"), new TypeToken<List<String>>() {
+                }.getType()));
+                clanData.setSkillLevel(gson.fromJson(resultSet.getString("SKILLLEVEL"), new TypeToken<HashMap<Integer, Integer>>() {
+                }.getType()));
+                clanData.setSubjectPermission(gson.fromJson(resultSet.getString("SUBJECTPERMISSION"), new TypeToken<HashMap<Subject, Rank>>() {
+                }.getType()));
+                clanData.setAllyInvitation(gson.fromJson(resultSet.getString("ALLYINVITATION"), new TypeToken<List<String>>() {
+                }.getType()));
                 clanData.setDiscordChannelID(resultSet.getLong("DISCORDCHANNELID"));
                 clanData.setDiscordJoinLink(resultSet.getString("DISCORDJOINLINK"));
-                clanData.setInventory(gson.fromJson(resultSet.getString("INVENTORY"), new TypeToken<HashMap<Integer, String>>() {}.getType()));
+
+                // storage base64 hashmap from h2
+                HashMap<Integer, Map<Integer, String>> inventoryBase64 = gson.fromJson(resultSet.getString("STORAGE"), new TypeToken<HashMap<Integer, Map<Integer, String>>>() {}.getType());
+                if (inventoryBase64 != null) {
+                    for (int storageNumber : inventoryBase64.keySet()) {
+                        Map<Integer, String> inventoryHashMap = inventoryBase64.get(storageNumber);
+                        ClanStorageInventory clanStorageInventory = new ClanStorageInventory(storageNumber);
+                        clanStorageInventory.setClanName(clanName);
+                        Inventory newInventory = clanStorageInventory.getInventory();
+                        for (int slotNumber : inventoryHashMap.keySet()) {
+                            ItemStack itemStack = StringUtil.stacksFromBase64(inventoryHashMap.get(slotNumber))[0];
+                            if (itemStack == null)
+                                continue;
+                            if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                                continue;
+
+                            newInventory.setItem(slotNumber, itemStack);
+                        }
+                        storage.put(storageNumber, newInventory);
+                    }
+                }
+                clanData.setStorageHashMap(storage);
+
+                // Check if default max storage does not equal to 0
+                if (resultSet.getInt("MAXSTORAGE") == 0)
+                    clanData.setMaxStorage(Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
+                else
+                    clanData.setMaxStorage(resultSet.getInt("MAXSTORAGE"));
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -314,7 +373,8 @@ public class PluginDataH2Storage implements PluginStorage {
                 + " ALLYINVITATION = ?,"
                 + " DISCORDCHANNELID = ?,"
                 + " DISCORDJOINLINK = ?,"
-                + " INVENTORY = ?"
+                + " STORAGE = ?,"
+                + " MAXSTORAGE = ?"
                 + " WHERE NAME = ?";
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
@@ -348,8 +408,34 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setString(20, gson.toJson(clanData.getAllyInvitation()));
             preparedStatement.setLong(21, clanData.getDiscordChannelID());
             preparedStatement.setString(22, clanData.getDiscordJoinLink());
-            preparedStatement.setString(23, gson.toJson(clanData.getInventory()));
-            preparedStatement.setString(24, clanData.getName());
+
+            // inventory number & item slot and its item
+            HashMap<Integer, Map<Integer, String>> clanInventoryBase64Converted = new HashMap<>();
+            if (!clanData.getStorageHashMap().isEmpty()) {
+                for (int storageNumber : clanData.getStorageHashMap().keySet()) {
+                    Inventory inventory = clanData.getStorageHashMap().get(storageNumber);
+
+                    Map<Integer, String> items = new HashMap<>();
+                    int slotNumber = -1;
+                    for (ItemStack itemStack : inventory.getContents()) {
+                        slotNumber++;
+
+                        if (itemStack == null)
+                            continue;
+                        if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
+                            continue;
+
+                        items.put(slotNumber, StringUtil.toBase64(itemStack));
+                    }
+
+                    // add items to base64 hashmap
+                    clanInventoryBase64Converted.put(storageNumber, items);
+                }
+            }
+
+            preparedStatement.setString(23, gson.toJson(clanInventoryBase64Converted));
+            preparedStatement.setInt(24, clanData.getMaxStorage());
+            preparedStatement.setString(25, clanData.getName());
             preparedStatement.executeUpdate();
         } catch (Exception exception) {
             exception.printStackTrace();

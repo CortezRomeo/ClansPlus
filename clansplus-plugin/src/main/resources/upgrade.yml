@@ -12,6 +12,23 @@
 # The 'else' line in the price block is used to return this value if the given level is not found in the list.
 
 upgrade:
+  max-storages:
+    # currency-type: WARPOINT, VAULT, PLAYERPOINTS
+    currency-type: WARPOINT
+    # can add more or remove
+    price:
+      1: 20
+      2: 30
+      3: 40
+      4: 50
+      5: 60
+      6: 70
+      7: 80
+      8: 90
+      9: 100
+      # This value is returned when the input is not listed above.
+      # Do not delete this line.
+      else: 100
   max-members:
     # currency-type: WARPOINT, VAULT, PLAYERPOINTS
     currency-type: WARPOINT

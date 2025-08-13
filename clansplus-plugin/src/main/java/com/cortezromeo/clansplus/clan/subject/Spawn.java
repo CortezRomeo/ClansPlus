@@ -54,8 +54,7 @@ public class Spawn extends SubjectManager {
             }
 
         if (Settings.CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED) {
-            if (PlayerMovementListener.spawnCountDownPlayers.contains(player))
-                return false;
+            if (PlayerMovementListener.spawnCountDownPlayers.contains(player)) return false;
             PlayerMovementListener.spawnCountDownPlayers.add(player);
 
             AtomicInteger countDownSeconds = new AtomicInteger(Settings.CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS);

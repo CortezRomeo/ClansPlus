@@ -11,8 +11,7 @@ public class CalculatorUtil {
         Stack<Character> operators = new Stack<>();
 
         for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i] == ' ')
-                continue;
+            if (tokens[i] == ' ') continue;
 
             if (tokens[i] >= '0' && tokens[i] <= '9') {
                 StringBuilder sb = new StringBuilder();
@@ -44,8 +43,7 @@ public class CalculatorUtil {
     }
 
     private static boolean hasPrecedence(char op1, char op2) {
-        if (op2 == '(' || op2 == ')')
-            return false;
+        if (op2 == '(' || op2 == ')') return false;
         return (op1 != '*' && op1 != '/') || (op2 != '+' && op2 != '-');
     }
 

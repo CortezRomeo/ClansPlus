@@ -48,29 +48,31 @@ public class PluginDataManager {
     }
 
     public static IClanData getClanDatabaseByPlayerName(String playerName) {
-        if (!getPlayerDatabase().containsKey(playerName))
-            return null;
+        if (!getPlayerDatabase().containsKey(playerName)) return null;
 
         String playerClanName = getPlayerDatabase(playerName).getClan();
-        if (playerClanName == null || !getClanDatabase().containsKey(playerClanName))
-            return null;
+        if (playerClanName == null || !getClanDatabase().containsKey(playerClanName)) return null;
 
         return getClanDatabase(playerClanName);
     }
 
     public static IPlayerData getPlayerDatabase(String playerName) {
+        IPlayerData playerData = playerDatabase.get(playerName);
+        if (playerData.getClan() != null) {
+            if (!clanDatabase.containsKey(playerData.getClan())) {
+                clearPlayerDatabase(playerName);
+            }
+        }
         return playerDatabase.get(playerName);
     }
 
     public static void loadClanDatabase(String clanName) {
-        if (getClanDatabase().containsKey(clanName))
-            return;
+        if (getClanDatabase().containsKey(clanName)) return;
         getClanDatabase().put(clanName, PluginDataStorage.getClanData(clanName));
     }
 
     public static void loadPlayerDatabase(String playerName) {
-        if (getPlayerDatabase().containsKey(playerName))
-            return;
+        if (getPlayerDatabase().containsKey(playerName)) return;
         getPlayerDatabase().put(playerName, PluginDataStorage.getPlayerData(playerName));
         if (ClanManager.managersFromOldData.containsKey(playerName)) {
             IPlayerData playerData = getPlayerDatabase(playerName);
@@ -118,16 +120,15 @@ public class PluginDataManager {
     }
 
     public static void clearPlayerDatabase(String playerName) {
-        if (!getPlayerDatabase().containsKey(playerName))
-            return;
+        if (!getPlayerDatabase().containsKey(playerName)) return;
 
 /*        String playerClanName = "";
         if (ClanManager.isPlayerInClan(playerName))
             playerClanName = getPlayerDatabase(playerName).getClan();*/
 
-        getPlayerDatabase(playerName).setClan(null);
-        getPlayerDatabase(playerName).setRank(null);
-        getPlayerDatabase(playerName).setJoinDate(0);
+        playerDatabase.get(playerName).setClan(null);
+        playerDatabase.get(playerName).setRank(null);
+        playerDatabase.get(playerName).setJoinDate(0);
         EventManager.getWarEvent().getPlayerDamagesCaused().remove(playerName);
         EventManager.getWarEvent().getPlayerDamagesCollected().remove(playerName);
 
@@ -139,14 +140,12 @@ public class PluginDataManager {
     }
 
     public static boolean deleteClanData(String clanName) {
-        if (!getClanDatabase().containsKey(clanName))
-            return false;
+        if (!getClanDatabase().containsKey(clanName)) return false;
 
         IClanData clanData = getClanDatabase(clanName);
 
-        if (!clanData.getMembers().isEmpty())
-            for (String memberName : clanData.getMembers())
-                clearPlayerDatabase(memberName);
+        if (!clanData.getMembers().isEmpty()) for (String memberName : clanData.getMembers())
+            clearPlayerDatabase(memberName);
 
         PluginDataManager.getClanDatabase().remove(clanName);
         EventManager.getWarEvent().getClanScoreCollected().remove(clanName);
@@ -199,8 +198,7 @@ public class PluginDataManager {
 
     public static void loadAllCustomHeadsFromJsonFiles() {
         File customHeadsFolder = new File(ClansPlus.plugin.getDataFolder() + "/customheads");
-        if (!customHeadsFolder.exists())
-            CustomHeadSupport.setupCustomHeadJsonFiles();
+        if (!customHeadsFolder.exists()) CustomHeadSupport.setupCustomHeadJsonFiles();
 
         for (CustomHeadCategory customHeadCategory : CustomHeadCategory.values()) {
             String customHeadCategoryString = customHeadCategory.toString().toLowerCase().replace("_", "-");
@@ -221,41 +219,35 @@ public class PluginDataManager {
     }
 
     public static void loadAllDatabase() {
-        if (!PluginDataStorage.getAllClans().isEmpty())
-            for (String clanName : PluginDataStorage.getAllClans()) {
-                loadClanDatabase(clanName);
-                if (Settings.DATABASE_SETTING_SMART_LOADING_ENABLED) {
-                    IClanData clanData = getClanDatabase(clanName);
-                    for (String playerName : clanData.getMembers()) {
-                        loadPlayerDatabase(playerName);
-                    }
+        if (!PluginDataStorage.getAllClans().isEmpty()) for (String clanName : PluginDataStorage.getAllClans()) {
+            loadClanDatabase(clanName);
+            if (Settings.DATABASE_SETTING_SMART_LOADING_ENABLED) {
+                IClanData clanData = getClanDatabase(clanName);
+                for (String playerName : clanData.getMembers()) {
+                    loadPlayerDatabase(playerName);
                 }
             }
-        if (!Settings.DATABASE_SETTING_SMART_LOADING_ENABLED)
-            if (!PluginDataStorage.getAllPlayers().isEmpty())
-                for (String playerName : PluginDataStorage.getAllPlayers())
-                    loadPlayerDatabase(playerName);
+        }
+        if (!Settings.DATABASE_SETTING_SMART_LOADING_ENABLED) if (!PluginDataStorage.getAllPlayers().isEmpty())
+            for (String playerName : PluginDataStorage.getAllPlayers())
+                loadPlayerDatabase(playerName);
         if (Settings.DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED) {
             try {
                 fixIllegalDatabase();
             } catch (Exception exception) {
-                if (Settings.DEBUG_ENABLED)
-                    exception.printStackTrace();
+                if (Settings.DEBUG_ENABLED) exception.printStackTrace();
                 MessageUtil.debug("FIX ILLEGAL DATABASE", exception.getMessage());
             }
         }
 
-        if (fixClansOldData || fixMembersOldData)
-            saveAllDatabase();
+        if (fixClansOldData || fixMembersOldData) saveAllDatabase();
     }
 
     public static void saveAllDatabase() {
-        if (!getClanDatabase().isEmpty())
-            for (String clanName : getClanDatabase().keySet())
-                saveClanDatabaseToStorage(clanName);
-        if (!getPlayerDatabase().isEmpty())
-            for (String playerName : getPlayerDatabase().keySet())
-                savePlayerDatabaseToStorage(playerName);
+        if (!getClanDatabase().isEmpty()) for (String clanName : getClanDatabase().keySet())
+            saveClanDatabaseToStorage(clanName);
+        if (!getPlayerDatabase().isEmpty()) for (String playerName : getPlayerDatabase().keySet())
+            savePlayerDatabaseToStorage(playerName);
     }
 
     public static void fixIllegalDatabase() {
@@ -280,10 +272,8 @@ public class PluginDataManager {
                         } else if (clanData.getMembers().size() > 1) {
                             b:
                             for (String memberName : clanData.getMembers()) {
-                                if (memberName.equals(clanData.getOwner()))
-                                    continue b;
-                                if (!getPlayerDatabase().containsKey(memberName))
-                                    loadPlayerDatabase(memberName);
+                                if (memberName.equals(clanData.getOwner())) continue b;
+                                if (!getPlayerDatabase().containsKey(memberName)) loadPlayerDatabase(memberName);
 
                                 IPlayerData memberData = getPlayerDatabase(memberName);
 
@@ -312,8 +302,7 @@ public class PluginDataManager {
                     deletedClans.add(clanName);
                 } else {
                     for (String memberName : clanData.getMembers()) {
-                        if (getPlayerDatabase(memberName).getClan() == null)
-                            clanData.getMembers().remove(memberName);
+                        if (getPlayerDatabase(memberName).getClan() == null) clanData.getMembers().remove(memberName);
                         else if (!getPlayerDatabase(memberName).getClan().equalsIgnoreCase(clanName))
                             clanData.getMembers().remove(memberName);
                     }
@@ -333,17 +322,15 @@ public class PluginDataManager {
                 }
             }
         }
-        if (!deletedClans.isEmpty())
-            for (String clanName : deletedClans)
-                try {
-                    clanDatabase.remove(clanName);
-                    PluginDataStorage.deleteClanData(clanName);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-        if (!error.isEmpty())
-            for (int errorID : error.keySet())
-                MessageUtil.debug("FIXING ILLEGAL DATABASE [ID " + errorID + "]", "Total: " + error.get(errorID));
+        if (!deletedClans.isEmpty()) for (String clanName : deletedClans)
+            try {
+                clanDatabase.remove(clanName);
+                PluginDataStorage.deleteClanData(clanName);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        if (!error.isEmpty()) for (int errorID : error.keySet())
+            MessageUtil.debug("FIXING ILLEGAL DATABASE [ID " + errorID + "]", "Total: " + error.get(errorID));
     }
 
     public static void backupAll(String backupFileName) {

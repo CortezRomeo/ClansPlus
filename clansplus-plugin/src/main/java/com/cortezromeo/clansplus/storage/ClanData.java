@@ -5,6 +5,7 @@ import com.cortezromeo.clansplus.api.enums.Rank;
 import com.cortezromeo.clansplus.api.enums.Subject;
 import com.cortezromeo.clansplus.api.storage.IClanData;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +31,10 @@ public class ClanData implements IClanData {
     private List<String> allyInvitation;
     private long discordChannelID;
     private String discordJoinLink;
-    private HashMap<Integer, String> inventory;
+    private HashMap<Integer, Inventory> storage;
+    private int maxStorage;
 
-    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate,
-                    ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission,
-                    List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, String> inventory) {
+    public ClanData(String name, String customName, String owner, String message, int score, long warPoint, int warning, int maxMembers, long createdDate, ItemType itemType, String iconValue, List<String> members, Location spawnPoint, List<String> allies, HashMap<Integer, Integer> skillLevel, HashMap<Subject, Rank> subjectPermission, List<String> allyInvitation, long discordChannelID, String discordJoinLink, HashMap<Integer, Inventory> storage, int maxStorage) {
         this.name = name;
         this.customName = customName;
         this.owner = owner;
@@ -54,7 +54,8 @@ public class ClanData implements IClanData {
         this.allyInvitation = allyInvitation;
         this.discordChannelID = discordChannelID;
         this.discordJoinLink = discordJoinLink;
-        this.inventory = inventory;
+        this.storage = storage;
+        this.maxStorage = maxStorage;
     }
 
     @Override
@@ -248,12 +249,22 @@ public class ClanData implements IClanData {
     }
 
     @Override
-    public HashMap<Integer, String> getInventory() {
-        return inventory;
+    public HashMap<Integer, Inventory> getStorageHashMap() {
+        return storage;
     }
 
     @Override
-    public void setInventory(HashMap<Integer, String> inventory) {
-        this.inventory = inventory;
+    public void setStorageHashMap(HashMap<Integer, Inventory> inventory) {
+        this.storage = inventory;
+    }
+
+    @Override
+    public int getMaxStorage() {
+        return maxStorage;
+    }
+
+    @Override
+    public void setMaxStorage(int maxStorage) {
+        this.maxStorage = maxStorage;
     }
 }

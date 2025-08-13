@@ -2,6 +2,7 @@ package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
 import com.cortezromeo.clansplus.inventory.ClanPlusInventoryBase;
+import com.cortezromeo.clansplus.inventory.ClanPlusStorageInventoryBase;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,8 +20,8 @@ public class InventoryClickListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         InventoryHolder holder = event.getInventory().getHolder();
 
-        if (holder instanceof ClanPlusInventoryBase)
-            ((ClanPlusInventoryBase) holder).handleMenu(event);
+        if (holder instanceof ClanPlusInventoryBase) ((ClanPlusInventoryBase) holder).handleMenu(event);
+        if (holder instanceof ClanPlusStorageInventoryBase) ((ClanPlusStorageInventoryBase) holder).handleMenu(event);
     }
 
 }

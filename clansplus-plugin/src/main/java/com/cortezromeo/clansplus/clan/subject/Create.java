@@ -11,11 +11,9 @@ import com.cortezromeo.clansplus.storage.ClanData;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Create extends SubjectManager {
 
@@ -91,7 +89,7 @@ public class Create extends SubjectManager {
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Integer, Integer> skillLevel = new HashMap<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
-        HashMap<Integer, String> inventory = new HashMap<>();
+        HashMap<Integer, Inventory> inventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         if (!Settings.CLAN_SETTING_SKILL_DEFAULT.isEmpty())
@@ -117,7 +115,8 @@ public class Create extends SubjectManager {
                 allyInvitation,
                 0,
                 null,
-                inventory);
+                inventory,
+                Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 
@@ -129,6 +128,10 @@ public class Create extends SubjectManager {
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
 
         MessageUtil.sendMessage(player, Messages.CREATE_CLAN_SUCCESS.replace("%clan%", clanName));
+
+        int randomBroadcastLine = new Random().nextInt(Settings.CLAN_SETTINGS_CREATION_BROADCAST.size());
+        String selectedMessage = Settings.CLAN_SETTINGS_CREATION_BROADCAST.get(randomBroadcastLine).replace("%clanName%", clanName).replace("%player%", playerName);
+        MessageUtil.sendBroadCast(selectedMessage);
 
         return true;
     }

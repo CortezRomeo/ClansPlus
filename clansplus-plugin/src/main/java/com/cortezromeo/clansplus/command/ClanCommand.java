@@ -78,8 +78,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     MessageUtil.sendMessage(player, Messages.COMMAND_CONFIRMATION);
 
                     ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(() -> {
-                        if (commandConfirmation.contains(sender))
-                            commandConfirmation.remove(sender);
+                        if (commandConfirmation.contains(sender)) commandConfirmation.remove(sender);
                     }, 20 * 10);
                     return false;
                 } else {
@@ -207,6 +206,15 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 EventManager.getWarEvent().sendEventStatusMessage(player, false);
                 return false;
             }
+            if (args[0].equalsIgnoreCase("openstorage")) {
+                try {
+                    int storageNumber = Integer.parseInt(args[1]);
+                    new OpenStorage(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.OPENSTORAGE), player, player.getName(), storageNumber).execute();
+                } catch (NumberFormatException exception) {
+                    MessageUtil.sendMessage(player, Messages.INVALID_NUMBER);
+                }
+                return false;
+            }
         }
 
         if (args.length >= 2) {
@@ -285,8 +293,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 managerCommands.append(commandMessage).append("\na");
 
                 // also add this to leader commands list because the player is leader
-                if (playerData.getRank() == Rank.LEADER)
-                    subjectRequiredRank = Rank.LEADER;
+                if (playerData.getRank() == Rank.LEADER) subjectRequiredRank = Rank.LEADER;
             }
             if (subjectRequiredRank == Rank.LEADER) {
                 String commandMessage = Messages.COMMAND_CLANPLUS_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS_PLACEHOLDER_COMMAND;
@@ -370,25 +377,26 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     for (Player serverPlayer : Bukkit.getOnlinePlayers()) {
                         String serverPlayerName = serverPlayer.getName();
 
-                        if (serverPlayerName.equalsIgnoreCase(playerName))
-                            continue;
+                        if (serverPlayerName.equalsIgnoreCase(playerName)) continue;
 
                         // server player is already in a clan -> skip
-                        if (PluginDataManager.getClanDatabaseByPlayerName(serverPlayerName) != null)
-                            continue;
+                        if (PluginDataManager.getClanDatabaseByPlayerName(serverPlayerName) != null) continue;
 
                         commands.add(serverPlayerName);
                     }
                 }
 
+                if (args[0].equals("openstorage") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.OPENSTORAGE))) {
+                    for (int storageNumber = 1; storageNumber <= playerClanData.getMaxStorage(); storageNumber++)
+                        commands.add(String.valueOf(storageNumber));
+                }
+
                 if (args[0].equalsIgnoreCase("kick") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.KICK))) {
                     // list all members in the player's clan
                     for (String memberName : playerClanData.getMembers()) {
-                        if (memberName.equalsIgnoreCase(playerName))
-                            continue;
+                        if (memberName.equalsIgnoreCase(playerName)) continue;
 
-                        if (memberName.equalsIgnoreCase(playerClanData.getOwner()))
-                            continue;
+                        if (memberName.equalsIgnoreCase(playerClanData.getOwner())) continue;
 
                         commands.add(memberName);
                     }
@@ -401,11 +409,9 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (args[0].equalsIgnoreCase("requestally") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.MANAGEALLY))) {
                     if (!PluginDataManager.getClanDatabase().isEmpty()) {
                         for (String serverClan : PluginDataManager.getClanDatabase().keySet()) {
-                            if (serverClan.equalsIgnoreCase(playerClanData.getName()))
-                                continue;
+                            if (serverClan.equalsIgnoreCase(playerClanData.getName())) continue;
 
-                            if (playerClanData.getAllies().contains(serverClan))
-                                continue;
+                            if (playerClanData.getAllies().contains(serverClan)) continue;
 
                             commands.add(serverClan);
                         }
@@ -415,14 +421,11 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (args[0].equalsIgnoreCase("setmanager") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.SETMANAGER))) {
                     // list all members in the player's clan
                     for (String memberName : playerClanData.getMembers()) {
-                        if (memberName.equalsIgnoreCase(playerName))
-                            continue;
+                        if (memberName.equalsIgnoreCase(playerName)) continue;
 
-                        if (memberName.equalsIgnoreCase(playerClanData.getOwner()))
-                            continue;
+                        if (memberName.equalsIgnoreCase(playerClanData.getOwner())) continue;
 
-                        if (PluginDataManager.getPlayerDatabase(memberName).getRank().equals(Rank.MANAGER))
-                            continue;
+                        if (PluginDataManager.getPlayerDatabase(memberName).getRank().equals(Rank.MANAGER)) continue;
 
                         commands.add(memberName);
                     }
@@ -444,8 +447,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (args[0].equalsIgnoreCase("setowner") && ClanManager.isPlayerRankSatisfied(playerName, Rank.LEADER)) {
                     // list all members in the player's clan
                     for (String memberName : playerClanData.getMembers()) {
-                        if (memberName.equalsIgnoreCase(playerClanData.getOwner()))
-                            continue;
+                        if (memberName.equalsIgnoreCase(playerClanData.getOwner())) continue;
                         commands.add(memberName);
                     }
                 }
@@ -458,8 +460,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 if (ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.SETICON))) {
                     if (args[0].equalsIgnoreCase("seticon") && args[1].equalsIgnoreCase("MATERIAL")) {
                         for (Material material : Material.values()) {
-                            if (material == Material.AIR)
-                                continue;
+                            if (material == Material.AIR) continue;
                             commands.add(material.toString().toUpperCase());
                         }
                     }
@@ -473,9 +474,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
     }
 
     private HashMap<Subject, Rank> getPlayerClanSubjectPer(IClanData clanData) {
-        if (Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
-            return Settings.CLAN_SETTING_PERMISSION_DEFAULT;
-        else
-            return clanData.getSubjectPermission();
+        if (Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED) return Settings.CLAN_SETTING_PERMISSION_DEFAULT;
+        else return clanData.getSubjectPermission();
     }
 }

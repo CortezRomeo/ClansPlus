@@ -71,11 +71,9 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
     }
 
     @Override
-    public void handleMenu(InventoryClickEvent event) {
-        event.setCancelled(true);
-        if (event.getCurrentItem() == null) {
-            return;
-        }
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
 
         ItemStack itemStack = event.getCurrentItem();
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
@@ -90,6 +88,8 @@ public class EventsMenuInventory extends ClanPlusInventoryBase {
             EventManager.getWarEvent().sendEventStatusMessage(getOwner(), false);
             getOwner().closeInventory();
         }
+
+        return true;
     }
 
     @Override

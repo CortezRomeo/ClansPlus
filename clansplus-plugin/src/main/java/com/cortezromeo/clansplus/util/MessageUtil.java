@@ -16,8 +16,7 @@ public class MessageUtil {
     }
 
     public static void sendBroadCast(String message) {
-        if (message.equals(""))
-            return;
+        if (message.equals("")) return;
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             sendMessage(p, message);
@@ -29,21 +28,18 @@ public class MessageUtil {
     }
 
     public static void debug(String prefix, String message) {
-        if (!Settings.DEBUG_ENABLED)
-            return;
+        if (!Settings.DEBUG_ENABLED) return;
         Bukkit.getConsoleSender().sendMessage(ClansPlus.nms.addColor(Settings.DEBUG_PREFIX + prefix.toUpperCase() + " >>> " + message));
     }
 
     public static void sendMessage(CommandSender sender, String message) {
-        if (message.equals(""))
-            return;
+        if (message.equals("")) return;
         message = message.replace("%prefix%", Messages.PREFIX);
         sender.sendMessage(ClansPlus.nms.addColor(message));
     }
 
     public static void sendMessage(Player player, String message) {
-        if (player == null | message.equals(""))
-            return;
+        if (player == null | message.equals("")) return;
 
         message = message.replace("%prefix%", Messages.PREFIX);
 
@@ -62,8 +58,7 @@ public class MessageUtil {
     }
 
     public static void devMessage(Player player, String message) {
-        if (player != null)
-            player.sendMessage(ClansPlus.nms.addColor("[DEV] " + message));
+        if (player != null) player.sendMessage(ClansPlus.nms.addColor("[DEV] " + message));
     }
 
 }

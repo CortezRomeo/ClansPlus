@@ -45,6 +45,7 @@ subject:
     CHAT: 'Chat bang hội'
     UPGRADE: 'Nâng cấp'
     MANAGEALLY: 'Thiết lập đồng minh'
+    OPENSTORAGE: 'Mở kho đồ'
   description:
     INVITE: 'Mời người khác vào bang hội'
     KICK: 'Đuổi một thành viên ra khỏi bang hội'
@@ -58,6 +59,7 @@ subject:
     CHAT: 'Bật hoặc tắt trò chuyện bang hội'
     UPGRADE: 'Nâng cấp bang hội'
     MANAGEALLY: 'Gửi yêu cầu làm đồng minh và quản lý đồng minh'
+    OPENSTORAGE: 'Mở và tùy chỉnh kho đồ bang hội'
 online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
@@ -155,6 +157,10 @@ messages:
   last-page: '%prefix%&#d12f1d&l| &fBạn đang ở trang cuối rồi.'
   feature-in-progress: '%prefix%&#d12f1d&l| &fTính năng vẫn chưa được hoàn thiện, vui lòng trở lại sau...'
   feature-disabled: '%prefix%&#d12f1d&l| &fTính năng này đã bị vô hiệu hóa bởi admin.'
+  invalid-location: '%prefix%&#d12f1d&l| &fKhông thể làm điều đó ở đây! Hãy tìm một vị trí tốt hơn.'
+  invalid-number: '%prefix%&#d12f1d&l| &fVui lòng nhập số hợp lệ!'
+  inventory-locked: '%prefix%&#d12f1d&l| &fBang hội của bạn chưa mở khóa kho đồ #%storageNumber%&f!'
+  inventory-number-exceed-limit: '%prefix%&#d12f1d&l| &fKhông thể mở kho đồ có số lớn hơn %maxStorageNumber%&f.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fVui lòng nhập tên bang hội vào ô chat.'
@@ -183,6 +189,7 @@ messages:
     remove-ally-notification: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã xóa bang hội &e%clan%&f khỏi danh sách đồng minh.'
     ally-removed-notification: '%prefix%&#d12f1d&l| &fBang hội này đã bị xóa khỏi danh sách đồng minh của bang hội &e%clan%&f bởi &e%player%&f.'
     upgrade-max-members: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã nâng cấp số lượng thành viên tối đa lên &2%newMaxMembers%&f.'
+    upgrade-max-storages: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã nâng ấp số lượng kho đồ tối đa lên &2%newMaxStorages%&f.'
     upgrade-plugin-skill: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã nâng cấp %skillName%&f lên cấp độ &e%newLevel%&f.'
     set-icon: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã chỉnh icon bang hội thành &e%value% (Type: %type%)&f.'
     set-spawn: '%prefix%&#35d11d&l| &r%rank%&e %player%&f đã chỉnh spawn bang hội thành (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (Thế giới: &e%world%&f).'

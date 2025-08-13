@@ -101,15 +101,29 @@ clan-settings:
       CHAT: MEMBER
       UPGRADE: MANAGER
       MANAGEALLY: MANAGER
+      OPENSTORAGE: MEMBER
+    # Default available storage for newly created clans.
+    # Player will need to upgrade their max storage number to use more inventories.
+    # Set to 0 to not give any available storages to new clans.
+    max-storage-default: 1
+
+    # Send a broadcast to all the players in the server about the creation of a new clan.
+    # The plugin will select a random message from one of those lines below, set to 1 line to only use 1.
+    # Or just leave a single line like - '' to disable
+    creation-broadcast:
+      - '&#3498eb&lNEW CLAN&r &#35d11d&l| &e%player% &fjust created a new clan named &b%clanName%&f.'
+      - '&#3498eb&lNEW CLAN&r &#35d11d&l| &b%clanName% &fjust got created by &e%player%&f.'
 
   # If this option is enabled, permissions of all clans on the server will be set
   # to the defaults in "permission-default" above, and no clan will be able to change
   # their permissions unless this is disabled.
   permission-default-forced: false
 
+  # Settings for set spawn
   set-spawn-settings:
     blacklist-worlds:
       enabled: true
+      # If player is in on of these words, they will not be able to set spawn.
       worlds:
         - blacklistworld1
         - blacklistworld2
@@ -185,6 +199,15 @@ vanish-settings:
   # Vanished players will appear as OFFLINE
   hide-vanish-player:
     enabled: true
+
+# Storage settings
+# Modify max storage number or other stuffs related to clan storage here.
+storage-settings:
+  # Changing this after player already created and put items in clan storage might cause losing items!
+  slots: 54
+  # Max storage for player to upgrade or utilize.
+  # Any storage numbers exceed the number below won't be able to use or upgrade.
+  max-storage: 30
 
 # Plugins that can support the Clan plugin.
 # Includes: PlaceholderAPI.

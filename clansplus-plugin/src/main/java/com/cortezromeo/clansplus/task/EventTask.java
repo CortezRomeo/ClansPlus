@@ -23,6 +23,7 @@ public class EventTask implements Runnable {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String strDate = dateFormat.format(date);
 
+        // war event
         List<String> warEventTimeFrame = EventManager.getWarEvent().EVENT_TIME_FRAME;
         for (String timeFrame : warEventTimeFrame) {
             if (strDate.equals(timeFrame) && !EventManager.getWarEvent().isStarting()) {

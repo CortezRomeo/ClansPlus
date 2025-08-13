@@ -32,8 +32,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, String s) {
-        if (s == null)
-            return null;
+        if (s == null) return null;
 
         // top
         if (!PluginDataManager.getClanDatabase().isEmpty()) {
@@ -59,39 +58,29 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
             }
         }
 
-        if (!ClanManager.isPlayerInClan(player))
-            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+        if (!ClanManager.isPlayerInClan(player)) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(player.getName());
         IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
 
-        if (clanData == null)
-            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+        if (clanData == null) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
-        if (s.equalsIgnoreCase("clan_name"))
-            return clanData.getName();
+        if (s.equalsIgnoreCase("clan_name")) return clanData.getName();
         if (s.equalsIgnoreCase("clan_customname"))
             return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : "";
         if (s.equalsIgnoreCase("clan_formatname"))
             return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : clanData.getName();
-        if (s.equalsIgnoreCase("clan_owner"))
-            return clanData.getOwner();
+        if (s.equalsIgnoreCase("clan_owner")) return clanData.getOwner();
         if (s.equalsIgnoreCase("clan_message"))
             return clanData.getMessage() != null ? ClansPlus.nms.addColor(clanData.getMessage()) : "";
-        if (s.equalsIgnoreCase("clan_score"))
-            return String.valueOf(clanData.getScore());
-        if (s.equalsIgnoreCase("clan_warpoint"))
-            return String.valueOf(clanData.getWarPoint());
-        if (s.equalsIgnoreCase("clan_warning"))
-            return String.valueOf(clanData.getWarning());
-        if (s.equalsIgnoreCase("clan_maxmembers"))
-            return String.valueOf(clanData.getMaxMembers());
-        if (s.equalsIgnoreCase("clan_createddate"))
-            return String.valueOf(clanData.getCreatedDate());
+        if (s.equalsIgnoreCase("clan_score")) return String.valueOf(clanData.getScore());
+        if (s.equalsIgnoreCase("clan_warpoint")) return String.valueOf(clanData.getWarPoint());
+        if (s.equalsIgnoreCase("clan_warning")) return String.valueOf(clanData.getWarning());
+        if (s.equalsIgnoreCase("clan_maxmembers")) return String.valueOf(clanData.getMaxMembers());
+        if (s.equalsIgnoreCase("clan_createddate")) return String.valueOf(clanData.getCreatedDate());
         if (s.equalsIgnoreCase("clan_format_createddate"))
             return StringUtil.dateTimeToDateFormat(clanData.getCreatedDate());
-        if (s.equalsIgnoreCase("clan_members"))
-            return String.valueOf(clanData.getMembers());
+        if (s.equalsIgnoreCase("clan_members")) return String.valueOf(clanData.getMembers());
         if (s.equalsIgnoreCase("clan_allies"))
             return !clanData.getAllies().isEmpty() ? String.valueOf(clanData.getAllies()) : "";
         if (s.startsWith("clan_skilllevel_")) {
@@ -118,24 +107,19 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                 exception.printStackTrace();
             }
         }
-        if (s.equalsIgnoreCase("clan_discordchannelid"))
-            return String.valueOf(clanData.getDiscordChannelID());
+        if (s.equalsIgnoreCase("clan_discordchannelid")) return String.valueOf(clanData.getDiscordChannelID());
         if (s.equalsIgnoreCase("clan_discordjoinlink"))
             return clanData.getDiscordJoinLink() != null ? clanData.getDiscordJoinLink() : "";
 
         // player placeholders
-        if (s.equalsIgnoreCase("player_rank"))
-            return String.valueOf(playerData.getRank());
+        if (s.equalsIgnoreCase("player_rank")) return String.valueOf(playerData.getRank());
         if (s.equalsIgnoreCase("player_format_rank"))
             return ClansPlus.nms.addColor(ClanManager.getFormatRank(playerData.getRank()));
-        if (s.equalsIgnoreCase("player_joindate"))
-            return String.valueOf(playerData.getJoinDate());
+        if (s.equalsIgnoreCase("player_joindate")) return String.valueOf(playerData.getJoinDate());
         if (s.equalsIgnoreCase("player_format_joindate"))
             return StringUtil.dateTimeToDateFormat(playerData.getJoinDate());
-        if (s.equalsIgnoreCase("player_scorecollected"))
-            return String.valueOf(playerData.getScoreCollected());
-        if (s.equalsIgnoreCase("player_lastactivated"))
-            return String.valueOf(playerData.getLastActivated());
+        if (s.equalsIgnoreCase("player_scorecollected")) return String.valueOf(playerData.getScoreCollected());
+        if (s.equalsIgnoreCase("player_lastactivated")) return String.valueOf(playerData.getLastActivated());
         if (s.equalsIgnoreCase("player_format_lastactivated"))
             return StringUtil.dateTimeToDateFormat(playerData.getLastActivated());
 

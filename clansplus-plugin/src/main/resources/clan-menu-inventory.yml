@@ -203,6 +203,25 @@ items:
         - '&fZ: &b%z%'
         - ''
         - '&eClick here to teleport'
+  storage:
+    name: '&#42f58aStorage'
+    slot: 23
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE2ZDI1OTUzZDRiOGU2MzM0OTI2ZTIwNmFjMzIzZTc3NzMzZWQ3MDQwMWZkMWE4ZWVmN2UyMzkwZTQwZGIzZCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - ''
+      - '&fManage your clan storage.'
+      - ''
+      - '&fTotal storages owned: &a%clanMaxStorage%&f/&2%serverMaxStorage%'
+      - '&fTotal items stored: &e%itemsStored%'
+      - ''
+      - '&eClick here to manage'
   leave:
     name: '&cLeave Clan'
     slot: 50

@@ -1,0 +1,67 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by Cortez_Romeo (Discord: https://discord.gg/NWbTVddmBM)
+#
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
+
+title: '&0Storage #%storageNumber%'
+items:
+  previous:
+    name: '&#55ff00Previous storage (%previousStorageNumber%)'
+    # Changing this after player already created and put items in clan inventory might cause losing items!
+    slot: 45
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ==
+    data: 0
+    customModelData: 0
+    lore:
+      - '&fStorage %currentStorageNumber%/%clanMaxStorageNumber%'
+      - ''
+      - '&fSlots: &#aaffaa%usedSlots%&7/&#55ff0052'
+      - ''
+      - '&eClick to switch to previous storage'
+      - '&eRight-click to return to storage list menu'
+  next:
+    name: '&#55ff00Next storage (%nextStorageNumber%)'
+    # Changing this after player already created and put items in clan inventory might cause losing items!
+    slot: 53
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTliZjMyOTJlMTI2YTEwNWI1NGViYTcxM2FhMWIxNTJkNTQxYTFkODkzODgyOWM1NjM2NGQxNzhlZDIyYmYifX19
+    data: 0
+    customModelData: 0
+    lore:
+      - '&fStorage %currentStorageNumber%/%clanMaxStorageNumber%'
+      - ''
+      - '&fSlots: &#aaffaa%usedSlots%&7/&#55ff0052'
+      - ''
+      - '&eClick to switch to previous storage'
+      - '&eRight-click to return to storage list menu'
+  noStorage:
+    name: '&#FF0000No storages'
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWRiNDUwZDg3MGU0YmY5Yjk3MjZlYWYzYTUwNjU1YmMyMjQ3NDk0MjgyYTZjMjdkMTE5OWNmMTQ4NmFmNTMwOCJ9fX0=
+    data: 0
+    customModelData: 0
+    lore:
+      - '&fStorage %currentStorageNumber%/%clanMaxStorageNumber%'
+      - ''
+      - '&eRight-click to return to storage list menu'
+      - '&eShift + Right-click to open upgrade menu'

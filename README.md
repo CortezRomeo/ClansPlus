@@ -112,6 +112,29 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.4</summary>
+
+	- Fixed: War Event still starts after being disabled in config.
+	- Fixed: "Icon Invalid" message always appears when setting icon using custom head.
+	- Fixed: English language file not reloading after plugin reload.
+	- Fixed: Players using sign to search in inventory turn the block they're in into air.
+	- Fixed: Console spam when transferring database to H2.
+	- Fixed: Error retrieving player database causing multiple database issues.
+	- Added: Open Storage to Subject.
+	- Added: Max Storage to Clan Data.
+	- Added: Open Clan Storage to Clan Manager.
+	- Added: Sub-command openClanStorage to clanadmin command.
+	- Added: Clan Storage List inventory.
+	- Added: Clan Storage inventory.
+	- Added: Messages: invalid-location, invalid-number, storage-locked, storage-number-exceed-limit, clan-broadcast-upgrade-max-storages.
+	- Added: max-storage-default to config.yml.
+	- Added: clan-creation-broadcast to config.yml that appears randomly after creating a clan.
+	- Added: storage-settings to config.yml.
+	- Altered: Set Permission Inventory changed from regular inventory to paginated inventory.
+	- Optimized: Setting up inventory files.
+	- Optimized: Inventory handling menu code.
+</details>
+<details>
 <summary>2.3</summary>
 
     - Fixed: Fixed an error related to sign input.

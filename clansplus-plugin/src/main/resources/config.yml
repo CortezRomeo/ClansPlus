@@ -249,8 +249,8 @@ soft-depends:
       # %formatClanName%: Gets the display name of the clan, or original name if none
       # %clanName%: Gets the original clan name
       # %top%: Gets the top number
-      top_score_name: '&r%formatClanName%'
-      top_score_value: '%value%'
+      top_score_name_: '&r%formatClanName%'
+      top_score_value_: '%value%'
   # Put your discord web hook here to let plugin send plugin messages to your discord channel
   discordWebhook:
     webhookURL: ""

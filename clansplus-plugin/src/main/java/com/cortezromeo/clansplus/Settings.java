@@ -62,8 +62,33 @@ public class Settings {
     public static int STORAGE_SETTINGS_MAX_INVENTORY;
     public static List<String> STORAGE_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
-    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME;
-    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARPONT;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARING;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SKILLLEVEL_;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_RANK;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_RANK;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_JOINDATE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_JOINDATE;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_SCORECOLLECTED;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_LASTACTIVATED;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_LASTACTIVATED;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_;
+    public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_;
     public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
 
     public static void setupValue() {
@@ -133,8 +158,8 @@ public class Settings {
         STORAGE_SETTINGS_MAX_INVENTORY = configuration.getInt("storage-settings.max-storage");
         STORAGE_SETTINGS_BLACKLIST_MATERIAL = configuration.getStringList("storage-settings.black-list-material");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
-        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME = configuration.getString("soft-depends.placeholderapi.top-score-name");
-        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE = configuration.getString("soft-depends.placeholderapi.top-score-value");
+        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_ = configuration.getString("soft-depends.placeholderapi.placeholders.top_score_name");
+        SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_ = configuration.getString("soft-depends.placeholderapi.placeholders.top_score_value");
         SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
     }
 }

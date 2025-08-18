@@ -94,7 +94,7 @@ public interface ClanPlus {
 
         List<Player> getPlayerUsingChatSpy();
 
-        void openClanStorage(Player player, String clanName, int storageNumber);
+        void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled);
 
         boolean isConsoleUsingChatSpy();
     }

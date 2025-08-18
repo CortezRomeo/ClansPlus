@@ -173,7 +173,14 @@ public class ClanManager {
         return Messages.RANK_DISPLAY_MEMBER;
     }
 
-    public static void openClanStorage(Player player, String clanName, int storageNumber) {
+    public static void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled) {
+        if (!Settings.STORAGE_SETTINGS_ENABLED) {
+            if (!skipDisabled) {
+                MessageUtil.sendMessage(player, Messages.FEATURE_DISABLED);
+                return;
+            }
+        }
+
         if (!isClanExisted(clanName)) return;
         IClanData clanData = PluginDataManager.getClanDatabase(clanName);
 

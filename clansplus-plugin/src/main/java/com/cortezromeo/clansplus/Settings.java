@@ -57,6 +57,7 @@ public class Settings {
     public static int CHAT_SETTING_TIME_OUT;
     public static int SIGN_INPUT_SETTINGS_TIME_OUT;
     public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
+    public static boolean STORAGE_SETTINGS_ENABLED;
     public static int STORAGE_SETTINGS_SLOTS;
     public static int STORAGE_SETTINGS_MAX_INVENTORY;
     public static List<String> STORAGE_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
@@ -127,6 +128,7 @@ public class Settings {
         CHAT_SETTING_TIME_OUT = configuration.getInt("chat-settings.time-out");
         SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");
         VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration.getBoolean("vanish-settings.hide-vanish-player.enabled");
+        STORAGE_SETTINGS_ENABLED = configuration.getBoolean("storage-settings.enabled");
         STORAGE_SETTINGS_SLOTS = configuration.getInt("storage-settings.slots");
         STORAGE_SETTINGS_MAX_INVENTORY = configuration.getInt("storage-settings.max-storage");
         STORAGE_SETTINGS_BLACKLIST_MATERIAL = configuration.getStringList("storage-settings.black-list-material");

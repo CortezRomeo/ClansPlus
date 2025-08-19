@@ -109,6 +109,11 @@ public class UpgradeMenuInventory extends ClanPlusInventoryBase {
                 return true;
             }
 
+            if (!Settings.STORAGE_SETTINGS_ENABLED) {
+                MessageUtil.sendMessage(getOwner(), Messages.FEATURE_DISABLED);
+                return false;
+            }
+
             CurrencyType upgradeStoragesCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-storages.currency-type").toUpperCase());
             int newMaxStorages = playerClanData.getMaxStorage() + 1;
             long value = UpgradeFile.get().getLong("upgrade.max-storages.price." + newMaxStorages);

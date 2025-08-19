@@ -204,8 +204,8 @@ public class API implements com.cortezromeo.clansplus.api.ClanPlus {
         }
 
         @Override
-        public void openClanStorage(Player player, String clanName, int storageNumber) {
-            ClanManager.openClanStorage(player, clanName, storageNumber);
+        public void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled) {
+            ClanManager.openClanStorage(player, clanName, storageNumber, skipDisabled);
         }
 
         @Override

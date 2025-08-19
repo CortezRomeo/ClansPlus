@@ -47,9 +47,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                     IClanData clanData = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap()).get(value));
 
                     if (s.startsWith("top_score_name_"))
-                        return ClansPlus.nms.addColor(StringUtil.setClanNamePlaceholder(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME, clanData.getName()).replace("%top%", String.valueOf(value + 1)));
+                        return ClansPlus.nms.addColor(StringUtil.setClanNamePlaceholder(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_, clanData.getName()).replace("%top%", String.valueOf(value + 1)));
                     if (s.startsWith("top_score_value_"))
-                        return ClansPlus.nms.addColor(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE.replace("%value%", String.valueOf(clanData.getScore())));
+                        return ClansPlus.nms.addColor(Settings.SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_.replace("%value%", String.valueOf(clanData.getScore())));
 
                 } catch (Exception exception) {
                     MessageUtil.throwErrorMessage("[PlaceholderAPI] Value typed for PlaceholderAPI is not available! (papi: " + s + ") (" + exception.getMessage() + ")");
@@ -65,28 +65,28 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
         if (clanData == null) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
-        if (s.equalsIgnoreCase("clan_name")) return clanData.getName();
+        if (s.equalsIgnoreCase("clan_name")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME.replace("%value%", clanData.getName());
         if (s.equalsIgnoreCase("clan_customname"))
-            return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : "";
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME.replace("%value%", clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : "");
         if (s.equalsIgnoreCase("clan_formatname"))
-            return clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : clanData.getName();
-        if (s.equalsIgnoreCase("clan_owner")) return clanData.getOwner();
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME.replace("%value%", clanData.getCustomName() != null ? ClansPlus.nms.addColor(clanData.getCustomName()) : clanData.getName());
+        if (s.equalsIgnoreCase("clan_owner")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER.replace("%value%", clanData.getOwner());
         if (s.equalsIgnoreCase("clan_message"))
-            return clanData.getMessage() != null ? ClansPlus.nms.addColor(clanData.getMessage()) : "";
-        if (s.equalsIgnoreCase("clan_score")) return String.valueOf(clanData.getScore());
-        if (s.equalsIgnoreCase("clan_warpoint")) return String.valueOf(clanData.getWarPoint());
-        if (s.equalsIgnoreCase("clan_warning")) return String.valueOf(clanData.getWarning());
-        if (s.equalsIgnoreCase("clan_maxmembers")) return String.valueOf(clanData.getMaxMembers());
-        if (s.equalsIgnoreCase("clan_createddate")) return String.valueOf(clanData.getCreatedDate());
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE.replace("%value%", clanData.getMessage() != null ? ClansPlus.nms.addColor(clanData.getMessage()) : "");
+        if (s.equalsIgnoreCase("clan_score")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE.replace("%value%", String.valueOf(clanData.getScore()));
+        if (s.equalsIgnoreCase("clan_warpoint")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARPONT.replace("%value%", String.valueOf(clanData.getWarPoint()));
+        if (s.equalsIgnoreCase("clan_warning")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING.replace("%value%", String.valueOf(clanData.getWarning()));
+        if (s.equalsIgnoreCase("clan_maxmembers")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS.replace("%value%", String.valueOf(clanData.getMaxMembers()));
+        if (s.equalsIgnoreCase("clan_createddate")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE.replace("%value%", String.valueOf(clanData.getCreatedDate()));
         if (s.equalsIgnoreCase("clan_format_createddate"))
-            return StringUtil.dateTimeToDateFormat(clanData.getCreatedDate());
-        if (s.equalsIgnoreCase("clan_members")) return String.valueOf(clanData.getMembers());
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE.replace("%value%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()));
+        if (s.equalsIgnoreCase("clan_members")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS.replace("%value%", String.valueOf(clanData.getMembers()));
         if (s.equalsIgnoreCase("clan_allies"))
-            return !clanData.getAllies().isEmpty() ? String.valueOf(clanData.getAllies()) : "";
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES.replace("%value%", !clanData.getAllies().isEmpty() ? String.valueOf(clanData.getAllies()) : "");
         if (s.startsWith("clan_skilllevel_")) {
             String skillID = s.replace("clan_skilllevel_", "");
             try {
-                return String.valueOf(clanData.getSkillLevel().getOrDefault(Integer.parseInt(skillID), 0));
+                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SKILLLEVEL_.replace("%value%", String.valueOf(clanData.getSkillLevel().getOrDefault(Integer.parseInt(skillID), 0)));
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -94,7 +94,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (s.startsWith("clan_subjectpermission_")) {
             String subject = s.replace("clan_subjectpermission_", "");
             try {
-                return String.valueOf(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase())));
+                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_.replace("%value%", String.valueOf(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase()))));
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -102,26 +102,25 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (s.startsWith("clan_format_subjectpermission_")) {
             String subject = s.replace("clan_format_subjectpermission_", "");
             try {
-                return ClansPlus.nms.addColor(ClanManager.getFormatRank(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase()))));
-            } catch (Exception exception) {
+                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_.replace("%value%", ClansPlus.nms.addColor(ClanManager.getFormatRank(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase())))));            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
-        if (s.equalsIgnoreCase("clan_discordchannelid")) return String.valueOf(clanData.getDiscordChannelID());
+        if (s.equalsIgnoreCase("clan_discordchannelid")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID.replace("%value%", String.valueOf(clanData.getDiscordChannelID()));
         if (s.equalsIgnoreCase("clan_discordjoinlink"))
-            return clanData.getDiscordJoinLink() != null ? clanData.getDiscordJoinLink() : "";
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK.replace("%value%", clanData.getDiscordJoinLink() != null ? clanData.getDiscordJoinLink() : "");
 
         // player placeholders
-        if (s.equalsIgnoreCase("player_rank")) return String.valueOf(playerData.getRank());
+        if (s.equalsIgnoreCase("player_rank")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_RANK.replace("%value%", String.valueOf(playerData.getRank()));
         if (s.equalsIgnoreCase("player_format_rank"))
-            return ClansPlus.nms.addColor(ClanManager.getFormatRank(playerData.getRank()));
-        if (s.equalsIgnoreCase("player_joindate")) return String.valueOf(playerData.getJoinDate());
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_RANK.replace("%value%", ClansPlus.nms.addColor(ClanManager.getFormatRank(playerData.getRank())));
+        if (s.equalsIgnoreCase("player_joindate")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_JOINDATE.replace("%value%", String.valueOf(playerData.getJoinDate()));
         if (s.equalsIgnoreCase("player_format_joindate"))
-            return StringUtil.dateTimeToDateFormat(playerData.getJoinDate());
-        if (s.equalsIgnoreCase("player_scorecollected")) return String.valueOf(playerData.getScoreCollected());
-        if (s.equalsIgnoreCase("player_lastactivated")) return String.valueOf(playerData.getLastActivated());
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_JOINDATE.replace("%value%", StringUtil.dateTimeToDateFormat(playerData.getJoinDate()));
+        if (s.equalsIgnoreCase("player_scorecollected")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_SCORECOLLECTED.replace("%value%", String.valueOf(playerData.getScoreCollected()));
+        if (s.equalsIgnoreCase("player_lastactivated")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_LASTACTIVATED.replace("%value%", String.valueOf(playerData.getLastActivated()));
         if (s.equalsIgnoreCase("player_format_lastactivated"))
-            return StringUtil.dateTimeToDateFormat(playerData.getLastActivated());
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_LASTACTIVATED.replace("%value%", StringUtil.dateTimeToDateFormat(playerData.getLastActivated()));
 
         return null;
     }

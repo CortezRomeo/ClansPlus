@@ -17,7 +17,6 @@ public class Support {
     public DiscordSupport discordSupport;
     public FoliaLib foliaLib;
     public boolean placeholderAPISupported = false;
-    public boolean foliaLibSupported = false;
     public boolean playerPointsSupported = false;
     public boolean mythicMobsSupported = false;
     public boolean vaultSupported = false;

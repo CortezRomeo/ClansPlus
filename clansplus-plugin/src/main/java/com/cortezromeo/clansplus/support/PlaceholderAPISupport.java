@@ -13,8 +13,6 @@ import com.cortezromeo.clansplus.util.StringUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
-import java.util.Set;
-
 public class PlaceholderAPISupport extends PlaceholderExpansion {
 
     @Override
@@ -77,7 +75,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE.replace("%value%", clanData.getMessage() != null ? ClansPlus.nms.addColor(clanData.getMessage()) : "");
         if (s.equalsIgnoreCase("clan_score")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE.replace("%value%", String.valueOf(clanData.getScore()));
         if (s.equalsIgnoreCase("clan_warpoint")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARPONT.replace("%value%", String.valueOf(clanData.getWarPoint()));
-        if (s.equalsIgnoreCase("clan_warning")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARING.replace("%value%", String.valueOf(clanData.getWarning()));
+        if (s.equalsIgnoreCase("clan_warning")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING.replace("%value%", String.valueOf(clanData.getWarning()));
         if (s.equalsIgnoreCase("clan_maxmembers")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS.replace("%value%", String.valueOf(clanData.getMaxMembers()));
         if (s.equalsIgnoreCase("clan_createddate")) return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE.replace("%value%", String.valueOf(clanData.getCreatedDate()));
         if (s.equalsIgnoreCase("clan_format_createddate"))
@@ -96,7 +94,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (s.startsWith("clan_subjectpermission_")) {
             String subject = s.replace("clan_subjectpermission_", "");
             try {
-                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_.replace("%value", String.valueOf(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase()))));
+                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_.replace("%value%", String.valueOf(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase()))));
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -104,7 +102,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (s.startsWith("clan_format_subjectpermission_")) {
             String subject = s.replace("clan_format_subjectpermission_", "");
             try {
-                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION.replace("%value%", ClansPlus.nms.addColor(ClanManager.getFormatRank(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase())))));            } catch (Exception exception) {
+                return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_.replace("%value%", ClansPlus.nms.addColor(ClanManager.getFormatRank(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase())))));            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }

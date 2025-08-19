@@ -203,6 +203,7 @@ vanish-settings:
 # Storage settings
 # Modify max storage number or other stuffs related to clan storage here.
 storage-settings:
+  enabled: true
   # Changing this after player already created and put items in clan storage might cause losing items!
   slots: 54
   # Max storage for player to upgrade or utilize.
@@ -215,10 +216,41 @@ soft-depends:
   placeholderapi:
     # Returns "no-clan" if the player is not in a clan
     no-clan: 'N/A'
-    # %formatClanName%: Gets the display name of the clan, or original name if none
-    # %clanName%: Gets the original clan name
-    # %top%: Gets the top number
-    top-score-name: '&r%formatClanName%'
-    top-score-value: '%value%'
+    # %value% is the value that placeholder returns
+    placeholders:
+      # Clan placeholders
+      clan_name: '%value%'
+      clan_customname: '%value%'
+      clan_formatname: '%value%'
+      clan_owner: '%value%'
+      clan_message: '%value%'
+      clan_score: '%value%'
+      clan_warpoint: '%value%'
+      clan_warning: '%value%'
+      clan_maxmembers: '%value%'
+      clan_createddate: '%value%'
+      clan_format_createddate: '%value%'
+      clan_members: '%value%'
+      clan_allies: '%value%'
+      clan_skilllevel_: '%value%'
+      clan_subjectpermission_: '%value%'
+      clan_format_subjectpermission_: '%value%'
+      clan_discordchannelid: '%value%'
+      clan_discordjoinlink: '%value%'
+      # Player placeholders
+      player_rank: '%value%'
+      player_format_rank: '%value%'
+      player_joindate: '%value%'
+      player_format_joindate: '%value%'
+      player_scorecollected: '%value%'
+      player_lastactivated: '%value%'
+      player_format_lastactivated: '%value%'
+      # Top placeholders
+      # %formatClanName%: Gets the display name of the clan, or original name if none
+      # %clanName%: Gets the original clan name
+      # %top%: Gets the top number
+      top_score_name_: '&r%formatClanName%'
+      top_score_value_: '%value%'
+  # Put your discord web hook here to let plugin send plugin messages to your discord channel
   discordWebhook:
     webhookURL: ""

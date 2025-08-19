@@ -89,8 +89,12 @@ public class ClanMenuInventory extends ClanPlusInventoryBase {
             new Spawn(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.SPAWN), getOwner(), getOwner().getName()).execute();
         if (itemCustomData.equals("leave"))
             new LeaveConfirmationInventory(getOwner()).open();
-        if (itemCustomData.equals("storage"))
-            new StorageListInventory(getOwner()).open();
+        if (itemCustomData.equals("storage")) {
+            if (Settings.STORAGE_SETTINGS_ENABLED)
+                new StorageListInventory(getOwner()).open();
+            else
+                MessageUtil.sendMessage(getOwner(), Messages.FEATURE_DISABLED);
+        }
 
         return true;
     }

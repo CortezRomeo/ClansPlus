@@ -33,7 +33,7 @@ public class OpenStorage extends SubjectManager {
             return false;
         }
 
-        ClanManager.openClanStorage(player, getPlayerClanData().getName(), storageNumber);
+        ClanManager.openClanStorage(player, getPlayerClanData().getName(), storageNumber, false);
         return true;
     }
 }

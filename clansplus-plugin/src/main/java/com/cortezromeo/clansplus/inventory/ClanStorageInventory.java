@@ -75,7 +75,7 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
             if (buttonClickExecutive(event, player, false))
                 return;
 
-            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber + 1);
+            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber + 1, false);
         }
 
         if (ClansPlus.nms.getCustomData(itemStack).equals("previous")) {
@@ -87,7 +87,7 @@ public class ClanStorageInventory extends ClanPlusStorageInventoryBase {
             if (buttonClickExecutive(event, player, false))
                 return;
 
-            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber - 1);
+            ClanManager.openClanStorage(player, PluginDataManager.getPlayerDatabase(player.getName()).getClan(), storageNumber - 1, false);
         }
     }
 

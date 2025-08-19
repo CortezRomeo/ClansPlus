@@ -17,6 +17,7 @@ import com.cortezromeo.clansplus.language.English;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.language.Vietnamese;
 import com.cortezromeo.clansplus.listener.*;
+import com.cortezromeo.clansplus.metrics.Metrics;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
 import com.cortezromeo.clansplus.support.CustomHeadSupport;

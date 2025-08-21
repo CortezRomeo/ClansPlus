@@ -26,8 +26,9 @@ public class PlayerJoinListener implements Listener {
             PluginDataManager.loadPlayerDatabase(player.getName());
             PluginDataManager.getPlayerDatabase(player.getName()).setLastActivated(new Date().getTime());
 
-            if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_ENABLED)
-                ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY);
+            if (EventManager.getWarEvent().ENABLED)
+                if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_ENABLED)
+                    ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task1 -> EventManager.getWarEvent().onJoin(event), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_WAR_EVENT_DELAY);
             if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED)
                 ClansPlus.support.getFoliaLib().getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY);
         });

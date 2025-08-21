@@ -1,6 +1,7 @@
 package com.cortezromeo.clansplus.listener;
 
 import com.cortezromeo.clansplus.ClansPlus;
+import com.cortezromeo.clansplus.Settings;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
@@ -17,8 +18,11 @@ public class PaperAsyncChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncChatEvent event) {
-        TextComponent textComponent = (TextComponent) event.message();
-        if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), textComponent.content())) event.setCancelled(true);
+        if (Settings.CHAT_SETTING_USE_PAPER_ASYNC_CHAT) {
+            TextComponent textComponent = (TextComponent) event.message();
+            if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), textComponent.content()))
+                event.setCancelled(true);
+        }
     }
 
 }

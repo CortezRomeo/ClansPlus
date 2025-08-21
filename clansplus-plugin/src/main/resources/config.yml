@@ -184,6 +184,9 @@ clan-settings:
 
 # Chat settings
 chat-settings:
+  # Some chat plugins have not supported paper async chat yet so it will cause a problem that will make
+  # clansplus still sends players' messages even if they are using clans chat or any chat related features.
+  use-paper-async-chat: false
   # Use the word below to cancel chat interaction.
   stop-using-chat-word: '?cancel'
 

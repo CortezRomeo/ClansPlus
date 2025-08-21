@@ -44,6 +44,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                     if (value < 0 || PluginDataManager.getClanDatabase().size() <= value)
                         return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
+                    if (ClanManager.getClansScoreHashMap() == null || ClanManager.getClansScoreHashMap().isEmpty())
+                        return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+
                     IClanData clanData = PluginDataManager.getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap()).get(value));
 
                     if (s.startsWith("top_score_name_"))

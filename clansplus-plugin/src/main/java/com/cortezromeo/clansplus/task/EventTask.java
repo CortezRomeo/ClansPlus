@@ -25,9 +25,11 @@ public class EventTask implements Runnable {
 
         // war event
         List<String> warEventTimeFrame = EventManager.getWarEvent().EVENT_TIME_FRAME;
-        for (String timeFrame : warEventTimeFrame) {
-            if (strDate.equals(timeFrame) && !EventManager.getWarEvent().isStarting()) {
-                EventManager.getWarEvent().runEvent(true);
+        if (EventManager.getWarEvent().ENABLED) {
+            for (String timeFrame : warEventTimeFrame) {
+                if (strDate.equals(timeFrame) && !EventManager.getWarEvent().isStarting()) {
+                    EventManager.getWarEvent().runEvent(true);
+                }
             }
         }
     }

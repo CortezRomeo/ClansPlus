@@ -138,7 +138,8 @@ public class WarEvent {
 
     // start the event
     public void runEvent(boolean checkPlayerSize) {
-        if (STARTING || !ENABLED) return;
+        if (STARTING || !ENABLED)
+            return;
 
         if (checkPlayerSize) {
             if (Bukkit.getOnlinePlayers().size() < MINIMUM_PLAYER_ONLINE) {

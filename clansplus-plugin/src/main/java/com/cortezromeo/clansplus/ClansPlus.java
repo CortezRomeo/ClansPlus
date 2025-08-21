@@ -327,7 +327,7 @@ public class ClansPlus extends JavaPlugin {
         new PlayerJoinListener();
         new InventoryClickListener();
         new EntityDamageListener();
-        if (support.getFoliaLib().isPaper() || support.getFoliaLib().isFolia()) {
+        if ((support.getFoliaLib().isPaper() || support.getFoliaLib().isFolia()) && Settings.CHAT_SETTING_USE_PAPER_ASYNC_CHAT) {
             new PaperAsyncChatListener();
             log("&e[PAPER OPTIMIZATION] USING PAPER ASYNC CHAT.");
         } else new AsyncPlayerChatListener();

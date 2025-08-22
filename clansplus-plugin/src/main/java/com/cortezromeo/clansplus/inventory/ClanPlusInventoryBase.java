@@ -24,7 +24,7 @@ public abstract class ClanPlusInventoryBase implements InventoryHolder {
 
     public void open() {
         inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
-        this.setMenuItems();
+        setMenuItems();
         getOwner().openInventory(inventory);
     }
 

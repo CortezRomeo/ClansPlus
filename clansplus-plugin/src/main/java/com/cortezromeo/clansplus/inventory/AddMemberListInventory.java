@@ -72,6 +72,7 @@ public class AddMemberListInventory extends PaginatedInventory {
         String itemCustomData = ClansPlus.nms.getCustomData(itemStack);
 
         playClickSound(fileConfiguration, itemCustomData);
+
         if (itemCustomData.equals("prevPage")) {
             if (getPage() != 0) {
                 setPage(getPage() - 1);

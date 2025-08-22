@@ -171,6 +171,7 @@ public class AddAllyListInventory extends PaginatedInventory {
                     String clanName = clans.get(index);
                     if (clanName.equals(playerClanData.getName()))
                         continue;
+
                     IClanData clanData = PluginDataManager.getClanDatabase(clanName);
                     ArrayList<String> clanItemLore = new ArrayList<>();
                     ItemStack clanItem = ItemUtil.getItem(
@@ -180,6 +181,7 @@ public class AddAllyListInventory extends PaginatedInventory {
                             fileConfiguration.getString("items.clan.name"),
                             fileConfiguration.getStringList("items.clan.lore"), false);
                     ItemMeta clanItemItemMeta = clanItem.getItemMeta();
+
                     if (clanItemItemMeta.getLore() != null) {
                         for (String lore : clanItemItemMeta.getLore()) {
                             if (clanData.getAllyInvitation().contains(playerClanData.getName()))

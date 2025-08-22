@@ -117,6 +117,12 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.5</summary>
+
+	- Added: Enabled/disabled for opening clan storage
+	- Added: Modifiable placeholderapi value to config.yml
+</details>
+<details>
 <summary>2.4</summary>
 
 	- Fixed: War Event still starts after being disabled in config.

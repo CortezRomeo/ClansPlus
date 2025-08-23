@@ -1,6 +1,6 @@
 ![logo](https://i.imgur.com/9t2WM27.png)
 
-# Description
+## Description
 
 A minecraft plugin that allows players to create and manage their own clan.
 

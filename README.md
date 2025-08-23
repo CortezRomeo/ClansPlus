@@ -117,6 +117,19 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.7</summary>
+
+	- Fixed an error that caused clans does not show up in adding ally inventory.
+</details>
+<details>
+<summary>2.6</summary>
+
+	- Fixed War Event Messages still show up even when it's already disabled.
+	- Fixed Paper Async Chat causes messages from players using clan chat are still sent to general chat.
+	- Fixed Top cannot be used from PlaceholderAPI.
+	- Added an option to enable or disable paper async in config.yml
+</details>
+<details>
 <summary>2.5</summary>
 
 	- Added: Enabled/disabled for opening clan storage

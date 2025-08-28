@@ -10,7 +10,7 @@ import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.clan.subject.SetSpawn;
 import com.cortezromeo.clansplus.file.inventory.ClanSettingsInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
-import com.cortezromeo.clansplus.listener.ChatListenerHandle;
+import com.cortezromeo.clansplus.listener.ChatListenerHandler;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -80,8 +80,8 @@ public class ClanSettingsInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("setCustomName")) {
             if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), playerClanData.getSubjectPermission().get(Subject.SETCUSTOMNAME))) {
                 getOwner().closeInventory();
-                if (!ChatListenerHandle.setCustomName.contains(getOwner()))
-                    ChatListenerHandle.setCustomName.add(getOwner());
+                if (!ChatListenerHandler.setCustomName.contains(getOwner()))
+                    ChatListenerHandler.setCustomName.add(getOwner());
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_SET_CUSTOM_NAME.replace("%seconds%", String.valueOf(Settings.CHAT_SETTING_TIME_OUT)));
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
             }
@@ -89,8 +89,8 @@ public class ClanSettingsInventory extends ClanPlusInventoryBase {
         if (itemCustomData.equals("setMessage")) {
             if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), playerClanData.getSubjectPermission().get(Subject.SETMESSAGE))) {
                 getOwner().closeInventory();
-                if (!ChatListenerHandle.setMessage.contains(getOwner()))
-                    ChatListenerHandle.setMessage.add(getOwner());
+                if (!ChatListenerHandler.setMessage.contains(getOwner()))
+                    ChatListenerHandler.setMessage.add(getOwner());
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_SET_MESSAGE.replace("%seconds%", String.valueOf(Settings.CHAT_SETTING_TIME_OUT)));
                 MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
             }

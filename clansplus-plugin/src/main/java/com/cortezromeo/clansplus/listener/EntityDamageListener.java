@@ -72,6 +72,9 @@ public class EntityDamageListener implements Listener {
                     Damageable damageableVictim = (Damageable) event.getEntity();
                     if (damageableVictim instanceof Player victim) {
 
+                        if (shooter.getName().equals(victim.getName()))
+                            return;
+
                         if (!ClanManager.isPlayerInClan(shooter) || !ClanManager.isPlayerInClan(victim)) return;
 
                         int checkEvent = 0;

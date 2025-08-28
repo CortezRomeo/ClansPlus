@@ -5,7 +5,7 @@ import com.cortezromeo.clansplus.Settings;
 import com.cortezromeo.clansplus.api.enums.ItemType;
 import com.cortezromeo.clansplus.file.inventory.NoClanInventoryFile;
 import com.cortezromeo.clansplus.language.Messages;
-import com.cortezromeo.clansplus.listener.ChatListenerHandle;
+import com.cortezromeo.clansplus.listener.ChatListenerHandler;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
@@ -58,8 +58,8 @@ public class NoClanInventory extends ClanPlusInventoryBase {
             getOwner().closeInventory();
         if (itemCustomData.equals("createNewClan")) {
             getOwner().closeInventory();
-            if (!ChatListenerHandle.createClan.contains(getOwner()))
-                ChatListenerHandle.createClan.add(getOwner());
+            if (!ChatListenerHandler.createClan.contains(getOwner()))
+                ChatListenerHandler.createClan.add(getOwner());
             MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CREATE_CLAN.replace("%seconds%", String.valueOf(Settings.CHAT_SETTING_TIME_OUT)));
             MessageUtil.sendMessage(getOwner(), Messages.USING_CHAT_BOX_CANCEL_USING_CHAT_BOX.replace("%word%", Settings.CHAT_SETTING_STOP_USING_CHAT_WORD));
         }

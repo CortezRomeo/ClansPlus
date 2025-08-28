@@ -117,6 +117,15 @@ You might need these plugins to utilize my plugin resources totally.
         - clanresetall
 ## Update history
 <details>
+<summary>2.8</summary>
+
+	- Fixed: Dupe Item from Clan Storage
+	- Fixed: Set Manager Item Lore in Manager Member Rank Inventory uses the Set Owner Lore
+	- Fixed : Chat Priority
+	- Fixed: Players cannot hurt themselves using ender pearl or anything like that
+ 	- Added: Close Inventory Event to save clan database
+</details>
+<details>
 <summary>2.7</summary>
 
 	- Fixed an error that caused clans does not show up in adding ally inventory.

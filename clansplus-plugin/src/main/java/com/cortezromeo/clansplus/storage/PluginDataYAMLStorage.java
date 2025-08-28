@@ -252,7 +252,10 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 int slotNumber = -1;
                 for (ItemStack itemStack : inventoryContents.getContents()) {
                     slotNumber++;
-                    if (itemStack == null) continue;
+                    if (itemStack == null) {
+                        storage.set("data.storage." + storageNumber + "." + slotNumber, null);
+                        continue;
+                    }
                     if (ClansPlus.nms.getCustomData(itemStack).equals("next") || ClansPlus.nms.getCustomData(itemStack).equals("previous") || ClansPlus.nms.getCustomData(itemStack).equals("noStorage"))
                         continue;
                     storage.set("data.storage." + storageNumber + "." + slotNumber, StringUtil.toBase64(itemStack));

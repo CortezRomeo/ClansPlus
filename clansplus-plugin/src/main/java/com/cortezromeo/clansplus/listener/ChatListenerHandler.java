@@ -14,13 +14,17 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatListenerHandle {
+public class ChatListenerHandler {
 
     public static List<Player> createClan = new ArrayList<>();
     public static List<Player> setCustomName = new ArrayList<>();
     public static List<Player> setMessage = new ArrayList<>();
 
+    /*
+    handle player chat
+    */
     public static boolean handlePlayerChat(Player player, String message) {
+        // cancel using chat interacting
         if (createClan.contains(player) || setCustomName.contains(player) || setMessage.contains(player))
             if (message.equals(Settings.CHAT_SETTING_STOP_USING_CHAT_WORD)) {
                 createClan.remove(player);

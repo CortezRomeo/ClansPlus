@@ -138,7 +138,7 @@ public class ManageMemberRankInventory extends ClanPlusInventoryBase {
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".value"),
                     fileConfiguration.getInt("items.setManager." + getPlayerRankPath + ".customModelData"),
                     fileConfiguration.getString("items.setManager." + getPlayerRankPath + ".name"),
-                    setOwnerItemLore, false), (isPlayerAManager ? "removeManager=" : "setManager=") + playerName);
+                    setManagerItemLore, false), (isPlayerAManager ? "removeManager=" : "setManager=") + playerName);
             int setManagerItemSlot = fileConfiguration.getInt("items.setManager.slot");
             inventory.setItem(setManagerItemSlot, setManagerItem);
 

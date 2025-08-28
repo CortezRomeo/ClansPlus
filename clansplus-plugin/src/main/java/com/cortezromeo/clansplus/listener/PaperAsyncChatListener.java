@@ -16,11 +16,11 @@ public class PaperAsyncChatListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncChatEvent event) {
         if (Settings.CHAT_SETTING_USE_PAPER_ASYNC_CHAT) {
             TextComponent textComponent = (TextComponent) event.message();
-            if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), textComponent.content()))
+            if (ChatListenerHandler.handlePlayerChat(event.getPlayer(), textComponent.content()))
                 event.setCancelled(true);
         }
     }

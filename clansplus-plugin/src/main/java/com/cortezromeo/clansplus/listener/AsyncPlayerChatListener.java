@@ -13,9 +13,9 @@ public class AsyncPlayerChatListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, ClansPlus.plugin);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncPlayerChatEvent event) {
-        if (ChatListenerHandle.handlePlayerChat(event.getPlayer(), event.getMessage()))
+        if (ChatListenerHandler.handlePlayerChat(event.getPlayer(), event.getMessage()))
             event.setCancelled(true);
     }
 }

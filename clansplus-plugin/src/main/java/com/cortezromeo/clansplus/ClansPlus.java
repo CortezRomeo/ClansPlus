@@ -336,6 +336,7 @@ public class ClansPlus extends JavaPlugin {
         new PlayerMovementListener();
         new PlayerDeathListener();
         new EntityDeathListener();
+        new InventoryCloseListener();
     }
 
     public void initSkills() {
@@ -368,9 +369,6 @@ public class ClansPlus extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        PluginDataManager.saveAllDatabase();
-        PluginDataStorage.disableStorage();
-
         try {
             if (!Bukkit.getOnlinePlayers().isEmpty()) for (Player player : Bukkit.getOnlinePlayers()) {
                 player.closeInventory();
@@ -378,6 +376,9 @@ public class ClansPlus extends JavaPlugin {
         } catch (IncompatibleClassChangeError exception) {
             // ignore it
         }
+
+        PluginDataManager.saveAllDatabase();
+        PluginDataStorage.disableStorage();
 
         log("&f--------------------------------");
         log("&c   ____ _                   ____  _           ");

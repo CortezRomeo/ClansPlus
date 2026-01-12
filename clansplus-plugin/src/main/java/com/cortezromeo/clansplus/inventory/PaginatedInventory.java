@@ -28,11 +28,12 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
 
     public void onSearch(SignChangeEvent event) {
         event.setCancelled(true);
-        String signLine1 = ((TextComponent) event.line(0)).content();
-        String signLine2 = ((TextComponent) event.line(1)).content();
-        String signLine3 = ((TextComponent) event.line(2)).content();
-        String signLine4 = ((TextComponent) event.line(3)).content();
-        setSearch(new StringBuilder().append(signLine1).append(signLine2).append(signLine3).append(signLine4).toString());
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int signLineNumber = 0; signLineNumber <= 3; signLineNumber++) {
+            String signLineText = ((TextComponent) event.line(signLineNumber)).content();
+            stringBuilder.append(signLineText);
+        }
+        setSearch(stringBuilder.toString());
         setPage(0);
         open();
     }
@@ -177,7 +178,7 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         List<String> itemLore = itemMeta.getLore();
         itemLore.replaceAll(string -> ClansPlus.nms.addColor(string.replace("%page%", String.valueOf(getPage()))
                 .replace("%nextPage%", String.valueOf(getPage() + 2))
-                .replace("%prevPage%", String.valueOf(getPage() > 0 ? getPage() : 0))));
+                .replace("%prevPage%", String.valueOf(Math.max(getPage(), 0)))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

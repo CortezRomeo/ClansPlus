@@ -20,7 +20,6 @@ import com.cortezromeo.clansplus.listener.*;
 import com.cortezromeo.clansplus.metrics.Metrics;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.storage.PluginDataStorage;
-import com.cortezromeo.clansplus.support.CustomHeadSupport;
 import com.cortezromeo.clansplus.support.Support;
 import com.cortezromeo.clansplus.support.version.CrossVersionSupport;
 import com.cortezromeo.clansplus.task.EventTask;
@@ -286,8 +285,6 @@ public class ClansPlus extends JavaPlugin {
         // discordsrv-warevent-ending.json
         File warEventEndingJsonFile = new File(getDataFolder(), "discordsrv-warevent-ending.json");
         if (!warEventEndingJsonFile.exists()) saveResource(warEventEndingJsonFile.getName(), false);
-
-        CustomHeadSupport.setupCustomHeadJsonFiles();
     }
 
     public void initLanguages() {

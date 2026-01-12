@@ -27,6 +27,8 @@ public abstract class VersionSupport {
 
     public abstract ItemStack getHeadItemFromBase64(String headValue);
 
+    public abstract ItemStack getHeadItemFromURL(String headValue);
+
     public abstract ItemStack addCustomData(ItemStack itemStack, String data);
 
     public abstract String getCustomData(ItemStack itemStack);

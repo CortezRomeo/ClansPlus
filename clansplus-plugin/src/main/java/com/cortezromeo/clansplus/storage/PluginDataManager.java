@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Statement;
@@ -197,20 +198,44 @@ public class PluginDataManager {
     }
 
     public static void loadAllCustomHeadsFromJsonFiles() {
-        File customHeadsFolder = new File(ClansPlus.plugin.getDataFolder() + "/customheads");
-        if (!customHeadsFolder.exists()) CustomHeadSupport.setupCustomHeadJsonFiles();
+        CustomHeadSupport.setupCustomHeadJsonFiles();
 
         for (CustomHeadCategory customHeadCategory : CustomHeadCategory.values()) {
             String customHeadCategoryString = customHeadCategory.toString().toLowerCase().replace("_", "-");
             List<CustomHeadData> customHeadDataList = new ArrayList<>();
             try {
-                String jsonString = new String(Files.readAllBytes(Paths.get(ClansPlus.plugin.getDataFolder() + "/customheads/custom-head-" + customHeadCategoryString + ".json")));
-                JSONArray jsonArray = new JSONArray(jsonString);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String name = jsonObject.getString("name");
-                    String value = jsonObject.getString("value");
-                    customHeadDataList.add(new CustomHeadData(name, value));
+                String customHeadsFolderName = "customheads" + (Settings.CUSTOM_HEADS_API_V2_ENABLED ? "V2" : "");
+                String jsonString = new String(Files.readAllBytes(Paths.get(ClansPlus.plugin.getDataFolder() + "/" + customHeadsFolderName + "/custom-head-" + customHeadCategoryString + ".json")));
+                if (Settings.CUSTOM_HEADS_API_V2_ENABLED) {
+                    JSONObject root = new JSONObject(jsonString);
+                    JSONArray dataArray = root.getJSONArray("data");
+
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject item = dataArray.getJSONObject(i);
+
+                        String name = item.getString("n");
+                        String uuid = item.getString("u");
+
+                        // convert uuid to base 64
+                        String json = "{ \"textures\": { \"SKIN\": { \"url\": \"http://textures.minecraft.net/texture/"
+                                + uuid + "\" } } }";
+                        String base64 = Base64.getEncoder()
+                                .encodeToString(json.getBytes(StandardCharsets.UTF_8));
+
+                        if (i==1 || i==2) {
+                            MessageUtil.devMessage(i +"/"+ name +"/" + uuid +"/"+ base64);
+                        }
+
+                        customHeadDataList.add(new CustomHeadData(name, base64));
+                    }
+                } else {
+                    JSONArray jsonArray = new JSONArray(jsonString);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String name = jsonObject.getString("name");
+                        String value = jsonObject.getString("value");
+                        customHeadDataList.add(new CustomHeadData(name, value));
+                    }
                 }
                 getCustomHeadDatabase().put(customHeadCategory, customHeadDataList);
             } catch (Exception exception) {

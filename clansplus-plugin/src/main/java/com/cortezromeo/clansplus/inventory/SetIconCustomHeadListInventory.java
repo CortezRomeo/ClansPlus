@@ -102,7 +102,13 @@ public class SetIconCustomHeadListInventory extends PaginatedInventory {
                 category = CustomHeadCategory.DECORATION;
             else if (category == CustomHeadCategory.DECORATION)
                 category = CustomHeadCategory.FOOD_DRINKS;
-            else if (category == CustomHeadCategory.FOOD_DRINKS)
+            else if (category == CustomHeadCategory.FOOD_DRINKS) {
+                if (Settings.CUSTOM_HEADS_API_V2_ENABLED) {
+                    category = CustomHeadCategory.HELMETS;
+                } else
+                    category = CustomHeadCategory.HUMANOID;
+            }
+            else if (category == CustomHeadCategory.HELMETS)
                 category = CustomHeadCategory.HUMANOID;
             else if (category == CustomHeadCategory.HUMANOID)
                 category = CustomHeadCategory.HUMANS;

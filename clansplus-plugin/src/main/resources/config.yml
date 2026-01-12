@@ -23,7 +23,7 @@ language: en
 database:
   # Options: YAML, H2
   # Recommended to use H2 database.
-  type: YAML
+  type: H2
   # When smart-loading is enabled, only data of players in clans will be loaded at server startup.
   # As mentioned above, not loading data for non-clan players can save a lot of time.
   smart-loading:
@@ -212,6 +212,17 @@ storage-settings:
   # Max storage for player to upgrade or utilize.
   # Any storage numbers exceed the number below won't be able to use or upgrade.
   max-storage: 30
+
+# Custom head supports
+# minecraft-heads.com supports ClansPLus with their various custom heads.
+custom-heads:
+  # ClansPlus version 2.8 or below using API v1, so it will be outdated, and unsupported soon.
+  # Using API v2 will be a mandatory option in the future.
+  API-v2:
+    enabled: true
+    # If you have a patreon account linking with minecraft-heads and want to explore more heads, you can
+    # put your custom key here, otherwise just leave it blank and the plugin will automatically use its default key.
+    custom-key: ""
 
 # Plugins that can support the Clan plugin.
 # Includes: PlaceholderAPI.

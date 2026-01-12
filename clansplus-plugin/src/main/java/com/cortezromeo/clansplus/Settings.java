@@ -62,6 +62,8 @@ public class Settings {
     public static int STORAGE_SETTINGS_SLOTS;
     public static int STORAGE_SETTINGS_MAX_INVENTORY;
     public static List<String> STORAGE_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
+    public static boolean CUSTOM_HEADS_API_V2_ENABLED;
+    public static String CUSTOM_HEADS_API_V2_CUSTOM_KEY;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME;
     public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME;
@@ -159,6 +161,8 @@ public class Settings {
         STORAGE_SETTINGS_SLOTS = configuration.getInt("storage-settings.slots");
         STORAGE_SETTINGS_MAX_INVENTORY = configuration.getInt("storage-settings.max-storage");
         STORAGE_SETTINGS_BLACKLIST_MATERIAL = configuration.getStringList("storage-settings.black-list-material");
+        CUSTOM_HEADS_API_V2_ENABLED = configuration.getBoolean("custom-heads.API-v2.enabled");
+        CUSTOM_HEADS_API_V2_CUSTOM_KEY = configuration.getString("custom-heads.API-v2.custom-key");
         SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
         SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME = configuration.getString("soft-depends.placeholderapi.placeholders.clan_name");
         SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME = configuration.getString("soft-depends.placeholderapi.placeholders.clan_customname");

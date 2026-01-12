@@ -100,6 +100,15 @@ public class CrossVersionSupport extends VersionSupport {
         }
     }
 
+    @Override
+    public ItemStack getHeadItemFromURL(String headValue) {
+        try {
+            return XSkull.createItem().profile(Profileable.of(ProfileInputType.TEXTURE_URL, headValue)).apply();
+        } catch (ProfileChangeException exception) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+    }
+
     public ItemStack getHeadItemFromPlayerName(String playerName) {
         try {
             if (Bukkit.getPlayer(playerName) != null)

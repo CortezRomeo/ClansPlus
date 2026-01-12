@@ -222,10 +222,6 @@ public class PluginDataManager {
                         String base64 = Base64.getEncoder()
                                 .encodeToString(json.getBytes(StandardCharsets.UTF_8));
 
-                        if (i==1 || i==2) {
-                            MessageUtil.devMessage(i +"/"+ name +"/" + uuid +"/"+ base64);
-                        }
-
                         customHeadDataList.add(new CustomHeadData(name, base64));
                     }
                 } else {

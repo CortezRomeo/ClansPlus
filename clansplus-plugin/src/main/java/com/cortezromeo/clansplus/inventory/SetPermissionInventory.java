@@ -13,7 +13,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import com.google.common.primitives.Ints;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -207,7 +206,7 @@ public class SetPermissionInventory extends PaginatedInventory {
 
     public int[] getSubjectTrack() {
         List<Integer> skillTrackList = fileConfiguration.getIntegerList("subject-track");
-        return Ints.toArray(skillTrackList);
+        return skillTrackList.stream().mapToInt(Integer::intValue).toArray();
     }
 
     @Override

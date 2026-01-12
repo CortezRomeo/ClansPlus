@@ -19,7 +19,6 @@ import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
 import com.cortezromeo.clansplus.util.StringUtil;
-import com.google.common.primitives.Ints;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -269,7 +268,7 @@ public class UpgradePluginSkillInventory extends UpgradeSkillPaginatedInventory 
     @Override
     public int[] getSkillTrack() {
         List<Integer> skillTrackList = fileConfiguration.getIntegerList("skill-track");
-        return Ints.toArray(skillTrackList);
+        return skillTrackList.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public int getMaxItemsPerPage() {

@@ -13,7 +13,6 @@ import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
 import com.cortezromeo.clansplus.util.ItemUtil;
 import com.cortezromeo.clansplus.util.MessageUtil;
-import com.google.common.primitives.Ints;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -209,7 +208,7 @@ public class StorageListInventory extends PaginatedInventory {
 
     public int[] getStorageTrack() {
         List<Integer> skillTrackList = fileConfiguration.getIntegerList("storage-track");
-        return Ints.toArray(skillTrackList);
+        return skillTrackList.stream().mapToInt(Integer::intValue).toArray();
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.cortezromeo.clansplus.api.enums.CurrencyType;
 import com.cortezromeo.clansplus.clan.ClanManager;
 import com.cortezromeo.clansplus.language.Messages;
 import com.cortezromeo.clansplus.storage.PluginDataManager;
-import com.google.common.base.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -45,8 +44,12 @@ public class StringUtil {
         float percent = (float) current / max;
         int progressBars = (int) (Settings.PROGRESS_BAR_TOTAL_BARS * percent);
 
-        return ClansPlus.nms.addColor(Strings.repeat(Settings.PROGRESS_BAR_SYMBOL_COMPLETED, progressBars) + Strings.repeat(Settings.PROGRESS_BAR_SYMBOL_NOTCOMPLETED, Settings.PROGRESS_BAR_TOTAL_BARS - progressBars) + "&r");
-    }
+        return ClansPlus.nms.addColor(
+                (Settings.PROGRESS_BAR_SYMBOL_COMPLETED.repeat(progressBars)
+                        + Settings.PROGRESS_BAR_SYMBOL_NOTCOMPLETED.repeat(
+                        Settings.PROGRESS_BAR_TOTAL_BARS - progressBars))
+                        + "&r"
+        );    }
 
     public static String getStatus(boolean status) {
         if (status) return Messages.STATUS_ENABLE;

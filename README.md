@@ -127,6 +127,9 @@ You might need these plugins to utilize my plugin resources totally.
 	- Updated: Libs
 	- Removed: Google Common lib
 	- Organized: Sign Change related events
+	- Fixed: Sign search query tracking causing subsequent real sign edits to trigger clan search GUI and cancel sign text
+	- Fixed: SignChangeEvent location check to ensure only the search sign triggers GUI search
+	- Added: Sign query cleanup on player quit and plugin disable
 </details>
 <details>
 <summary>2.8</summary>

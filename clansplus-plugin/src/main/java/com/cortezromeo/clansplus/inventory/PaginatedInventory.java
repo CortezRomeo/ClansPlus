@@ -30,8 +30,11 @@ public abstract class PaginatedInventory extends ClanPlusInventoryBase {
         event.setCancelled(true);
         StringBuilder stringBuilder = new StringBuilder();
         for (int signLineNumber = 0; signLineNumber <= 3; signLineNumber++) {
-            String signLineText = ((TextComponent) event.line(signLineNumber)).content();
-            stringBuilder.append(signLineText);
+            if (event.line(signLineNumber) instanceof TextComponent textComponent) {
+                stringBuilder.append(textComponent.content());
+            } else if (event.getLine(signLineNumber) != null) {
+                stringBuilder.append(event.getLine(signLineNumber));
+            }
         }
         setSearch(stringBuilder.toString());
         setPage(0);

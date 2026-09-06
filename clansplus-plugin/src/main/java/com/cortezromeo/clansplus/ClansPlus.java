@@ -374,6 +374,7 @@ public class ClansPlus extends JavaPlugin {
             // ignore it
         }
 
+        SignChangeListener.removeAllSearchPlayerQueries();
         PluginDataManager.saveAllDatabase();
         PluginDataStorage.disableStorage();
 

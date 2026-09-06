@@ -1,22 +1,5 @@
 ![logo](https://i.imgur.com/9t2WM27.png)
 
-# ClansPlus (DarkIgnite Fork)
-
-> [!IMPORTANT]
-> ### 🚀 Critical Bug Fixes in this Fork (v2.9-patch)
-> 
-> This fork resolves a major bug present in official **ClansPlus v2.9** regarding sign input queries:
-> 
-> * **🐛 Fixed Sign Input / Ghost Search State Bug:**
->   * **Root Cause:** In `SignChangeListener`, searching sessions were tracked in a `HashMap<String, PlayerSignDatabase>` using player names as keys, but session cleanup incorrectly passed the `Player` object directly (`map.remove(player)`). This caused players to remain in the search tracking map indefinitely.
->   * **Issue:** After using any in-game sign search feature (e.g. searching members or allies in clan GUI), writing on **any real sign block in the world** would fail to save text (blank sign) and would instead hijack the action by reopening the clan search GUI.
->   * **Solution:**
->     * Fixed cleanup key lookup to properly remove by player name (`searchingQueryInventoryList.remove(playerName)`).
->     * Added coordinate validation in `SignChangeEvent` to strictly ensure only the temporary search sign block triggers the search logic.
->     * Added automatic sign cleanup when players disconnect (`PlayerQuitEvent`) and during server shutdown / plugin reload (`onDisable`).
-> * **🛡️ Robust Text Component Handling:**
->   * Enhanced sign line deserialization in `PaginatedInventory` to safely handle both Adventure `TextComponent` and Spigot legacy lines without throwing exceptions.
-
 ## Description
 
 A minecraft plugin that allows players to create and manage their own clan.

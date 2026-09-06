@@ -29,12 +29,16 @@ public class SignChangeListener implements Listener {
     }
 
     public static void addSearchPlayerQuery(Player player, InventoryHolder inventoryHolder) {
+        if (player == null) return;
         Location loc = player.getLocation().add(0, 1, 0);
         Block block = loc.getBlock();
         if (block.getType() != Material.AIR) {
             MessageUtil.sendMessage(player, Messages.INVALID_LOCATION);
             return;
         }
+
+        removeSearchPlayerQuery(player);
+
         block.setType(Material.OAK_SIGN);
         player.openSign((Sign) block.getState(), Side.FRONT);
         ClansPlus.support.getFoliaLib().getScheduler().runLater(wrappedTask -> {
@@ -49,30 +53,55 @@ public class SignChangeListener implements Listener {
     }
 
     private static PlayerSignDatabase getPlayerSignDatabase(String playerName) {
-        if (Bukkit.getPlayer(playerName) == null) return null;
-        if (searchingQueryInventoryList.containsKey(playerName)) return searchingQueryInventoryList.get(playerName);
-        return null;
+        if (playerName == null) return null;
+        return searchingQueryInventoryList.get(playerName);
     }
 
     public static void removeSearchPlayerQuery(Player player) {
         if (player != null) {
-            PlayerSignDatabase playerSignDatabase = getPlayerSignDatabase(player.getName());
-            if (playerSignDatabase != null) {
-                getPlayerSignDatabase(player.getName()).getBlock().setType(Material.AIR);
-                getPlayerSignDatabase(player.getName()).getTimeOutTask().cancel();
-            }
-            searchingQueryInventoryList.remove(player);
+            removeSearchPlayerQuery(player.getName());
         }
+    }
+
+    public static void removeSearchPlayerQuery(String playerName) {
+        if (playerName != null) {
+            PlayerSignDatabase playerSignDatabase = searchingQueryInventoryList.remove(playerName);
+            if (playerSignDatabase != null) {
+                if (playerSignDatabase.getBlock() != null) {
+                    playerSignDatabase.getBlock().setType(Material.AIR);
+                }
+                if (playerSignDatabase.getTimeOutTask() != null) {
+                    playerSignDatabase.getTimeOutTask().cancel();
+                }
+            }
+        }
+    }
+
+    public static void removeAllSearchPlayerQueries() {
+        for (PlayerSignDatabase database : searchingQueryInventoryList.values()) {
+            if (database != null) {
+                if (database.getBlock() != null) {
+                    database.getBlock().setType(Material.AIR);
+                }
+                if (database.getTimeOutTask() != null) {
+                    database.getTimeOutTask().cancel();
+                }
+            }
+        }
+        searchingQueryInventoryList.clear();
     }
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
+        PlayerSignDatabase playerSignDatabase = getPlayerSignDatabase(player.getName());
 
-        if (getPlayerSignDatabase(player.getName()) != null) {
-            InventoryHolder holder = getPlayerSignDatabase(player.getName()).getInventoryHolder().getInventory().getHolder();
-            if (holder instanceof PaginatedInventory) ((PaginatedInventory) holder).onSearch(event);
-            removeSearchPlayerQuery(player);
+        if (playerSignDatabase != null) {
+            if (event.getBlock().getLocation().equals(playerSignDatabase.getBlock().getLocation())) {
+                InventoryHolder holder = playerSignDatabase.getInventoryHolder().getInventory().getHolder();
+                if (holder instanceof PaginatedInventory) ((PaginatedInventory) holder).onSearch(event);
+                removeSearchPlayerQuery(player);
+            }
         }
     }
 
@@ -117,9 +146,9 @@ public class SignChangeListener implements Listener {
             if (timeOutTask.isCancelled() || cancelled) return;
 
             if (getPlayerSignDatabase(player.getName()) != null) {
-                if (player == null) return;
-
-                MessageUtil.sendMessage(player, Messages.USING_SIGN_INPUT_TIME_OUT);
+                if (player != null && player.isOnline()) {
+                    MessageUtil.sendMessage(player, Messages.USING_SIGN_INPUT_TIME_OUT);
+                }
                 removeSearchPlayerQuery(player);
             }
         }

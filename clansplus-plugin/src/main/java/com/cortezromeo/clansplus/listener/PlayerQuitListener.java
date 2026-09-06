@@ -17,6 +17,7 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        SignChangeListener.removeSearchPlayerQuery(event.getPlayer());
         PluginDataManager.getPlayerDatabase(event.getPlayer().getName()).setLastActivated(new Date().getTime());
     }
 
